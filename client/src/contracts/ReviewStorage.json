@@ -1,0 +1,2840 @@
+{
+  "contractName": "ReviewStorage",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "journalId",
+          "type": "string"
+        },
+        {
+          "name": "manuscriptId",
+          "type": "string"
+        },
+        {
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "name": "recommendation",
+          "type": "uint8"
+        }
+      ],
+      "name": "addReview",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "i",
+          "type": "uint8"
+        }
+      ],
+      "name": "getReview",
+      "outputs": [
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "string"
+        },
+        {
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "i",
+          "type": "uint8"
+        }
+      ],
+      "name": "getNumber",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.5.8+commit.23d335f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":false,\"inputs\":[{\"name\":\"journalId\",\"type\":\"string\"},{\"name\":\"manuscriptId\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"uint256\"},{\"name\":\"recommendation\",\"type\":\"uint8\"}],\"name\":\"addReview\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"i\",\"type\":\"uint8\"}],\"name\":\"getReview\",\"outputs\":[{\"name\":\"\",\"type\":\"string\"},{\"name\":\"\",\"type\":\"string\"},{\"name\":\"\",\"type\":\"uint256\"},{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"i\",\"type\":\"uint8\"}],\"name\":\"getNumber\",\"outputs\":[{\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/kuzdogan/Desktop/repos/bloxbergPeerReview/contracts/ReviewStorage.sol\":\"ReviewStorage\"},\"evmVersion\":\"petersburg\",\"libraries\":{},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/kuzdogan/Desktop/repos/bloxbergPeerReview/contracts/ReviewStorage.sol\":{\"keccak256\":\"0x2c70ab67941d3c49038b97f4d4da08c919df7ba6cd9fcd58d31595bbde2f9e15\",\"urls\":[\"bzzr://6e02579cbf469948d79fad85636c97ae27529c9714a82927b51daebbb82652d5\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506107f1806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80630163fb9914610046578063d9b27a71146101af578063df864adb146102e1575b600080fd5b6101ad6004803603608081101561005c57600080fd5b810190808035906020019064010000000081111561007957600080fd5b82018360208201111561008b57600080fd5b803590602001918460018302840111640100000000831117156100ad57600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f8201169050808301925050505050505091929192908035906020019064010000000081111561011057600080fd5b82018360208201111561012257600080fd5b8035906020019184600183028401116401000000008311171561014457600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f82011690508083019250505050505050919291929080359060200190929190803560ff169060200190929190505050610326565b005b6101de600480360360208110156101c557600080fd5b81019080803560ff169060200190929190505050610444565b6040518080602001806020018581526020018460028111156101fc57fe5b60ff168152602001838103835287818151815260200191508051906020019080838360005b8381101561023c578082015181840152602081019050610221565b50505050905090810190601f1680156102695780820380516001836020036101000a031916815260200191505b50838103825286818151815260200191508051906020019080838360005b838110156102a2578082015181840152602081019050610287565b50505050905090810190601f1680156102cf5780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390f35b610310600480360360208110156102f757600080fd5b81019080803560ff1690602001909291905050506106e0565b6040518082815260200191505060405180910390f35b60003390506103336106ed565b604051806080016040528087815260200186815260200185815260200184600281111561035c57fe5b8152509050600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819080600181540180825580915050906001820390600052602060002090600402016000909192909190915060008201518160000190805190602001906103e8929190610720565b506020820151816001019080519060200190610405929190610720565b506040820151816002015560608201518160030160006101000a81548160ff0219169083600281111561043457fe5b0217905550505050505050505050565b6060806000806060600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020805480602002602001604051908101604052809291908181526020016000905b828210156106585783829060005260206000209060040201604051806080016040529081600082018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105675780601f1061053c57610100808354040283529160200191610567565b820191906000526020600020905b81548152906001019060200180831161054a57829003601f168201915b50505050508152602001600182018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156106095780601f106105de57610100808354040283529160200191610609565b820191906000526020600020905b8154815290600101906020018083116105ec57829003601f168201915b50505050508152602001600282015481526020016003820160009054906101000a900460ff16600281111561063a57fe5b600281111561064557fe5b81525050815260200190600101906104ab565b505050509050808660ff168151811061066d57fe5b602002602001015160000151818760ff168151811061068857fe5b602002602001015160200151828860ff16815181106106a357fe5b602002602001015160400151838960ff16815181106106be57fe5b6020026020010151606001518393508292509450945094509450509193509193565b60008160ff169050919050565b60405180608001604052806060815260200160608152602001600081526020016000600281111561071a57fe5b81525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061076157805160ff191683800117855561078f565b8280016001018555821561078f579182015b8281111561078e578251825591602001919060010190610773565b5b50905061079c91906107a0565b5090565b6107c291905b808211156107be5760008160009055506001016107a6565b5090565b9056fea165627a7a723058200a0a0eeee3e817288352405ed65da97a1800376d9712b8aac0aed9de01dcefe40029",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80630163fb9914610046578063d9b27a71146101af578063df864adb146102e1575b600080fd5b6101ad6004803603608081101561005c57600080fd5b810190808035906020019064010000000081111561007957600080fd5b82018360208201111561008b57600080fd5b803590602001918460018302840111640100000000831117156100ad57600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f8201169050808301925050505050505091929192908035906020019064010000000081111561011057600080fd5b82018360208201111561012257600080fd5b8035906020019184600183028401116401000000008311171561014457600080fd5b91908080601f016020809104026020016040519081016040528093929190818152602001838380828437600081840152601f19601f82011690508083019250505050505050919291929080359060200190929190803560ff169060200190929190505050610326565b005b6101de600480360360208110156101c557600080fd5b81019080803560ff169060200190929190505050610444565b6040518080602001806020018581526020018460028111156101fc57fe5b60ff168152602001838103835287818151815260200191508051906020019080838360005b8381101561023c578082015181840152602081019050610221565b50505050905090810190601f1680156102695780820380516001836020036101000a031916815260200191505b50838103825286818151815260200191508051906020019080838360005b838110156102a2578082015181840152602081019050610287565b50505050905090810190601f1680156102cf5780820380516001836020036101000a031916815260200191505b50965050505050505060405180910390f35b610310600480360360208110156102f757600080fd5b81019080803560ff1690602001909291905050506106e0565b6040518082815260200191505060405180910390f35b60003390506103336106ed565b604051806080016040528087815260200186815260200185815260200184600281111561035c57fe5b8152509050600160008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020819080600181540180825580915050906001820390600052602060002090600402016000909192909190915060008201518160000190805190602001906103e8929190610720565b506020820151816001019080519060200190610405929190610720565b506040820151816002015560608201518160030160006101000a81548160ff0219169083600281111561043457fe5b0217905550505050505050505050565b6060806000806060600160003373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020805480602002602001604051908101604052809291908181526020016000905b828210156106585783829060005260206000209060040201604051806080016040529081600082018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105675780601f1061053c57610100808354040283529160200191610567565b820191906000526020600020905b81548152906001019060200180831161054a57829003601f168201915b50505050508152602001600182018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156106095780601f106105de57610100808354040283529160200191610609565b820191906000526020600020905b8154815290600101906020018083116105ec57829003601f168201915b50505050508152602001600282015481526020016003820160009054906101000a900460ff16600281111561063a57fe5b600281111561064557fe5b81525050815260200190600101906104ab565b505050509050808660ff168151811061066d57fe5b602002602001015160000151818760ff168151811061068857fe5b602002602001015160200151828860ff16815181106106a357fe5b602002602001015160400151838960ff16815181106106be57fe5b6020026020010151606001518393508292509450945094509450509193509193565b60008160ff169050919050565b60405180608001604052806060815260200160608152602001600081526020016000600281111561071a57fe5b81525090565b828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061076157805160ff191683800117855561078f565b8280016001018555821561078f579182015b8281111561078e578251825591602001919060010190610773565b5b50905061079c91906107a0565b5090565b6107c291905b808211156107be5760008160009055506001016107a6565b5090565b9056fea165627a7a723058200a0a0eeee3e817288352405ed65da97a1800376d9712b8aac0aed9de01dcefe40029",
+  "sourceMap": "25:1144:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:1144:1;;;;;;;",
+  "deployedSourceMap": "25:1144:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;25:1144:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;373:381;;;;;;13:3:-1;8;5:12;2:2;;;30:1;27;20:12;2:2;373:381:1;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;373:381:1;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;373:381:1;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;373:381:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;373:381:1;;;;;;;;;;;;;;;;;21:11:-1;8;5:28;2:2;;;46:1;43;36:12;2:2;373:381:1;;35:9:-1;28:4;12:14;8:25;5:40;2:2;;;58:1;55;48:12;2:2;373:381:1;;;;;;100:9:-1;95:1;81:12;77:20;67:8;63:35;60:50;39:11;25:12;22:29;11:107;8:2;;;131:1;128;121:12;8:2;373:381:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;30:3:-1;22:6;14;1:33;99:1;93:3;85:6;81:16;74:27;137:4;133:9;126:4;121:3;117:14;113:30;106:37;;169:3;161:6;157:16;147:26;;373:381:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;784:275;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;784:275:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;784:275:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;23:1:-1;8:100;33:3;30:1;27:10;8:100;;;99:1;94:3;90:11;84:18;80:1;75:3;71:11;64:39;52:2;49:1;45:10;40:15;;8:100;;;12:14;784:275:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1062:76;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1062:76:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;373:381;510:14;527:10;510:27;;543:20;;:::i;:::-;566:146;;;;;;;;593:9;566:146;;;;625:12;566:146;;;;657:9;566:146;;;;691:14;566:146;;;;;;;;;;;543:169;;718:10;:18;729:6;718:18;;;;;;;;;;;;;;;742:6;718:31;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;718:31:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;373:381;;;;;;:::o;784:275::-;833:13;848;863:4;869:14;891:23;917:10;:22;928:10;917:22;;;;;;;;;;;;;;;891:48;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;953:7;961:1;953:10;;;;;;;;;;;;;;;;:20;;;975:7;983:1;975:10;;;;;;;;;;;;;;;;:23;;;1006:7;1014:1;1006:10;;;;;;;;;;;;;;;;:20;;;1028:7;1036:1;1028:10;;;;;;;;;;;;;;;;:25;;;945:109;;;;;;;;;;;;;;;784:275;;;;;:::o;1062:76::-;1111:4;1131:1;1123:10;;;;1062:76;;;:::o;25:1144::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;:::o;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.5.0;\n\ncontract ReviewStorage {\n  address[] usersAddresses;\n  enum Recommendation { ACCEPT, REVISE, REJECT }\n  struct Review { \n    string journalId; // ISSN\n    string manuscriptId; // DOI?\n    uint timestamp; // Timestamp since unix epoch, when review is published\n    Recommendation recommendation;\n  }\n  mapping (address => Review[]) reviewsMap;\n  \n  function addReview(string memory journalId, string memory manuscriptId, uint timestamp, \n    Recommendation recommendation) public {\n    address sender = msg.sender;\n    Review memory review = Review({\n      journalId : journalId,\n      manuscriptId : manuscriptId,\n      timestamp : timestamp,\n      recommendation : recommendation\n    });\n    reviewsMap[sender].push(review);\n  }\n  // function getReviews()\n  function getReview(uint8 i) public view returns (string memory, string memory, uint, Recommendation) {\n    Review[] memory reviews = reviewsMap[msg.sender];\n    return (reviews[i].journalId, reviews[i].manuscriptId,\n      reviews[i].timestamp, reviews[i].recommendation);\n  }\n  function getNumber(uint8 i) public view returns (uint) {\n    return (i);\n  }\n  // function verifyReview()\n}\n",
+  "sourcePath": "/home/kuzdogan/Desktop/repos/bloxbergPeerReview/contracts/ReviewStorage.sol",
+  "ast": {
+    "absolutePath": "/home/kuzdogan/Desktop/repos/bloxbergPeerReview/contracts/ReviewStorage.sol",
+    "exportedSymbols": {
+      "ReviewStorage": [
+        165
+      ]
+    },
+    "id": 166,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 58,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 165,
+        "linearizedBaseContracts": [
+          165
+        ],
+        "name": "ReviewStorage",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 61,
+            "name": "usersAddresses",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "52:24:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_address_$dyn_storage",
+              "typeString": "address[]"
+            },
+            "typeName": {
+              "baseType": {
+                "id": 59,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "52:7:1",
+                "stateMutability": "nonpayable",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "id": 60,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "52:9:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                "typeString": "address[]"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "ReviewStorage.Recommendation",
+            "id": 65,
+            "members": [
+              {
+                "id": 62,
+                "name": "ACCEPT",
+                "nodeType": "EnumValue",
+                "src": "102:6:1"
+              },
+              {
+                "id": 63,
+                "name": "REVISE",
+                "nodeType": "EnumValue",
+                "src": "110:6:1"
+              },
+              {
+                "id": 64,
+                "name": "REJECT",
+                "nodeType": "EnumValue",
+                "src": "118:6:1"
+              }
+            ],
+            "name": "Recommendation",
+            "nodeType": "EnumDefinition",
+            "src": "80:46:1"
+          },
+          {
+            "canonicalName": "ReviewStorage.Review",
+            "id": 74,
+            "members": [
+              {
+                "constant": false,
+                "id": 67,
+                "name": "journalId",
+                "nodeType": "VariableDeclaration",
+                "scope": 74,
+                "src": "150:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 66,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "150:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 69,
+                "name": "manuscriptId",
+                "nodeType": "VariableDeclaration",
+                "scope": 74,
+                "src": "180:19:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 68,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "180:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 71,
+                "name": "timestamp",
+                "nodeType": "VariableDeclaration",
+                "scope": 74,
+                "src": "213:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 70,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "213:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 73,
+                "name": "recommendation",
+                "nodeType": "VariableDeclaration",
+                "scope": 74,
+                "src": "289:29:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_Recommendation_$65",
+                  "typeString": "enum ReviewStorage.Recommendation"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 72,
+                  "name": "Recommendation",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 65,
+                  "src": "289:14:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Recommendation_$65",
+                    "typeString": "enum ReviewStorage.Recommendation"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Review",
+            "nodeType": "StructDefinition",
+            "scope": 165,
+            "src": "129:194:1",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 79,
+            "name": "reviewsMap",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "326:40:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Review_$74_storage_$dyn_storage_$",
+              "typeString": "mapping(address => struct ReviewStorage.Review[])"
+            },
+            "typeName": {
+              "id": 78,
+              "keyType": {
+                "id": 75,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "335:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "326:29:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Review_$74_storage_$dyn_storage_$",
+                "typeString": "mapping(address => struct ReviewStorage.Review[])"
+              },
+              "valueType": {
+                "baseType": {
+                  "contractScope": null,
+                  "id": 76,
+                  "name": "Review",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 74,
+                  "src": "346:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Review_$74_storage_ptr",
+                    "typeString": "struct ReviewStorage.Review"
+                  }
+                },
+                "id": 77,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "346:8:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_struct$_Review_$74_storage_$dyn_storage_ptr",
+                  "typeString": "struct ReviewStorage.Review[]"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 111,
+              "nodeType": "Block",
+              "src": "504:250:1",
+              "statements": [
+                {
+                  "assignments": [
+                    91
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 91,
+                      "name": "sender",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 111,
+                      "src": "510:14:1",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 90,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "510:7:1",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 94,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 92,
+                      "name": "msg",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 180,
+                      "src": "527:3:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_magic_message",
+                        "typeString": "msg"
+                      }
+                    },
+                    "id": 93,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "sender",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "527:10:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "510:27:1"
+                },
+                {
+                  "assignments": [
+                    96
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 96,
+                      "name": "review",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 111,
+                      "src": "543:20:1",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Review_$74_memory_ptr",
+                        "typeString": "struct ReviewStorage.Review"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 95,
+                        "name": "Review",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 74,
+                        "src": "543:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Review_$74_storage_ptr",
+                          "typeString": "struct ReviewStorage.Review"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 103,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 98,
+                        "name": "journalId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 81,
+                        "src": "593:9:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 99,
+                        "name": "manuscriptId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 83,
+                        "src": "625:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 100,
+                        "name": "timestamp",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 85,
+                        "src": "657:9:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 101,
+                        "name": "recommendation",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 87,
+                        "src": "691:14:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_enum$_Recommendation_$65",
+                          "typeString": "enum ReviewStorage.Recommendation"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_enum$_Recommendation_$65",
+                          "typeString": "enum ReviewStorage.Recommendation"
+                        }
+                      ],
+                      "id": 97,
+                      "name": "Review",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 74,
+                      "src": "566:6:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Review_$74_storage_ptr_$",
+                        "typeString": "type(struct ReviewStorage.Review storage pointer)"
+                      }
+                    },
+                    "id": 102,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [
+                      "journalId",
+                      "manuscriptId",
+                      "timestamp",
+                      "recommendation"
+                    ],
+                    "nodeType": "FunctionCall",
+                    "src": "566:146:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Review_$74_memory",
+                      "typeString": "struct ReviewStorage.Review memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "543:169:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 108,
+                        "name": "review",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 96,
+                        "src": "742:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Review_$74_memory_ptr",
+                          "typeString": "struct ReviewStorage.Review memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Review_$74_memory_ptr",
+                          "typeString": "struct ReviewStorage.Review memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 104,
+                          "name": "reviewsMap",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 79,
+                          "src": "718:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Review_$74_storage_$dyn_storage_$",
+                            "typeString": "mapping(address => struct ReviewStorage.Review storage ref[] storage ref)"
+                          }
+                        },
+                        "id": 106,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 105,
+                          "name": "sender",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 91,
+                          "src": "729:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "718:18:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Review_$74_storage_$dyn_storage",
+                          "typeString": "struct ReviewStorage.Review storage ref[] storage ref"
+                        }
+                      },
+                      "id": 107,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "718:23:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Review_$74_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct ReviewStorage.Review storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 109,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "718:31:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 110,
+                  "nodeType": "ExpressionStatement",
+                  "src": "718:31:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 112,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addReview",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 88,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 81,
+                  "name": "journalId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112,
+                  "src": "392:23:1",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 80,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "392:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 83,
+                  "name": "manuscriptId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112,
+                  "src": "417:26:1",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 82,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "417:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 85,
+                  "name": "timestamp",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112,
+                  "src": "445:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 84,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "445:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 87,
+                  "name": "recommendation",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112,
+                  "src": "466:29:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Recommendation_$65",
+                    "typeString": "enum ReviewStorage.Recommendation"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 86,
+                    "name": "Recommendation",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 65,
+                    "src": "466:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Recommendation_$65",
+                      "typeString": "enum ReviewStorage.Recommendation"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "391:105:1"
+            },
+            "returnParameters": {
+              "id": 89,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "504:0:1"
+            },
+            "scope": 165,
+            "src": "373:381:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 152,
+              "nodeType": "Block",
+              "src": "885:174:1",
+              "statements": [
+                {
+                  "assignments": [
+                    128
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 128,
+                      "name": "reviews",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 152,
+                      "src": "891:23:1",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                        "typeString": "struct ReviewStorage.Review[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "contractScope": null,
+                          "id": 126,
+                          "name": "Review",
+                          "nodeType": "UserDefinedTypeName",
+                          "referencedDeclaration": 74,
+                          "src": "891:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_storage_ptr",
+                            "typeString": "struct ReviewStorage.Review"
+                          }
+                        },
+                        "id": 127,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "891:8:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Review_$74_storage_$dyn_storage_ptr",
+                          "typeString": "struct ReviewStorage.Review[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 133,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "baseExpression": {
+                      "argumentTypes": null,
+                      "id": 129,
+                      "name": "reviewsMap",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 79,
+                      "src": "917:10:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Review_$74_storage_$dyn_storage_$",
+                        "typeString": "mapping(address => struct ReviewStorage.Review storage ref[] storage ref)"
+                      }
+                    },
+                    "id": 132,
+                    "indexExpression": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 130,
+                        "name": "msg",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 180,
+                        "src": "928:3:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_message",
+                          "typeString": "msg"
+                        }
+                      },
+                      "id": 131,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "sender",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "928:10:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "IndexAccess",
+                    "src": "917:22:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_Review_$74_storage_$dyn_storage",
+                      "typeString": "struct ReviewStorage.Review storage ref[] storage ref"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "891:48:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 134,
+                            "name": "reviews",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 128,
+                            "src": "953:7:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                              "typeString": "struct ReviewStorage.Review memory[] memory"
+                            }
+                          },
+                          "id": 136,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 135,
+                            "name": "i",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 114,
+                            "src": "961:1:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint8",
+                              "typeString": "uint8"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "953:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_memory",
+                            "typeString": "struct ReviewStorage.Review memory"
+                          }
+                        },
+                        "id": 137,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "journalId",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 67,
+                        "src": "953:20:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 138,
+                            "name": "reviews",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 128,
+                            "src": "975:7:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                              "typeString": "struct ReviewStorage.Review memory[] memory"
+                            }
+                          },
+                          "id": 140,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 139,
+                            "name": "i",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 114,
+                            "src": "983:1:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint8",
+                              "typeString": "uint8"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "975:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_memory",
+                            "typeString": "struct ReviewStorage.Review memory"
+                          }
+                        },
+                        "id": 141,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "manuscriptId",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 69,
+                        "src": "975:23:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 142,
+                            "name": "reviews",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 128,
+                            "src": "1006:7:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                              "typeString": "struct ReviewStorage.Review memory[] memory"
+                            }
+                          },
+                          "id": 144,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 143,
+                            "name": "i",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 114,
+                            "src": "1014:1:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint8",
+                              "typeString": "uint8"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1006:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_memory",
+                            "typeString": "struct ReviewStorage.Review memory"
+                          }
+                        },
+                        "id": 145,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "timestamp",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 71,
+                        "src": "1006:20:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 146,
+                            "name": "reviews",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 128,
+                            "src": "1028:7:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                              "typeString": "struct ReviewStorage.Review memory[] memory"
+                            }
+                          },
+                          "id": 148,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 147,
+                            "name": "i",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 114,
+                            "src": "1036:1:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint8",
+                              "typeString": "uint8"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1028:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_memory",
+                            "typeString": "struct ReviewStorage.Review memory"
+                          }
+                        },
+                        "id": 149,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "recommendation",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 73,
+                        "src": "1028:25:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_enum$_Recommendation_$65",
+                          "typeString": "enum ReviewStorage.Recommendation"
+                        }
+                      }
+                    ],
+                    "id": 150,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "952:102:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_string_memory_$_t_string_memory_$_t_uint256_$_t_enum$_Recommendation_$65_$",
+                      "typeString": "tuple(string memory,string memory,uint256,enum ReviewStorage.Recommendation)"
+                    }
+                  },
+                  "functionReturnParameters": 124,
+                  "id": 151,
+                  "nodeType": "Return",
+                  "src": "945:109:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 153,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getReview",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 115,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 114,
+                  "name": "i",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "803:7:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 113,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "803:5:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "802:9:1"
+            },
+            "returnParameters": {
+              "id": 124,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 117,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "833:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 116,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "833:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 119,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "848:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 118,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "848:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 121,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "863:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 120,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "863:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 123,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "869:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Recommendation_$65",
+                    "typeString": "enum ReviewStorage.Recommendation"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 122,
+                    "name": "Recommendation",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 65,
+                    "src": "869:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Recommendation_$65",
+                      "typeString": "enum ReviewStorage.Recommendation"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "832:52:1"
+            },
+            "scope": 165,
+            "src": "784:275:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 163,
+              "nodeType": "Block",
+              "src": "1117:21:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "id": 160,
+                        "name": "i",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 155,
+                        "src": "1131:1:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "id": 161,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "1130:3:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "functionReturnParameters": 159,
+                  "id": 162,
+                  "nodeType": "Return",
+                  "src": "1123:10:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 164,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getNumber",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 156,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 155,
+                  "name": "i",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 164,
+                  "src": "1081:7:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 154,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1081:5:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1080:9:1"
+            },
+            "returnParameters": {
+              "id": 159,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 158,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 164,
+                  "src": "1111:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 157,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1111:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1110:6:1"
+            },
+            "scope": 165,
+            "src": "1062:76:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 166,
+        "src": "25:1144:1"
+      }
+    ],
+    "src": "0:1170:1"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/kuzdogan/Desktop/repos/bloxbergPeerReview/contracts/ReviewStorage.sol",
+    "exportedSymbols": {
+      "ReviewStorage": [
+        165
+      ]
+    },
+    "id": 166,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 58,
+        "literals": [
+          "solidity",
+          "^",
+          "0.5",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:1"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 165,
+        "linearizedBaseContracts": [
+          165
+        ],
+        "name": "ReviewStorage",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 61,
+            "name": "usersAddresses",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "52:24:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_array$_t_address_$dyn_storage",
+              "typeString": "address[]"
+            },
+            "typeName": {
+              "baseType": {
+                "id": 59,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "52:7:1",
+                "stateMutability": "nonpayable",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "id": 60,
+              "length": null,
+              "nodeType": "ArrayTypeName",
+              "src": "52:9:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                "typeString": "address[]"
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "canonicalName": "ReviewStorage.Recommendation",
+            "id": 65,
+            "members": [
+              {
+                "id": 62,
+                "name": "ACCEPT",
+                "nodeType": "EnumValue",
+                "src": "102:6:1"
+              },
+              {
+                "id": 63,
+                "name": "REVISE",
+                "nodeType": "EnumValue",
+                "src": "110:6:1"
+              },
+              {
+                "id": 64,
+                "name": "REJECT",
+                "nodeType": "EnumValue",
+                "src": "118:6:1"
+              }
+            ],
+            "name": "Recommendation",
+            "nodeType": "EnumDefinition",
+            "src": "80:46:1"
+          },
+          {
+            "canonicalName": "ReviewStorage.Review",
+            "id": 74,
+            "members": [
+              {
+                "constant": false,
+                "id": 67,
+                "name": "journalId",
+                "nodeType": "VariableDeclaration",
+                "scope": 74,
+                "src": "150:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 66,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "150:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 69,
+                "name": "manuscriptId",
+                "nodeType": "VariableDeclaration",
+                "scope": 74,
+                "src": "180:19:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 68,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "180:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 71,
+                "name": "timestamp",
+                "nodeType": "VariableDeclaration",
+                "scope": 74,
+                "src": "213:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 70,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "213:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 73,
+                "name": "recommendation",
+                "nodeType": "VariableDeclaration",
+                "scope": 74,
+                "src": "289:29:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_Recommendation_$65",
+                  "typeString": "enum ReviewStorage.Recommendation"
+                },
+                "typeName": {
+                  "contractScope": null,
+                  "id": 72,
+                  "name": "Recommendation",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 65,
+                  "src": "289:14:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Recommendation_$65",
+                    "typeString": "enum ReviewStorage.Recommendation"
+                  }
+                },
+                "value": null,
+                "visibility": "internal"
+              }
+            ],
+            "name": "Review",
+            "nodeType": "StructDefinition",
+            "scope": 165,
+            "src": "129:194:1",
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "id": 79,
+            "name": "reviewsMap",
+            "nodeType": "VariableDeclaration",
+            "scope": 165,
+            "src": "326:40:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Review_$74_storage_$dyn_storage_$",
+              "typeString": "mapping(address => struct ReviewStorage.Review[])"
+            },
+            "typeName": {
+              "id": 78,
+              "keyType": {
+                "id": 75,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "335:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "326:29:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Review_$74_storage_$dyn_storage_$",
+                "typeString": "mapping(address => struct ReviewStorage.Review[])"
+              },
+              "valueType": {
+                "baseType": {
+                  "contractScope": null,
+                  "id": 76,
+                  "name": "Review",
+                  "nodeType": "UserDefinedTypeName",
+                  "referencedDeclaration": 74,
+                  "src": "346:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Review_$74_storage_ptr",
+                    "typeString": "struct ReviewStorage.Review"
+                  }
+                },
+                "id": 77,
+                "length": null,
+                "nodeType": "ArrayTypeName",
+                "src": "346:8:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_array$_t_struct$_Review_$74_storage_$dyn_storage_ptr",
+                  "typeString": "struct ReviewStorage.Review[]"
+                }
+              }
+            },
+            "value": null,
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 111,
+              "nodeType": "Block",
+              "src": "504:250:1",
+              "statements": [
+                {
+                  "assignments": [
+                    91
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 91,
+                      "name": "sender",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 111,
+                      "src": "510:14:1",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      },
+                      "typeName": {
+                        "id": 90,
+                        "name": "address",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "510:7:1",
+                        "stateMutability": "nonpayable",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_address",
+                          "typeString": "address"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 94,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "expression": {
+                      "argumentTypes": null,
+                      "id": 92,
+                      "name": "msg",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 180,
+                      "src": "527:3:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_magic_message",
+                        "typeString": "msg"
+                      }
+                    },
+                    "id": 93,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "sender",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": null,
+                    "src": "527:10:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "510:27:1"
+                },
+                {
+                  "assignments": [
+                    96
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 96,
+                      "name": "review",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 111,
+                      "src": "543:20:1",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_Review_$74_memory_ptr",
+                        "typeString": "struct ReviewStorage.Review"
+                      },
+                      "typeName": {
+                        "contractScope": null,
+                        "id": 95,
+                        "name": "Review",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 74,
+                        "src": "543:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Review_$74_storage_ptr",
+                          "typeString": "struct ReviewStorage.Review"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 103,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 98,
+                        "name": "journalId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 81,
+                        "src": "593:9:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 99,
+                        "name": "manuscriptId",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 83,
+                        "src": "625:12:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 100,
+                        "name": "timestamp",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 85,
+                        "src": "657:9:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "id": 101,
+                        "name": "recommendation",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 87,
+                        "src": "691:14:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_enum$_Recommendation_$65",
+                          "typeString": "enum ReviewStorage.Recommendation"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        },
+                        {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        {
+                          "typeIdentifier": "t_enum$_Recommendation_$65",
+                          "typeString": "enum ReviewStorage.Recommendation"
+                        }
+                      ],
+                      "id": 97,
+                      "name": "Review",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 74,
+                      "src": "566:6:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_type$_t_struct$_Review_$74_storage_ptr_$",
+                        "typeString": "type(struct ReviewStorage.Review storage pointer)"
+                      }
+                    },
+                    "id": 102,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "structConstructorCall",
+                    "lValueRequested": false,
+                    "names": [
+                      "journalId",
+                      "manuscriptId",
+                      "timestamp",
+                      "recommendation"
+                    ],
+                    "nodeType": "FunctionCall",
+                    "src": "566:146:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Review_$74_memory",
+                      "typeString": "struct ReviewStorage.Review memory"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "543:169:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "arguments": [
+                      {
+                        "argumentTypes": null,
+                        "id": 108,
+                        "name": "review",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 96,
+                        "src": "742:6:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_Review_$74_memory_ptr",
+                          "typeString": "struct ReviewStorage.Review memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_struct$_Review_$74_memory_ptr",
+                          "typeString": "struct ReviewStorage.Review memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": null,
+                        "baseExpression": {
+                          "argumentTypes": null,
+                          "id": 104,
+                          "name": "reviewsMap",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 79,
+                          "src": "718:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Review_$74_storage_$dyn_storage_$",
+                            "typeString": "mapping(address => struct ReviewStorage.Review storage ref[] storage ref)"
+                          }
+                        },
+                        "id": 106,
+                        "indexExpression": {
+                          "argumentTypes": null,
+                          "id": 105,
+                          "name": "sender",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 91,
+                          "src": "729:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "nodeType": "IndexAccess",
+                        "src": "718:18:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Review_$74_storage_$dyn_storage",
+                          "typeString": "struct ReviewStorage.Review storage ref[] storage ref"
+                        }
+                      },
+                      "id": 107,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "push",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "718:23:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_arraypush_nonpayable$_t_struct$_Review_$74_storage_$returns$_t_uint256_$",
+                        "typeString": "function (struct ReviewStorage.Review storage ref) returns (uint256)"
+                      }
+                    },
+                    "id": 109,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "718:31:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 110,
+                  "nodeType": "ExpressionStatement",
+                  "src": "718:31:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 112,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addReview",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 88,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 81,
+                  "name": "journalId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112,
+                  "src": "392:23:1",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 80,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "392:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 83,
+                  "name": "manuscriptId",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112,
+                  "src": "417:26:1",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 82,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "417:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 85,
+                  "name": "timestamp",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112,
+                  "src": "445:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 84,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "445:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 87,
+                  "name": "recommendation",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 112,
+                  "src": "466:29:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Recommendation_$65",
+                    "typeString": "enum ReviewStorage.Recommendation"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 86,
+                    "name": "Recommendation",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 65,
+                    "src": "466:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Recommendation_$65",
+                      "typeString": "enum ReviewStorage.Recommendation"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "391:105:1"
+            },
+            "returnParameters": {
+              "id": 89,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "504:0:1"
+            },
+            "scope": 165,
+            "src": "373:381:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 152,
+              "nodeType": "Block",
+              "src": "885:174:1",
+              "statements": [
+                {
+                  "assignments": [
+                    128
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 128,
+                      "name": "reviews",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 152,
+                      "src": "891:23:1",
+                      "stateVariable": false,
+                      "storageLocation": "memory",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                        "typeString": "struct ReviewStorage.Review[]"
+                      },
+                      "typeName": {
+                        "baseType": {
+                          "contractScope": null,
+                          "id": 126,
+                          "name": "Review",
+                          "nodeType": "UserDefinedTypeName",
+                          "referencedDeclaration": 74,
+                          "src": "891:6:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_storage_ptr",
+                            "typeString": "struct ReviewStorage.Review"
+                          }
+                        },
+                        "id": 127,
+                        "length": null,
+                        "nodeType": "ArrayTypeName",
+                        "src": "891:8:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_array$_t_struct$_Review_$74_storage_$dyn_storage_ptr",
+                          "typeString": "struct ReviewStorage.Review[]"
+                        }
+                      },
+                      "value": null,
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 133,
+                  "initialValue": {
+                    "argumentTypes": null,
+                    "baseExpression": {
+                      "argumentTypes": null,
+                      "id": 129,
+                      "name": "reviewsMap",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 79,
+                      "src": "917:10:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_mapping$_t_address_$_t_array$_t_struct$_Review_$74_storage_$dyn_storage_$",
+                        "typeString": "mapping(address => struct ReviewStorage.Review storage ref[] storage ref)"
+                      }
+                    },
+                    "id": 132,
+                    "indexExpression": {
+                      "argumentTypes": null,
+                      "expression": {
+                        "argumentTypes": null,
+                        "id": 130,
+                        "name": "msg",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 180,
+                        "src": "928:3:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_magic_message",
+                          "typeString": "msg"
+                        }
+                      },
+                      "id": 131,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "sender",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": null,
+                      "src": "928:10:1",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address_payable",
+                        "typeString": "address payable"
+                      }
+                    },
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "IndexAccess",
+                    "src": "917:22:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_Review_$74_storage_$dyn_storage",
+                      "typeString": "struct ReviewStorage.Review storage ref[] storage ref"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "891:48:1"
+                },
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 134,
+                            "name": "reviews",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 128,
+                            "src": "953:7:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                              "typeString": "struct ReviewStorage.Review memory[] memory"
+                            }
+                          },
+                          "id": 136,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 135,
+                            "name": "i",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 114,
+                            "src": "961:1:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint8",
+                              "typeString": "uint8"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "953:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_memory",
+                            "typeString": "struct ReviewStorage.Review memory"
+                          }
+                        },
+                        "id": 137,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "journalId",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 67,
+                        "src": "953:20:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 138,
+                            "name": "reviews",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 128,
+                            "src": "975:7:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                              "typeString": "struct ReviewStorage.Review memory[] memory"
+                            }
+                          },
+                          "id": 140,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 139,
+                            "name": "i",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 114,
+                            "src": "983:1:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint8",
+                              "typeString": "uint8"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "975:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_memory",
+                            "typeString": "struct ReviewStorage.Review memory"
+                          }
+                        },
+                        "id": 141,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "manuscriptId",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 69,
+                        "src": "975:23:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory",
+                          "typeString": "string memory"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 142,
+                            "name": "reviews",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 128,
+                            "src": "1006:7:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                              "typeString": "struct ReviewStorage.Review memory[] memory"
+                            }
+                          },
+                          "id": 144,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 143,
+                            "name": "i",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 114,
+                            "src": "1014:1:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint8",
+                              "typeString": "uint8"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1006:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_memory",
+                            "typeString": "struct ReviewStorage.Review memory"
+                          }
+                        },
+                        "id": 145,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "timestamp",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 71,
+                        "src": "1006:20:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      {
+                        "argumentTypes": null,
+                        "expression": {
+                          "argumentTypes": null,
+                          "baseExpression": {
+                            "argumentTypes": null,
+                            "id": 146,
+                            "name": "reviews",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 128,
+                            "src": "1028:7:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_array$_t_struct$_Review_$74_memory_$dyn_memory_ptr",
+                              "typeString": "struct ReviewStorage.Review memory[] memory"
+                            }
+                          },
+                          "id": 148,
+                          "indexExpression": {
+                            "argumentTypes": null,
+                            "id": 147,
+                            "name": "i",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 114,
+                            "src": "1036:1:1",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_uint8",
+                              "typeString": "uint8"
+                            }
+                          },
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "nodeType": "IndexAccess",
+                          "src": "1028:10:1",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_struct$_Review_$74_memory",
+                            "typeString": "struct ReviewStorage.Review memory"
+                          }
+                        },
+                        "id": 149,
+                        "isConstant": false,
+                        "isLValue": true,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "recommendation",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 73,
+                        "src": "1028:25:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_enum$_Recommendation_$65",
+                          "typeString": "enum ReviewStorage.Recommendation"
+                        }
+                      }
+                    ],
+                    "id": 150,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "952:102:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$_t_string_memory_$_t_string_memory_$_t_uint256_$_t_enum$_Recommendation_$65_$",
+                      "typeString": "tuple(string memory,string memory,uint256,enum ReviewStorage.Recommendation)"
+                    }
+                  },
+                  "functionReturnParameters": 124,
+                  "id": 151,
+                  "nodeType": "Return",
+                  "src": "945:109:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 153,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getReview",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 115,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 114,
+                  "name": "i",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "803:7:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 113,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "803:5:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "802:9:1"
+            },
+            "returnParameters": {
+              "id": 124,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 117,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "833:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 116,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "833:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 119,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "848:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 118,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "848:6:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 121,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "863:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 120,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "863:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 123,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 153,
+                  "src": "869:14:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Recommendation_$65",
+                    "typeString": "enum ReviewStorage.Recommendation"
+                  },
+                  "typeName": {
+                    "contractScope": null,
+                    "id": 122,
+                    "name": "Recommendation",
+                    "nodeType": "UserDefinedTypeName",
+                    "referencedDeclaration": 65,
+                    "src": "869:14:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Recommendation_$65",
+                      "typeString": "enum ReviewStorage.Recommendation"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "832:52:1"
+            },
+            "scope": 165,
+            "src": "784:275:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 163,
+              "nodeType": "Block",
+              "src": "1117:21:1",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "components": [
+                      {
+                        "argumentTypes": null,
+                        "id": 160,
+                        "name": "i",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 155,
+                        "src": "1131:1:1",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint8",
+                          "typeString": "uint8"
+                        }
+                      }
+                    ],
+                    "id": 161,
+                    "isConstant": false,
+                    "isInlineArray": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "TupleExpression",
+                    "src": "1130:3:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "functionReturnParameters": 159,
+                  "id": 162,
+                  "nodeType": "Return",
+                  "src": "1123:10:1"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 164,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getNumber",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 156,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 155,
+                  "name": "i",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 164,
+                  "src": "1081:7:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 154,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1081:5:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1080:9:1"
+            },
+            "returnParameters": {
+              "id": 159,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 158,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 164,
+                  "src": "1111:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 157,
+                    "name": "uint",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1111:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1110:6:1"
+            },
+            "scope": 165,
+            "src": "1062:76:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 166,
+        "src": "25:1144:1"
+      }
+    ],
+    "src": "0:1170:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.5.8+commit.23d335f2.Emscripten.clang"
+  },
+  "networks": {
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0x8B73382525C334E0158Befdf1807B507F46EAabB",
+      "transactionHash": "0x27d594e8870ff6755f32c51ab0cea24264761e25cdd7a6448ecfd0ef3c67b619"
+    }
+  },
+  "schemaVersion": "3.0.11",
+  "updatedAt": "2019-10-07T14:54:08.798Z",
+  "devdoc": {
+    "methods": {}
+  },
+  "userdoc": {
+    "methods": {}
+  }
+}
