@@ -1,5 +1,9 @@
 pragma solidity ^0.5.0;
 
+/// @title A smart contract for storing peer reviews
+/// @author Kaan Uzdogan
+/// @notice
+/// @dev
 contract ReviewStorage {
   address[] usersAddresses;
   enum Recommendation { ACCEPT, REVISE, REJECT }
@@ -13,9 +17,16 @@ contract ReviewStorage {
     address[] vouchers;
     mapping(address => bool) vouchersMap;
   }
-  mapping (address => Review[]) reviewsMap;
+  mapping (address => Review[]) reviewsMap; // An array of Reviews for each address
 
 
+  /// @notice Public method to add a review.
+  /// @dev Assumes the owner(author) of the review is the msg.sender
+  /// @param journalId - Typically ISSN number of the journal
+  /// @param manuscriptId - An identifier for the manuscript. This could be an internal id of a journal.
+  /// @param manuscriptHash - (Optional) Hash of the manuscript document
+  /// @param timestamp - uint32 Unix timestamp when review is published
+  /// @param recommendation - 0,1 or 2 for ACCEPT, REVIEW, REJECT
   function addReview(string memory journalId, string memory manuscriptId, string memory manuscriptHash,
    uint32 timestamp, Recommendation recommendation) public {
     address sender = msg.sender;
@@ -30,44 +41,58 @@ contract ReviewStorage {
     });
     reviewsMap[sender].push(review);
   }
-  // function getReviewCount() public view returns(uint32 count){
-  //   return reviewsMap[addr].length;
-  // }
 
-  // Get Review for any address.
-  // Can have another function to retrieve private information of msg.sender.
-  function getReview(address addr, uint8 i) public view returns (string memory, string memory,
+  /// @notice Returns the Review belonging to the paramater address on the parameter index.
+  /// @dev Returns the Review struct as an ordered key value object. e.g. {0: 'JOURNALID', 1: ....}
+  /// @param addr - The address of the author that is being queried.
+  /// @param index - Index of the review in the Review array of the author.
+  /// @return journalId
+  /// @return manuscriptId
+  /// @return manuscriptHash
+  /// @return timestamp
+  /// @return recommendation
+  /// @return verified - bool that is true if 2 or more accounts vouched the review.
+  /// @return vouchers - the list of addresses that vouched this review.
+  // TODO: Can have another function to retrieve private information of msg.sender.
+  function getReview(address addr, uint8 index) public view returns (string memory, string memory,
     string memory, uint32, Recommendation, bool, address[] memory) {
     Review[] memory reviews = reviewsMap[addr];
-    return (reviews[i].journalId, reviews[i].manuscriptId, reviews[i].manuscriptHash,
-      reviews[i].timestamp, reviews[i].recommendation, reviews[i].verified, reviews[i].vouchers);
+    return (reviews[index].journalId, reviews[index].manuscriptId, reviews[index].manuscriptHash,
+      reviews[index].timestamp, reviews[index].recommendation, reviews[index].verified,
+      reviews[index].vouchers);
   }
 
+  /// @notice Function to vouch a Review at the given address and index.
+  /// @dev Assumes the voucher is the msg.sender. Checks if the Review is already vouched by the same address.
+  /// @param addr - The address of the author that is being queried.
+  /// @param index - Index of the review in the Review array of the author.
   function vouch(address addr, uint8 index) public {
     address voucher = msg.sender;
     Review storage review = reviewsMap[addr][index];
-    if (review.vouchersMap[voucher] == false){ // If not vouched by current voucher
-      review.vouchers.push(voucher);
-      review.vouchersMap[voucher] = true;
+    if (review.vouchersMap[voucher] == false){ // If not vouched by current voucher.
+      review.vouchers.push(voucher); // Add to vouchers.
+      review.vouchersMap[voucher] = true; // Mark voucher true.
     }
     if(review.vouchers.length == 2){
       review.verified = true;
     }
   }
-
+  /// @notice Function to check if the Review at the given address and index is already vouched.
+  /// @dev Assumes the voucher is the msg.sender.
+  /// @param addr - The address of the author that is being queried.
+  /// @param index - Index of the review in the Review array of the author.
+  /// @return bool showing that Review is vouched by the msg.sender.
   function hasVouched(address addr, uint8 index) public view returns(bool) {
     address voucher = msg.sender;
     Review storage review = reviewsMap[addr][index];
     return review.vouchersMap[voucher];
   }
-
+  /// @notice Function to check if the Review at the given address and index is verified. I.e. vouched by 2 or more accounts.
+  /// @param addr - The address of the author that is being queried.
+  /// @param index - Index of the review in the Review array of the author.
+  /// @return bool showing if Review is verified.
   function isVerified(address addr, uint index) public view returns(bool) {
     Review storage review = reviewsMap[addr][index];
     return review.verified;
   }
-  
-  function getNumber(uint8 i) public pure returns (uint) {
-    return (i);
-  }
-  // function verifyReview()
 }

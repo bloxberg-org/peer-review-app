@@ -14,19 +14,19 @@ contract("ReviewStorage test", async accounts => {
 
     await instance.addReview(journalId, manuscriptId, manuscriptHash, timeStamp, recommendation);
     let addedReview = await instance.getReview(accounts[0], 0);
+
     let reviewArr = [journalId, manuscriptId, manuscriptHash, web3.utils.toBN(timeStamp),
        web3.utils.toBN(recommendation), verified, vouchers];
-    let reviewObj = Object.assign({}, reviewArr);
+    let reviewObj = Object.assign({}, reviewArr); // Need to convert to format: {0: 'Springer Nature, 1: 'Xjde219kd12k' ...}
+
     assert.deepEqual(addedReview, reviewObj, 'Contract response does not match expected values')
   });
 
   it("should vouch a review", async () => {
-    
     let accounts = await web3.eth.getAccounts();
     let author = accounts[0];
     let index = 0; // Index of the review.
     let voucher1 = accounts[1];
-    web3.eth.defaultAccount = voucher1;
 
     let instance = await ReviewStorage.deployed();
     await instance.vouch(author, index, {from: accounts[1]});
@@ -35,6 +35,7 @@ contract("ReviewStorage test", async accounts => {
     let hasVouched = await instance.hasVouched(author, index, {from: accounts[1]});
     let vouchers = review[6]; // Index 6 of returned Review object
     let expectedVouchers = [voucher1];
+
     assert.equal(hasVouched, true, 'Review not marked vouched by the msg.sender');
     assert.deepEqual(vouchers, expectedVouchers, 'Vouchers of review not as expected');
   })
@@ -46,12 +47,13 @@ contract("ReviewStorage test", async accounts => {
     let voucher1 = accounts[1];
 
     let instance = await ReviewStorage.deployed();
-    await instance.vouch(author, index, {from: accounts[1]});
+    await instance.vouch(author, index, {from: voucher1});
 
-    let review = await instance.getReview(author, index, {from: accounts[1]});
-    let hasVouched = await instance.hasVouched(author, index, {from: accounts[1]});
+    let review = await instance.getReview(author, index, {from: voucher1});
+    let hasVouched = await instance.hasVouched(author, index, {from: voucher1});
     let vouchers = review[6]; // Index 6 of returned Review object
     let expectedVouchers = [voucher1];
+
     assert.equal(hasVouched, true, 'Review not marked vouched by the msg.sender');
     assert.deepEqual(vouchers, expectedVouchers, 'Vouchers of review not as expected');
   })
@@ -64,9 +66,9 @@ contract("ReviewStorage test", async accounts => {
     let voucher2 = accounts[2];
 
     let instance = await ReviewStorage.deployed();
-    await instance.vouch(author, index, {from: accounts[2]});
+    await instance.vouch(author, index, {from: voucher2});
 
-    let isVerified = await instance.isVerified(author, index, {from: accounts[1]});
+    let isVerified = await instance.isVerified(author, index, {from: voucher2});
     assert.equal(isVerified, true, 'Review not marked verified after 2 vouches');
   })
 });
