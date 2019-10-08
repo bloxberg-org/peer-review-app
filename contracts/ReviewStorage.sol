@@ -11,6 +11,7 @@ contract ReviewStorage {
     Recommendation recommendation;
     bool verified;
     address[] vouchers;
+    mapping(address => bool) vouchersMap;
   }
   mapping (address => Review[]) reviewsMap;
 
@@ -43,13 +44,28 @@ contract ReviewStorage {
   }
 
   function vouch(address addr, uint8 index) public {
+    address voucher = msg.sender;
     Review storage review = reviewsMap[addr][index];
-    review.vouchers.push(msg.sender);
+    if (review.vouchersMap[voucher] == false){ // If not vouched by current voucher
+      review.vouchers.push(voucher);
+      review.vouchersMap[voucher] = true;
+    }
     if(review.vouchers.length == 2){
       review.verified = true;
     }
   }
 
+  function hasVouched(address addr, uint8 index) public view returns(bool) {
+    address voucher = msg.sender;
+    Review storage review = reviewsMap[addr][index];
+    return review.vouchersMap[voucher];
+  }
+
+  function isVerified(address addr, uint index) public view returns(bool) {
+    Review storage review = reviewsMap[addr][index];
+    return review.verified;
+  }
+  
   function getNumber(uint8 i) public pure returns (uint) {
     return (i);
   }

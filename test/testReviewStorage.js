@@ -21,21 +21,52 @@ contract("ReviewStorage test", async accounts => {
   });
 
   it("should vouch a review", async () => {
+    
     let accounts = await web3.eth.getAccounts();
     let author = accounts[0];
     let index = 0; // Index of the review.
     let voucher1 = accounts[1];
-    console.log(voucher1);
+    web3.eth.defaultAccount = voucher1;
+
+    let instance = await ReviewStorage.deployed();
+    await instance.vouch(author, index, {from: accounts[1]});
+
+    let review = await instance.getReview(author, index, {from: accounts[1]});
+    let hasVouched = await instance.hasVouched(author, index, {from: accounts[1]});
+    let vouchers = review[6]; // Index 6 of returned Review object
+    let expectedVouchers = [voucher1];
+    assert.equal(hasVouched, true, 'Review not marked vouched by the msg.sender');
+    assert.deepEqual(vouchers, expectedVouchers, 'Vouchers of review not as expected');
+  })
+
+  it("should not be vouched twice by the same account", async () => {
+    let accounts = await web3.eth.getAccounts();
+    let author = accounts[0];
+    let index = 0; // Index of the review.
+    let voucher1 = accounts[1];
+
+    let instance = await ReviewStorage.deployed();
+    await instance.vouch(author, index, {from: accounts[1]});
+
+    let review = await instance.getReview(author, index, {from: accounts[1]});
+    let hasVouched = await instance.hasVouched(author, index, {from: accounts[1]});
+    let vouchers = review[6]; // Index 6 of returned Review object
+    let expectedVouchers = [voucher1];
+    assert.equal(hasVouched, true, 'Review not marked vouched by the msg.sender');
+    assert.deepEqual(vouchers, expectedVouchers, 'Vouchers of review not as expected');
+  })
+
+  it("should be verified when vouched by two different accounts", async () => {
+    let accounts = await web3.eth.getAccounts();
+    let author = accounts[0];
+    let index = 0; // Index of the review.
+    let voucher1 = accounts[1];
     let voucher2 = accounts[2];
 
     let instance = await ReviewStorage.deployed();
-    await instance.vouch(author, index, { // Vouch first Review of the first account.
-      from: voucher1
-    });
+    await instance.vouch(author, index, {from: accounts[2]});
 
-    let review = await instance.getReview(author, index);
-    let vouchers = review[6];
-    let expectedVouchers = [voucher1];
-    assert.deepEqual(vouchers, expectedVouchers, 'Vouchers of review not as expected')
+    let isVerified = await instance.isVerified(author, index, {from: accounts[1]});
+    assert.equal(isVerified, true, 'Review not marked verified after 2 vouches');
   })
 });
