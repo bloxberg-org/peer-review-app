@@ -77,7 +77,7 @@ contract ReviewStorage {
       review.verified = true;
     }
   }
-  /// @notice Function to check if the Review at the given address and index is already vouched.
+  /// @notice Function to check if the Review at the given address and index is vouched by msg.sender.
   /// @dev Assumes the voucher is the msg.sender.
   /// @param addr - The address of the author that is being queried.
   /// @param index - Index of the review in the Review array of the author.
