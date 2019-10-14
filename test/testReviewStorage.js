@@ -3,6 +3,9 @@ const ReviewStorage = artifacts.require("ReviewStorage");
 contract("ReviewStorage test", async accounts => {
   it("should add and get a Review", async () => {
     let instance = await ReviewStorage.deployed();
+    let accounts = await web3.eth.getAccounts();
+    let author = accounts[0];
+    let expectedReviewCount = (await instance.getReviewCount(author)).toNumber() + 1;
     let journalId = 'Springer Nature';
     let manuscriptId = 'Xjde219kd12k';
     let manuscriptHash = '312302ijq0pdekiqj213k2';
@@ -12,16 +15,16 @@ contract("ReviewStorage test", async accounts => {
     let verified = false;
     let vouchers = [];
 
-    await instance.addReview(journalId, manuscriptId, manuscriptHash, timeStamp, recommendation);
-    let addedReview = await instance.getReview(accounts[0], 0);
-
+    await instance.addReview(author, journalId, manuscriptId, manuscriptHash, timeStamp, recommendation);
+    let addedReview = await instance.getReview(author, 0);
+    let reviewCount = (await instance.getReviewCount(author)).toNumber();
     let reviewArr = [journalId, manuscriptId, manuscriptHash, web3.utils.toBN(timeStamp),
        web3.utils.toBN(recommendation), verified, vouchers];
     let reviewObj = Object.assign({}, reviewArr); // Need to convert to format: {0: 'Springer Nature, 1: 'Xjde219kd12k' ...}
-
+    
+    assert.equal(reviewCount, expectedReviewCount, 'Review counts do not match')
     assert.deepEqual(addedReview, reviewObj, 'Contract response does not match expected values')
   });
-
   it("should vouch a review", async () => {
     let accounts = await web3.eth.getAccounts();
     let author = accounts[0];
