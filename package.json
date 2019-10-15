@@ -17,7 +17,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "dev": "nodemon ./server/server.js"
+    "dev": "nodemon ./server/server.js",
+    "client": "cd ./client/ && npm start"
   },
   "repository": {
     "type": "git",
