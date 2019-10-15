@@ -15,10 +15,10 @@ exports.getReview = async (req, res) => {
       verified: review[5],
       vouchers: review[6]
     }
-    res.send(response);
+    res.json(response);
   } catch (e) {
     console.log(e)
-    return res.status(404).json({message: 'Review not found'});
+    res.status(404).json({message: 'Review not found'});
   }
 }
 
@@ -31,8 +31,8 @@ exports.addReview = async (req, res) => {
   try {
     let result = await connection.addReview(author, review);
     console.log(`Tx hash is ${result.tx}`);
-    return res.status(200).send(result);
+    res.status(200).json(result);
   } catch (e) {
-    return res.status(500).json({error: e})
+    res.status(500).json({error: e})
   }
 }
