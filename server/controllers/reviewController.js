@@ -19,9 +19,10 @@ exports.addReview = async (req, res) => {
   let author = req.params.addr;
 
   try {
-    await connection.addReview(author, review)
+    let result = await connection.addReview(author, review);
+    console.log(`Tx hash is ${result.tx}`);
     return res.status(200);
   } catch (e) {
-    return res.status(500).json({message: 'A problem occured'})
+    return res.status(500).json({error: e})
   }
 }
