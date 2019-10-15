@@ -74,6 +74,7 @@ contract ReviewStorage {
   /// @param addr - The address of the author that is being queried.
   /// @param index - Index of the review in the Review array of the author.
   function vouch(address addr, uint8 index) public {
+    // TODO: Can't vouch herself
     address voucher = msg.sender; // TODO: Avoid being vouched by a contract
     Review storage review = reviewsMap[addr][index];
     if (review.vouchersMap[voucher] == false){ // If not vouched by current voucher.

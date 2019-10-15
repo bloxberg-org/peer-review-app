@@ -28,5 +28,11 @@ exports.addReview = async (authorAddr, review) => {
 exports.getReview = async (addr, index) => {
   let [instance, accounts] = await init();
   return instance.getReview(addr, index,
-    {from: accounts[0]})
+    {from: accounts[0]});
+}
+
+exports.vouchReview = async (addr, index) => {
+  let [instance, accounts] = await init();
+  return instance.vouch(addr, index,
+    {from: accounts[1]});  
 }

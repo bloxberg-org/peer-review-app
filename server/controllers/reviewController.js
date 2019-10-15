@@ -33,6 +33,18 @@ exports.addReview = async (req, res) => {
     console.log(`Tx hash is ${result.tx}`);
     res.status(200).json(result);
   } catch (e) {
-    res.status(500).json({error: e})
+    res.status(500).send({error: e})
+  }
+}
+
+exports.vouchReview = async (req, res) => {
+  let voucher = req.params.addr;
+  let index = req.params.reviewIndex;
+  try {
+    await connection.vouchReview(voucher, index);
+    res.status(200).json({voucher: voucher, index: index})
+  } catch (e) {
+    console.log('Error vouching review');
+    res.status(500).send(e)
   }
 }
