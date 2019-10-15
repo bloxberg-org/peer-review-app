@@ -76,7 +76,7 @@ exports.vouchReview = async (req, res) => {
   let index = req.params.reviewIndex;
   try {
     await connection.vouchReview(voucher, index);
-    res.status(200).json({voucher: voucher, index: index})
+    res.status(200).json({author: voucher, index: index})
   } catch (e) {
     console.log('Error vouching review');
     res.status(500).send(e)
