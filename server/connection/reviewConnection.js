@@ -17,6 +17,13 @@ async function init(){
     console.error(e);
   }
 }
+
+exports.getReviewCount = async (authorAddr) => {
+  let [instance, accounts] = await init();
+  return instance.getReviewCount(authorAddr, 
+    {from: accounts[0]});
+}
+
 // TODO: Author should be retrieved from the web3 provider
 exports.addReview = async (authorAddr, review) => {
   let [instance, accounts] = await init();
