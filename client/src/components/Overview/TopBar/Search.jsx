@@ -15,7 +15,9 @@ const Input = styled.input`
   `;
 
 const Wrapper = styled.div`
+  display:flex;
   flex: 0.5;
+  align-items: center
 `;
 
 export default function Search(props) {

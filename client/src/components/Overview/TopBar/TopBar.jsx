@@ -4,7 +4,7 @@ import Search from './Search';
 import UserIcon from './UserIcon';
 
 const Title = styled.h1`
-  font-size: 16;
+  font-size: 1.5em;
   margin: 10px
 `;
 
@@ -17,12 +17,11 @@ const TopBarRightWrapper = styled.div`
   flex-direction: row;
   display: flex;
   justify-content: space-between;
-  margin: 5px 15px;
-  align-items: center;
+  align-items: stretch;
 `;
 
 const TopBarWrapper = styled.div`
-  align-items: center;
+  align-items: stretch;
   flex-direction: row;
   display:flex;
 `;

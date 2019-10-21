@@ -1,10 +1,8 @@
 import React from 'react';    
 import styled from 'styled-components';
-import theme from '../../../assets/theme';
 
 const Wrapper = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 130px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,19 +11,26 @@ const Wrapper = styled.div`
   background-color: white;
   text-align: center;
   margin: 5px;
+  padding: 20px;
   border: 2px solid transparent;
   &:hover {
-    border-color: ${theme.PRIMARY};
-    color: ${theme.PRIMARY};
+    border-color: ${ props => props.theme.primary};
+    color: ${props => props.theme.primary};
+    cursor: pointer;
   };
 `;
 
 const Title = styled.h2`
-  font-weight: 500
+  font-size: 1em;
+  font-weight: bold;
+  color: ${props => props.theme.gray};
+  ${Wrapper}:hover & {
+    color: ${props => props.theme.primary};
+  };
   `;
 
 const Value = styled.div`
-  font-size: 30px;
+  font-size: 1.8em;
   font-weight: 600;
   `;
 

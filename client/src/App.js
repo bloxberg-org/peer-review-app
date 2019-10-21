@@ -4,9 +4,10 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import styled from 'styled-components';
+import styled, {ThemeProvider} from 'styled-components';
 import Overview from './views/Overview';
 import SideBar from './components/SideBar/SideBar';
+import GlobalStyle, { theme } from "./assets/theme";
 
 const Wrapper = styled.div`
    display: flex;
@@ -20,7 +21,7 @@ const OverviewWrapper = styled.div`
   `;
 
 const SideBarWrapper = styled.div`
-  flex: 0.3;
+  flex: 0.25;
   `;
 
 class App extends React.Component {
@@ -32,21 +33,24 @@ class App extends React.Component {
   }
   
   render() {    
-    return (  
-      <Wrapper>
-        <Router>
-        <SideBarWrapper>
-          <SideBar/>
-        </SideBarWrapper>
-        <Switch>
-          <Route path="/">
-            <OverviewWrapper>
-              <Overview/>
-            </OverviewWrapper>
-          </Route>
-        </Switch>
-        </Router>
-      </Wrapper>
+    return (
+      <ThemeProvider theme={theme}>
+      <GlobalStyle/>      
+        <Wrapper>
+          <Router>
+          <SideBarWrapper>
+            <SideBar/>
+          </SideBarWrapper>
+          <Switch>
+            <Route path="/">
+              <OverviewWrapper>
+                <Overview/>
+              </OverviewWrapper>
+            </Route>
+          </Switch>
+          </Router>
+        </Wrapper>
+      </ThemeProvider>
     );
   }
 }

@@ -1,18 +1,24 @@
 import React from 'react';    
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
-import theme from '../../assets/theme';
+import { NavLink } from "react-router-dom";
 
 const Wrapper = styled.div`
   color: white;
   :hover {
-    background-color: ${theme.SIDEBAR_HOVER};
+    background-color: ${props => props.theme.sidebarHover};
+    color: ${props => props.theme.sidebarActiveText}
   }
   `;
 
-const StyledLink = styled(Link)`
-  color: white;
+const StyledLink = styled(NavLink).attrs(props => ({
+  activeStyle :{
+    fontWeight: "bold",
+    color: props.theme.sidebarActiveText
+  }
+}))`
+  color: ${props => props.active ? props.theme.sidebarActiveText : props.theme.sidebarInactiveText};
   text-decoration: none;
+  font-weight: 300;
 `
 
 const LinkWrapper = styled.div `
@@ -21,6 +27,7 @@ const LinkWrapper = styled.div `
   padding-bottom: 10px;
 `
 export default function SideBarButton (props){  
+  
   return(
     <Wrapper>
       <LinkWrapper>

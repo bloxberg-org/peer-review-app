@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '../../assets/theme';
 import logo from '../../assets/logo.png';
 import Button from './SideBarButton';
 
 const Background = styled.div`
-  background-color: ${theme.SIDEBAR_BACKGROUND};
+  background-color: ${props => props.theme.sidebarBackground};
   flex-direction: column;
   height: 100%;
   flex: 0.5;
@@ -15,13 +14,29 @@ const ButtonsWrapper = styled.div`
   margin-bottom: 30px;
   `;
 
+const Logo = styled.img`
+
+`;
+
+const LogoWrapper = styled.div`
+  padding: 30px 20px;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  `;
+
+const Caption = styled.div`
+  color: white;
+  font-family: 'Muli';
+  font-weight: bold;
+`;
 export default function Navbar (props){  
   return(
     <Background>
-      <img src={logo}>
-    
-      </img>
-      <p> Peer Review</p>
+      <LogoWrapper>
+        <Logo src={logo}/>
+        <Caption>Peer Review</Caption>
+      </LogoWrapper>
       <ButtonsWrapper>
         <Button to='/Overview'>Overview</Button>
         <Button to='/Reviews'>Reviews</Button>

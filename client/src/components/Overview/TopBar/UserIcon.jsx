@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import example from '../../../assets/example.png';
 
-const Name = styled.p`
-  font-weight: 300
+const Name = styled.div`
+  font-weight: bold;
+  font-size: 0.8em
   `;
 
 const Wrapper = styled.div`

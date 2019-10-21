@@ -20,8 +20,9 @@ const BottomCardsWrapper = styled.div`
   `;
 
 const Wrapper = styled.div`
-  background-color: gray;
+  background-color: ${props => props.theme.background};
   flex: 1;
+  padding: 30px;
 `;
 class Overview extends React.Component {    
   constructor(props) {  
