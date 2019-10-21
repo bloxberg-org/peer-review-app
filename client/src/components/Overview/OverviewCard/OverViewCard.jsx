@@ -1,6 +1,6 @@
 import React from 'react';    
 import styled from 'styled-components';
-import theme from '../../assets/theme';
+import theme from '../../../assets/theme';
 
 const Wrapper = styled.div`
   width: 150px;
