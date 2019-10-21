@@ -7,17 +7,25 @@ const Form = styled.form`
   border-radius: 2px;
   width: 5rem;
   height: 20px;
+  width: 100%;
   `;
 
 const Input = styled.input`
   color: gray;
   `;
+
+const Wrapper = styled.div`
+  flex: 0.5;
+`;
+
 export default function Search(props) {
 
   return(
-    <Form>
-      <Input placeholder='Try: \"Max Planck\"'>
-      </Input>
-    </Form>
+    <Wrapper>
+      <Form>
+        <Input placeholder='Try: \"Max Planck\"'>
+        </Input>
+      </Form>
+    </Wrapper>
   );
 }

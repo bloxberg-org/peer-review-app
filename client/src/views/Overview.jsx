@@ -12,7 +12,7 @@ class Overview extends React.Component {
   
   render() {    
     return (  
-      <TopBar/>
+      <TopBar userName={this.state.userName}/>
     );
   }
 }
