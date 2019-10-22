@@ -2,22 +2,27 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  background-color: white;
-  box-shadow: 3px;
-  border-radius: 2px;
-  width: 5rem;
-  height: 20px;
   width: 100%;
   `;
 
 const Input = styled.input`
-  color: gray;
+  width: 100%;
+  height: 25px;
+  color: ${props => props.theme.gray};
+  font-size: 0.65em;
+  border: none;
+  border-radius: 5px;
+  font-family: 'Muli', sans-serif;
+  padding: 4px;
+  -webkit-filter: drop-shadow(0px 0px 8px rgba(0,0,0,0.25));
+  outline: none;
   `;
 
 const Wrapper = styled.div`
   display:flex;
   flex: 0.5;
-  align-items: center
+  align-items: center;
+  
 `;
 
 export default function Search(props) {
