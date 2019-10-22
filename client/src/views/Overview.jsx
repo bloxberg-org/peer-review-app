@@ -1,6 +1,6 @@
 import React from 'react';    
 import styled from 'styled-components';
-import TopBar from '../components/Overview/TopBar/TopBar';
+import TopBar from '../components/TopBar/TopBar';
 import OverviewCard from '../components/Overview/OverviewCard/OverViewCard';
 import Graph from '../components/Overview/Graph';
 import ListCard from '../components/Overview/ListCard';
@@ -21,7 +21,6 @@ const BottomCardsWrapper = styled.div`
   `;
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.background};
   flex: 1;
   padding: 30px;
 `;
@@ -29,7 +28,6 @@ class Overview extends React.Component {
   constructor(props) {  
     super(props);
     this.state = {  
-        userName: "Max Planck",
         data: {
           'Peer Reviews': 60,
           'Verified Reviews': 16,
@@ -86,13 +84,12 @@ class Overview extends React.Component {
     }
     return (
       <Wrapper>
-        <TopBar userName={this.state.userName}/>
         <CardsWrapper>
           {
             cards
           }
         </CardsWrapper>
-        <Graph userName={this.state.userName} data={this.state.graphData}/>
+        <Graph userName={this.props.userName} data={this.state.graphData}/>
         <BottomCardsWrapper>
           <ListCard title='Highlighted Reviews' expandLabel='View details' type='highlight'>
             {this.state.highlightedReviews}

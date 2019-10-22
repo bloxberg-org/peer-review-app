@@ -30,7 +30,7 @@ export default function Search(props) {
   return(
     <Wrapper>
       <Form>
-        <Input placeholder='Try: \"Max Planck\"'>
+        <Input placeholder='Try: "Max Planck"'>
         </Input>
       </Form>
     </Wrapper>

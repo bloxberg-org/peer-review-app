@@ -3,21 +3,28 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect
+  
 } from "react-router-dom";
 import styled, {ThemeProvider} from 'styled-components';
 import Overview from './views/Overview';
 import SideBar from './components/SideBar/SideBar';
 import GlobalStyle, { theme } from "./assets/theme";
+import Reviews from './views/Reviews';
+import TopBar from './components/TopBar/TopBar';
 
 const Wrapper = styled.div`
    display: flex;
    flex: 1;
+   min-height: 100vh;
+   max-width: 100vw;
 `;
 
-const OverviewWrapper = styled.div`
+const MainWrapper = styled.div`
   flex : 1;
   display: flex;
   flex-direction: column;
+  background-color: ${props => props.theme.background};
   `;
 
 const SideBarWrapper = styled.div`
@@ -38,16 +45,28 @@ class App extends React.Component {
       <GlobalStyle/>      
         <Wrapper>
           <Router>
-          <SideBarWrapper>
-            <SideBar/>
-          </SideBarWrapper>
-          <Switch>
-            <Route path="/">
-              <OverviewWrapper>
-                <Overview/>
-              </OverviewWrapper>
-            </Route>
-          </Switch>
+            <SideBarWrapper>
+              <SideBar/>
+            </SideBarWrapper>
+            <MainWrapper>
+              <Switch>
+                <Route path="/Overview">
+                  <TopBar title='Overview' userName={this.state.userName}/>
+                  <MainWrapper>
+                    <Overview {...this.state}/>
+                  </MainWrapper>
+                </Route>
+                <Route path="/Reviews">
+                  <TopBar title='Reviews' userName={this.state.userName}/>
+                  <MainWrapper>
+                    <Reviews/>
+                  </MainWrapper>
+                </Route>
+                <Route path="/">
+                  <Redirect to="/Overview" />
+                </Route>
+              </Switch>
+            </MainWrapper>
           </Router>
         </Wrapper>
       </ThemeProvider>

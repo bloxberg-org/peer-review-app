@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import example from '../../../assets/example.png';
+import example from '../../assets/example.png';
 
 const Name = styled.div`
   font-weight: bold;

@@ -5,6 +5,7 @@ export const theme = {
   sidebarInactiveText: "#ffffff80",
   sidebarActiveText: "#fff",
   primary: "#CB149D",
+  primaryDark: "#B20F8A",
   background: '#F9F9F9',
   gray: '#9FA2B4',
   border: '#DFE0EB',

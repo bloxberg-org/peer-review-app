@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Button from '../Button';
 import figure from '../../assets/full_graph.png';
 
 const Wrapper = styled.div`
@@ -75,32 +76,6 @@ const StatsCard = props => {
   )
 };
 
-const ExportButton = styled.button`
-  width: 140px;
-  height: 48px;
-  color: white;
-  outline: none;
-  border: none;
-  font-weight: bold;
-  font-family: 'Muli', sans-serif;
-  font-size: 1.05em;
-  background-color: ${props => props.theme.secondary};
-  text-align: center;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  -webkit-filter: drop-shadow(0px 2px 2px black);
-  &:hover {
-    cursor: pointer;
-    background-color: ${props => props.theme.secondaryDark}
-  };
-  &:active {
-    transform: translateY(4px);
-    -webkit-filter: drop-shadow(0px 0px 2px black);;
-  }
-  `;
-
 export default function Graph(props){
   let data = props.data;
   let cards = [];
@@ -119,7 +94,7 @@ export default function Graph(props){
       <StatsWrapper>
         {cards}
         <ExportButtonWrapper>
-          <ExportButton>Export</ExportButton>
+          <Button secondary>Export</Button> 
         </ExportButtonWrapper>
       </StatsWrapper>
     </Wrapper>

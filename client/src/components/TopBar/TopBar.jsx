@@ -24,13 +24,14 @@ const TopBarWrapper = styled.div`
   align-items: stretch;
   flex-direction: row;
   display:flex;
+  margin: 8px 30px;
 `;
 
 export default function TopBar(props) {
   return(
     <TopBarWrapper>
       <TitleWrapper>
-        <Title>Overview</Title>
+        <Title>{props.title}</Title>
       </TitleWrapper>
       <TopBarRightWrapper>
         <Search/>
