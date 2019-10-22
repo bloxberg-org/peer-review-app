@@ -17,43 +17,43 @@ const muliPath = './fonts/Muli/';
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Muli';
-    src: url(${require(muliPath + 'Muli' + '' + '.ttf')}) format('truetype');
+    src: url(${require(muliPath + 'Muli.ttf')}) format('truetype');
     font-weight: normal;
     font-style: normal;
   }
   @font-face {
     font-family: 'Muli';
-    src: url(${require(muliPath + 'Muli' + '-Bold' + '.ttf')}) format('truetype');
+    src: url(${require(muliPath + 'Muli-Bold.ttf')}) format('truetype');
     font-weight: bold;
     font-style: normal;
   }
   @font-face {
     font-family: 'Muli';
-    src: url(${require(muliPath + 'Muli' + '-BoldItalic' + '.ttf')}) format('truetype');
+    src: url(${require(muliPath + 'Muli-BoldItalic.ttf')}) format('truetype');
     font-weight: bold;
     font-style: italic;
   }
   @font-face {
     font-family: 'Muli';
-    src: url(${require(muliPath + 'Muli' + '-Light' + '.ttf')}) format('truetype');
+    src: url(${require(muliPath + 'Muli-Light.ttf')}) format('truetype');
     font-weight: 300;
     font-style: normal;
   }
   @font-face {
     font-family: 'Muli';
-    src: url(${require(muliPath + 'Muli' + '-LightItalic' + '.ttf')}) format('truetype');
+    src: url(${require(muliPath + 'Muli-LightItalic.ttf')}) format('truetype');
     font-weight: 300;
     font-style: italic;
   }
   @font-face {
     font-family: 'Muli';
-    src: url(${require(muliPath + 'Muli' + '-Semi-BoldItalic' + '.ttf')}) format('truetype');
+    src: url(${require(muliPath + 'Muli-Semi-BoldItalic.ttf')}) format('truetype');
     font-weight: 600;
     font-style: italic;
   }
   @font-face {
     font-family: 'Muli';
-    src: url(${require(muliPath + 'Muli' + '-SemiBold' + '.ttf')}) format('truetype');
+    src: url(${require(muliPath + 'Muli-SemiBold.ttf')}) format('truetype');
     font-weight: 600;
     font-style: normal;
   }

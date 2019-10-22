@@ -1,6 +1,5 @@
 import React from 'react';    
 import styled from 'styled-components';
-import TopBar from '../components/TopBar/TopBar';
 import OverviewCard from '../components/Overview/OverviewCard/OverViewCard';
 import Graph from '../components/Overview/Graph';
 import ListCard from '../components/Overview/ListCard';

@@ -93,7 +93,7 @@ const CreateNewVerificationItemWrapper = styled(ItemWrapper)`
 const Item = (props) => (
   <ItemWrapper>
     <ItemTitle>{props.title}</ItemTitle>
-    {props.type == 'highlight' ? 
+    {props.type === 'highlight' ? 
       <ItemValue>{props.value}</ItemValue> :
       <ItemVerifyStatus verified={props.verified}>
         {props.verified ? 'Verified' : 'Not Verified'}
@@ -114,12 +114,12 @@ const Items = (props) => {
   return (
     <ItemsWrapper>
       {
-        type == 'review' ?
+        type === 'review' ?
         <CreateNewVerificationItem/> : null
       }
       { 
         items.map( (item) => {
-          return type == 'highlight' ?
+          return type === 'highlight' ?
             <Item title={item.title} value={item.count} type={type}/> :
             <Item title={item.title} verified={item.verified} type={type}/>
         })
