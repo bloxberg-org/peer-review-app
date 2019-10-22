@@ -1,8 +1,8 @@
 import React from 'react';    
 import styled from 'styled-components';
-import OverviewCard from '../components/Overview/OverviewCard/OverViewCard';
-import Graph from '../components/Overview/Graph';
-import ListCard from '../components/Overview/ListCard';
+import OverviewCard from './OverviewCard';
+import Graph from './Graph';
+import ListCard from './ListCard';
 
 const CardsWrapper = styled.div`
   display: flex;

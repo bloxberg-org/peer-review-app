@@ -118,10 +118,10 @@ const Items = (props) => {
         <CreateNewVerificationItem/> : null
       }
       { 
-        items.map( (item) => {
+        items.map( (item, i) => {
           return type === 'highlight' ?
-            <Item title={item.title} value={item.count} type={type}/> :
-            <Item title={item.title} verified={item.verified} type={type}/>
+            <Item title={item.title} value={item.count} type={type} key={i}/> :
+            <Item title={item.title} verified={item.verified} type={type} key={i}/>
         })
       }
     </ItemsWrapper>

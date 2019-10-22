@@ -7,11 +7,11 @@ import {
   
 } from "react-router-dom";
 import styled, {ThemeProvider} from 'styled-components';
-import Overview from './views/Overview';
-import SideBar from './components/SideBar/SideBar';
+import Overview from './components/Overview';
+import SideBar from './components/SideBar';
 import GlobalStyle, { theme } from "./assets/theme";
-import Reviews from './views/Reviews';
-import TopBar from './components/TopBar/TopBar';
+import Reviews from './components/Reviews';
+import TopBar from './components/TopBar';
 
 const Wrapper = styled.div`
    display: flex;

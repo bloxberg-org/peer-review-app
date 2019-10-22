@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import Button from '../Button';
-import figure from '../../assets/full_graph.png';
+import Button from '../../Button';
+import figure from '../../../assets/full_graph.png';
 
 const Wrapper = styled.div`
   margin: 5;
