@@ -82,6 +82,8 @@ const ExportButton = styled.button`
   outline: none;
   border: none;
   font-weight: bold;
+  font-family: 'Muli', sans-serif;
+  font-size: 1.05em;
   background-color: ${props => props.theme.secondary};
   text-align: center;
   border-radius: 6px;

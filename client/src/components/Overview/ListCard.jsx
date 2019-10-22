@@ -3,28 +3,40 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   background-color: white;
-  margin: 20px;
+  max-width: 50%;
+  max-height: 300px;
   border-radius: 10px;
   flex-direction: column;
   display: flex;
   flex: 1;
+  margin-right: 2%;
+  border: 1px solid ${props => props.theme.border};
+
+  &:last-child { 
+    margin: 0px;
+  }
   `;
 
 const Title = styled.h2`
   font-weight: 600;
-  font-size: 12pt;
+  font-size: 0.85em;
   `;
 
 const ExpandButton = styled.a`
   color: blue;
   text-decoration: none;
+  font-size: 0.55em;
+  &:hover{
+    cursor: pointer;
+  }
   `;
 
 const TopWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
+  padding: 10px 24px;
   `;
 
 const ItemsWrapper = styled.div`
@@ -38,11 +50,16 @@ const ItemWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 20px;
-  margin: 5px;
+  padding: 10px 24px;
+  border-bottom: 1px solid ${props => props.theme.border};
+  &:last-child {
+    border: none;
+  }
   `;
 
 const ItemTitle = styled.div`
   font-size: 8pt;
+  font-weight: 300;
   `;
 
 const ItemValue = styled.div`
@@ -54,22 +71,23 @@ const ItemVerifyStatus = styled.div`
   background-color: ${(props) => props.verified ? 'green' : 'pink'};
   padding: 5px;
   border-radius: 3px;
-  font-size: 5pt;
+  font-size: 0.55em;
   color: white;
-  width: 50px;
+  width: 70px;
   text-align: center;
   `;
 
 const CreateNewTitle = styled(ItemTitle)`
-  color: gray;
+  color: ${props => props.theme.gray};
 `
 
-const CreateNewButton = styled.div`
-  height:15px;
-  width: 15px;
-  border-radius: 7.5px;
-  color: white;
-  background-color: gray;
+const CreateNewButton = styled(ItemTitle)`
+  color: ${props => props.theme.gray};
+  margin: 0px 5px;
+`;
+
+const CreateNewVerificationItemWrapper = styled(ItemWrapper)`
+  justify-content: center;
 `;
 
 const Item = (props) => (
@@ -85,10 +103,10 @@ const Item = (props) => (
 );
 
 const CreateNewVerificationItem = (props) => (
-  <ItemWrapper>
-    <CreateNewTitle> Create new verification </CreateNewTitle>
+  <CreateNewVerificationItemWrapper>
     <CreateNewButton>+</CreateNewButton>
-  </ItemWrapper>
+    <CreateNewTitle> Create new verification </CreateNewTitle>
+  </CreateNewVerificationItemWrapper>
 )
 const Items = (props) => {
   let type = props.type;

@@ -8,8 +8,8 @@ import ListCard from '../components/Overview/ListCard';
 const CardsWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 20 10;
+  align-items: stretch;
+  margin: 20px 0px;
   `;
 
 const BottomCardsWrapper = styled.div`
@@ -17,6 +17,7 @@ const BottomCardsWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin: 32px 0px
   `;
 
 const Wrapper = styled.div`
