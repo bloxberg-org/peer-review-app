@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   text-align: center;
   margin: 5px;
   padding: 20px;
-  border: 2px solid transparent;
+  border: 1px solid ${props => props.theme.border};
   &:hover {
     border-color: ${ props => props.theme.primary};
     color: ${props => props.theme.primary};

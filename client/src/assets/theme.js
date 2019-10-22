@@ -6,7 +6,10 @@ export const theme = {
   sidebarActiveText: "#fff",
   primary: "#CB149D",
   background: '#F9F9F9',
-  gray: '#9FA2B4'
+  gray: '#9FA2B4',
+  border: '#DFE0EB',
+  secondary: '#3751FF',
+  secondaryDark: '#3146D6'
 };
 
 const muliPath = './fonts/Muli/';

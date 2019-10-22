@@ -5,14 +5,18 @@ import figure from '../../assets/full_graph.png';
 const Wrapper = styled.div`
   margin: 5;
   display: flex;
+  background-color: white;
   flex-direction: row;
   flex: 1;
+  border: 1px solid ${props => props.theme.border};
+  border-radius: 8px
   `;
 
 const GraphWrapper = styled.div`
   flex: 0.7;
-  background-color: white;
   flex-direction: column;
+  padding: 32px;
+  border-right: 1px solid ${props => props.theme.border};
   `;
 
 const Figure = styled.img`
@@ -30,7 +34,6 @@ const FigureDate = styled.div`
 
 const StatsWrapper = styled.div`
   flex: 0.3;
-  background-color: blue;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -48,14 +51,19 @@ const StatsValue = styled.div`
   `;
 
 const StatsCardWrapper = styled.div`
+  display:flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: white;
   margin: 15;
   text-align: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid ${props => props.theme.border};
   `;
-  
+
+const ExportButtonWrapper = styled(StatsCardWrapper)`
+  border-bottom: 0px
+`;
 const StatsCard = props => {
   let title = props.title;
   let value = props.value instanceof Date ? props.value.toLocaleDateString() : props.value;
@@ -68,11 +76,27 @@ const StatsCard = props => {
 };
 
 const ExportButton = styled.button`
-  width: 100px;
-  height: 35px;
+  width: 140px;
+  height: 48px;
   color: white;
-  background-color: blue;
-  padding: 10;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  background-color: ${props => props.theme.secondary};
+  text-align: center;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-filter: drop-shadow(0px 2px 2px black);
+  &:hover {
+    cursor: pointer;
+    background-color: ${props => props.theme.secondaryDark}
+  };
+  &:active {
+    transform: translateY(4px);
+    -webkit-filter: drop-shadow(0px 0px 2px black);;
+  }
   `;
 
 export default function Graph(props){
@@ -92,9 +116,9 @@ export default function Graph(props){
       </GraphWrapper>
       <StatsWrapper>
         {cards}
-        <StatsCardWrapper>
+        <ExportButtonWrapper>
           <ExportButton>Export</ExportButton>
-        </StatsCardWrapper>
+        </ExportButtonWrapper>
       </StatsWrapper>
     </Wrapper>
   );
