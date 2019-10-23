@@ -1,5 +1,5 @@
-import React from 'react'
-import styled, {css} from 'styled-components'
+import React from 'react';
+import styled, { css } from 'styled-components';
 import Button from '../Button';
 
 const Wrapper = styled.div`
@@ -50,7 +50,7 @@ const inputStyle = css`
   &::placeholder {
     padding-left: 8px;
   }
-`
+`;
 const Input = styled.input`
   ${inputStyle}
   `;
@@ -63,7 +63,7 @@ const InputTitle = styled.div`
 const FormField = styled((props) => (
   <div className={props.className}>
     <InputTitle> {props.title} </InputTitle>
-    <Input placeholder={props.placeholder}/> 
+    <Input placeholder={props.placeholder} />
   </div>
 ))`
   width: 100%;
@@ -71,7 +71,7 @@ const FormField = styled((props) => (
   border-bottom: 1px solid ${props => props.theme.border}
 `;
 
-const TextArea = styled.textarea.attrs( (props) => ({
+const TextArea = styled.textarea.attrs((props) => ({
   rows: 10,
   placeholder: props.placeholder
 }))`
@@ -81,7 +81,7 @@ const TextArea = styled.textarea.attrs( (props) => ({
 const ContentField = styled((props) => (
   <div className={props.className}>
     <InputTitle> {props.title} </InputTitle>
-    <TextArea placeholder={props.placeholder}/> 
+    <TextArea placeholder={props.placeholder} />
   </div>
 ))`
   width: 100%;
@@ -94,8 +94,8 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
   margin-bottom: 16px;
   `;
-export default function Reviews(props) {
-  return(
+export default function Reviews() {
+  return (
     <Wrapper>
       <CardWrapper>
         <TitleWrapper>
@@ -103,15 +103,15 @@ export default function Reviews(props) {
         </TitleWrapper>
         <FormWrapper>
           <Form>
-            <FormField title='Journal or Conference' placeholder='Journal or conference you reviewed for'/>
-            <FormField title='Article' placeholder='DOI Number'/>
-            <ContentField title='Content' placeholder= 'Add the content of your review in this field'/>
+            <FormField title='Journal or Conference' placeholder='Journal or conference you reviewed for' />
+            <FormField title='Article' placeholder='DOI Number' />
+            <ContentField title='Content' placeholder='Add the content of your review in this field' />
             <ButtonWrapper>
               <Button primary>Add Review</Button>
-            </ButtonWrapper> 
+            </ButtonWrapper>
           </Form>
         </FormWrapper>
       </CardWrapper>
     </Wrapper>
-  )
+  );
 }

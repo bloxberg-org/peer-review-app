@@ -1,4 +1,4 @@
-The project us structured after [this article](https://medium.com/@Charles_Stover/optimal-file-structure-for-react-applications-f3e35ad0a145)
+The project is structured after [this article](https://medium.com/@Charles_Stover/optimal-file-structure-for-react-applications-f3e35ad0a145)
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

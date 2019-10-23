@@ -1,0 +1,24 @@
+{
+  "eslint.workingDirectories": [
+    "./client",
+    "./server"
+  ],
+  "eslint.validate": [
+    {
+      "language": "html",
+      "autoFix": true
+    },
+    {
+      "language": "javascript",
+      "autoFix": true
+    },
+    {
+      "language": "typescript",
+      "autoFix": true
+    },
+    {
+      "language": "react",
+      "autoFix": true
+    }
+  ],
+}
