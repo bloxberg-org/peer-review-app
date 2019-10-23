@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
-  
-} from "react-router-dom";
-import styled, {ThemeProvider} from 'styled-components';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components';
+import GlobalStyle, { theme } from './assets/theme';
 import Overview from './components/Overview';
-import SideBar from './components/SideBar';
-import GlobalStyle, { theme } from "./assets/theme";
 import Reviews from './components/Reviews';
+import SideBar from './components/SideBar';
 import TopBar from './components/TopBar';
 
 const Wrapper = styled.div`
@@ -32,35 +26,31 @@ const SideBarWrapper = styled.div`
   `;
 
 class App extends React.Component {
-  constructor(props) {  
+  constructor(props) {
     super(props);
-    this.state = {  
-        userName: "Max Planck"
-    }
+    this.state = {
+      userName: 'Max Planck'
+    };
   }
-  
-  render() {    
+
+  render() {
     return (
       <ThemeProvider theme={theme}>
-      <GlobalStyle/>      
+        <GlobalStyle />
         <Wrapper>
           <Router>
             <SideBarWrapper>
-              <SideBar/>
+              <SideBar />
             </SideBarWrapper>
             <MainWrapper>
               <Switch>
                 <Route path="/Overview">
-                  <TopBar title='Overview' userName={this.state.userName}/>
-                  <MainWrapper>
-                    <Overview {...this.state}/>
-                  </MainWrapper>
+                  <TopBar title='Overview' userName={this.state.userName} />
+                  <Overview {...this.state} />
                 </Route>
                 <Route path="/Reviews">
-                  <TopBar title='Reviews' userName={this.state.userName}/>
-                  <MainWrapper>
-                    <Reviews/>
-                  </MainWrapper>
+                  <TopBar title='Reviews' userName={this.state.userName} />
+                  <Reviews />
                 </Route>
                 <Route path="/">
                   <Redirect to="/Overview" />
