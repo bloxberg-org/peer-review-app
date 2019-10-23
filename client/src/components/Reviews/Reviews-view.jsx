@@ -1,4 +1,6 @@
 import React from 'react';
+import Datepicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import styled, { css } from 'styled-components';
 import Button from '../Button';
 
@@ -71,22 +73,32 @@ const FormField = styled((props) => (
   border-bottom: 1px solid ${props => props.theme.border}
 `;
 
-const TextArea = styled.textarea.attrs((props) => ({
-  rows: 10,
-  placeholder: props.placeholder
-}))`
-  ${inputStyle}
+const DateInput = styled(Datepicker)`
 `;
 
-const ContentField = styled((props) => (
+const DateField = styled((props) => (
   <div className={props.className}>
     <InputTitle> {props.title} </InputTitle>
-    <TextArea placeholder={props.placeholder} />
+    <DateInput placeholder={props.placeholder} {...props} />
   </div>
-))`
-  width: 100%;
-  padding: 16px 0px;
-`;
+))``;
+
+// const TextArea = styled.textarea.attrs((props) => ({
+//   rows: 10,
+//   placeholder: props.placeholder
+// }))`
+//   ${inputStyle}
+// `;
+
+// const ContentField = styled((props) => (
+//   <div className={props.className}>
+//     <InputTitle> {props.title} </InputTitle>
+//     <TextArea placeholder={props.placeholder} />
+//   </div>
+// ))`
+//   width: 100%;
+//   padding: 16px 0px;
+// `;
 
 const ButtonWrapper = styled.div`
   width: 100%;
@@ -94,7 +106,7 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
   margin-bottom: 16px;
   `;
-export default function Reviews() {
+export default function Reviews(props) {
   return (
     <Wrapper>
       <CardWrapper>
@@ -103,9 +115,12 @@ export default function Reviews() {
         </TitleWrapper>
         <FormWrapper>
           <Form>
-            <FormField title='Journal or Conference' placeholder='Journal or conference you reviewed for' />
-            <FormField title='Article' placeholder='DOI Number' />
-            <ContentField title='Content' placeholder='Add the content of your review in this field' />
+            <FormField title='Journal Identifier' placeholder='Typically the ISSN' />
+            <FormField title='Manuscript Identifier' placeholder='Internal identifier of the journal' />
+            <FormField title='Manuscript Hash' placeholder='Hash of the review file' />
+            <FormField title='Timestamp' placeholder='Timestamp in Unix time (Change to Datepicker)' />
+            <DateField title='Manuscript Date' selected={props.review.timestamp} onChange={props.onDateChange} />
+            {/* <ContentField title='Content' placeholder='Add the content of your review in this field' /> */}
             <ButtonWrapper>
               <Button primary>Add Review</Button>
             </ButtonWrapper>

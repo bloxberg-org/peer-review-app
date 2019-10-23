@@ -1,1 +1,1 @@
-export { default } from './Reviews-view';
+export { default } from './Reviews-container';
