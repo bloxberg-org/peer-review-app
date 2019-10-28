@@ -1,6 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
-import Datepicker from 'react-datepicker';
+import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import useForm from 'react-hook-form';
 import styled, { css } from 'styled-components';
 import Button from '../Button';
 
@@ -62,27 +64,40 @@ const InputTitle = styled.div`
   font-size: 1.1em;
   `;
 
-const FormField = styled((props) => (
-  <div className={props.className}>
-    <InputTitle> {props.title} </InputTitle>
-    <Input placeholder={props.placeholder} />
-  </div>
-))`
+const FormField = styled((props) => {
+  return (
+    // Use ref from react-hook-form
+    <div className={props.className}>
+      <InputTitle> {props.title} </InputTitle>
+      {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
+      <Input ref={props.register} {...props} />
+    </div>
+  );
+})`
   width: 100%;
   padding: 16px 0px;
   border-bottom: 1px solid ${props => props.theme.border}
 `;
 
-const DateInput = styled(Datepicker)`
-`;
+const DateInput = styled((props) => (
+  <DatePicker
+    customInputRef={props.register}
+    {...props}
+  />)
+)``;
 
 const DateField = styled((props) => (
   <div className={props.className}>
     <InputTitle> {props.title} </InputTitle>
-    <DateInput placeholder={props.placeholder} {...props} />
+    {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
+    <DateInput {...props} />
   </div>
 ))``;
 
+const ErrorText = styled.span`
+  color: red;
+  font-size: 0.8em;
+`;
 // const TextArea = styled.textarea.attrs((props) => ({
 //   rows: 10,
 //   placeholder: props.placeholder
@@ -106,7 +121,15 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
   margin-bottom: 16px;
   `;
+
+Reviews.propTypes = {
+  review: PropTypes.object,
+  onDateChange: PropTypes.func,
+  onSubmit: PropTypes.func
+};
+
 export default function Reviews(props) {
+  const { register, handleSubmit, watch, errors } = useForm();
   return (
     <Wrapper>
       <CardWrapper>
@@ -114,12 +137,32 @@ export default function Reviews(props) {
           <Title>Add a Review</Title>
         </TitleWrapper>
         <FormWrapper>
-          <Form>
-            <FormField title='Journal Identifier' placeholder='Typically the ISSN' />
-            <FormField title='Manuscript Identifier' placeholder='Internal identifier of the journal' />
-            <FormField title='Manuscript Hash' placeholder='Hash of the review file' />
-            <FormField title='Timestamp' placeholder='Timestamp in Unix time (Change to Datepicker)' />
-            <DateField title='Manuscript Date' selected={props.review.timestamp} onChange={props.onDateChange} />
+          <Form onSubmit={handleSubmit(props.onSubmit)}>
+            <FormField
+              name='journalId'
+              title='Journal Identifier'
+              placeholder='Typically the ISSN'
+              errors={errors.journalId}
+              register={register({ required: true })} />
+            <FormField
+              name='manuscriptId'
+              title='Manuscript Identifier'
+              placeholder='Internal identifier of the journal'
+              errors={errors.manuscriptId}
+              register={register({ required: true })} />
+            <FormField
+              name='manuscriptHash'
+              title='Manuscript Hash'
+              placeholder='Hash of the review file'
+              errors={errors.manuscriptHash}
+              register={register({ required: true })} />
+            <DateField
+              name='timestamp'
+              title='Manuscript Date'
+              selected={props.review.timestamp}
+              onChange={props.onDateChange}
+              errors={errors.timestamp}
+              register={register({ required: true })} />
             {/* <ContentField title='Content' placeholder='Add the content of your review in this field' /> */}
             <ButtonWrapper>
               <Button primary>Add Review</Button>

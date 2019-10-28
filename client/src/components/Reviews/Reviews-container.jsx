@@ -22,9 +22,13 @@ export default class ReviewsContainer extends React.Component {
       review: tempReview
     });
   }
+
+  handleSubmit = (data) => {
+    console.log(data);
+  }
   render() {
     return (
-      <Review review={this.state.review} onDateChange={this.handleDateChange} />
+      <Review review={this.state.review} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} />
     );
   }
 }
