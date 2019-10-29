@@ -1,4 +1,5 @@
 import React from 'react';
+import { getAllReviews } from '../../utils/review';
 import AppView from './App-view';
 
 export default class App extends React.Component {
@@ -16,11 +17,11 @@ export default class App extends React.Component {
     }).catch(err => console.log(err));
   }
   fetchReviews = () => {
-    return new Promise((resolve) => {
-      setTimeout(resolve(), 3000);
-    }
-    );
-    // return getAllReviews();
+    // return new Promise((resolve) => {
+    //   setTimeout(resolve, 3000);
+    // }
+    // );
+    return getAllReviews();
   }
   render() {
     return (

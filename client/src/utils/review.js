@@ -1,4 +1,4 @@
-import { get, post } from 'endpoint';
+import { get, post } from './endpoint';
 
 const account = '0xb454b9e3fB8307AE28d2E0243c5e99A47236a2e0';
 
