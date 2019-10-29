@@ -11,7 +11,8 @@ import Loader from '../Loader';
 AddReviewView.propTypes = {
   review: PropTypes.object,
   onDateChange: PropTypes.func,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  isLoading: PropTypes.bool
 };
 
 const Wrapper = styled.div`
@@ -163,7 +164,7 @@ export default function AddReviewView(props) {
   if (props.isLoading) {
     return (
       <Loader />
-    )
+    );
   }
   register(
     { name: 'timestamp' },
