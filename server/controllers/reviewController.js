@@ -25,17 +25,17 @@ exports.getAllReviews = async (req, res) => {
         recommendation: review[4].toNumber(),
         verified: review[5],
         vouchers: review[6]
-      }
-    })
+      };
+    });
     res.status(200).json({ reviews: response });
   })).catch((e) => {
     console.log('Error fetching reviews');
     res.status(500).send(e);
-  })
-}
+  });
+};
 
 exports.addReview = async (req, res) => {
-  console.log(`IN ADD REVIEW`);
+  console.log('IN ADD REVIEW');
   console.log(req.body);
   let review = req.body;
   let author = req.params.addr;
@@ -45,9 +45,9 @@ exports.addReview = async (req, res) => {
     console.log(`Tx hash is ${result.tx}`);
     res.status(200).json(result);
   } catch (e) {
-    res.status(500).send({ error: e })
+    res.status(500).send({ error: e });
   }
-}
+};
 
 exports.getReview = async (req, res) => {
   let review;
@@ -63,22 +63,22 @@ exports.getReview = async (req, res) => {
       recommendation: review[4].toNumber(),
       verified: review[5],
       vouchers: review[6]
-    }
+    };
     res.json(response);
   } catch (e) {
-    console.log(e)
+    console.log(e);
     res.status(404).json({ message: 'Review not found' });
   }
-}
+};
 
 exports.vouchReview = async (req, res) => {
   let voucher = req.params.addr;
   let index = req.params.reviewIndex;
   try {
     await connection.vouchReview(voucher, index);
-    res.status(200).json({ author: voucher, index: index })
+    res.status(200).json({ author: voucher, index: index });
   } catch (e) {
     console.log('Error vouching review');
-    res.status(500).send(e)
+    res.status(500).send(e);
   }
-}
+};
