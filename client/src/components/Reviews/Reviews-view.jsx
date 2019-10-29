@@ -136,7 +136,7 @@ export default function Reviews(props) {
   const { register, handleSubmit, setValue, errors } = useForm();
 
   register(
-    { name: "timestamp" },
+    { name: 'timestamp' },
     { required: true }
   ); // Register timestamp field manually. Can't reach ref field in Datepicker.
   setValue('timestamp', moment(props.review.timestamp).unix()); // Set initial value for useForm
@@ -165,6 +165,12 @@ export default function Reviews(props) {
               name='manuscriptHash'
               title='Manuscript Hash'
               placeholder='Hash of the review file'
+              errors={errors.manuscriptHash}
+              register={register({ required: true })} />
+            <FormField
+              name='recommendation'
+              title='Recommendation'
+              placeholder='0, 1, or 2'
               errors={errors.manuscriptHash}
               register={register({ required: true })} />
             <DateField
