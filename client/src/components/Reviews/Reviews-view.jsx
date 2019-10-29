@@ -65,6 +65,31 @@ const InputTitle = styled.div`
   font-size: 1.1em;
   `;
 
+const Select = styled.select`
+  ${inputStyle};
+  width: 50%;
+  background: #fff;
+  color: #000;
+  option {
+    color: #000;
+    background: #fff;
+    display: flex;
+    min-height: 20px;
+    padding: 0px 2px 1px;
+  }
+  `;
+
+const SelectField = styled((props) => {
+  return (
+    <div className={props.className}>
+      <InputTitle> {props.title} </InputTitle>
+      <Select ref={props.register} {...props}>
+        {props.children}
+      </Select>
+    </div>
+  );
+})``;
+
 const FormField = styled((props) => {
   return (
     // Use ref from react-hook-form
@@ -84,7 +109,6 @@ const DateInput = styled((props) => {
   return (
     <DatePicker
       customInput={<Input {...props} />}
-      customInputRef={props.register}
       {...props}
     />);
 }
@@ -167,12 +191,16 @@ export default function Reviews(props) {
               placeholder='Hash of the review file'
               errors={errors.manuscriptHash}
               register={register({ required: true })} />
-            <FormField
+            <SelectField
               name='recommendation'
               title='Recommendation'
               placeholder='0, 1, or 2'
               errors={errors.manuscriptHash}
-              register={register({ required: true })} />
+              register={register({ required: true })}>
+              <option value="0">Accept</option>
+              <option value="1">Review</option>
+              <option value="2">Reject</option>
+            </SelectField>
             <DateField
               name='timestamp'
               title='Manuscript Date'
