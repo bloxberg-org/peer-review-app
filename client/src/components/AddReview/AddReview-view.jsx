@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import useForm from 'react-hook-form';
 import styled, { css } from 'styled-components';
 import Button from '../Button';
+import Loader from '../Loader';
 
 AddReviewView.propTypes = {
   review: PropTypes.object,
@@ -157,8 +158,13 @@ const ButtonWrapper = styled.div`
   `;
 
 export default function AddReviewView(props) {
-  const { register, handleSubmit, setValue, errors } = useForm();
 
+  const { register, handleSubmit, setValue, errors } = useForm();
+  if (props.isLoading) {
+    return (
+      <Loader />
+    )
+  }
   register(
     { name: 'timestamp' },
     { required: true }

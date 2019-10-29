@@ -1,16 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
+import LoaderView from '../Loader';
 import OverviewView from './Overview-view';
 
 export default class OverviewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {
-        'Peer Reviews': 60,
-        'Verified Reviews': 16,
-        'H-Index': 75,
-        'Affiliated Journals': 25
-      },
       graphData: {
         'Reviews this year': 17,
         'Average Review Length (words)': 325,
@@ -52,9 +48,30 @@ export default class OverviewContainer extends React.Component {
     };
   }
 
+  numberOfReviews = () => {
+    return this.props.reviews.length;
+  }
+  numberOfVerifiedReviews = () => {
+    return this.props.reviews.filter(review => review.verified === true).length;
+  }
   render() {
+
+    if (this.props.isLoading)
+      return (<LoaderView />);
+    let cardsData = {
+      'Peer Reviews': this.numberOfReviews(),
+      'Verified Reviews': this.numberOfVerifiedReviews(),
+      'H-Index': 75,
+      'Affiliated Journals': 25
+    };
+
     return (
-      <OverviewView {...this.props} {...this.state} />
+      <OverviewView {...this.props} {...this.state} cardsData={cardsData} />
     );
   }
 }
+
+OverviewContainer.propTypes = {
+  reviews: PropTypes.array,
+  isLoading: PropTypes.bool
+};

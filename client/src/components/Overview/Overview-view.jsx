@@ -12,7 +12,8 @@ OverviewView.propTypes = {
   highlightedReviews: PropTypes.array,
   reviewVerification: PropTypes.array,
   isLoading: PropTypes.bool,
-  userName: PropTypes.string
+  userName: PropTypes.string,
+  cardsData: PropTypes.object
 };
 
 const CardsWrapper = styled.div`
@@ -43,7 +44,7 @@ const StyledLoader = styled(withTheme((props) => {
   return (<Loader
     type='Grid'
     color={props.theme.primary}
-  />)
+  />);
 }))``;
 
 const Wrapper = styled.div`
@@ -53,11 +54,11 @@ const Wrapper = styled.div`
 
 export default function OverviewView(props) {
 
-  let data = props.data;
+  let cardsData = props.cardsData;
   let cards = [];
   let i = 0;
-  for (let key of Object.keys(data)) {
-    cards.push(<OverviewCard key={i++} title={key} value={data[key]}></OverviewCard>);
+  for (let key of Object.keys(cardsData)) {
+    cards.push(<OverviewCard key={i++} title={key} value={cardsData[key]}></OverviewCard>);
   }
 
   if (props.isLoading) {
