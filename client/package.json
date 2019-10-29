@@ -9,6 +9,7 @@
     "react-datepicker": "^2.9.6",
     "react-dom": "^16.10.2",
     "react-hook-form": "^3.26.2",
+    "react-loader-spinner": "^3.1.4",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "styled-components": "^4.4.0"

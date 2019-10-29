@@ -7,6 +7,12 @@ import useForm from 'react-hook-form';
 import styled, { css } from 'styled-components';
 import Button from '../Button';
 
+AddReviewView.propTypes = {
+  review: PropTypes.object,
+  onDateChange: PropTypes.func,
+  onSubmit: PropTypes.func
+};
+
 const Wrapper = styled.div`
   display: flex;
   flex: 1
@@ -150,13 +156,7 @@ const ButtonWrapper = styled.div`
   margin-bottom: 16px;
   `;
 
-Reviews.propTypes = {
-  review: PropTypes.object,
-  onDateChange: PropTypes.func,
-  onSubmit: PropTypes.func
-};
-
-export default function Reviews(props) {
+export default function AddReviewView(props) {
   const { register, handleSubmit, setValue, errors } = useForm();
 
   register(

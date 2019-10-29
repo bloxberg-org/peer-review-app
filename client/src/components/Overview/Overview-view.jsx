@@ -1,8 +1,18 @@
-import React from 'react';    
+import PropTypes from 'prop-types';
+import React from 'react';
+import Loader from 'react-loader-spinner';
 import styled from 'styled-components';
-import OverviewCard from './OverviewCard';
 import Graph from './Graph';
 import ListCard from './ListCard';
+import OverviewCard from './OverviewCard';
+
+OverviewView.propTypes = {
+  data: PropTypes.object,
+  graphData: PropTypes.object,
+  highlightedReviews: PropTypes.array,
+  reviewVerification: PropTypes.array,
+  isLoading: PropTypes.bool
+};
 
 const CardsWrapper = styled.div`
   display: flex;
@@ -23,83 +33,40 @@ const Wrapper = styled.div`
   flex: 1;
   padding: 30px;
 `;
-class Overview extends React.Component {    
-  constructor(props) {  
-    super(props);
-    this.state = {  
-        data: {
-          'Peer Reviews': 60,
-          'Verified Reviews': 16,
-          'H-Index': 75,
-          'Affiliated Journals': 25
-        },
-        graphData: {
-          'Reviews this year': 17,
-          'Average Review Length (words)': 325,
-          'Most Recent Review': new Date('September 12, 2019'),
-          'Most Reviewed Journal': 'Nature'
-        },
-        highlightedReviews:[
-          {
-            title: 'On an Improvement of Wien\'s Equation for the Spectrum',
-            count: 4238
-          },
-          {
-            title: 'On the Theory of the Energy Distribution Law of the Normal Spectrum',
-            count: 1005
-          },
-          {
-            title: 'Entropy and Temperatire of Radiant Heat',
-            count: 914
-          },
-          {
-            title: 'Eight Lectures on Theoretical Physics',
-            count: 281
-          }
-        ],
-        reviewVerification: [
-          {
-            title: 'Theory of Relatively Review',
-            verified: true
-          },
-          {
-            title: 'Thermodynamics Review',
-            verified: false
-          },
-          {
-            title: 'Statistical Mechanics',
-            verified: false
-          }
-        ]
-    }
+export default function OverviewView(props) {
+
+  let data = props.data;
+  let cards = [];
+  let i = 0;
+  for (let key of Object.keys(data)) {
+    cards.push(<OverviewCard key={i++} title={key} value={data[key]}></OverviewCard>);
   }
-  
-  render() {
-    let data = this.state.data;
-    let cards = [];
-    let i = 0;
-    for (let key of Object.keys(data)) {
-      cards.push(<OverviewCard key={i++} title={key} value={data[key]}></OverviewCard>)
-    }
+
+  if (props.isLoading) {
     return (
       <Wrapper>
-        <CardsWrapper>
-          {
-            cards
-          }
-        </CardsWrapper>
-        <Graph userName={this.props.userName} data={this.state.graphData}/>
-        <BottomCardsWrapper>
-          <ListCard title='Highlighted Reviews' expandLabel='View details' type='highlight'>
-            {this.state.highlightedReviews}
-          </ListCard>
-          <ListCard title='Review Verification' expandLabel='View all' type='review'>
-            {this.state.reviewVerification}
-          </ListCard>
-        </BottomCardsWrapper>
+        <Loader
+          type='Grid'
+        />
       </Wrapper>
     );
   }
+  return (
+    <Wrapper>
+      <CardsWrapper>
+        {
+          cards
+        }
+      </CardsWrapper>
+      <Graph userName={this.props.userName} data={this.state.graphData} />
+      <BottomCardsWrapper>
+        <ListCard title='Highlighted Reviews' expandLabel='View details' type='highlight'>
+          {props.highlightedReviews}
+        </ListCard>
+        <ListCard title='Review Verification' expandLabel='View all' type='review'>
+          {props.reviewVerification}
+        </ListCard>
+      </BottomCardsWrapper>
+    </Wrapper>
+  );
 }
-
-export default Overview;   

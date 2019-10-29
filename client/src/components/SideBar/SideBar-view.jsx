@@ -27,24 +27,24 @@ const LogoWrapper = styled.div`
 
 const Caption = styled.div`
   color: white;
-  font-family: 'Muli';
+  font-family: 'Muli';  
   font-weight: bold;
 `;
-export default function Navbar (props){  
-  return(
+export default function Navbar() {
+  return (
     <Background>
       <LogoWrapper>
-        <Logo src={logo}/>
+        <Logo src={logo} />
         <Caption>Peer Review</Caption>
       </LogoWrapper>
       <ButtonsWrapper>
         <Button to='/Overview'>Overview</Button>
-        <Button to='/Reviews'>Reviews</Button>
+        <Button to='/AddReview'>Add Review</Button>
         <Button to='/Publications'>Publications</Button>
         <Button to='/Colleagues'>Colleagues</Button>
         <Button to='/Affiliations'>Affiliations</Button>
       </ButtonsWrapper>
       <Button to='/Settings'>Settings</Button>
     </Background>
-  )
-};
+  );
+}
