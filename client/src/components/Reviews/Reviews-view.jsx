@@ -1,3 +1,4 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import DatePicker from 'react-datepicker';
@@ -79,11 +80,14 @@ const FormField = styled((props) => {
   border-bottom: 1px solid ${props => props.theme.border}
 `;
 
-const DateInput = styled((props) => (
-  <DatePicker
-    customInputRef={props.register}
-    {...props}
-  />)
+const DateInput = styled((props) => {
+  return (
+    <DatePicker
+      customInput={<Input {...props} />}
+      customInputRef={props.register}
+      {...props}
+    />);
+}
 )``;
 
 const DateField = styled((props) => (
@@ -129,7 +133,14 @@ Reviews.propTypes = {
 };
 
 export default function Reviews(props) {
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, setValue, errors } = useForm();
+
+  register(
+    { name: "timestamp" },
+    { required: true }
+  ); // Register timestamp field manually. Can't reach ref field in Datepicker.
+  setValue('timestamp', moment(props.review.timestamp).unix()); // Set initial value for useForm
+
   return (
     <Wrapper>
       <CardWrapper>
@@ -160,9 +171,13 @@ export default function Reviews(props) {
               name='timestamp'
               title='Manuscript Date'
               selected={props.review.timestamp}
-              onChange={props.onDateChange}
-              errors={errors.timestamp}
-              register={register({ required: true })} />
+              onChange={(date) => {
+                props.onDateChange(date);
+                let unixDate = moment(date).unix();
+                setValue('timestamp', unixDate);
+              }
+              }
+              errors={errors.timestamp} />
             {/* <ContentField title='Content' placeholder='Add the content of your review in this field' /> */}
             <ButtonWrapper>
               <Button primary>Add Review</Button>
