@@ -81,7 +81,7 @@ contract ReviewStorage {
       review.vouchers.push(voucher); // Add to vouchers.
       review.vouchersMap[voucher] = true; // Mark voucher true.
     }
-    if(review.vouchers.length == 2){
+    if(review.vouchers.length == 1){
       review.verified = true;
     }
   }
