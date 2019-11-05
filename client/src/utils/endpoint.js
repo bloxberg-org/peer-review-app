@@ -1,6 +1,7 @@
 const URL = 'http://localhost:3000';
 
 export const post = (endpoint, body) => {
+  console.log(`IN POST`)
   console.log(body);
   return fetch(URL + endpoint, {
     method: 'POST',

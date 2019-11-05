@@ -14,7 +14,6 @@ export default class App extends React.Component {
   componentDidMount() {
     console.log(this.fetchReviews());
     this.fetchReviews().then((reviews) => {
-      console.log(reviews)
       this.setState({ isLoading: false, reviews: reviews });
     }).catch(err => console.log(err));
   }

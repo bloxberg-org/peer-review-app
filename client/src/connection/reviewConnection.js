@@ -27,9 +27,9 @@ export const getReviewCount = async (authorAddr) => {
     { from: accounts[0] });
 };
 
-// TODO: Author should be retrieved from the web3 provider
-export const addReview = async (authorAddr, review) => {
+export const addReview = async (review) => {
   let [instance, accounts] = await init();
+  let authorAddr = accounts[0];
   return instance.addReview(authorAddr, review.journalId, review.manuscriptId,
     review.manuscriptHash, review.timestamp, review.recommendation,
     { from: accounts[0] });
