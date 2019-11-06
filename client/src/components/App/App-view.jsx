@@ -9,7 +9,7 @@ import SideBar from '../SideBar';
 import TopBar from '../TopBar';
 
 AppView.propTypes = {
-  userName: PropTypes.string
+  user: PropTypes.object
 };
 
 const Wrapper = styled.div`
@@ -42,12 +42,12 @@ export default function AppView(props) {
           <MainWrapper>
             <Switch>
               <Route path="/Overview">
-                <TopBar title='Overview' userName={props.userName} />
+                <TopBar title='Overview' user={props.user} />
                 <Overview {...props} />
               </Route>
               <Route path="/AddReview">
-                <TopBar title='Add Review' userName={props.userName} />
-                <AddReview />
+                <TopBar title='Add Review' user={props.user} />
+                <AddReview {...props} />
               </Route>
               <Route path="/">
                 <Redirect to="/Overview" />

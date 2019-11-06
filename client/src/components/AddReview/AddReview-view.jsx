@@ -134,22 +134,23 @@ const ErrorText = styled.span`
   color: red;
   font-size: 0.8em;
 `;
-// const TextArea = styled.textarea.attrs((props) => ({
-//   rows: 10,
-//   placeholder: props.placeholder
-// }))`
-//   ${inputStyle}
-// `;
+const TextArea = styled.textarea.attrs((props) => ({
+  rows: 10,
+  placeholder: props.placeholder
+}))`
+  ${inputStyle}
+`;
 
-// const ContentField = styled((props) => (
-//   <div className={props.className}>
-//     <InputTitle> {props.title} </InputTitle>
-//     <TextArea placeholder={props.placeholder} />
-//   </div>
-// ))`
-//   width: 100%;
-//   padding: 16px 0px;
-// `;
+const ContentField = styled((props) => (
+  <div className={props.className}>
+    <InputTitle> {props.title} </InputTitle>
+    {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
+    <TextArea placeholder={props.placeholder} />
+  </div>
+))`
+  width: 100%;
+  padding: 16px 0px;
+`;
 
 const ButtonWrapper = styled.div`
   width: 100%;
@@ -198,11 +199,17 @@ export default function AddReviewView(props) {
               placeholder='Hash of the review file'
               errors={errors.manuscriptHash}
               register={register({ required: true })} />
+            <FormField
+              name='articleDOI'
+              title='Article DOI'
+              placeholder='DOI'
+              errors={errors.articleDOI}
+              register={register({ required: true })} />
             <SelectField
               name='recommendation'
               title='Recommendation'
               placeholder='0, 1, or 2'
-              errors={errors.manuscriptHash}
+              errors={errors.recommendation}
               register={register({ required: true })}>
               <option value="0">Accept</option>
               <option value="1">Review</option>
@@ -219,7 +226,12 @@ export default function AddReviewView(props) {
               }
               }
               errors={errors.timestamp} />
-            {/* <ContentField title='Content' placeholder='Add the content of your review in this field' /> */}
+            <ContentField
+              name='content'
+              title='Content'
+              placeholder='Add the content of your review in this field'
+              errors={errors.content}
+              register={register({ required: true })} />
             <ButtonWrapper>
               <Button primary>Add Review</Button>
             </ButtonWrapper>

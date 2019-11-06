@@ -1,6 +1,11 @@
+import Proptypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import example from '../../../assets/example.png';
+
+UserIconView.propTypes = {
+  user: Proptypes.object
+};
 
 const Name = styled.div`
   font-weight: bold;
@@ -22,11 +27,11 @@ const Picture = styled.img`
   margin: auto 10px;
   `;
 
-export default function UserIcon(props) {
-  return(
+export default function UserIconView(props) {
+  return (
     <Wrapper>
-      <Name>{props.userName}</Name>
-      <Picture src={example}/>
+      <Name>{props.user.firstName} {props.user.lastName}</Name>
+      <Picture src={example} />
     </Wrapper>
-  )
+  );
 }

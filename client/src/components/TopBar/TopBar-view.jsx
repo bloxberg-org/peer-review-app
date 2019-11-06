@@ -1,7 +1,13 @@
+import Proptypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import Search from './Search';
 import UserIcon from './UserIcon';
+
+TopBarView.propTypes = {
+  title: Proptypes.string,
+  user: Proptypes.object
+};
 
 const Title = styled.h1`
   font-size: 1.5em;
@@ -27,16 +33,16 @@ const TopBarWrapper = styled.div`
   margin: 8px 30px;
 `;
 
-export default function TopBar(props) {
-  return(
+export default function TopBarView(props) {
+  return (
     <TopBarWrapper>
       <TitleWrapper>
         <Title>{props.title}</Title>
       </TitleWrapper>
       <TopBarRightWrapper>
-        <Search/>
-        <UserIcon userName={props.userName}/>
+        <Search />
+        <UserIcon user={props.user} />
       </TopBarRightWrapper>
     </TopBarWrapper>
-  )
+  );
 }

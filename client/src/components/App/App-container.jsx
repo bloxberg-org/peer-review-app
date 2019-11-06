@@ -6,7 +6,15 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: 'Max Planck',
+      // Hold the user information here.
+      // TODO: This shall be retrieved from DB using the Web3 account address.
+      user: {
+        firstName: 'Max',
+        lastName: 'Planck',
+        email: 'planck@mpg.de',
+        // TODO: addresses
+        // TODO: profilePic 
+      },
       isLoading: true
     };
   }

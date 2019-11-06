@@ -1,8 +1,21 @@
 import * as connection from '../connection/reviewConnection';
+import { post } from './endpoint';
 
 export const addReview = (data) => {
-  return connection.addReview(data);
-}
+  let promises = [];
+  // Add journalId, timestamp etc. to blockchain
+  let chainData = {
+    journalId: data.journalId,
+    manuscriptId: data.manuscriptId,
+    manuscriptHash: data.manuscriptHash,
+    timestamp: data.timestamp,
+    recommendation: data.recommendation
+  };
+  promises.push(connection.addReview(chainData));
+  // Add rest of the data to Database
+  promises.push(post('/reviews/', data));
+  return Promise.all(promises);
+};
 
 export const getAllReviews = async () => {
   let reviewCount;

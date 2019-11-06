@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
 // parse application/json
 app.use(bodyParser.json());
 
-app.use('/users/:addr/', reviewRoutes);
+app.use('/reviews', reviewRoutes);
 
 app.listen(port, () => {
 
