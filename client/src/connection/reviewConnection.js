@@ -21,8 +21,16 @@ async function init() {
   }
 }
 
+// Get review count of some other address
 export const getReviewCount = async (authorAddr) => {
   let [instance, accounts] = await init();
+  return instance.getReviewCount(authorAddr,
+    { from: accounts[0] });
+};
+
+export const getOwnReviewCount = async () => {
+  let [instance, accounts] = await init();
+  let authorAddr = accounts[0];
   return instance.getReviewCount(authorAddr,
     { from: accounts[0] });
 };
@@ -36,6 +44,13 @@ export const addReview = async (review) => {
 
 export const getReview = async (addr, index) => {
   let [instance, accounts] = await init();
+  return instance.getReview(addr, index,
+    { from: accounts[0] });
+};
+
+export const getOwnReview = async (index) => {
+  let [instance, accounts] = await init();
+  let addr = accounts[0];
   return instance.getReview(addr, index,
     { from: accounts[0] });
 };
