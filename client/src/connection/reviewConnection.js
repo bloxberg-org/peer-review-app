@@ -29,8 +29,7 @@ export const getReviewCount = async (authorAddr) => {
 
 export const addReview = async (review) => {
   let [instance, accounts] = await init();
-  let authorAddr = accounts[0];
-  return instance.addReview(authorAddr, review.journalId, review.manuscriptId,
+  return instance.addReview(review.journalId, review.manuscriptId,
     review.manuscriptHash, review.timestamp, review.recommendation,
     { from: accounts[0] });
 };

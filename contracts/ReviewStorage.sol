@@ -28,9 +28,9 @@ contract ReviewStorage {
   /// @param manuscriptHash - (Optional) Hash of the manuscript document
   /// @param timestamp - uint32 Unix timestamp when review is published
   /// @param recommendation - 0,1 or 2 for ACCEPT, REVIEW, REJECT
-  function addReview(address author, string memory journalId, string memory manuscriptId, string memory manuscriptHash,
-   uint32 timestamp, Recommendation recommendation) public {
-    // address author = msg.sender;
+  function addReview(string memory journalId, string memory manuscriptId, string memory manuscriptHash,
+    uint32 timestamp, Recommendation recommendation) public {
+    address author = msg.sender;
 
     Review memory review = Review({
       journalId : journalId,
