@@ -8,7 +8,7 @@ exports.getAccount = async (req, res) => {
   console.log('Address is');
   console.log(address);
 
-  Scholar.findOne({ addresses: [address] }).then(scholar => {
+  Scholar.findById(address).then(scholar => {
     console.log(`Returning the scholar: ${scholar}`)
     res.status(200).json(scholar);
   }).catch(err => {

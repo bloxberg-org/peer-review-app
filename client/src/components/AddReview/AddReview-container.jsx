@@ -14,7 +14,6 @@ export default class AddReviewContainer extends React.Component {
         'recommendation': null
       },
       isLoading: false,
-      account: '0xb454b9e3fB8307AE28d2E0243c5e99A47236a2e0'
     };
   }
 

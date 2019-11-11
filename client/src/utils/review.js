@@ -1,4 +1,5 @@
 import * as connection from '../connection/reviewConnection';
+import { getCurrentAccount } from '../connection/reviewConnection';
 import { post } from './endpoint';
 
 export const addReview = (data) => {
@@ -13,14 +14,16 @@ export const addReview = (data) => {
     recommendation: data.recommendation
   };
   // Rest of the data to DB
-  let dbData = {
-    content: data.content
-  };
+  return getCurrentAccount().then((address) => {
+    let dbData = {
+      author: address,
+      content: data.content
+    };
+    promises.push(post('/reviews/', dbData));
+    promises.push(connection.addReview(chainData));
+    return Promise.all(promises);
+  })
 
-  promises.push(connection.addReview(chainData));
-  // Add rest of the data to Database
-  promises.push(post('/reviews/', dbData));
-  return Promise.all(promises);
 };
 
 export const getAllReviews = async () => {
