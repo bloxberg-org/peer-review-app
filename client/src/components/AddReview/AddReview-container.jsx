@@ -1,8 +1,13 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { addReview } from '../../utils/review';
 import AddReviewView from './AddReview-view';
 
 export default class AddReviewContainer extends React.Component {
+  static propTypes = {
+    reviews: PropTypes.array
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +33,11 @@ export default class AddReviewContainer extends React.Component {
   handleSubmit = (data) => {
     console.log(data);
     this.setState({ isLoading: true });
-    addReview(data).then(res => {
+    let review = {
+      index: this.props.reviews.length,
+      ...data
+    }
+    addReview(review).then(res => {
       console.log(res);
       this.setState({ isLoading: false });
     }).catch(err => console.log(err));

@@ -17,12 +17,13 @@ export const addReview = (data) => {
   return getCurrentAccount().then((address) => {
     let dbData = {
       author: address,
-      content: data.content
+      content: data.content,
+      index: data.index
     };
     promises.push(post('/reviews/', dbData));
     promises.push(connection.addReview(chainData));
     return Promise.all(promises);
-  })
+  });
 
 };
 
