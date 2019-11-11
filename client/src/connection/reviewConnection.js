@@ -2,9 +2,6 @@ import TruffleContract from '@truffle/contract';
 import ReviewStorageArtifact from '../contracts/ReviewStorage.json';
 import getWeb3 from './web3';
 
-
-
-
 async function init() {
   const web3 = await getWeb3();
   const ReviewStorage = TruffleContract(ReviewStorageArtifact);
@@ -59,4 +56,10 @@ export const vouchReview = async (addr, index) => {
   let [instance, accounts] = await init();
   return instance.vouch(addr, index,
     { from: accounts[0] });
+};
+
+export const getCurrentAccount = async () => {
+  // eslint-disable-next-line no-unused-vars
+  let [_, accounts] = await init();
+  return accounts[0];
 };

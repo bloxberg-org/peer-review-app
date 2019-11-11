@@ -1,32 +1,16 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const reviewRoutes = require('./routes/reviewRoutes');
-const config = require('./config');
+const accountRoutes = require('./routes/accountRoutes');
+const mongo = require('./utils/mongo');
 
 const app = express();
 const port = 3000 || process.env.PORT;
 
-// Connect to DB
-const dbConfig = config.database;
-const dbURI = config.databaseURI;
-console.log(dbConfig);
-console.log(dbURI);
-mongoose.connect(dbURI, dbConfig, (err) => {
-  if (err)
-    console.log(err);
-  else
-    console.log('Should be connected...')
+mongo.connectToServer(function (err) {
+  if (err) console.log(err);
 });
-const db = mongoose.connection;
-db.on("error", () => {
-  console.log("> error occurred from the database");
-});
-db.once("open", () => {
-  console.log("> successfully opened the database");
-});
-
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,6 +25,7 @@ app.use(function (req, res, next) {
 app.use(bodyParser.json());
 
 app.use('/reviews', reviewRoutes);
+app.use('/accounts', accountRoutes);
 
 app.listen(port, () => {
 

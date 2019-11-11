@@ -18,5 +18,5 @@ export const get = (endpoint) => {
     headers: {
       'Content-Type': 'application/json'
     },
-  });
+  }).then(res => res.json());
 };

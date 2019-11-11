@@ -10,4 +10,4 @@ const ScholarSchema = new mongoose.Schema({
   reviews: { type: Schema.Types.ObjectId, ref: 'Review' }
 });
 
-module.exports = mongoose.model('Review', ScholarSchema);
+module.exports = mongoose.model('Scholar', ScholarSchema);

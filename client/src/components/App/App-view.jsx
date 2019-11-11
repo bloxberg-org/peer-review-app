@@ -42,11 +42,11 @@ export default function AppView(props) {
           <MainWrapper>
             <Switch>
               <Route path="/Overview">
-                <TopBar title='Overview' user={props.user} />
+                <TopBar title='Overview' {...props} />
                 <Overview {...props} />
               </Route>
               <Route path="/AddReview">
-                <TopBar title='Add Review' user={props.user} />
+                <TopBar title='Add Review' {...props} />
                 <AddReview {...props} />
               </Route>
               <Route path="/">
