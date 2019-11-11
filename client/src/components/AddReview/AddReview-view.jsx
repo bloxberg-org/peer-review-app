@@ -15,6 +15,8 @@ AddReviewView.propTypes = {
   isLoading: PropTypes.bool
 };
 
+
+// ================ Define Wrappers =================
 const Wrapper = styled.div`
   display: flex;
   flex: 1
@@ -35,20 +37,19 @@ const TitleWrapper = styled.div`
   display: flex;
   `;
 
-const Title = styled.span`
-  font-size: 1.5em;
-  font-weight: bold;
-  margin: 32px;
-  flex:1;
-  `;
-
 const FormWrapper = styled.div`
   flex: 1;
   margin: 0px 32px;
   `;
 
-const Form = styled.form`
-`;
+const ButtonWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  `;
+
+// ============= Define base components =============
 
 // Input and textarea styles are shared
 const inputStyle = css`
@@ -64,11 +65,34 @@ const inputStyle = css`
     padding-left: 8px;
   }
 `;
+
+const Form = styled.form`
+`;
+
+const ErrorText = styled.span`
+  color: red;
+  font-size: 0.8em;
+`;
+
+const Title = styled.span`
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 32px;
+  flex:1;
+  `;
+
 const Input = styled.input`
   ${inputStyle}
   `;
 
-const InputTitle = styled.div`
+const TextArea = styled.textarea.attrs((props) => ({
+  rows: 10,
+  placeholder: props.placeholder
+}))`
+  ${inputStyle}
+`;
+
+const InputTitle = styled.span`
   font-weight: bold;
   font-size: 1.1em;
   `;
@@ -86,6 +110,9 @@ const Select = styled.select`
     padding: 0px 2px 1px;
   }
   `;
+
+// =============== Define compound components ===========
+// The components make use of react-hook-form. Thus pass all props to the base components and make sure to bind register() prop to the ref field. This adds the field to form validation and adds the field to submitted object.
 
 const SelectField = styled((props) => {
   return (
@@ -113,7 +140,7 @@ const FormField = styled((props) => {
   border-bottom: 1px solid ${props => props.theme.border}
 `;
 
-const DateInput = styled((props) => {
+const DateInputField = styled((props) => {
   return (
     <DatePicker
       customInput={<Input {...props} />}
@@ -126,38 +153,22 @@ const DateField = styled((props) => (
   <div className={props.className}>
     <InputTitle> {props.title} </InputTitle>
     {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
-    <DateInput {...props} />
+    <DateInputField {...props} />
   </div>
 ))``;
 
-const ErrorText = styled.span`
-  color: red;
-  font-size: 0.8em;
-`;
-const TextArea = styled.textarea.attrs((props) => ({
-  rows: 10,
-  placeholder: props.placeholder
-}))`
-  ${inputStyle}
-`;
 
 const ContentField = styled((props) => (
   <div className={props.className}>
     <InputTitle> {props.title} </InputTitle>
     {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
-    <TextArea placeholder={props.placeholder} />
+    <TextArea placeholder={props.placeholder} ref={props.register} {...props} />
   </div>
 ))`
   width: 100%;
   padding: 16px 0px;
 `;
 
-const ButtonWrapper = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-  `;
 
 export default function AddReviewView(props) {
 

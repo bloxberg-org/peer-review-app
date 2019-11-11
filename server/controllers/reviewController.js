@@ -1,8 +1,19 @@
 // const connection = require('../connection/reviewConnection');
+const Review = require('../models/Review');
 
+// POST /review
 exports.addReview = async (req, res) => {
   console.log('IN ADD REVIEW');
   console.log(req.body);
+
+  let review = new Review(req.body);
+
+  console.log(review);
+  review.save().then(
+    console.log('Successfully saved the review')
+  ).catch(err => console.log(err));
+
+
   res.status(200).send('SUCCESS');
 };
 

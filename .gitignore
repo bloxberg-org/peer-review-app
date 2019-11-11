@@ -17,3 +17,7 @@ build/
 
 # Logs
 *.log*
+logs/
+
+# Configs with keys
+config.js
