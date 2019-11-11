@@ -7,7 +7,7 @@ const ScholarSchema = new mongoose.Schema({
   lastName: String,
   email: String,
   profilePicture: Buffer,
-  reviews: { type: Schema.Types.ObjectId, ref: 'Review' }
+  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }]
 });
 
 module.exports = mongoose.model('Scholar', ScholarSchema);
