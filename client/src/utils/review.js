@@ -18,7 +18,8 @@ export const addReview = (data) => {
     let dbData = {
       author: address,
       content: data.content,
-      index: data.index
+      index: data.index,
+      articleDOI: data.articleDOI
     };
     promises.push(post('/reviews/', dbData));
     promises.push(connection.addReview(chainData));
