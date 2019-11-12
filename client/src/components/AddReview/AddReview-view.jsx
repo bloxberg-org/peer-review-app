@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import useForm from 'react-hook-form';
 import styled, { css } from 'styled-components';
 import Button from '../Button';
+import CardWrapper from '../CardWrapper';
 import Loader from '../Loader';
 
 AddReviewView.propTypes = {
@@ -21,21 +22,6 @@ AddReviewView.propTypes = {
 const Wrapper = styled.div`
   display: flex;
   flex: 1
-  `;
-
-const CardWrapper = styled.div`
-  margin: 24px;
-  background-color: white;
-  border: 1px solid ${props => props.theme.border};
-  border-radius: 5px;
-  width: 100%;
-  flex-direction: column;
-  `;
-
-const TitleWrapper = styled.div`
-  width: 100%;
-  flex: 1;
-  display: flex;
   `;
 
 const FormWrapper = styled.div`
@@ -74,13 +60,6 @@ const ErrorText = styled.span`
   color: red;
   font-size: 0.8em;
 `;
-
-const Title = styled.span`
-  font-size: 1.5em;
-  font-weight: bold;
-  margin: 32px;
-  flex:1;
-  `;
 
 const Input = styled.input`
   ${inputStyle}
@@ -187,10 +166,7 @@ export default function AddReviewView(props) {
 
   return (
     <Wrapper>
-      <CardWrapper>
-        <TitleWrapper>
-          <Title>Add a Review</Title>
-        </TitleWrapper>
+      <CardWrapper title='Add a Review'>
         <FormWrapper>
           <Form onSubmit={handleSubmit(props.onSubmit)}>
             <FormField

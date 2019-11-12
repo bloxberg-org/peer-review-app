@@ -1,20 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
+import CardWrapper from '../CardWrapper';
 
 export default function AllReviewsView() {
   const Wrapper = styled.div`
-    display: flex
+    display: flex;
+    height: 100%
   `;
 
-  const Card = styled.div`
-    background-color: #fff;
-    border-radius: 8px;
+  const ResultsWrapper = styled.div`
+    background: blue;
+    flex: 1;
   `;
   return (
     <Wrapper>
-      <Card>
-
-      </Card>
+      <CardWrapper title='All Reviews' >
+        <ResultsWrapper>
+          Hello World
+        </ResultsWrapper>
+      </CardWrapper>
     </Wrapper>
   );
 }
