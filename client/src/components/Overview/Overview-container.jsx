@@ -4,6 +4,10 @@ import LoaderView from '../Loader';
 import OverviewView from './Overview-view';
 
 export default class OverviewContainer extends React.Component {
+  static propTypes = {
+    reviews: PropTypes.array,
+    isUserLoading: PropTypes.bool
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +60,7 @@ export default class OverviewContainer extends React.Component {
   }
   render() {
 
-    if (this.props.isLoading)
+    if (this.props.isUserLoading)
       return (<LoaderView />);
     let cardsData = {
       'Peer Reviews': this.numberOfReviews(),
@@ -70,8 +74,3 @@ export default class OverviewContainer extends React.Component {
     );
   }
 }
-
-OverviewContainer.propTypes = {
-  reviews: PropTypes.array,
-  isLoading: PropTypes.bool
-};

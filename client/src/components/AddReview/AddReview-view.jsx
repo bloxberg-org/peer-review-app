@@ -12,7 +12,8 @@ AddReviewView.propTypes = {
   review: PropTypes.object,
   onDateChange: PropTypes.func,
   onSubmit: PropTypes.func,
-  isLoading: PropTypes.bool
+  isUploading: PropTypes.bool,
+  isUserLoading: PropTypes.bool
 };
 
 
@@ -173,7 +174,7 @@ const ContentField = styled((props) => (
 export default function AddReviewView(props) {
 
   const { register, handleSubmit, setValue, errors } = useForm();
-  if (props.isLoading) {
+  if (props.isUploading || props.isUserLoading) {
     return (
       <Loader />
     );

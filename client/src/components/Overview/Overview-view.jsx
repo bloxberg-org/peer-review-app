@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import Loader from 'react-loader-spinner';
-import styled, { withTheme } from 'styled-components';
+import styled from 'styled-components';
 import Graph from './Graph';
 import ListCard from './ListCard';
 import OverviewCard from './OverviewCard';
@@ -11,7 +10,7 @@ OverviewView.propTypes = {
   graphData: PropTypes.object,
   highlightedReviews: PropTypes.array,
   reviewVerification: PropTypes.array,
-  isLoading: PropTypes.bool,
+  isUserLoading: PropTypes.bool,
   userName: PropTypes.string,
   cardsData: PropTypes.object
 };
@@ -31,21 +30,6 @@ const BottomCardsWrapper = styled.div`
   margin: 32px 0px
   `;
 
-const LoaderWrapper = styled.div`
-  display: flex;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-// withTheme Higher Order Function to access props.theme.primary field
-const StyledLoader = styled(withTheme((props) => {
-  return (<Loader
-    type='Grid'
-    color={props.theme.primary}
-  />);
-}))``;
 
 const Wrapper = styled.div`
   flex: 1;
@@ -61,15 +45,6 @@ export default function OverviewView(props) {
     cards.push(<OverviewCard key={i++} title={key} value={cardsData[key]}></OverviewCard>);
   }
 
-  if (props.isLoading) {
-    return (
-      <Wrapper>
-        <LoaderWrapper>
-          <StyledLoader />
-        </LoaderWrapper>
-      </Wrapper>
-    );
-  }
   return (
     <Wrapper>
       <CardsWrapper>

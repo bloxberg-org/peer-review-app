@@ -18,7 +18,7 @@ export default class AddReviewContainer extends React.Component {
         'timestamp': new Date(),
         'recommendation': null
       },
-      isLoading: false,
+      isUploading: false,
     };
   }
 
@@ -36,7 +36,7 @@ export default class AddReviewContainer extends React.Component {
     let review = {
       index: this.props.reviews.length,
       ...data
-    }
+    };
     addReview(review).then(res => {
       console.log(res);
       this.setState({ isLoading: false });
@@ -44,7 +44,7 @@ export default class AddReviewContainer extends React.Component {
   }
   render() {
     return (
-      <AddReviewView review={this.state.review} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isLoading={this.state.isLoading} />
+      <AddReviewView review={this.state.review} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isUploading={this.state.isUploading} {...this.props} />
     );
   }
 }

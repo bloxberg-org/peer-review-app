@@ -7,7 +7,7 @@ import UserIcon from './UserIcon';
 TopBarView.propTypes = {
   title: Proptypes.string,
   user: Proptypes.object,
-  isLoading: Proptypes.bool
+  isUserLoading: Proptypes.bool
 };
 
 const Title = styled.h1`
@@ -35,7 +35,7 @@ const TopBarWrapper = styled.div`
 `;
 
 export default function TopBarView(props) {
-  if (props.isLoading)
+  if (props.isUserLoading)
     return null;
   return (
     <TopBarWrapper>
