@@ -8,9 +8,7 @@ const mongo = require('./utils/mongo');
 const app = express();
 const port = 3000 || process.env.PORT;
 
-mongo.connectToServer(function (err) {
-  if (err) console.log(err);
-});
+mongo.connectToServer();
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));

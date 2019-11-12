@@ -1,14 +1,19 @@
 // const connection = require('../connection/reviewConnection');
 const Review = require('../models/Review');
+const Scholar = require('../models/Scholar');
 
 // POST /review
 exports.addReview = async (req, res) => {
   console.log('IN ADD REVIEW');
   console.log(req.body);
 
+  let address = req.body.author;
   let review = new Review(req.body);
+  Scholar.findById(address).then(author => {
+    author.reviews.push(review._id);
+    author.save();
+  });
 
-  console.log(review);
   review.save().then(
     console.log('Successfully saved the review')
   ).catch(err => console.log(err));
