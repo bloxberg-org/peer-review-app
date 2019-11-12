@@ -1,5 +1,11 @@
-import React from 'react';    
+import PropTypes from 'prop-types';
+import React from 'react';
 import styled from 'styled-components';
+
+OverviewCard.propTypes = {
+  title: PropTypes.string,
+  value: PropTypes.number
+};
 
 const Wrapper = styled.div`
   flex: 0 1 18%;
@@ -34,9 +40,9 @@ const Value = styled.div`
   font-weight: 600;
   `;
 
-export default function OverviewCard(props){     
-  
-  return (  
+export default function OverviewCard(props) {
+
+  return (
     <Wrapper>
       <Title>{props.title}</Title>
       <Value>{props.value}</Value>

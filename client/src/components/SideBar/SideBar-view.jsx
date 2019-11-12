@@ -30,6 +30,17 @@ const Caption = styled.div`
   font-family: 'Muli';  
   font-weight: bold;
 `;
+
+const SubButton = styled(Button)`
+  font-size: 0.8em;
+  margin-left: 10px;
+        padding: 0; /* collapse margins in subbutton. Remove padding and insert margin instead*/
+
+  .link-wrapper  {
+    margin-top: 10px;
+  }
+`;
+
 export default function Navbar() {
   return (
     <Background>
@@ -38,13 +49,17 @@ export default function Navbar() {
         <Caption>Peer Review</Caption>
       </LogoWrapper>
       <ButtonsWrapper>
-        <Button to='/Overview'>Overview</Button>
-        <Button to='/AddReview'>Add Review</Button>
-        <Button to='/Publications'>Publications</Button>
-        <Button to='/Colleagues'>Colleagues</Button>
-        <Button to='/Affiliations'>Affiliations</Button>
+        <Button to='/Overview' title='Overview' />
+        <Button to='/Reviews' title='Reviews'>
+          <SubButton to='/Reviews/AddReview' title='Add Review' />
+          <SubButton to='/Reviews/YourReviews' title='Your Reviews' />
+          <SubButton to='/Reviews/VouchReview' title='Vouch a Review' />
+        </Button>
+        <Button to='/Publications' title='Publications' />
+        <Button to='/Colleagues' title='Calleagues' />
+        <Button to='/Affiliations' title='Affiliations' />
       </ButtonsWrapper>
-      <Button to='/Settings'>Settings</Button>
+      <Button to='/Settings' title='Settings' />
     </Background>
   );
 }

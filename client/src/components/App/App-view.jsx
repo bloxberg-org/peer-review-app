@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-d
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from '../../assets/theme';
 import AddReview from '../AddReview';
+import AllReviews from '../AllReviews';
 import Overview from '../Overview';
 import SideBar from '../SideBar';
 import TopBar from '../TopBar';
@@ -45,9 +46,21 @@ export default function AppView(props) {
                 <TopBar title='Overview' {...props} />
                 <Overview {...props} />
               </Route>
-              <Route path="/AddReview">
-                <TopBar title='Add Review' {...props} />
-                <AddReview {...props} />
+              <Route path="/Reviews">
+                <Switch>
+                  <Route path="/Reviews/AddReview">
+                    {/* /Review/AddReview */}
+                    <TopBar title='Add Review' {...props} />
+                    <AddReview {...props} />
+                  </Route>
+                  <Route path="/Reviews/YourReviews">
+                    {/* /Review/AddReview */}
+                    <TopBar title='Your Reviews' {...props} />
+                    <AllReviews {...props} />
+                  </Route>
+                  {/* Redirect to AddReview at route /Review/ */}
+                  <Redirect to='/Reviews/AddReview' />
+                </Switch>
               </Route>
               <Route path="/">
                 <Redirect to="/Overview" />
