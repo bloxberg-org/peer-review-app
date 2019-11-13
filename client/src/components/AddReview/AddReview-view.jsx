@@ -153,7 +153,7 @@ const ContentField = styled((props) => (
 export default function AddReviewView(props) {
 
   const { register, handleSubmit, setValue, errors } = useForm();
-  if (props.isUploading || props.isUserLoading) {
+  if (props.isUploading) {
     return (
       <Loader />
     );
