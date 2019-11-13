@@ -2,12 +2,12 @@
 const Review = require('../models/Review');
 const Scholar = require('../models/Scholar');
 
-// POST /review
-exports.addReview = async (req, res) => {
+// POST /reviews
+exports.addReview = (req, res) => {
   console.log('IN ADD REVIEW');
   console.log(req.body);
 
-  let address = req.body.author;
+  let address = req.params.address;
   let review = new Review(req.body);
   Scholar.findById(address).then(author => {
     author.reviews.push(review._id);
@@ -18,8 +18,19 @@ exports.addReview = async (req, res) => {
     console.log('Successfully saved the review')
   ).catch(err => console.log(err));
 
-
   res.status(200).send('SUCCESS');
+};
+
+// GET /reviews
+exports.getAllReviews = (req, res) => {
+  console.log('IN GET ALL REVIEWS');
+
+  let address = req.params.address;
+  console.log(`Address is: ${address}`);
+
+  Scholar.findById(address).populate('reviews').then(scholar => {
+    res.status(200).json(scholar.reviews);
+  }).catch(err => res.status(500).send(err));
 };
 
 // exports.getReview = async (req, res) => {
