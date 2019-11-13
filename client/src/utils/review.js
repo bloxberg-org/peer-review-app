@@ -1,6 +1,6 @@
 import * as connection from '../connection/reviewConnection';
 import { getCurrentAccount } from '../connection/reviewConnection';
-import { post } from './endpoint';
+import { get, post } from './endpoint';
 
 export const addReview = (data) => {
   let promises = [];
@@ -21,14 +21,14 @@ export const addReview = (data) => {
       index: data.index,
       articleDOI: data.articleDOI
     };
-    promises.push(post('/reviews/', dbData));
+    promises.push(post(`/reviews/${address}`, dbData));
     promises.push(connection.addReview(chainData));
     return Promise.all(promises);
   });
 
 };
 
-export const getAllReviews = async () => {
+export const getAllBlockchainReviews = async () => {
   let reviewCount;
   try {
     reviewCount = await connection.getOwnReviewCount();
@@ -58,4 +58,9 @@ export const getAllReviews = async () => {
     console.log(e);
     console.log('Error fetching reviews');
   });
+};
+
+export const getAllDatabaseReviews = (address) => {
+  console.log(`Sending a GET at: /reviews/${address}`);
+  return get(`/reviews/${address}`);
 };
