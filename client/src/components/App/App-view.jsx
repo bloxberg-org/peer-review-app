@@ -11,7 +11,8 @@ import SideBar from '../SideBar';
 import TopBar from '../TopBar';
 
 AppView.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  isUserLoading: PropTypes.bool.isRequired
 };
 
 const Wrapper = styled.div`

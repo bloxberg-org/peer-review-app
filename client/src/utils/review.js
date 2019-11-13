@@ -16,6 +16,7 @@ export const addReview = (data) => {
   // Rest of the data to DB
   return getCurrentAccount().then((address) => {
     let dbData = {
+      articleTitle: data.articleTitle,
       author: address,
       content: data.content,
       index: data.index,

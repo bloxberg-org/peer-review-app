@@ -13,7 +13,8 @@ export default class AllReviewsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isReviewsLoading: true
+      isReviewsLoading: true,
+      reviews: []
     };
   }
 
@@ -21,7 +22,7 @@ export default class AllReviewsContainer extends React.Component {
     this.fetchAllReviews().then(reviews => {
       console.log('Reviews are here!');
       console.log(reviews);
-      this.setState({ isReviewsLoading: false });
+      this.setState({ reviews: reviews, isReviewsLoading: false });
     });
   }
 
@@ -35,7 +36,7 @@ export default class AllReviewsContainer extends React.Component {
       return (<Loader />);
     }
     return (
-      <AllReviewsView {...this.props} />
+      <AllReviewsView {...this.props} {...this.state} />
     );
   }
 }

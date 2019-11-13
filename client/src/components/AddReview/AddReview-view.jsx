@@ -170,6 +170,12 @@ export default function AddReviewView(props) {
         <FormWrapper>
           <Form onSubmit={handleSubmit(props.onSubmit)}>
             <FormField
+              name='articleTitle'
+              title='Article Title'
+              placeholder='Title of the reviewed article'
+              errors={errors.articleTitle}
+              register={register({ required: true })} />
+            <FormField
               name='journalId'
               title='Journal Identifier'
               placeholder='Typically the ISSN'
