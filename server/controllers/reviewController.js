@@ -9,8 +9,10 @@ exports.addReview = (req, res) => {
 
   let address = req.params.address;
   let review = new Review(req.body);
+
+  // "join" scholar and review through review id
   Scholar.findById(address).then(author => {
-    author.reviews.push(review._id);
+    author.reviews.push(review._id); // Add review ID to scholar field
     author.save();
   });
 
