@@ -11,7 +11,6 @@ export default function AllReviewsView(props) {
   `;
 
   const ResultsWrapper = styled.div`
-    background: blue;
     flex: 1;
   `;
 
@@ -19,33 +18,56 @@ export default function AllReviewsView(props) {
   const ReviewsWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    margin: 10px 32px;
   `;
 
-  const ReviewRowWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-  `;
-
-  const Title = styled.span`
-  `;
-
-  const DOI = styled.span`
-  `;
-
-  const Verified = styled.span`
+  const ReviewsTable = styled.table`
+    width: 100%;
   `;
 
   // ========== Compound Components ==========
+  const ReviewHeader = styled(({ className }) => {
+    return (
+      <tr className={className}>
+        <th>Title</th>
+        <th>Article DOI</th>
+        <th>Timestamp</th>
+        <th>Verified</th>
+      </tr>
+    );
+  })`
+    & > th {
+      padding: 8px;
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+  `;
+
   const ReviewRow = styled((props) => {
     return (
-      <ReviewRowWrapper>
-        <Title> {props.articleTitle}</Title>
-        <DOI>{props.articleDOI}</DOI>
-        <Verified verified={props.verified} />
-      </ReviewRowWrapper>
+      <tr className={props.className}>
+        <td>{props.articleTitle}</td>
+        <td>{props.articleDOI}</td>
+        <td>{props.timestamp}</td>
+        <td>{props.verified ? 'Yes' : 'No'}</td>
+      </tr>
     );
-  })``;
+  })`
+    & > td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    };
+    & > td:first-child { 
+      // Wider text for title <td>
+      max-width: 300px;
+    }
+  `;
 
   ReviewRow.propTypes = {
     articleTitle: PropTypes.string.isRequired,
@@ -53,11 +75,9 @@ export default function AllReviewsView(props) {
     verified: PropTypes.bool.isRequired
   };
 
-  const reviews = props.reviews.map((review, i) => {
+  const reviews = props.DBreviews.map((DBreview, i) => {
     return (
-      <ReviewRowWrapper key={i}>
-        <ReviewRow  {...review} />
-      </ReviewRowWrapper>
+      <ReviewRow key={i} {...DBreview} {...props.blockchainReviews[i]} />
     );
   });
 
@@ -66,7 +86,10 @@ export default function AllReviewsView(props) {
       <CardWrapper title='All Reviews' >
         <ResultsWrapper>
           <ReviewsWrapper>
-            {reviews}
+            <ReviewsTable>
+              <ReviewHeader />
+              {reviews}
+            </ReviewsTable>
           </ReviewsWrapper>
         </ResultsWrapper>
       </CardWrapper>

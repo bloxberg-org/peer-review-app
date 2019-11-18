@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getAllDatabaseReviews } from '../../utils/review';
+import { getAllBlockchainReviews, getAllDatabaseReviews } from '../../utils/review';
 import Loader from '../Loader';
 import AllReviewsView from './AllReviews-view';
 
@@ -14,7 +14,8 @@ export default class AllReviewsContainer extends React.Component {
     super(props);
     this.state = {
       isReviewsLoading: true,
-      reviews: []
+      DBreviews: [],
+      blockchainReviews: []
     };
   }
 
@@ -22,13 +23,13 @@ export default class AllReviewsContainer extends React.Component {
     this.fetchAllReviews().then(reviews => {
       console.log('Reviews are here!');
       console.log(reviews);
-      this.setState({ reviews: reviews, isReviewsLoading: false });
+      this.setState({ DBreviews: reviews[0], blockchainReviews: reviews[1], isReviewsLoading: false });
     });
   }
 
   fetchAllReviews = () => {
     let address = this.props.user._id;
-    return getAllDatabaseReviews(address);
+    return Promise.all([getAllDatabaseReviews(address), getAllBlockchainReviews()]);
   }
 
   render() {
