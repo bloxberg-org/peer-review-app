@@ -61,7 +61,29 @@ export const getAllBlockchainReviews = async () => {
   });
 };
 
+export const getOneBlockchainReview = (index) => {
+  return connection.getOwnReview(index).then(review => {
+    return {
+      journalId: review[0],
+      manuscriptId: review[1],
+      manuscripthash: review[2],
+      timestamp: review[3].toNumber(), // Handle BigNumber
+      recommendation: review[4].toNumber(),
+      verified: review[5],
+      vouchers: review[6]
+    };
+  }).catch((e) => {
+    console.log(e);
+    console.log('Error fetching review');
+  });
+};
+
 export const getAllDatabaseReviews = (address) => {
   console.log(`Sending a GET at: /reviews/${address}`);
   return get(`/reviews/${address}`);
+};
+
+export const getOneDatabaseReview = (address, index) => {
+  console.log(`Sending a GET at: /reviews/${address}/${index}`);
+  return get(`/reviews/${address}/${index}`);
 };

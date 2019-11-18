@@ -8,6 +8,7 @@ import AllReviews from '../AllReviews';
 import Loader from '../Loader';
 import Overview from '../Overview';
 import SideBar from '../SideBar';
+import SingleReview from '../SingleReview';
 import TopBar from '../TopBar';
 
 AppView.propTypes = {
@@ -54,15 +55,18 @@ export default function AppView(props) {
                 <Route path="/Reviews">
                   <Switch>
                     <Route path="/Reviews/AddReview">
-                      {/* /Review/AddReview */}
                       <TopBar title='Add Review' {...props} />
                       <AddReview {...props} />
                     </Route>
                     <Route path="/Reviews/YourReviews">
-                      {/* /Review/AddReview */}
                       <TopBar title='Your Reviews' {...props} />
                       <AllReviews {...props} />
                     </Route>
+                    <Route path="/Reviews/:index">
+                      <TopBar title='Review' {...props} />
+                      <SingleReview {...props} />
+                    </Route>
+
                     {/* Redirect to AddReview at route /Review/ */}
                     <Redirect to='/Reviews/AddReview' />
                   </Switch>

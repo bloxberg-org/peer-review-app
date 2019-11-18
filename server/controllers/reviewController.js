@@ -23,7 +23,7 @@ exports.addReview = (req, res) => {
   res.status(200).send('SUCCESS');
 };
 
-// GET /reviews
+// GET /reviews/:address
 exports.getAllReviews = (req, res) => {
   console.log('IN GET ALL REVIEWS');
 
@@ -35,6 +35,17 @@ exports.getAllReviews = (req, res) => {
   }).catch(err => res.status(500).send(err));
 };
 
+// Get /reviews/:address/:index
+exports.getReview = (req, res) => {
+  let address = req.params.address;
+  let index = req.params.index;
+  console.log('IN GET ONE REVIEW');
+
+  Review.findOne({ author: address, index: index }).then(review => {
+    console.log(review);
+    res.status(200).json(review);
+  }).catch(err => res.status(404).send(err));
+};
 // exports.getReview = async (req, res) => {
 //   let review;
 //   try {
