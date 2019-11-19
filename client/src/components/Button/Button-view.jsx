@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import styled from 'styled-components';
 
@@ -16,7 +17,7 @@ const StyledButton = styled.button`
     else if (props.secondary)
       return props.theme.secondary;
     else
-      return '#000000'
+      return '#000000';
   }};
   text-align: center;
   border-radius: 6px;
@@ -32,7 +33,7 @@ const StyledButton = styled.button`
     else if (props.secondary)
       return props.theme.secondaryDark;
     else
-      return '#000000'
+      return '#000000';
   }};
   };
   &:active {
@@ -44,5 +45,5 @@ const StyledButton = styled.button`
 export default function Button(props) {
   return (
     <StyledButton {...props}>{props.children}</StyledButton>
-  )
+  );
 }

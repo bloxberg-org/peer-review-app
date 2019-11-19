@@ -10,9 +10,15 @@ export default class ImportModalContainer extends React.Component {
     super(props);
   }
 
+  handleSubmit(data) {
+    console.log(data);
+  }
+
   render() {
     return (
-      <ImportModalView {...this.state} {...this.props} />
+      <ImportModalView
+        onSubmit={this.handleSubmit}
+        {...this.state} {...this.props} />
     );
   }
 }

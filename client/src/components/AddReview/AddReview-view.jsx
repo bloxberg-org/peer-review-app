@@ -28,8 +28,10 @@ AddReviewView.propTypes = {
   handleF1000Close: PropTypes.func.isRequired
 };
 
-
+//===================================================
 // ================ Define Wrappers =================
+//===================================================
+
 const Wrapper = styled.div`
   display: flex;
   flex: 1
@@ -52,10 +54,11 @@ const ImportWrapper = styled.div`
   flex-direction: row;
   align-items: center
 `;
-// ============= Define base components =============
 
-const Form = styled.form`
-`;
+
+//====================================================
+// ============= Define base components =============
+//====================================================
 
 const TextArea = styled.textarea.attrs((props) => ({
   rows: 10,
@@ -78,8 +81,10 @@ const Select = styled.select`
   }
   `;
 
+//=======================================================
 // =============== Define compound components ===========
-// The components make use of react-hook-form. Thus pass all props to the base components and make sure to bind register() prop to the ref field. This adds the field to form validation and adds the field to submitted object.
+//=======================================================
+// The components make use of react-hook-form. Thus we pass all props to the base components and make sure to bind register() prop to the ref field. This adds the field to form validation and adds the field to submitted object. The object is automatically generated according to name fields by react-hook-form. Object passed via onSubmit.
 
 const SelectField = styled((props) => {
   return (
@@ -142,23 +147,28 @@ const ImportButton = styled((props) => {
 
 export default function AddReviewView(props) {
   const { register, handleSubmit, setValue, errors } = useForm();
+
+  // If loading, show the loader/spinner whatever you call it.
   if (props.isUploading) {
     return (
       <Loader />
     );
   }
+
+  // Register timestamp field manually. Can't reach ref field in Datepicker.
   register(
     { name: 'timestamp' },
     { required: true }
-  ); // Register timestamp field manually. Can't reach ref field in Datepicker.
-  setValue('timestamp', moment(props.review.timestamp).unix()); // Set initial value for useForm
+  );
+  // Set initial value for useForm
+  setValue('timestamp', moment(props.review.timestamp).unix());
 
   return (
     <Wrapper id='wrapper'>
       <Modal
         isOpen={props.isF1000ModalOpen}
         onRequestClose={props.handleF1000Close}
-        parentSelector={() => document.querySelector('#wrapper')}
+        parentSelector={() => document.querySelector('#wrapper')} // Set parent as wrapper insted of the default <body>
         ariaHideApp={false} // see http://reactcommunity.org/react-modal/accessibility/#app-element
         style={{
           overlay: {
@@ -174,13 +184,14 @@ export default function AddReviewView(props) {
       >
         <ImportModal />
       </Modal>
+
       <CardWrapper title='Add a Review'>
         <FormWrapper>
           <ImportWrapper>
             <InputTitle>Import From:</InputTitle>
             <ImportButton img={F1000Logo} backgroundColor='#f2673c' onClick={props.handleF1000Open} />
           </ImportWrapper>
-          <Form onSubmit={handleSubmit(props.onSubmit)}>
+          <form onSubmit={handleSubmit(props.onSubmit)}>
             <FormField
               name='articleTitle'
               title='Article Title'
@@ -241,7 +252,7 @@ export default function AddReviewView(props) {
             <ButtonWrapper>
               <Button primary>Add Review</Button>
             </ButtonWrapper>
-          </Form>
+          </form>
         </FormWrapper>
       </CardWrapper>
     </Wrapper>
