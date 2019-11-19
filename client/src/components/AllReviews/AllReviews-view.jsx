@@ -1,41 +1,41 @@
 /* eslint-disable react/prop-types */
-import PropTypes from 'prop-types';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import CardWrapper from '../CardWrapper';
 
-export default function AllReviewsView(props) {
-  const Wrapper = styled.div`
+const Wrapper = styled.div`
     display: flex;
     height: 100%
   `;
 
-  const ResultsWrapper = styled.div`
+const ResultsWrapper = styled.div`
     flex: 1;
   `;
 
-  // ========== Base Components ============
-  const ReviewsWrapper = styled.div`
+// ========== Base Components ============
+const ReviewsWrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin: 10px 32px;
   `;
 
-  const ReviewsTable = styled.table`
+const ReviewsTable = styled.table`
     width: 100%;
+    border-spacing: 0
   `;
 
-  // ========== Compound Components ==========
-  const ReviewHeader = styled(({ className }) => {
-    return (
-      <tr className={className}>
-        <th>Title</th>
-        <th>Article DOI</th>
-        <th>Timestamp</th>
-        <th>Verified</th>
-      </tr>
-    );
-  })`
+// ========== Compound Components ==========
+const ReviewHeader = styled(({ className }) => {
+  return (
+    <tr className={className}>
+      <th>Title</th>
+      <th>Article DOI</th>
+      <th>Timestamp</th>
+      <th>Verified</th>
+    </tr>
+  );
+})`
     & > th {
       padding: 8px;
       padding-top: 12px;
@@ -45,16 +45,16 @@ export default function AllReviewsView(props) {
     }
   `;
 
-  const ReviewRow = styled((props) => {
-    return (
-      <tr className={props.className}>
-        <td>{props.articleTitle}</td>
-        <td>{props.articleDOI}</td>
-        <td>{props.timestamp}</td>
-        <td>{props.verified ? 'Yes' : 'No'}</td>
-      </tr>
-    );
-  })`
+const ReviewRow = styled((props) => {
+  return (
+    <tr className={props.className} onClick={() => { props.history.push(`/Reviews/${props.index}`) }}>
+      <td>{props.articleTitle}</td>
+      <td>{props.articleDOI}</td>
+      <td>{props.timestamp}</td>
+      <td>{props.verified ? 'Yes' : 'No'}</td>
+    </tr>
+  );
+})`
     & > td {
       padding: 8px;
       border-bottom: 1px solid #ddd;
@@ -66,18 +66,19 @@ export default function AllReviewsView(props) {
     & > td:first-child { 
       // Wider text for title <td>
       max-width: 300px;
+    };
+    &:hover {
+      cursor: pointer;
+      background-color: #eee;
     }
   `;
 
-  ReviewRow.propTypes = {
-    articleTitle: PropTypes.string.isRequired,
-    articleDOI: PropTypes.string.isRequired,
-    verified: PropTypes.bool.isRequired
-  };
+export default function AllReviewsView(props) {
+  let history = useHistory(); // Use history to route to the review page onClick
 
   const reviews = props.DBreviews.map((DBreview, i) => {
     return (
-      <ReviewRow key={i} {...DBreview} {...props.blockchainReviews[i]} />
+      <ReviewRow key={i} {...DBreview} {...props.blockchainReviews[i]} history={history} />
     );
   });
 
