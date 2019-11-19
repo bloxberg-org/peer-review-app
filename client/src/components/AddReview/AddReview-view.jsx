@@ -4,17 +4,23 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import useForm from 'react-hook-form';
+import Modal from 'react-modal';
 import styled, { css } from 'styled-components';
+import F1000Logo from '../../assets/F1000R_logo.png';
 import Button from '../Button';
 import CardWrapper from '../CardWrapper';
 import Loader from '../Loader';
+import ImportModal from './ImportModal';
 
 AddReviewView.propTypes = {
-  review: PropTypes.object,
-  onDateChange: PropTypes.func,
-  onSubmit: PropTypes.func,
-  isUploading: PropTypes.bool,
-  isUserLoading: PropTypes.bool
+  review: PropTypes.object.isRequired,
+  onDateChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  isUploading: PropTypes.bool.isRequired,
+  isUserLoading: PropTypes.bool.isRequired,
+  isF1000ModalOpen: PropTypes.bool.isRequired,
+  handleF1000Open: PropTypes.func.isRequired,
+  handleF1000Close: PropTypes.func.isRequired
 };
 
 
@@ -36,6 +42,11 @@ const ButtonWrapper = styled.div`
   margin-bottom: 16px;
   `;
 
+const ImportWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center
+`;
 // ============= Define base components =============
 
 // Input and textarea styles are shared
@@ -149,9 +160,26 @@ const ContentField = styled((props) => (
   padding: 16px 0px;
 `;
 
+const ImportButton = styled((props) => {
+  return (
+    <div className={props.className} onClick={props.onClick}>
+      <img src={props.img} alt='Import via DOI' />
+    </div>
+  );
+})`
+  background-color: ${props => props.backgroundColor};
+  padding: 16px;
+  border-radius: 8px;
+  margin: 0 16px;
+  &:hover {
+    cursor: pointer
+  }
+  & > img {
+    max-width: 130px;
+  }
+`;
 
 export default function AddReviewView(props) {
-
   const { register, handleSubmit, setValue, errors } = useForm();
   if (props.isUploading) {
     return (
@@ -165,9 +193,32 @@ export default function AddReviewView(props) {
   setValue('timestamp', moment(props.review.timestamp).unix()); // Set initial value for useForm
 
   return (
-    <Wrapper>
+    <Wrapper id='wrapper'>
+      <Modal
+        isOpen={props.isF1000ModalOpen}
+        onRequestClose={props.handleF1000Close}
+        parentSelector={() => document.querySelector('#wrapper')}
+        ariaHideApp={false} // see http://reactcommunity.org/react-modal/accessibility/#app-element
+        style={{
+          overlay: {
+            background: 'rgba(0,0,0,0.75)'
+          },
+          content: {
+            top: '25%',
+            bottom: '25%',
+            right: '25%',
+            left: '25%'
+          }
+        }}
+      >
+        <ImportModal />
+      </Modal>
       <CardWrapper title='Add a Review'>
         <FormWrapper>
+          <ImportWrapper>
+            <InputTitle>Import From:</InputTitle>
+            <ImportButton img={F1000Logo} backgroundColor='#f2673c' onClick={props.handleF1000Open} />
+          </ImportWrapper>
           <Form onSubmit={handleSubmit(props.onSubmit)}>
             <FormField
               name='articleTitle'
