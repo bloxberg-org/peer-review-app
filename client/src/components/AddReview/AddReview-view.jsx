@@ -5,11 +5,16 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import useForm from 'react-hook-form';
 import Modal from 'react-modal';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import F1000Logo from '../../assets/F1000R_logo.png';
 import Button from '../Button';
 import CardWrapper from '../CardWrapper';
 import Loader from '../Loader';
+import FormField from './FormField';
+import ErrorText from './FormField/ErrorText';
+import Input from './FormField/Input';
+import inputStyle from './FormField/inputStyle';
+import InputTitle from './FormField/InputTitle';
 import ImportModal from './ImportModal';
 
 AddReviewView.propTypes = {
@@ -49,32 +54,8 @@ const ImportWrapper = styled.div`
 `;
 // ============= Define base components =============
 
-// Input and textarea styles are shared
-const inputStyle = css`
-  outline: none;
-  border: 1px solid ${props => props.theme.border};
-  border-radius: 5px;
-  color: ${props => props.theme.gray};
-  font-family: 'Muli', sans-serif;
-  width: 100%;
-  padding: 8px 0px;
-  margin-top: 8px;
-  &::placeholder {
-    padding-left: 8px;
-  }
-`;
-
 const Form = styled.form`
 `;
-
-const ErrorText = styled.span`
-  color: red;
-  font-size: 0.8em;
-`;
-
-const Input = styled.input`
-  ${inputStyle}
-  `;
 
 const TextArea = styled.textarea.attrs((props) => ({
   rows: 10,
@@ -82,11 +63,6 @@ const TextArea = styled.textarea.attrs((props) => ({
 }))`
   ${inputStyle}
 `;
-
-const InputTitle = styled.span`
-  font-weight: bold;
-  font-size: 1.1em;
-  `;
 
 const Select = styled.select`
   ${inputStyle};
@@ -115,21 +91,6 @@ const SelectField = styled((props) => {
     </div>
   );
 })``;
-
-const FormField = styled((props) => {
-  return (
-    // Use ref from react-hook-form
-    <div className={props.className}>
-      <InputTitle> {props.title} </InputTitle>
-      {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
-      <Input ref={props.register} {...props} />
-    </div>
-  );
-})`
-  width: 100%;
-  padding: 16px 0px;
-  border-bottom: 1px solid ${props => props.theme.border}
-`;
 
 const DateInputField = styled((props) => {
   return (
