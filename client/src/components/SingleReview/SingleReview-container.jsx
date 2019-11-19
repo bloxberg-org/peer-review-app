@@ -8,7 +8,7 @@ import SingleReviewView from './SingleReview-view';
 class SingleReviewContainer extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    user: { id: PropTypes.string.isRequired }
+    user: PropTypes.shape({ _id: PropTypes.string.isRequired })
   }
 
   constructor(props) {

@@ -66,7 +66,7 @@ export const getOneBlockchainReview = (index) => {
     return {
       journalId: review[0],
       manuscriptId: review[1],
-      manuscripthash: review[2],
+      manuscriptHash: review[2],
       timestamp: review[3].toNumber(), // Handle BigNumber
       recommendation: review[4].toNumber(),
       verified: review[5],
