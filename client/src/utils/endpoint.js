@@ -20,3 +20,12 @@ export const get = (endpoint) => {
     },
   }).then(res => res.json());
 };
+
+export const getXML = (endpoint) => {
+  return fetch(URL + endpoint, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/xml'
+    },
+  }).then(res => res.text());
+};

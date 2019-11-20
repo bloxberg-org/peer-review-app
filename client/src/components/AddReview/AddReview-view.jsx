@@ -178,11 +178,13 @@ export default function AddReviewView(props) {
             top: '25%',
             bottom: '25%',
             right: '25%',
-            left: '25%'
+            left: '25%',
+            display: 'flex',
+            justifyContent: 'center'
           }
         }}
       >
-        <ImportModal />
+        <ImportModal source='f1000research' />
       </Modal>
 
       <CardWrapper title='Add a Review'>

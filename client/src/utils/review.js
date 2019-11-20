@@ -1,6 +1,6 @@
 import * as connection from '../connection/reviewConnection';
 import { getCurrentAccount } from '../connection/reviewConnection';
-import { get, post } from './endpoint';
+import { get, getXML, post } from './endpoint';
 
 export const addReview = (data) => {
   let promises = [];
@@ -86,4 +86,9 @@ export const getAllDatabaseReviews = (address) => {
 export const getOneDatabaseReview = (address, index) => {
   console.log(`Sending a GET at: /reviews/${address}/${index}`);
   return get(`/reviews/${address}/${index}`);
+};
+
+export const getReviewXML = (source, doi) => {
+  console.log(`Sending a GET at: /reviews/xml/${source}/?doi=${doi}`);
+  return getXML(`/reviews/xml/${source}/?doi=${doi}`);
 };
