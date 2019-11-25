@@ -19,5 +19,8 @@ build/
 *.log*
 logs/
 
+# Ganache CLI chain data
+ganache/
+
 # Configs with keys
 config.js
