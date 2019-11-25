@@ -1,19 +1,22 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getReviewXML } from '../../../utils/review';
+import { getReviewOfArticle, getReviewsOfArticle } from '../../../utils/review';
 import Loader from '../../Loader';
 import ImportModalView from './ImportModal-view';
 
 export default class ImportModalContainer extends React.Component {
   static propTypes = {
-    source: PropTypes.oneOf(['f1000research'])
+    source: PropTypes.oneOf(['f1000research']),
+    fillForm: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props);
     this.state = {
       isFetching: false,
-      isDoneFetching: false
+      isDoneFetching: false,
+      doi: 'default',
+      reviews: [],
     };
   }
 
@@ -23,21 +26,20 @@ export default class ImportModalContainer extends React.Component {
 
     this.setState({ isFetching: true });
 
-    this.getXMLDoc(source, data.doi).then((xmldoc) => {
-      console.log(xmldoc);
-      this.setState({ isFetching: false, isDoneFetching: true });
+    getReviewsOfArticle(source, data.doi).then((rawReviews) => {
+      let reviews = JSON.parse(rawReviews);
+      this.setState({ doi: data.doi, reviews: reviews, isFetching: false, isDoneFetching: true });
     });
   }
 
-  getXMLDoc = (source, doi) => {
-    return getReviewXML(source, doi).then((data) => {
-      return new Promise((resolve, reject) => {
-        if (!data)
-          reject('XML is empty');
-        let parser = new DOMParser();
-        let xmlDoc = parser.parseFromString(data, 'text/xml');
-        resolve(xmlDoc);
-      });
+  handleChooseReview = (index) => {
+    let source = this.props.source;
+    let doi = this.state.doi;
+
+    this.setState({ isFetching: true });
+
+    getReviewOfArticle(source, doi, index).then(data => {
+      this.props.fillForm(data);
     });
   }
 
@@ -51,6 +53,7 @@ export default class ImportModalContainer extends React.Component {
     return (
       <ImportModalView
         onSubmit={this.handleSubmit}
+        onChooseReview={this.handleChooseReview}
         {...this.state} {...this.props} />
     );
   }

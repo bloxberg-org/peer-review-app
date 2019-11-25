@@ -88,7 +88,12 @@ export const getOneDatabaseReview = (address, index) => {
   return get(`/reviews/${address}/${index}`);
 };
 
-export const getReviewXML = (source, doi) => {
+export const getReviewsOfArticle = (source, doi) => {
   console.log(`Sending a GET at: /reviews/xml/${source}/?doi=${doi}`);
   return getXML(`/reviews/xml/${source}/?doi=${doi}`);
+};
+
+export const getReviewOfArticle = (source, doi, index) => {
+  console.log(`Sending a GET at: /reviews/xml/${source}/?doi=${doi}&index=${index}`);
+  return getXML(`/reviews/xml/${source}/?doi=${doi}&index=${index}`);
 };

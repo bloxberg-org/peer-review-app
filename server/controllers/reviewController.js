@@ -2,6 +2,7 @@
 const Review = require('../models/Review');
 const Scholar = require('../models/Scholar');
 const { getXML } = require('../utils/restUtils');
+const { xml2json } = require('xml-js');
 
 // POST /reviews
 exports.addReview = (req, res) => {
@@ -53,6 +54,7 @@ exports.getReviewXML = (req, res) => {
   console.log('IN getReviewXML');
   let source = req.params.source; // f1000research, orchid etc.
   let doi = req.query.doi;
+  let index = req.query.index;
   let URL = '';
 
   if (!source || !doi)
@@ -67,7 +69,49 @@ exports.getReviewXML = (req, res) => {
   getXML(`${URL}${doi}`).then((data) => {
     if (!data)
       res.status(404).send('XML is empty');
-    res.status(200).type('application/xml').send(data);
+
+    // Parse XML to JSON
+    let jsonText = xml2json(data, { compact: true, spaces: 2 }); // convert to json
+    let json = JSON.parse(jsonText);
+
+    // If the specific review tied to this article is requested, just send the reivew information.
+    // Else, first ask user which review to return 
+    if (index) {
+      console.log('REQUESTED REVIEW WITH ID ' + index);
+      // Don't send the whole json, not needed. Filter out required fields.
+      let response = {
+        articleTitle: json['article']['front']['article-meta']['title-group']['article-title']['_text'],
+        journalId: json['article']['front']['journal-meta']['issn']['_text'],
+        manuscriptID: json['article']['front']['article-meta']['article-id']['_text'],
+        manuscriptHash: null,
+        articleDOI: json['article']['front']['article-meta']['article-id']['_text'],
+        // TODO: Check for other formats of recommentdation.
+
+        recommendation: json['article']['sub-article'][index]['front-stub']['custom-meta-group']['custom-meta']['meta-value']['_text']
+        // timestamp
+        // content
+      };
+      res.status(200).json(response);
+    } else {
+      console.log('ASKING USER TO CHOOSE A REVIEW');
+      let reviews = json['article']['sub-article'];
+      reviews = reviews.map(review => {
+        return {
+          author: {
+            firstName: review['front-stub']['contrib-group']['contrib']['name']['given-names']['_text'],
+            lastName: review['front-stub']['contrib-group']['contrib']['name']['surname']['_text'],
+            uri: review['front-stub']['contrib-group']['contrib']['uri']['_text'],
+          },
+          date: {
+            day: review['front-stub']['pub-date']['day']['_text'],
+            month: review['front-stub']['pub-date']['month']['_text'],
+            year: review['front-stub']['pub-date']['year']['_text']
+          }
+        };
+      });
+      res.status(200).json(reviews);
+
+    }
   }).catch(err => res.status(500).send(err));
 };
 

@@ -146,7 +146,7 @@ const ImportButton = styled((props) => {
 `;
 
 export default function AddReviewView(props) {
-  const { register, handleSubmit, setValue, errors } = useForm();
+  const { register, handleSubmit, setValue, errors, reset } = useForm();
 
   // If loading, show the loader/spinner whatever you call it.
   if (props.isUploading) {
@@ -184,7 +184,10 @@ export default function AddReviewView(props) {
           }
         }}
       >
-        <ImportModal source='f1000research' />
+        <ImportModal source='f1000research' fillForm={(data) => {
+          console.log('Fill the form');
+          console.log(data);
+        }} />
       </Modal>
 
       <CardWrapper title='Add a Review'>
