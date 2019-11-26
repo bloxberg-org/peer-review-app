@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 // const connection = require('../connection/reviewConnection');
 const Review = require('../models/Review');
 const Scholar = require('../models/Scholar');
@@ -80,9 +81,10 @@ exports.getReviewXML = (req, res) => {
     if (index) {
       console.log('REQUESTED REVIEW WITH ID ' + index);
       // Don't send the whole json, not needed. Filter out required fields.
+      let reviewDoc = jsonDoc['article']['sub-article'][index];
       let articleMeta = jsonDoc['article']['front']['article-meta'];
       let journalMeta = jsonDoc['article']['front']['journal-meta'];
-      let reviewBody = jsonDoc['article']['sub-article'][index]['body'];
+      let reviewBody = reviewDoc['body'];
 
       // Extract the review content from the converted json file. reviewBody object is of the following format:
       // 
@@ -101,7 +103,22 @@ exports.getReviewXML = (req, res) => {
         return accumulator + currentVal['_text'] + '\n';
       }, '');
 
-      let reviewPubDate = jsonDoc['article']['sub-article'][index]['front-stub']['pub-date']; // JSON object with day, month, year.
+      let reviewRecommendation = (() => {
+        let reccommendationStr = reviewDoc['front-stub']['custom-meta-group']['custom-meta']['meta-value']['_text'];
+        // TODO: Check returned strings for review and reject.
+        // TODO: Change strings to numbers in accordance to the blockchain.
+        console.log(reccommendationStr);
+        switch (reccommendationStr) {
+          case ('approve'):
+            return 0;
+          case ('review'):
+            return 1;
+          case ('reject'):
+            return 2;
+        }
+      })(); // () to invoke immediately.
+
+      let reviewPubDate = reviewDoc['front-stub']['pub-date']; // JSON object with day, month, year.
       let reviewPubTimestamp = moment(`${reviewPubDate['year']['_text']} ${reviewPubDate['month']['_text']} ${reviewPubDate['day']['_text']}`, 'YYYY MM DD').unix(); // Unix timestamp
       let response = {
         articleTitle: articleMeta['title-group']['article-title']['_text'],
@@ -110,7 +127,7 @@ exports.getReviewXML = (req, res) => {
         manuscriptHash: null,
         articleDOI: articleMeta['article-id']['_text'],
         // TODO: Check for other formats of recommentdation.
-        recommendation: jsonDoc['article']['sub-article'][index]['front-stub']['custom-meta-group']['custom-meta']['meta-value']['_text'],
+        recommendation: reviewRecommendation,
         timestamp: reviewPubTimestamp,
         content: reviewContent
       };
