@@ -2,9 +2,10 @@
 // const connection = require('../connection/reviewConnection');
 const Review = require('../models/Review');
 const Scholar = require('../models/Scholar');
-const { getXML } = require('../utils/restUtils');
+const { getXML, getPDF } = require('../utils/restUtils');
 const { xml2json } = require('xml-js');
 const moment = require('moment');
+const crypto = require('crypto');
 
 // POST /reviews
 exports.addReview = (req, res) => {
@@ -42,7 +43,8 @@ exports.getAllReviews = (req, res) => {
 // GET /reviews/:address/:index
 exports.getReview = (req, res) => {
   let address = req.params.address;
-  let index = req.params.index;
+  let index = req.params.index; var crypto = require('crypto');
+
   console.log('IN GET ONE REVIEW');
 
   Review.findOne({ author: address, index: index }).then(review => {
@@ -57,18 +59,20 @@ exports.getReviewXML = (req, res) => {
   let source = req.params.source; // f1000research, orchid etc.
   let doi = req.query.doi;
   let index = req.query.index;
-  let URL = '';
+  let xmlURL = '';
+  let pdfURL = '';
 
   if (!source || !doi)
     res.status(400).send('Bad Request');
 
   if (source === 'f1000research') {
-    URL = 'https://f1000research.com/extapi/article/xml?doi=';
+    xmlURL = 'https://f1000research.com/extapi/article/xml?doi=';
+    pdfURL = 'https://f1000research.com/extapi/article/pdf?doi=';
   } else {
     res.status(400).send('Unsupported Source');
   }
 
-  getXML(`${URL}${doi}`).then((data) => {
+  getXML(`${xmlURL}${doi}`).then(async (data) => {
     if (!data)
       res.status(404).send('XML is empty');
     // Parse XML to JSON
@@ -77,8 +81,11 @@ exports.getReviewXML = (req, res) => {
     // If the specific review tied to this article is requested, send the review information.
     // Else, first send the list of reviews of this article to ask user which review to return 
     if (index) {
-      let response = extractReviewFromJsonDoc(jsonDoc, index);
-      res.status(200).json(response);
+      downloadAndHashPdf(`${pdfURL}${doi}`).then((hash) => {
+        let response = extractReviewFromJsonDoc(jsonDoc, index);
+        response.manuscriptHash = hash;
+        res.status(200).json(response);
+      }).catch(err => console.log(err));
     } else {
       let reviews = extractListOfReviews(jsonDoc);
       res.status(200).json(reviews);
@@ -98,7 +105,6 @@ function extractReviewFromJsonDoc(jsonDoc, index) {
     articleTitle: articleMeta['title-group']['article-title']['_text'],
     journalId: journalMeta['issn']['_text'],
     manuscriptId: articleMeta['article-id']['_text'],
-    manuscriptHash: null,
     articleDOI: articleMeta['article-id']['_text'],
     // TODO: Check for other formats of recommentdation.
     recommendation: extractRecommendation(reviewDoc),
@@ -106,6 +112,26 @@ function extractReviewFromJsonDoc(jsonDoc, index) {
     content: extractReviewBody(reviewBody)
   };
   return response;
+}
+
+function downloadAndHashPdf(URL) {
+  return new Promise((resolve, reject) => {
+    console.log('DOWNLOADING PDF')
+    getPDF(URL).then((blob) => {
+      console.log('SUCCESSFULLY DONWLOADED PDF');
+      let stream = blob.stream();
+      let hash = crypto.createHash('sha256');
+      hash.setEncoding('hex');
+      stream.pipe(hash);
+
+      // Event listener on when reading end.
+      stream.on('end', function () {
+        console.log('ENDED HASHING');
+        hash.end();
+        resolve(hash.read());
+      });
+    }).catch(err => reject(err));
+  });
 }
 
 function extractListOfReviews(jsonDoc) {
