@@ -39,7 +39,7 @@ export default class ImportModalContainer extends React.Component {
     this.setState({ isFetching: true });
 
     getReviewOfArticle(source, doi, index).then(data => {
-      this.props.fillForm(data);
+      this.props.fillForm(JSON.parse(data));
     });
   }
 

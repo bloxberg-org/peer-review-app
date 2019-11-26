@@ -185,8 +185,8 @@ export default function AddReviewView(props) {
         }}
       >
         <ImportModal source='f1000research' fillForm={(data) => {
-          console.log('Fill the form');
           console.log(data);
+          reset(data);
         }} />
       </Modal>
 

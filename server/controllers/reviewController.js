@@ -3,6 +3,7 @@ const Review = require('../models/Review');
 const Scholar = require('../models/Scholar');
 const { getXML } = require('../utils/restUtils');
 const { xml2json } = require('xml-js');
+const moment = require('moment');
 
 // POST /reviews
 exports.addReview = (req, res) => {
@@ -72,29 +73,51 @@ exports.getReviewXML = (req, res) => {
 
     // Parse XML to JSON
     let jsonText = xml2json(data, { compact: true, spaces: 2 }); // convert to json
-    let json = JSON.parse(jsonText);
+    let jsonDoc = JSON.parse(jsonText);
 
     // If the specific review tied to this article is requested, just send the reivew information.
     // Else, first ask user which review to return 
     if (index) {
       console.log('REQUESTED REVIEW WITH ID ' + index);
       // Don't send the whole json, not needed. Filter out required fields.
-      let response = {
-        articleTitle: json['article']['front']['article-meta']['title-group']['article-title']['_text'],
-        journalId: json['article']['front']['journal-meta']['issn']['_text'],
-        manuscriptID: json['article']['front']['article-meta']['article-id']['_text'],
-        manuscriptHash: null,
-        articleDOI: json['article']['front']['article-meta']['article-id']['_text'],
-        // TODO: Check for other formats of recommentdation.
+      let articleMeta = jsonDoc['article']['front']['article-meta'];
+      let journalMeta = jsonDoc['article']['front']['journal-meta'];
+      let reviewBody = jsonDoc['article']['sub-article'][index]['body'];
 
-        recommendation: json['article']['sub-article'][index]['front-stub']['custom-meta-group']['custom-meta']['meta-value']['_text']
-        // timestamp
-        // content
+      // Extract the review content from the converted json file. reviewBody object is of the following format:
+      // 
+      // p: [
+      //   {
+      //     _text: 'This is a well selected review that covers most of the essential 2018 works on Tourette syndrome.'
+      //   },
+      //   {
+      //     _text: ' These measures are related to SMA and basal ganglia functioning which is pretty consistent with neuroimaging and electrophysio....
+      // 
+      // So we reduce the array under the field 'p'.
+      // First set an empty string to be the initial value of the accumulator.
+      // Then accumulate _text fields of each subsequent element , with a new line, into a single string.
+      let reviewContent = reviewBody['p'].reduce((accumulator, currentVal) => {
+        // TODO: Handle Arrays. We assume just one level of depth and Array of strings get concatenated via toString() automatically. This leaves emptry strings in the text for some reason.
+        return accumulator + currentVal['_text'] + '\n';
+      }, '');
+
+      let reviewPubDate = jsonDoc['article']['sub-article'][index]['front-stub']['pub-date']; // JSON object with day, month, year.
+      let reviewPubTimestamp = moment(`${reviewPubDate['year']['_text']} ${reviewPubDate['month']['_text']} ${reviewPubDate['day']['_text']}`, 'YYYY MM DD').unix(); // Unix timestamp
+      let response = {
+        articleTitle: articleMeta['title-group']['article-title']['_text'],
+        journalId: journalMeta['issn']['_text'],
+        manuscriptID: articleMeta['article-id']['_text'],
+        manuscriptHash: null,
+        articleDOI: articleMeta['article-id']['_text'],
+        // TODO: Check for other formats of recommentdation.
+        recommendation: jsonDoc['article']['sub-article'][index]['front-stub']['custom-meta-group']['custom-meta']['meta-value']['_text'],
+        timestamp: reviewPubTimestamp,
+        content: reviewContent
       };
       res.status(200).json(response);
     } else {
       console.log('ASKING USER TO CHOOSE A REVIEW');
-      let reviews = json['article']['sub-article'];
+      let reviews = jsonDoc['article']['sub-article'];
       reviews = reviews.map(review => {
         return {
           author: {
