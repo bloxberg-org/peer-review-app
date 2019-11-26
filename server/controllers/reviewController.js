@@ -119,7 +119,7 @@ exports.getReviewXML = (req, res) => {
       })(); // () to invoke immediately.
 
       let reviewPubDate = reviewDoc['front-stub']['pub-date']; // JSON object with day, month, year.
-      let reviewPubTimestamp = moment(`${reviewPubDate['year']['_text']} ${reviewPubDate['month']['_text']} ${reviewPubDate['day']['_text']}`, 'YYYY MM DD').unix(); // Unix timestamp
+      let reviewPubTimestamp = moment(`${reviewPubDate['year']['_text']} ${reviewPubDate['month']['_text']} ${reviewPubDate['day']['_text']}`, 'YYYY MM DD');
       let response = {
         articleTitle: articleMeta['title-group']['article-title']['_text'],
         journalId: journalMeta['issn']['_text'],
