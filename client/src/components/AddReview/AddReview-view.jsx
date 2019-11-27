@@ -100,6 +100,9 @@ const SelectField = styled((props) => {
 const DateInputField = styled((props) => {
   return (
     <DatePicker
+      dateFormat='dd/MMM/yyy'
+      showYearDropdown
+      dropdownMode='select'
       customInput={<Input {...props} />}
       {...props}
     />);
