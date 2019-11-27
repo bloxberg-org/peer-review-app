@@ -19,12 +19,19 @@ export default class App extends React.Component {
 
     Promise.all(promises).then(([reviews, account]) => {
       console.log(account);
+      console.log(reviews);
       this.setState({
         isUserLoading: false,
         reviews: reviews,
         user: account
       });
     });
+  }
+
+  handleReviewAdded = (review) => {
+    let reviews = this.state.reviews;
+    reviews.push(review);
+    this.setState({ reviews });
   }
 
   getUser = (address) => {
@@ -37,7 +44,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <AppView {...this.state} />
+      <AppView addReviewToState={this.handleReviewAdded} {...this.state} />
     );
   }
 }

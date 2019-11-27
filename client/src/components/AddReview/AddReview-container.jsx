@@ -6,7 +6,9 @@ import AddReviewView from './AddReview-view';
 
 class AddReviewContainer extends React.Component {
   static propTypes = {
-    reviews: PropTypes.array
+    reviews: PropTypes.array,
+    history: PropTypes.object,
+    addReviewToState: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -39,7 +41,6 @@ class AddReviewContainer extends React.Component {
     });
   }
 
-
   handleSubmit = (data) => {
     console.log(data);
     this.setState({ isLoading: true });
@@ -48,17 +49,18 @@ class AddReviewContainer extends React.Component {
       ...data
     };
     addReview(review)
-      .then(res => {
+      .then((response) => {
+        console.log(response);
         this.setState({ isLoading: false });
-        return res.json()
-      })
-      .then((review) => {
         // redirect to review page after adding
+        let index = response.dbData.index;
+        this.props.addReviewToState(response.chainData);
         const { history } = this.props;
-        history.push(`/Reviews/${review.index}`);
+        history.push(`/Reviews/${index}`);
       })
       .catch(err => console.log(err));
   }
+
   render() {
     return (
       <AddReviewView review={this.state.review} handleF1000Open={this.handleF1000Open} handleF1000Close={this.handleF1000Close} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isUploading={this.state.isUploading} {...this.state} {...this.props} />
