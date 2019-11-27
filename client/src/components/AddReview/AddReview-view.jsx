@@ -184,11 +184,14 @@ export default function AddReviewView(props) {
           }
         }}
       >
-        <ImportModal source='f1000research' fillForm={(data) => {
-          console.log(data);
-          reset(data);
-          props.onDateChange(moment(data.timestamp).toDate()); // Change the date explicitly. Must send a Date object.
-        }} />
+        <ImportModal
+          source='f1000research'
+          handleClose={props.handleF1000Close}
+          fillForm={(data) => {
+            console.log(data);
+            reset(data);
+            props.onDateChange(moment(data.timestamp).toDate()); // Change the date explicitly. Must send a Date object.
+          }} />
       </Modal>
 
       <CardWrapper title='Add a Review'>

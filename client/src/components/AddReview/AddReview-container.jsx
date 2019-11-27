@@ -16,7 +16,7 @@ export default class AddReviewContainer extends React.Component {
         'manuscriptId': '',
         'manuscriptHash': '',
         'timestamp': new Date(),
-        'recommendation': null
+        'recommendation': ''
       },
       isUploading: false,
       isF1000ModalOpen: false

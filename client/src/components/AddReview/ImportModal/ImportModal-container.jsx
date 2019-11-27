@@ -7,7 +7,8 @@ import ImportModalView from './ImportModal-view';
 export default class ImportModalContainer extends React.Component {
   static propTypes = {
     source: PropTypes.oneOf(['f1000research']),
-    fillForm: PropTypes.func.isRequired
+    fillForm: PropTypes.func.isRequired,
+    handleClose: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -40,6 +41,7 @@ export default class ImportModalContainer extends React.Component {
 
     getReviewOfArticle(source, doi, index).then(data => {
       this.props.fillForm(JSON.parse(data));
+      this.props.handleClose();
     });
   }
 
