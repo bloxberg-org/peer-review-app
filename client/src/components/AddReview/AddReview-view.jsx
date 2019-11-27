@@ -175,13 +175,16 @@ export default function AddReviewView(props) {
         ariaHideApp={false} // see http://reactcommunity.org/react-modal/accessibility/#app-element
         style={{
           overlay: {
-            background: 'rgba(0,0,0,0.75)'
+            background: 'rgba(0,0,0,0.75)',
+            justifyContent: 'center',
+            alignItems: 'center',
+            display: 'flex'
           },
           content: {
             top: '25%',
             bottom: '25%',
-            right: '25%',
-            left: '25%',
+            right: '15%',
+            left: '15%',
             display: 'flex',
             justifyContent: 'center'
           }

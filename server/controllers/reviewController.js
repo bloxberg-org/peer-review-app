@@ -21,11 +21,12 @@ exports.addReview = (req, res) => {
     author.save();
   });
 
-  review.save().then(
-    console.log('Successfully saved the review')
+  review.save().then(() => {
+    console.log('Successfully saved the review');
+    res.status(200).json(review);
+  }
   ).catch(err => console.log(err));
 
-  res.status(200).send('SUCCESS');
 };
 
 // GET /reviews/:address
@@ -43,8 +44,7 @@ exports.getAllReviews = (req, res) => {
 // GET /reviews/:address/:index
 exports.getReview = (req, res) => {
   let address = req.params.address;
-  let index = req.params.index; var crypto = require('crypto');
-
+  let index = req.params.index;
   console.log('IN GET ONE REVIEW');
 
   Review.findOne({ author: address, index: index }).then(review => {
@@ -116,7 +116,7 @@ function extractReviewFromJsonDoc(jsonDoc, index) {
 
 function downloadAndHashPdf(URL) {
   return new Promise((resolve, reject) => {
-    console.log('DOWNLOADING PDF')
+    console.log('DOWNLOADING PDF');
     getPDF(URL).then((blob) => {
       console.log('SUCCESSFULLY DONWLOADED PDF');
       let stream = blob.stream();
@@ -138,7 +138,8 @@ function extractListOfReviews(jsonDoc) {
   console.log('ASKING USER TO CHOOSE A REVIEW');
   let reviews = jsonDoc['article']['sub-article']; // Returns an array of reviews when there are 2 or more reivews.
   // TODO: What does it return when there's only 1 review? 
-
+  console.log('Here are the unformatted reviews:');
+  console.log(reviews);
   // Just format the response 
   reviews = reviews.map(review => {
     return {
@@ -154,6 +155,8 @@ function extractListOfReviews(jsonDoc) {
       }
     };
   });
+  console.log('Returning reviews:');
+  console.log(reviews);
   return reviews;
 }
 

@@ -3,7 +3,6 @@ import { getCurrentAccount } from '../connection/reviewConnection';
 import { get, getXML, post } from './endpoint';
 
 export const addReview = (data) => {
-  let promises = [];
 
   // Add journalId, timestamp etc. to blockchain
   let chainData = {
@@ -13,8 +12,8 @@ export const addReview = (data) => {
     timestamp: data.timestamp,
     recommendation: data.recommendation
   };
-  // Rest of the data to DB
   return getCurrentAccount().then((address) => {
+    // Rest of the data to DB
     let dbData = {
       articleTitle: data.articleTitle,
       author: address,
@@ -22,9 +21,9 @@ export const addReview = (data) => {
       index: data.index,
       articleDOI: data.articleDOI
     };
-    promises.push(post(`/reviews/${address}`, dbData));
-    promises.push(connection.addReview(chainData));
-    return Promise.all(promises);
+    return connection.addReview(chainData).then(() => {
+      return post(`/reviews/${address}`, dbData);
+    }).catch((err) => console.log('Error adding to the blockchain\n', err));
   });
 
 };

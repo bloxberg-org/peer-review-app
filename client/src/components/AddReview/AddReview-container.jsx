@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { addReview } from '../../utils/review';
 import AddReviewView from './AddReview-view';
 
-export default class AddReviewContainer extends React.Component {
+class AddReviewContainer extends React.Component {
   static propTypes = {
     reviews: PropTypes.array
   }
@@ -46,10 +47,17 @@ export default class AddReviewContainer extends React.Component {
       index: this.props.reviews.length,
       ...data
     };
-    addReview(review).then(res => {
-      console.log(res);
-      this.setState({ isLoading: false });
-    }).catch(err => console.log(err));
+    addReview(review)
+      .then(res => {
+        this.setState({ isLoading: false });
+        return res.json()
+      })
+      .then((review) => {
+        // redirect to review page after adding
+        const { history } = this.props;
+        history.push(`/Reviews/${review.index}`);
+      })
+      .catch(err => console.log(err));
   }
   render() {
     return (
@@ -57,3 +65,5 @@ export default class AddReviewContainer extends React.Component {
     );
   }
 }
+
+export default withRouter(AddReviewContainer);
