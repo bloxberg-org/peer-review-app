@@ -8,7 +8,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isUserLoading: true
+      isUserLoading: true,
+      isNoUserFound: false
     };
   }
 
@@ -18,13 +19,19 @@ export default class App extends React.Component {
     promises.push(this.getUserAddress().then(address => this.getUser(address))); // Get account details.
 
     Promise.all(promises).then(([reviews, account]) => {
-      console.log(account);
-      console.log(reviews);
-      this.setState({
-        isUserLoading: false,
-        reviews: reviews,
-        user: account
-      });
+      if (account === null) { // Check if no account found related to this address.
+        this.setState({
+          isNoUserFound: true
+        })
+      } else {
+        this.setState({
+          isUserLoading: false,
+          isNoUserFound: false,
+          reviews: reviews,
+          user: account
+        });
+      }
+
     });
   }
 

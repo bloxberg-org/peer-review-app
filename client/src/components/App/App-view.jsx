@@ -10,10 +10,12 @@ import Overview from '../Overview';
 import SideBar from '../SideBar';
 import SingleReview from '../SingleReview';
 import TopBar from '../TopBar';
+import NoUserFound from './NoUserFound';
 
 AppView.propTypes = {
   user: PropTypes.object,
-  isUserLoading: PropTypes.bool.isRequired
+  isUserLoading: PropTypes.bool.isRequired,
+  isNoUserFound: PropTypes.bool.isRequired
 };
 
 const Wrapper = styled.div`
@@ -35,6 +37,44 @@ const SideBarWrapper = styled.div`
   `;
 
 export default function AppView(props) {
+  let AppContent;
+
+  if (props.isNoUserFound) // Inform if no user found.
+    AppContent = <NoUserFound />;
+  else if (props.isUserLoading) // If loading user and reviews return the spinner
+    AppContent = (<Loader />);
+  else {
+    AppContent = (
+      <Switch>
+        <Route path="/Overview">
+          <TopBar title='Overview' {...props} />
+          <Overview {...props} />
+        </Route>
+        <Route path="/Reviews">
+          <Switch>
+            <Route path="/Reviews/AddReview">
+              <TopBar title='Add Review' {...props} />
+              <AddReview {...props} />
+            </Route>
+            <Route path="/Reviews/YourReviews">
+              <TopBar title='Your Reviews' {...props} />
+              <AllReviews {...props} />
+            </Route>
+            <Route path="/Reviews/:index">
+              <TopBar title='Review' {...props} />
+              <SingleReview {...props} />
+            </Route>
+
+            {/* Redirect to AddReview at route /Review/ */}
+            <Redirect to='/Reviews/AddReview' />
+          </Switch>
+        </Route>
+        <Route path="/">
+          <Redirect to="/Overview" />
+        </Route>
+      </Switch>
+    );
+  }
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -44,37 +84,8 @@ export default function AppView(props) {
             <SideBar />
           </SideBarWrapper>
           <MainWrapper>
-            {props.isUserLoading ?
-              <Loader /> :
-
-              <Switch>
-                <Route path="/Overview">
-                  <TopBar title='Overview' {...props} />
-                  <Overview {...props} />
-                </Route>
-                <Route path="/Reviews">
-                  <Switch>
-                    <Route path="/Reviews/AddReview">
-                      <TopBar title='Add Review' {...props} />
-                      <AddReview {...props} />
-                    </Route>
-                    <Route path="/Reviews/YourReviews">
-                      <TopBar title='Your Reviews' {...props} />
-                      <AllReviews {...props} />
-                    </Route>
-                    <Route path="/Reviews/:index">
-                      <TopBar title='Review' {...props} />
-                      <SingleReview {...props} />
-                    </Route>
-
-                    {/* Redirect to AddReview at route /Review/ */}
-                    <Redirect to='/Reviews/AddReview' />
-                  </Switch>
-                </Route>
-                <Route path="/">
-                  <Redirect to="/Overview" />
-                </Route>
-              </Switch>
+            {
+              AppContent
             }
           </MainWrapper>
         </Router>
