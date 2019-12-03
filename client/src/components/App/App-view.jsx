@@ -39,7 +39,7 @@ const SideBarWrapper = styled.div`
 export default function AppView(props) {
   let AppContent;
 
-  if (props.isNoUserFound) // Inform if no user found.
+  if (props.user === null) // Inform if no user found.
     AppContent = <NoUserFound />;
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);

@@ -14,24 +14,25 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+
+    // Event listener for when the account is changed
+    window.ethereum.on('accountsChanged', () => {
+      this.getUserAddress().then(address => this.getUser(address)).then((user) => {
+        this.setState({ user: user });
+      });
+    });
+
     let promises = [];
     promises.push(getAllBlockchainReviews()); // Get all reviews from blockchain.
     promises.push(this.getUserAddress().then(address => this.getUser(address))); // Get account details.
 
-    Promise.all(promises).then(([reviews, account]) => {
-      if (account === null) { // Check if no account found related to this address.
-        this.setState({
-          isNoUserFound: true
-        })
-      } else {
-        this.setState({
-          isUserLoading: false,
-          isNoUserFound: false,
-          reviews: reviews,
-          user: account
-        });
-      }
-
+    Promise.all(promises).then(([reviews, user]) => {
+      this.setState({
+        isUserLoading: false,
+        isNoUserFound: false,
+        reviews: reviews,
+        user: user
+      });
     });
   }
 
