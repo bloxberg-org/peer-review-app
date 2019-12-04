@@ -24,6 +24,14 @@ module.exports = {
         new HDWalletProvider(mnemonic, 'https://bloxberg.org/eth/'),
       network_id: '8995',
       from: '0xAA6042aa65eb93C6439cDaeBC27B3bd09c5DFe94'
+    },
+    rinkeby: {
+      provider: () =>
+        new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io/v3/6491efd5b28f48a183d8ab3131fa4012'),
+      network_id: '4',
+      from: '0xAA6042aa65eb93C6439cDaeBC27B3bd09c5DFe94',
+      gas: 3000000,
+      gasPrice: 10000000000
     }
   },
   compilers: {
