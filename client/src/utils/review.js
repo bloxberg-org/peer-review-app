@@ -21,23 +21,24 @@ export const addReview = (data) => {
       index: data.index,
       articleDOI: data.articleDOI
     };
-    return connection.addReview(chainData).then((tx) => {
-      return post(`/reviews/${address}`, dbData)
-        .then(dbResponse => dbResponse.json())
-        .then((dbJson) => {
-          let response = {
-            tx: tx,
-            chainData: {
-              ...chainData,
-              verified: false,
-              vouchers: []
-            },
-            dbData: dbJson
-          };
-          return response;
-        });
-    })
-      .catch((err) => console.log('Error adding to the blockchain\n', err));
+    return connection.addReview(chainData)
+      .then((tx) => {
+        return post(`/reviews/${address}`, dbData)
+          .then(dbResponse => dbResponse.json())
+          .then((dbJson) => {
+            let response = {
+              tx: tx,
+              chainData: {
+                ...chainData,
+                verified: false,
+                vouchers: []
+              },
+              dbData: dbJson
+            };
+            return response;
+          });
+      })
+      .catch((err) => console.log('Error adding to the blockchain\n' + err));
   });
 
 };
