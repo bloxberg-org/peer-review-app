@@ -1,4 +1,5 @@
 #!/bin/sh
+source "$(dirname "$0")/scripts/secret.sh"
 source "$(dirname "$0")/scripts/env.sh"
 bash "$(dirname "$0")/scripts/tmux.sh"
 
