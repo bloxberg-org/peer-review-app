@@ -1,4 +1,5 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 /// @title A smart contract for storing peer reviews
 /// @author Kaan Uzdogan uzdogan@mpdl.mpg.de
@@ -28,8 +29,8 @@ contract ReviewStorage {
   /// @param manuscriptHash - (Optional) Hash of the manuscript document
   /// @param timestamp - uint32 Unix timestamp when review is published
   /// @param recommendation - 0,1 or 2 for ACCEPT, REVIEW, REJECT
-  function addReview(string memory journalId, string memory manuscriptId, string memory manuscriptHash,
-    uint32 timestamp, Recommendation recommendation) public {
+  function addReview(string memory journalId, string memory manuscriptId,
+    string memory manuscriptHash, uint32 timestamp, Recommendation recommendation) public {
     address author = msg.sender;
 
     Review memory review = Review({
@@ -45,6 +46,30 @@ contract ReviewStorage {
     reviewCounts[author]++;
   }
 
+  function addMultipleReviews(string[] memory journalIds, string[] memory manuscriptIds,
+    string[] memory manuscriptHashes, uint32[] memory timestamps, Recommendation[] memory recommendations) public {
+    require(journalIds.length == manuscriptIds.length &&
+      manuscriptIds.length == manuscriptHashes.length &&
+      manuscriptHashes.length == timestamps.length &&
+      timestamps.length == recommendations.length,
+      'Parameter lengths dont match');
+    uint24 length = uint24(journalIds.length);
+    address author = msg.sender;
+    for (uint i = 0; i < length; i++) {
+      Review memory review = Review({
+        journalId : journalIds[i],
+        manuscriptId : manuscriptIds[i],
+        manuscriptHash: manuscriptHashes[i],
+        timestamp : timestamps[i],
+        recommendation : recommendations[i],
+        verified: false,
+        vouchers: new address[](0) // Init empty array
+      });
+      reviewsMap[author].push(review);
+    }
+    reviewCounts[author] = reviewCounts[author] + length;
+  }
+  
   /// @notice Returns the Review belonging to the paramater address on the parameter index.
   /// @dev Returns the Review struct as an ordered key value object. e.g. {0: 'JOURNALID', 1: ....}
   /// @param addr - The address of the author that is being queried.
