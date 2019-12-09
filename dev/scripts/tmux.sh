@@ -40,6 +40,7 @@ tmux rename-window -t $SESSION 'Directory'
 
 # Start ganache-cli
 tmux select-window -t $SESSION:3
+tmux send -t $SESSION "mkdir -p $PEER_REVIEW_PATH/ganache" C-m
 tmux send-keys -t $SESSION "ganache-cli --mnemonic '$MNEMONIC' --db $PEER_REVIEW_PATH/ganache/  --networkId 5777 --quiet" C-m
 
 # Start truffle
