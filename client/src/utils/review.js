@@ -92,6 +92,29 @@ export const getOneBlockchainReview = (index) => {
   });
 };
 
+export const addMultipleReviews = (reviewFieldsObj) => {
+  // export const addMultipleReviews = () => {
+  // let temp = {
+  //   journalIds: ['1', '2', '3'],
+  //   manuscriptIds: ['123', '123', '123'],
+  //   manuscriptHashes: ['asdfsdfaf', 'sdfacvzxvsa', 'sadfffsafd'],
+  //   timestamps: [543254325, 54352452, 6774314320],
+  //   recommendations: [0, 2, 1]
+  // };
+  // return connection.addMultipleReviews(temp);
+  return connection.addMultipleReviews(reviewFieldsObj);
+};
+
+/**
+ * Takes an array of reviews and formats them into an object of arrays, where each array is a concatanation of each field of the review obj. 
+ * 
+ * @param {Array} reviewsArr - An array of review Objects 
+ * @returns {Object} Object consisting of an array of fields. E.g. returnedObj.journalIds returns all the journalIds of reviews as an array.
+ */
+export const decomposeReviews = (reviewsArr) => {
+
+};
+
 export const getAllDatabaseReviews = (address) => {
   console.log(`Sending a GET at: /reviews/${address}`);
   return get(`/reviews/${address}`);

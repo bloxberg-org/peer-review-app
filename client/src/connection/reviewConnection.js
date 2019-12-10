@@ -39,6 +39,13 @@ export const addReview = async (review) => {
     { from: accounts[0] });
 };
 
+export const addMultipleReviews = async (reviewFieldsObj) => {
+  let [instance, accounts] = await init();
+  return instance.addMultipleReviews(reviewFieldsObj.journalIds, reviewFieldsObj.manuscriptIds,
+    reviewFieldsObj.manuscriptHashes, reviewFieldsObj.timestamps, reviewFieldsObj.recommendations,
+    { from: accounts[0] });
+};
+
 export const getReview = async (addr, index) => {
   let [instance, accounts] = await init();
   return instance.getReview(addr, index,
