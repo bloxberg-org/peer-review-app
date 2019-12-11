@@ -3,7 +3,7 @@ import React from 'react';
 import useForm from 'react-hook-form';
 import styled from 'styled-components';
 import Button from '../../Button';
-import FormField from '../FormField';
+import FormField from '../../FormField';
 
 ImportModalView.propTypes = {
   onSubmit: PropTypes.func.isRequired,

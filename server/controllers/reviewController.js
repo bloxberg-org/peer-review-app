@@ -2,10 +2,26 @@
 // const connection = require('../connection/reviewConnection');
 const Review = require('../models/Review');
 const Scholar = require('../models/Scholar');
-const { getXML, getPDF } = require('../utils/restUtils');
+const { getXML, getPDF, getWithPublonsAuth } = require('../utils/restUtils');
 const { xml2json } = require('xml-js');
 const moment = require('moment');
 const crypto = require('crypto');
+
+// GET /reviews/import/publons/?academicId=${academicId}&page=${page}
+exports.importReviews = (req, res) => {
+  let source = req.params.source; // 'publons'
+  let publonsURL = 'https://publons.com/api/v2/academic/review';
+  let academicId = req.query.academicId;
+  let page = req.query.page;
+  if (source === 'publons') {
+    let url = `${publonsURL}/?academic=${academicId}&page=${page}`;
+    getWithPublonsAuth(url).then((reviews) => {
+      res.status(200).json(reviews);
+    }).catch((err) => res.send(err));
+  } else {
+    res.status(403).send('Bad source');
+  }
+};
 
 // POST /reviews
 exports.addReview = (req, res) => {

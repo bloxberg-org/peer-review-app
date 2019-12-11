@@ -52,6 +52,7 @@ export default function Navbar() {
         <Button to='/Overview' title='Overview' />
         <Button to='/Reviews' title='Reviews'>
           <SubButton to='/Reviews/AddReview' title='Add Review' />
+          <SubButton to='/Reviews/ImportReviews' title='Import Reviews' />
           <SubButton to='/Reviews/YourReviews' title='Your Reviews' />
           <SubButton to='/Reviews/VouchReview' title='Vouch a Review' />
         </Button>

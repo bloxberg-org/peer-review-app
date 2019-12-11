@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const { publonsAuthToken } = require('../config');
 
 exports.getXML = (url) => {
   return fetch(url, {
@@ -16,4 +17,15 @@ exports.getPDF = (url) => {
       'Content-Type': 'application/pdf'
     }
   }).then(res => res.blob());
+};
+
+exports.getWithPublonsAuth = (url) => {
+  console.log(publonsAuthToken);
+  return fetch(url, {
+    method: 'get',
+    headers: {
+      'Authorization': publonsAuthToken,
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json());
 };

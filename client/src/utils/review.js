@@ -3,7 +3,6 @@ import { getCurrentAccount } from '../connection/reviewConnection';
 import { get, getXML, post } from './endpoint';
 
 export const addReview = (data) => {
-
   // Add journalId, timestamp etc. to blockchain
   let chainData = {
     journalId: data.journalId,
@@ -40,7 +39,6 @@ export const addReview = (data) => {
       })
       .catch((err) => console.log('Error adding to the blockchain\n' + err));
   });
-
 };
 
 export const getAllBlockchainReviews = async () => {
@@ -134,3 +132,9 @@ export const getReviewOfArticle = (source, doi, index) => {
   console.log(`Sending a GET at: /reviews/xml/${source}/?doi=${doi}&index=${index}`);
   return getXML(`/reviews/xml/${source}/?doi=${doi}&index=${index}`);
 };
+
+export const getReviewsOfAcademicFromPublons = (academicId, page) => {
+  // default page = 1
+  page = (page === undefined) ? 1 : page;
+  return get(`/reviews/import/publons/?academicId=${academicId}&page=${page}`);
+}

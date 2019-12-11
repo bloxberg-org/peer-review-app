@@ -9,12 +9,12 @@ import styled from 'styled-components';
 import F1000Logo from '../../assets/F1000R_logo.png';
 import Button from '../Button';
 import CardWrapper from '../CardWrapper';
+import FormField from '../FormField';
+import ErrorText from '../FormField/ErrorText';
+import Input from '../FormField/Input';
+import inputStyle from '../FormField/inputStyle';
+import InputTitle from '../FormField/InputTitle';
 import Loader from '../Loader';
-import FormField from './FormField';
-import ErrorText from './FormField/ErrorText';
-import Input from './FormField/Input';
-import inputStyle from './FormField/inputStyle';
-import InputTitle from './FormField/InputTitle';
 import ImportModal from './ImportModal';
 
 AddReviewView.propTypes = {

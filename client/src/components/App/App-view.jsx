@@ -5,6 +5,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from '../../assets/theme';
 import AddReview from '../AddReview';
 import AllReviews from '../AllReviews';
+import ImportReviews from '../ImportReviews';
 import Loader from '../Loader';
 import Overview from '../Overview';
 import SideBar from '../SideBar';
@@ -53,11 +54,15 @@ export default function AppView(props) {
         <Route path="/Reviews">
           <Switch>
             <Route path="/Reviews/AddReview">
-              <TopBar title='Add Review' {...props} />
+              <TopBar title='Reviews' {...props} />
               <AddReview {...props} />
             </Route>
+            <Route path="/Reviews/ImportReviews">
+              <TopBar title='Reviews' {...props} />
+              <ImportReviews {...props} />
+            </Route>
             <Route path="/Reviews/YourReviews">
-              <TopBar title='Your Reviews' {...props} />
+              <TopBar title='Reviews' {...props} />
               <AllReviews {...props} />
             </Route>
             <Route path="/Reviews/:index">
