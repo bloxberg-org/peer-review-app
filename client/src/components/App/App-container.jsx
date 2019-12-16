@@ -9,7 +9,8 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       isUserLoading: true,
-      isNoUserFound: false
+      isNoUserFound: false,
+      reviewsOfUser: []
     };
   }
 
@@ -26,20 +27,24 @@ export default class App extends React.Component {
     promises.push(getAllBlockchainReviews()); // Get all reviews from blockchain.
     promises.push(this.getUserAddress().then(address => this.getUser(address))); // Get account details.
 
-    Promise.all(promises).then(([reviews, user]) => {
+    Promise.all(promises).then(([reviewsOfUser, user]) => {
       this.setState({
         isUserLoading: false,
         isNoUserFound: false,
-        reviews: reviews,
+        reviewsOfUser: reviewsOfUser,
         user: user
       });
     });
   }
 
-  handleReviewAdded = (review) => {
-    let reviews = this.state.reviews;
-    reviews.push(review);
-    this.setState({ reviews });
+  /**
+   * Adds the review to the state. Called when reviews are successfully added to the DB and Blockchain. 
+   * @param reviewsAdded - Array of the reviews added.
+   */
+  handleReviewsAdded = (reviewsAdded) => {
+    this.setState((state) => {
+      return state.reviewsOfUser.concat(reviewsAdded);
+    });
   }
 
   getUser = (address) => {
@@ -52,7 +57,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <AppView addReviewToState={this.handleReviewAdded} {...this.state} />
+      <AppView addReviewsToState={this.handleReviewAdded} {...this.state} />
     );
   }
 }

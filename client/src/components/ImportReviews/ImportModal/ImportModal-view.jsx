@@ -1,8 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import useForm from 'react-hook-form';
 import styled from 'styled-components';
 import Button from '../../Button';
 import FormField from '../../FormField';
+
+
+ImportModalView.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+};
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,5 +43,5 @@ export default function ImportModalView(props) {
         </ButtonWrapper>
       </form>
     </Wrapper>
-  )
+  );
 }

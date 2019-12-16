@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
@@ -5,6 +6,12 @@ import PublonsLogo from '../../assets/publons_logo.png';
 import CardWrapper from '../CardWrapper';
 import InputTitle from '../FormField/InputTitle';
 import ImportModal from './ImportModal';
+
+ImportReviewsView.propTypes = {
+  isModalOpen: PropTypes.bool.isRequired,
+  handleModalClose: PropTypes.func.isRequired,
+  handleModalOpen: PropTypes.func.isRequired
+};
 
 const Wrapper = styled.div`
     display: flex;
@@ -38,6 +45,7 @@ const ImportButton = styled((props) => {
 
 export default function ImportReviewsView(props) {
 
+  console.log(props);
   return (
     <Wrapper>
       <Modal
@@ -62,7 +70,9 @@ export default function ImportReviewsView(props) {
         }}
       >
         <ImportModal
+          handleModalOpen={props.handleModalOpen}
           handleModalClose={props.handleModalClose}
+          appendToReviews={props.appendToReviews}
         />
       </Modal>
       <CardWrapper title='Import Your Reviews'>
@@ -73,5 +83,5 @@ export default function ImportReviewsView(props) {
       </CardWrapper>
     </Wrapper>
 
-  )
+  );
 }

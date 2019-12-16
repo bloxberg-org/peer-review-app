@@ -5,9 +5,10 @@ import OverviewView from './Overview-view';
 
 export default class OverviewContainer extends React.Component {
   static propTypes = {
-    reviews: PropTypes.array,
-    isUserLoading: PropTypes.bool
+    reviewsOfUser: PropTypes.array.isRequired,
+    isUserLoading: PropTypes.bool.isRequired
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -52,19 +53,22 @@ export default class OverviewContainer extends React.Component {
     };
   }
 
-  numberOfReviews = () => {
-    return this.props.reviews.length;
-  }
-  numberOfVerifiedReviews = () => {
-    return this.props.reviews.filter(review => review.verified === true).length;
-  }
-  render() {
 
+  getNumberOfReviews = () => {
+    return this.props.reviewsOfUser.length;
+  }
+  getNumberOfVerifiedReviews = () => {
+    return this.props.reviewsOfUser.filter(review => review.verified === true).length;
+  }
+
+  render() {
     if (this.props.isUserLoading)
       return (<LoaderView />);
+
+    // Format data on the cards
     let cardsData = {
-      'Peer Reviews': this.numberOfReviews(),
-      'Verified Reviews': this.numberOfVerifiedReviews(),
+      'Peer Reviews': this.getNumberOfReviews(),
+      'Verified Reviews': this.getNumberOfVerifiedReviews(),
       'H-Index': 75,
       'Affiliated Journals': 25
     };

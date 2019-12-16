@@ -8,7 +8,7 @@ class AddReviewContainer extends React.Component {
   static propTypes = {
     reviews: PropTypes.array,
     history: PropTypes.object,
-    addReviewToState: PropTypes.func.isRequired
+    addReviewsToState: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -26,13 +26,17 @@ class AddReviewContainer extends React.Component {
     };
   }
 
+  // Open F1000 import modal
   handleF1000Open = () => {
     this.setState({ isF1000ModalOpen: true });
   }
+
+  // Close F1000 import modal
   handleF1000Close = () => {
     this.setState({ isF1000ModalOpen: false });
   }
 
+  // Date change in the form
   handleDateChange = (date) => {
     let tempReview = { ...this.state.review };
     tempReview.timestamp = date;
@@ -52,10 +56,10 @@ class AddReviewContainer extends React.Component {
       .then((response) => {
         console.log(response);
         this.setState({ isLoading: false });
-        // redirect to review page after adding
-        let index = response.dbData.index;
-        this.props.addReviewToState(response.chainData);
+        let index = response.dbData.index; // Get the index to show the review page.
+        this.props.addReviewsToState([response.chainData]); // Add to App.js state explicitly as userReviews are only retrieved when refreshing.
         const { history } = this.props;
+        // redirect to review page after adding
         history.push(`/Reviews/${index}`);
       })
       .catch(err => console.log(err));

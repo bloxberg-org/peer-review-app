@@ -38,6 +38,7 @@ const Wrapper = styled.div`
 
 export default function OverviewView(props) {
 
+  // Render cards e.g. 'H-Index': 75, (Number of ) 'Peer Reviews': 32...
   let cardsData = props.cardsData;
   let cards = [];
   let i = 0;
