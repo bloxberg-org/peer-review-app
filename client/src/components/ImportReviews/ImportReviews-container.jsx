@@ -6,7 +6,12 @@ export default class ImportReviewsContainer extends React.Component {
     super(props);
     this.state = {
       isModalOpen: false,
-      fetchedReviews: []
+      fetchedReviews: [],
+      fetchedReviewsMeta: {
+        // totalReviewCount
+        // totalPages (for 10 items per)
+        // academicId
+      }
     };
   }
 
@@ -53,6 +58,10 @@ export default class ImportReviewsContainer extends React.Component {
     });
   }
 
+  setFetchedReviewsMeta = (reviewsMeta) => {
+    this.setState({ fetchedReviewsMeta: reviewsMeta });
+  }
+
   render() {
     return (
       <ImportReviewsView {...this.state} {...this.props}
@@ -60,6 +69,7 @@ export default class ImportReviewsContainer extends React.Component {
         handleModalClose={this.handleModalClose}
         appendToReviews={this.appendToReviews}
         toggleCheckReview={this.toggleCheckReview}
+        setFetchedReviewsMeta={this.setFetchedReviewsMeta}
       />
     );
   }

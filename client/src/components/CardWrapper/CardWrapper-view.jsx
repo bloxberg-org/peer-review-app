@@ -14,11 +14,11 @@ const Wrapper = styled.div`
   border-radius: 5px;
   width: 100%;
   flex-direction: column;
+  display: flex;
   `;
 
 const TitleWrapper = styled.div`
   width: 100%;
-  flex: 1;
   display: flex;
   `;
 
@@ -26,7 +26,6 @@ const Title = styled.span`
   font-size: 1.5em;
   font-weight: bold;
   margin: 32px;
-  flex:1;
   `;
 
 export default function CardWrapper(props) {

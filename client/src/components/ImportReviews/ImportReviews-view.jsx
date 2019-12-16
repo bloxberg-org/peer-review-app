@@ -14,11 +14,14 @@ ImportReviewsView.propTypes = {
   handleModalOpen: PropTypes.func.isRequired,
   appendToReviews: PropTypes.func.isRequired,
   fetchedReviews: PropTypes.array.isRequired,
-  toggleCheckReview: PropTypes.func.isRequired
+  fetchedReviewsMeta: PropTypes.object.isRequired,
+  toggleCheckReview: PropTypes.func.isRequired,
+  setFetchedReviewsMeta: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
     display: flex;
+    flex: 1;
     height: 100%
   `;
 
@@ -31,8 +34,15 @@ const ImportWrapper = styled.div`
 
 const CardContentWrapper = styled.div`
   margin: 0 32px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 `;
 
+const StyledCardWrapper = styled(CardWrapper)`
+  display:flex;
+  flex: 1;
+`
 const ImportButton = styled((props) => {
   return (
     <div className={props.className} onClick={props.onClick}>
@@ -82,9 +92,10 @@ export default function ImportReviewsView(props) {
           handleModalOpen={props.handleModalOpen}
           handleModalClose={props.handleModalClose}
           appendToReviews={props.appendToReviews}
+          setFetchedReviewsMeta={props.setFetchedReviewsMeta}
         />
       </Modal>
-      <CardWrapper title='Import Your Reviews'>
+      <StyledCardWrapper title='Import Your Reviews'>
         <CardContentWrapper>
           <ImportWrapper>
             <InputTitle>Import From:</InputTitle>
@@ -92,10 +103,12 @@ export default function ImportReviewsView(props) {
           </ImportWrapper>
           <ImportedReviewsTable
             reviews={props.fetchedReviews}
+            reviewsMeta={props.fetchedReviewsMeta}
             toggleCheckReview={props.toggleCheckReview}
+            appendToReviews={props.appendToReviews}
           />
         </CardContentWrapper>
-      </CardWrapper>
+      </StyledCardWrapper>
     </Wrapper>
 
   );

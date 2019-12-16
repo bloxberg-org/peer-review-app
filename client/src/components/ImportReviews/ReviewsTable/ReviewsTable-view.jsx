@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import Loader from '../../Loader';
 
 ReviewsTableView.defaultProps = {
   titles: [
-    ' ',
+    'Add',
     'Publisher',
     'Date',
     'Verified Status',
@@ -14,13 +15,19 @@ ReviewsTableView.defaultProps = {
 
 ReviewsTableView.propTypes = {
   reviews: PropTypes.array.isRequired,
+  reviewsMeta: PropTypes.object.isRequired,
   titles: PropTypes.array,
-  toggleCheckReview: PropTypes.func.isRequired
+  toggleCheckReview: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  changePage: PropTypes.func.isRequired,
+  isLoadingPage: PropTypes.bool.isRequired
 };
 
 // ========== Basic Components =============
 const Wrapper = styled.div`
-
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 `;
 
 const ReviewsTable = styled.table`
@@ -75,6 +82,56 @@ const TableRow = styled((props) => {
     }
   `;
 
+const EndRow = styled((props) => {
+  return (
+    <div className={props.className}>
+      <div>
+        <span> Total number of reviews: {props.totalReviewCount} </span>
+      </div>
+      <PageIndicator page={props.page} totalPages={props.totalPages} changePage={props.changePage} />
+    </div>
+  );
+})`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 8px 0;
+`;
+
+const PageIndicator = styled((props) => {
+  return (
+    <div className={props.className}>
+      <button className='arrow' onClick={() => props.page > 1 ? props.changePage(props.page - 1) : null}> &lt; </button>
+      <span> Page {props.page} of {props.totalPages} </span>
+      <button className='arrow' onClick={() => props.page < props.totalPages ? props.changePage(props.page + 1) : null}> &gt;  </button>
+    </div>
+  );
+})`
+  & .arrow {
+    color: white;
+    background-color: ${props => props.theme.primary};
+    padding: 8px;
+    border-radius: 16px; 
+    :hover {
+      cursor: pointer
+    }
+  }
+`;
+
+const StyledLoader = styled((props) => {
+  return (
+    <div className={props.className}>
+      <Loader />
+    </div>
+  )
+})`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export default function ReviewsTableView(props) {
   if (props.reviews.length === 0) {
@@ -93,8 +150,10 @@ export default function ReviewsTableView(props) {
     <Wrapper>
       <ReviewsTable>
         <ColumnTitles titles={props.titles} />
-        {reviewRows}
+        {props.isLoadingPage ? null : reviewRows}
       </ReviewsTable>
+      {props.isLoadingPage ? <StyledLoader /> : null}
+      <EndRow page={props.page} changePage={props.changePage} {...props.reviewsMeta} />
     </Wrapper>
   );
 }

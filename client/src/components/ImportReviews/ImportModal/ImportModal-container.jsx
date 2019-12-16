@@ -9,7 +9,8 @@ export default class ImportModalContainer extends React.Component {
   static propTypes = {
     handleModalClose: PropTypes.func.isRequired,
     handleModalOpen: PropTypes.func.isRequired,
-    appendToReviews: PropTypes.func.isRequired
+    appendToReviews: PropTypes.func.isRequired,
+    setFetchedReviewsMeta: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -34,6 +35,12 @@ export default class ImportModalContainer extends React.Component {
       console.log(reviews);
       this.setState({ isFetching: false });
       this.props.appendToReviews(reviews.results);
+      let reviewsMeta = {
+        totalReviewCount: reviews.count,
+        totalPages: reviews.count % 10 === 0 ? reviews.count / 10 : Math.floor(reviews.count / 10 + 1),
+        academicId: academicId
+      };
+      this.props.setFetchedReviewsMeta(reviewsMeta);
       this.props.handleModalClose();
     });
   }
