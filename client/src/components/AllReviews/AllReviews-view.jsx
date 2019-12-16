@@ -47,7 +47,7 @@ const ReviewHeader = styled(({ className }) => {
 
 const ReviewRow = styled((props) => {
   return (
-    <tr className={props.className} onClick={() => { props.history.push(`/Reviews/${props.index}`) }}>
+    <tr className={props.className} onClick={() => { props.history.push(`/Reviews/${props.index}`); }}>
       <td>{props.articleTitle}</td>
       <td>{props.articleDOI}</td>
       <td>{props.timestamp}</td>

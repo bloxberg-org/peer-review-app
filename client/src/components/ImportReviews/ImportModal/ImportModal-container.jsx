@@ -31,10 +31,10 @@ export default class ImportModalContainer extends React.Component {
     let academicId = data.academicId;
     let page = 1;
     getReviewsOfAcademicFromPublons(academicId, page).then((reviews) => {
+      console.log(reviews);
       this.setState({ isFetching: false });
       this.props.appendToReviews(reviews.results);
       this.props.handleModalClose();
-      console.log(reviews);
     });
   }
 

@@ -6,12 +6,15 @@ import PublonsLogo from '../../assets/publons_logo.png';
 import CardWrapper from '../CardWrapper';
 import InputTitle from '../FormField/InputTitle';
 import ImportModal from './ImportModal';
+import ImportedReviewsTable from './ReviewsTable';
 
 ImportReviewsView.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   handleModalClose: PropTypes.func.isRequired,
   handleModalOpen: PropTypes.func.isRequired,
-  appendToReviews: PropTypes.func.isRequired
+  appendToReviews: PropTypes.func.isRequired,
+  fetchedReviews: PropTypes.array.isRequired,
+  toggleCheckReview: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
@@ -22,7 +25,12 @@ const Wrapper = styled.div`
 const ImportWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center
+  align-items: center;
+  margin: 16px 0;
+`;
+
+const CardContentWrapper = styled.div`
+  margin: 0 32px;
 `;
 
 const ImportButton = styled((props) => {
@@ -77,10 +85,16 @@ export default function ImportReviewsView(props) {
         />
       </Modal>
       <CardWrapper title='Import Your Reviews'>
-        <ImportWrapper>
-          <InputTitle>Import From:</InputTitle>
-          <ImportButton img={PublonsLogo} backgroundColor='#336599' onClick={props.handleModalOpen} />
-        </ImportWrapper>
+        <CardContentWrapper>
+          <ImportWrapper>
+            <InputTitle>Import From:</InputTitle>
+            <ImportButton img={PublonsLogo} backgroundColor='#336599' onClick={props.handleModalOpen} />
+          </ImportWrapper>
+          <ImportedReviewsTable
+            reviews={props.fetchedReviews}
+            toggleCheckReview={props.toggleCheckReview}
+          />
+        </CardContentWrapper>
       </CardWrapper>
     </Wrapper>
 
