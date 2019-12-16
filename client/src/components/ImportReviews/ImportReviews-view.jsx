@@ -10,7 +10,8 @@ import ImportModal from './ImportModal';
 ImportReviewsView.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
   handleModalClose: PropTypes.func.isRequired,
-  handleModalOpen: PropTypes.func.isRequired
+  handleModalOpen: PropTypes.func.isRequired,
+  appendToReviews: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
