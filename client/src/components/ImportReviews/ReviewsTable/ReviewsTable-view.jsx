@@ -21,7 +21,9 @@ ReviewsTableView.propTypes = {
   page: PropTypes.number.isRequired,
   changePage: PropTypes.func.isRequired,
   isLoadingPage: PropTypes.bool.isRequired,
-  startIndex: PropTypes.number.isRequired
+  startIndex: PropTypes.number.isRequired,
+  handleToggleSelectAllOfPage: PropTypes.func.isRequired,
+  isCheckedAllOfPage: PropTypes.array.isRequired
 };
 
 // ========== Basic Components =============
@@ -37,15 +39,29 @@ const ReviewsTable = styled.table`
   `;
 
 // ========== Compound Components ==========
+const SelectAllCheckbox = styled((props) => { // Each page has its own select all checkbox.
+  return (
+    <input type='checkbox' checked={props.isCheckedAllOfPage[props.page]} onClick={() => props.handleToggleSelectAllOfPage(props.page)} />
+  );
+})`
+`;
+
 const ColumnTitles = styled((props) => {
   return (
     <tr className={props.className}>
       {
         props.titles.map((title, i) => {
+          if (i === 0) { // Render checkbox.
+            return <SelectAllCheckbox
+              page={props.page}
+              handleToggleSelectAllOfPage={props.handleToggleSelectAllOfPage}
+              isCheckedAllOfPage={props.isCheckedAllOfPage}
+            />;
+          }
+          // Render titles.
           return (<th key={i}>{title}</th>);
         })
       }
-
     </tr>
   );
 })`
@@ -59,7 +75,6 @@ const ColumnTitles = styled((props) => {
   `;
 
 const TableRow = styled((props) => {
-  console.log(props);
   return (
     <tr className={props.className} onClick={() => props.toggleCheckReview(props.index)}>
       <td> <input type='checkbox' checked={props.checked} /> </td>
@@ -101,6 +116,7 @@ const EndRow = styled((props) => {
   margin: 8px 0;
 `;
 
+// < Page 1 of 22 >
 const PageIndicator = styled((props) => {
   return (
     <div className={props.className}>
@@ -151,7 +167,12 @@ export default function ReviewsTableView(props) {
   return (
     <Wrapper>
       <ReviewsTable>
-        <ColumnTitles titles={props.titles} />
+        <ColumnTitles
+          titles={props.titles}
+          page={props.page}
+          handleToggleSelectAllOfPage={props.handleToggleSelectAllOfPage} // Used by select all checkbox.
+          isCheckedAllOfPage={props.isCheckedAllOfPage} // Used by select all checkbox.
+        />
         {props.isLoadingPage ? null : reviewRows}
       </ReviewsTable>
       {props.isLoadingPage ? <StyledLoader /> : null}

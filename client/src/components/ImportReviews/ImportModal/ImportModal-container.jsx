@@ -24,23 +24,22 @@ export default class ImportModalContainer extends React.Component {
    * Submit function to retrieve reviews from Publons API, given the researcher ID
    * Gets the academicId from the form as parameter. Sets page/cursor to 1 when fetchin from Publons API. Appends the retrieved reviews to parent state, which is empty.  
    * 
-   * @param data - data object consisting of the form fields. Specifically the academic ID
+   * @param {object} data - data object consisting of the form fields. Specifically the academic ID
    */
   handleSubmit = (data) => {
     this.setState({ isFetching: true });
     console.log(data);
-    let academicId = data.academicId;
-    let page = 1;
-    getReviewsOfAcademicFromPublons(academicId, page).then((reviews) => {
+    let page = 1; // Modal fetches page 1.
+    getReviewsOfAcademicFromPublons(data.academicId, page).then((reviews) => {
       console.log(reviews);
       this.setState({ isFetching: false });
-      this.props.appendToReviews(reviews.results);
       let reviewsMeta = {
         totalReviewCount: reviews.count,
         totalPages: reviews.count % 10 === 0 ? reviews.count / 10 : Math.floor(reviews.count / 10 + 1),
-        academicId: academicId
+        academicId: data.academicId
       };
       this.props.setFetchedReviewsMeta(reviewsMeta);
+      this.props.appendToReviews(reviews.results);
       this.props.handleModalClose();
     });
   }

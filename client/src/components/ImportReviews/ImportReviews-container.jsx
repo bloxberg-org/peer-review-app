@@ -26,19 +26,29 @@ export default class ImportReviewsContainer extends React.Component {
   }
 
   /**
-   * Marks the clicked review on the table checked by flipping the checked value under the review object. Creates the checked field if does not exist.
+   * Toggles the clicked review in the table by flipping the checked value under the review object. Creates the checked field if does not exist.
    * 
-   * @param index - index of the review in the array.
+   * @param {number} index - index of the review in the array.
    */
   toggleCheckReview = (index) => {
     console.log(`Checking index ${index}`);
-    this.setState((state) => {
-      let tempReviews = state.fetchedReviews;
-      if (tempReviews[index].checked === undefined)
-        tempReviews[index].checked = true;
-      else {
-        tempReviews[index].checked = !tempReviews[index].checked;
-      }
+    if (this.state.fetchedReviews[index].checked === undefined)
+      this.selectReview(index, true);
+    else {
+      let value = !this.state.fetchedReviews[index].checked;
+      this.selectReview(index, value); // toggle
+    }
+  }
+
+  /**
+   * Marks the review checked or unchecked according to @param value.
+   * @param {number} index - index of the review in fetchedReviews.
+   * @param {boolean} value - value of isSelected.
+   */
+  selectReview = (index, value) => {
+    this.setState((prevState) => {
+      let tempReviews = prevState.fetchedReviews;
+      tempReviews[index].checked = value;
       return { fetchedReviews: tempReviews };
     });
   }
@@ -69,6 +79,7 @@ export default class ImportReviewsContainer extends React.Component {
         handleModalClose={this.handleModalClose}
         appendToReviews={this.appendToReviews}
         toggleCheckReview={this.toggleCheckReview}
+        selectReview={this.selectReview}
         setFetchedReviewsMeta={this.setFetchedReviewsMeta}
       />
     );

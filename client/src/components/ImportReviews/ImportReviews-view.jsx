@@ -16,9 +16,11 @@ ImportReviewsView.propTypes = {
   fetchedReviews: PropTypes.array.isRequired,
   fetchedReviewsMeta: PropTypes.object.isRequired,
   toggleCheckReview: PropTypes.func.isRequired,
-  setFetchedReviewsMeta: PropTypes.func.isRequired
+  setFetchedReviewsMeta: PropTypes.func.isRequired,
+  selectReview: PropTypes.func.isRequired
 };
 
+// ======== Basic Components ==========
 const Wrapper = styled.div`
     display: flex;
     flex: 1;
@@ -44,6 +46,7 @@ const StyledCardWrapper = styled(CardWrapper)`
   flex: 1;
 `;
 
+// =========== Compound Components ===========
 const ImportButton = styled((props) => {
   return (
     <div className={props.className} onClick={props.onClick}>
@@ -97,13 +100,14 @@ export default function ImportReviewsView(props) {
       <StyledCardWrapper title='Import Your Reviews'>
         <CardContentWrapper>
           {
-            // Render table if reviews are fetched. Render import if not yet fetched.
+            // Render Table if reviews are fetched. Render Import if not yet fetched.
             props.fetchedReviews.length > 0 ?
               <ImportedReviewsTable
                 reviews={props.fetchedReviews}
                 reviewsMeta={props.fetchedReviewsMeta}
                 toggleCheckReview={props.toggleCheckReview}
                 appendToReviews={props.appendToReviews}
+                selectReview={props.selectReview}
               /> :
               <ImportWrapper>
                 <InputTitle>Import From:</InputTitle>
