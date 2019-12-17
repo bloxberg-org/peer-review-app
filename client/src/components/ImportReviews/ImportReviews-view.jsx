@@ -42,7 +42,8 @@ const CardContentWrapper = styled.div`
 const StyledCardWrapper = styled(CardWrapper)`
   display:flex;
   flex: 1;
-`
+`;
+
 const ImportButton = styled((props) => {
   return (
     <div className={props.className} onClick={props.onClick}>
@@ -63,8 +64,6 @@ const ImportButton = styled((props) => {
 `;
 
 export default function ImportReviewsView(props) {
-
-  console.log(props);
   return (
     <Wrapper>
       <Modal
@@ -97,16 +96,21 @@ export default function ImportReviewsView(props) {
       </Modal>
       <StyledCardWrapper title='Import Your Reviews'>
         <CardContentWrapper>
-          <ImportWrapper>
-            <InputTitle>Import From:</InputTitle>
-            <ImportButton img={PublonsLogo} backgroundColor='#336599' onClick={props.handleModalOpen} />
-          </ImportWrapper>
-          <ImportedReviewsTable
-            reviews={props.fetchedReviews}
-            reviewsMeta={props.fetchedReviewsMeta}
-            toggleCheckReview={props.toggleCheckReview}
-            appendToReviews={props.appendToReviews}
-          />
+          {
+            // Render table if reviews are fetched. Render import if not yet fetched.
+            props.fetchedReviews.length > 0 ?
+              <ImportedReviewsTable
+                reviews={props.fetchedReviews}
+                reviewsMeta={props.fetchedReviewsMeta}
+                toggleCheckReview={props.toggleCheckReview}
+                appendToReviews={props.appendToReviews}
+              /> :
+              <ImportWrapper>
+                <InputTitle>Import From:</InputTitle>
+                <ImportButton img={PublonsLogo} backgroundColor='#336599' onClick={props.handleModalOpen} />
+              </ImportWrapper>
+          }
+
         </CardContentWrapper>
       </StyledCardWrapper>
     </Wrapper>

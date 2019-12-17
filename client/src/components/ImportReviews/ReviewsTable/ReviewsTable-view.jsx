@@ -14,13 +14,14 @@ ReviewsTableView.defaultProps = {
 };
 
 ReviewsTableView.propTypes = {
-  reviews: PropTypes.array.isRequired,
+  reviewsToShow: PropTypes.array.isRequired,
   reviewsMeta: PropTypes.object.isRequired,
   titles: PropTypes.array,
   toggleCheckReview: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   changePage: PropTypes.func.isRequired,
-  isLoadingPage: PropTypes.bool.isRequired
+  isLoadingPage: PropTypes.bool.isRequired,
+  startIndex: PropTypes.number.isRequired
 };
 
 // ========== Basic Components =============
@@ -58,13 +59,14 @@ const ColumnTitles = styled((props) => {
   `;
 
 const TableRow = styled((props) => {
+  console.log(props);
   return (
     <tr className={props.className} onClick={() => props.toggleCheckReview(props.index)}>
       <td> <input type='checkbox' checked={props.checked} /> </td>
-      <td>{props.publisher.name}</td>
-      <td>{props.date_reviewed}</td>
-      <td>{props.verification.verified ? 'Verified' : 'Not Verified'}</td>
-      <td><a href={props.ids.academic.url} rel='noopener noreferrer' target='_blank'> Link </a> </td>
+      <td>{props.publisher ? props.publisher.name : 'N/A'}</td>
+      <td>{props.date_reviewed ? props.date_reviewed : 'N/A'}</td>
+      <td>{props.verification ? 'Verified' : 'Not Verified'}</td>
+      <td><a href={props.ids.academic.url ? props.ids.academic.url : null} rel='noopener noreferrer' target='_blank'> Link </a> </td>
     </tr >
   );
 })`
@@ -124,7 +126,7 @@ const StyledLoader = styled((props) => {
     <div className={props.className}>
       <Loader />
     </div>
-  )
+  );
 })`
   width: 100%;
   height: 100%;
@@ -134,15 +136,15 @@ const StyledLoader = styled((props) => {
 `;
 
 export default function ReviewsTableView(props) {
-  if (props.reviews.length === 0) {
+  if (props.reviewsToShow.length === 0) {
     return (
       null
     );
   }
 
-  const reviewRows = props.reviews.map((review, i) => {
+  const reviewRows = props.reviewsToShow.map((review, i) => {
     return (
-      <TableRow key={i} index={i} {...review} toggleCheckReview={props.toggleCheckReview} />
+      <TableRow key={i} index={props.startIndex + i} {...review} toggleCheckReview={props.toggleCheckReview} />
     );
   });
 
