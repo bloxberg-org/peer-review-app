@@ -3,6 +3,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 import PublonsLogo from '../../assets/publons_logo.png';
+import Button from '../Button';
 import CardWrapper from '../CardWrapper';
 import InputTitle from '../FormField/InputTitle';
 import ImportModal from './ImportModal';
@@ -34,6 +35,11 @@ const ImportWrapper = styled.div`
   margin: 16px 0;
 `;
 
+const ImportButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+`;
+
 const CardContentWrapper = styled.div`
   margin: 0 32px;
   display: flex;
@@ -41,11 +47,20 @@ const CardContentWrapper = styled.div`
   flex-direction: column;
 `;
 
+const TableAndButtonsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
 const StyledCardWrapper = styled(CardWrapper)`
   display:flex;
   flex: 1;
 `;
 
+const StyledButton = styled(Button)`
+  font-size: 0.98rem;
+`;
 // =========== Compound Components ===========
 const ImportButton = styled((props) => {
   return (
@@ -102,13 +117,18 @@ export default function ImportReviewsView(props) {
           {
             // Render Table if reviews are fetched. Render Import if not yet fetched.
             props.fetchedReviews.length > 0 ?
-              <ImportedReviewsTable
-                reviews={props.fetchedReviews}
-                reviewsMeta={props.fetchedReviewsMeta}
-                toggleCheckReview={props.toggleCheckReview}
-                appendToReviews={props.appendToReviews}
-                selectReview={props.selectReview}
-              /> :
+              <TableAndButtonsWrapper>
+                <ImportButtonsWrapper>
+                  <StyledButton primary>Import Selected</StyledButton>
+                </ImportButtonsWrapper>
+                <ImportedReviewsTable
+                  reviews={props.fetchedReviews}
+                  reviewsMeta={props.fetchedReviewsMeta}
+                  toggleCheckReview={props.toggleCheckReview}
+                  appendToReviews={props.appendToReviews}
+                  selectReview={props.selectReview}
+                />
+              </TableAndButtonsWrapper> :
               <ImportWrapper>
                 <InputTitle>Import From:</InputTitle>
                 <ImportButton img={PublonsLogo} backgroundColor='#336599' onClick={props.handleModalOpen} />

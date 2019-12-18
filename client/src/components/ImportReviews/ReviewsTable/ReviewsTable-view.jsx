@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../../Button';
 import Loader from '../../Loader';
 
 ReviewsTableView.defaultProps = {
@@ -37,6 +38,12 @@ const ReviewsTable = styled.table`
     width: 100%;
     border-spacing: 0
   `;
+
+const StyledButton = styled(Button)`
+  width: auto;
+  padding: 0 16px;
+  font-size: 0.98rem;
+`;
 
 // ========== Compound Components ==========
 const SelectAllCheckbox = styled((props) => { // Each page has its own select all checkbox.
@@ -102,33 +109,48 @@ const TableRow = styled((props) => {
 const EndRow = styled((props) => {
   return (
     <div className={props.className}>
-      <div>
-        <span> Total number of reviews: {props.totalReviewCount} </span>
+      <div className='totalReviews'>
+        <span> Total reviews: {props.totalReviewCount} </span>
       </div>
       <PageIndicator page={props.page} totalPages={props.totalPages} changePage={props.changePage} />
+      <div className='buttonWrapper'>
+        <StyledButton secondary>Import All {props.totalReviewCount} Reviews</StyledButton>
+      </div>
     </div>
   );
 })`
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   margin: 8px 0;
+
+  & .buttonWrapper { // Center page indicator and send button to end.
+    flex: 1;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  & .totalReviews { // Center page indicator
+    flex: 1
+  }
 `;
 
 // < Page 1 of 22 >
 const PageIndicator = styled((props) => {
   return (
     <div className={props.className}>
-      <button className='arrow' onClick={() => props.page > 1 ? props.changePage(props.page - 1) : null}> &lt; </button>
+      <div className='arrow' onClick={() => props.page > 1 ? props.changePage(props.page - 1) : null}> &lt; </div>
       <span> Page {props.page} of {props.totalPages} </span>
-      <button className='arrow' onClick={() => props.page < props.totalPages ? props.changePage(props.page + 1) : null}> &gt;  </button>
+      <div className='arrow' onClick={() => props.page < props.totalPages ? props.changePage(props.page + 1) : null}> &gt;  </div>
     </div>
   );
 })`
+  flex-direction: row;
+  display: flex;
+  align-items: center;
   & .arrow {
-    color: white;
-    background-color: ${props => props.theme.primary};
+    font-weight: bold;
     padding: 8px;
     border-radius: 16px; 
     :hover {
@@ -175,8 +197,10 @@ export default function ReviewsTableView(props) {
         />
         {props.isLoadingPage ? null : reviewRows}
       </ReviewsTable>
-      {props.isLoadingPage ? <StyledLoader /> : null}
-      <EndRow page={props.page} changePage={props.changePage} {...props.reviewsMeta} />
+      {props.isLoadingPage ?
+        <StyledLoader /> :
+        <EndRow page={props.page} changePage={props.changePage} {...props.reviewsMeta} />
+      }
     </Wrapper>
   );
 }
