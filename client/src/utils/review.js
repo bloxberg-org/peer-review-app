@@ -90,17 +90,19 @@ export const getOneBlockchainReview = (index) => {
   });
 };
 
-export const addMultipleReviews = (reviewFieldsObj) => {
-  // export const addMultipleReviews = () => {
-  // let temp = {
-  //   journalIds: ['1', '2', '3'],
-  //   manuscriptIds: ['123', '123', '123'],
-  //   manuscriptHashes: ['asdfsdfaf', 'sdfacvzxvsa', 'sadfffsafd'],
-  //   timestamps: [543254325, 54352452, 6774314320],
-  //   recommendations: [0, 2, 1]
-  // };
-  // return connection.addMultipleReviews(temp);
-  return connection.addMultipleReviews(reviewFieldsObj);
+/**
+ * Function to add multiple reviews to blockchain in a single transaction, and subsequently to the DB.
+ * Takes a reviewsArr and reformats using function decomposeReviews, according to the smart contract's addMultipleReviews method.
+ * 
+ * @param {object} reviewsArr - Array of reviews to be added. 
+ */
+export const addMultipleReviews = (reviewsArr) => {
+  console.log(`Array of reviews to be added are:`);
+  console.log(reviewsArr);
+  let reviewFieldsObj = decomposeReviews(reviewsArr);
+  console.log(`Decomposed array to object:`);
+  console.log(reviewFieldsObj);
+  // return connection.addMultipleReviews(reviewFieldsObj);
 };
 
 /**
@@ -108,9 +110,30 @@ export const addMultipleReviews = (reviewFieldsObj) => {
  * 
  * @param {Array} reviewsArr - An array of review Objects 
  * @returns {Object} Object consisting of an array of fields. E.g. returnedObj.journalIds returns all the journalIds of reviews as an array.
+ * Example Input:
+ * [{ journalId: 'SPR', manuscriptId: '13795232', manuscriptHash:'8adf343bc1...', timestamp: 543254325, recommendation: 0, content:...},
+ * { journalId: 'WLY', manuscriptId: '455534123', manuscriptHash:'2cdae9836f1...', timestamp: 54352452, recommendation: 2}, content:...]
+ * 
+ * Example output:
+ *  {
+ *    journalIds: ['SPR', 'WLY'],
+ *    manuscriptIds: ['13795432', '455534123'],
+ *    manuscriptHashes: ['8adf343bc1...', '2cdae9836f1...'],
+ *    timestamps: [543254325, 54352452],
+ *    recommendations: [0, 2]
+ *    content:...
+ *  };
  */
 export const decomposeReviews = (reviewsArr) => {
+  let result = {};
 
+  reviewsArr.forEach(obj => {
+    Object.keys(obj).forEach(key => {
+      result[key] = (result[key] || []).concat([obj[key]]);
+    });
+  });
+
+  return result;
 };
 
 export const getAllDatabaseReviews = (address) => {
@@ -137,4 +160,4 @@ export const getReviewsOfAcademicFromPublons = (academicId, page) => {
   // default page = 1
   page = (page === undefined) ? 1 : page;
   return get(`/reviews/import/publons/?academicId=${academicId}&page=${page}`);
-}
+};

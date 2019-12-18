@@ -1,4 +1,5 @@
 import React from 'react';
+import { addMultipleReviews } from '../../utils/review';
 import ImportReviewsView from './ImportReviews-view';
 
 export default class ImportReviewsContainer extends React.Component {
@@ -72,6 +73,27 @@ export default class ImportReviewsContainer extends React.Component {
     this.setState({ fetchedReviewsMeta: reviewsMeta });
   }
 
+  /**
+   * Saves the reviews to blockchain and to the DB.
+   * Takes the array reviews and formats it in the standard format.
+   * 
+   * @param {array} reviews - The array of reviews to be saved.
+   */
+  saveSelectedReviews = () => {
+    let allReviews = this.state.fetchedReviews;
+    let selectedReviews = allReviews.filter(review => review.checked); // Reviews that are marked selected. 
+    addMultipleReviews(selectedReviews)
+  }
+  /**
+   * Function to convert Publons API format to peer-review format.
+   * 
+   * @param {array} reviews - The array of reviews fetched and selected from Publons API.
+   * @returns {array} Smart contract formatted array of reviews.
+   */
+  formatReviews = (reviews) => {
+
+  }
+
   render() {
     return (
       <ImportReviewsView {...this.state} {...this.props}
@@ -81,6 +103,7 @@ export default class ImportReviewsContainer extends React.Component {
         toggleCheckReview={this.toggleCheckReview}
         selectReview={this.selectReview}
         setFetchedReviewsMeta={this.setFetchedReviewsMeta}
+        saveSelectedReviews={this.saveSelectedReviews}
       />
     );
   }

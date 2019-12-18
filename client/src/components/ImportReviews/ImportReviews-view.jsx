@@ -18,7 +18,8 @@ ImportReviewsView.propTypes = {
   fetchedReviewsMeta: PropTypes.object.isRequired,
   toggleCheckReview: PropTypes.func.isRequired,
   setFetchedReviewsMeta: PropTypes.func.isRequired,
-  selectReview: PropTypes.func.isRequired
+  selectReview: PropTypes.func.isRequired,
+  saveSelectedReviews: PropTypes.func.isRequired
 };
 
 // ======== Basic Components ==========
@@ -119,7 +120,7 @@ export default function ImportReviewsView(props) {
             props.fetchedReviews.length > 0 ?
               <TableAndButtonsWrapper>
                 <ImportButtonsWrapper>
-                  <StyledButton primary>Import Selected</StyledButton>
+                  <StyledButton primary onClick={props.saveSelectedReviews}>Import Selected</StyledButton>
                 </ImportButtonsWrapper>
                 <ImportedReviewsTable
                   reviews={props.fetchedReviews}
