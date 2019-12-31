@@ -9,9 +9,9 @@ An Ethereum dApp for aggregating peer review data.
 # Installation
 
 ## Dependencies
-Install all node dependencies by: 
+Install all node dependencies by:
 ```
-npm install && npm install ./client && npm install ./server
+npm install
 ```
 
 If not available, install `truffle` globally by:
