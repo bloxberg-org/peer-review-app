@@ -45,6 +45,16 @@ cp ./server/config-template.js ./server/config.js
 
 and make sure you have mongodb listening at the `databaseURI` address of your `./server/config.js` configuration file. For instance. you can start your default mongodb in debian-like systems with `sudo systemctl start mongod`,  and set `databaseURI` to `mongodb://localhost:27017`.
 
+## Run the development environment
+
+You can run the complete dev environment (mongo, truffle, frontend, backend) by running the shell script.
+This requires VSCode and `tmux` to be installed. 
+```
+bash dev/bloxberg-dev.sh
+```
+
+Alternatively you can run each seperately as below:
+
 ## Run backend
 
 Run the backend in development mode with:
