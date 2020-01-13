@@ -49,9 +49,12 @@ and make sure you have mongodb listening at the `databaseURI` address of your `.
 
 You can run the complete dev environment (mongo, truffle, frontend, backend) by running the shell script.
 This requires VSCode and `tmux` to be installed. 
+
 ```
 bash dev/bloxberg-dev.sh
 ```
+
+Also edit the ganache config at `dev/scripts/secret-template.sh` to use same addresses each time.
 
 Alternatively you can run each seperately as below:
 
