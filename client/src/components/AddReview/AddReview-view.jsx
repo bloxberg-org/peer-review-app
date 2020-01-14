@@ -195,7 +195,7 @@ export default function AddReviewView(props) {
           handleClose={props.handleF1000Close}
           fillForm={(data) => {
             console.log(data);
-            reset(data);
+            reset(data); // Clear the form.
             props.onDateChange(moment(data.timestamp).toDate()); // Change the date explicitly. Must send a Date object.
           }} />
       </Modal>
@@ -213,6 +213,12 @@ export default function AddReviewView(props) {
               placeholder='Title of the reviewed article'
               errors={errors.articleTitle}
               register={register({ required: true })} />
+            <FormField
+              name='publisher'
+              title='Name of the Publisher'
+              placeholder='Publisher'
+              errors={errors.publisher}
+              register={register({ required: false })} />
             <FormField
               name='journalId'
               title='Journal Identifier'
@@ -247,6 +253,12 @@ export default function AddReviewView(props) {
               <option value="1">Review</option>
               <option value="2">Reject</option>
             </SelectField>
+            <FormField
+              name='url'
+              title='Url to the review'
+              placeholder='URL'
+              errors={errors.url}
+              register={register({ required: false })} />
             <DateField
               name='timestamp'
               title='Manuscript Date'

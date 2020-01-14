@@ -41,7 +41,7 @@ export default class App extends React.Component {
    * Adds the review to the state. Called when reviews are successfully added to the DB and Blockchain. 
    * @param reviewsAdded - Array of the reviews added.
    */
-  handleReviewsAdded = (reviewsAdded) => {
+  addReviewsToState = (reviewsAdded) => {
     this.setState((state) => {
       return state.reviewsOfUser.concat(reviewsAdded);
     });
@@ -57,7 +57,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <AppView addReviewsToState={this.handleReviewAdded} {...this.state} />
+      <AppView addReviewsToState={this.addReviewsToState} {...this.state} />
     );
   }
 }

@@ -6,7 +6,7 @@ import AddReviewView from './AddReview-view';
 
 class AddReviewContainer extends React.Component {
   static propTypes = {
-    reviews: PropTypes.array,
+    reviewsOfUser: PropTypes.array,
     history: PropTypes.object,
     addReviewsToState: PropTypes.func.isRequired
   }
@@ -49,7 +49,7 @@ class AddReviewContainer extends React.Component {
     console.log(data);
     this.setState({ isLoading: true });
     let review = {
-      index: this.props.reviews.length,
+      index: this.props.reviewsOfUser.length,
       ...data
     };
     addReview(review)

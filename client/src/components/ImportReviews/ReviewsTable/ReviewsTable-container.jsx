@@ -120,7 +120,6 @@ export default class ReviewsTableContainer extends React.Component {
   }
 
   render() {
-    console.log(this.props.reviews);
     return (
       <ReviewsTableView {...this.props} {...this.state}
         changePage={this.changePage}

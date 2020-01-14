@@ -119,9 +119,11 @@ function extractReviewFromJsonDoc(jsonDoc, index) {
 
   let response = {
     articleTitle: articleMeta['title-group']['article-title']['_text'],
+    publisher: journalMeta['publisher']['publisher-name']['_text'],
     journalId: journalMeta['issn']['_text'],
     manuscriptId: articleMeta['article-id']['_text'],
     articleDOI: articleMeta['article-id']['_text'],
+    url: 'http://www.doi.org/' + reviewDoc['front-stub']['article-id']['_text'],
     // TODO: Check for other formats of recommentdation.
     recommendation: extractRecommendation(reviewDoc),
     timestamp: extractReviewTimestamp(reviewDoc),

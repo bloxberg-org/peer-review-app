@@ -34,15 +34,15 @@ export const getOwnReviewCount = async () => {
 
 export const addReview = async (review) => {
   let [instance, accounts] = await init();
-  return instance.addReview(review.journalId, review.manuscriptId,
-    review.manuscriptHash, review.timestamp, review.recommendation,
+  return instance.addReview(review.journalId, review.publisher, review.manuscriptId,
+    review.manuscriptHash, review.timestamp, review.recommendation, review.url,
     { from: accounts[0] });
 };
 
 export const addMultipleReviews = async (reviewFieldsObj) => {
+  console.log('IN CONNECTION');
   let [instance, accounts] = await init();
-  return instance.addMultipleReviews(reviewFieldsObj.journalIds, reviewFieldsObj.manuscriptIds,
-    reviewFieldsObj.manuscriptHashes, reviewFieldsObj.timestamps, reviewFieldsObj.recommendations,
+  return instance.addMultipleReviews(reviewFieldsObj.journalId, reviewFieldsObj.publisher, reviewFieldsObj.manuscriptId, reviewFieldsObj.manuscriptHash, reviewFieldsObj.timestamp, reviewFieldsObj.recommendation, reviewFieldsObj.url,
     { from: accounts[0] });
 };
 

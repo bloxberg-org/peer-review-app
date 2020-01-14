@@ -6,11 +6,13 @@ import PublonsLogo from '../../assets/publons_logo.png';
 import Button from '../Button';
 import CardWrapper from '../CardWrapper';
 import InputTitle from '../FormField/InputTitle';
+import Loader from '../Loader';
 import ImportModal from './ImportModal';
 import ImportedReviewsTable from './ReviewsTable';
 
 ImportReviewsView.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
+  isUploading: PropTypes.bool.isRequired,
   handleModalClose: PropTypes.func.isRequired,
   handleModalOpen: PropTypes.func.isRequired,
   appendToReviews: PropTypes.func.isRequired,
@@ -83,6 +85,11 @@ const ImportButton = styled((props) => {
 `;
 
 export default function ImportReviewsView(props) {
+  if (props.isUploading) {
+    return (
+      <Loader />
+    );
+  }
   return (
     <Wrapper>
       <Modal

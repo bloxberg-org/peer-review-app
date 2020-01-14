@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import { addMultipleReviews } from '../../utils/review';
 import ImportReviewsView from './ImportReviews-view';
@@ -7,6 +8,7 @@ export default class ImportReviewsContainer extends React.Component {
     super(props);
     this.state = {
       isModalOpen: false,
+      isUploading: false,
       fetchedReviews: [],
       fetchedReviewsMeta: {
         // totalReviewCount
@@ -36,8 +38,8 @@ export default class ImportReviewsContainer extends React.Component {
     if (this.state.fetchedReviews[index].checked === undefined)
       this.selectReview(index, true);
     else {
-      let value = !this.state.fetchedReviews[index].checked;
-      this.selectReview(index, value); // toggle
+      let checked = this.state.fetchedReviews[index].checked;
+      this.selectReview(index, !checked); // toggle
     }
   }
 
@@ -54,6 +56,18 @@ export default class ImportReviewsContainer extends React.Component {
     });
   }
 
+  /**
+   * Sets the checked field of all reviews in state.fetchedReviews false.
+   */
+  clearSelected = () => {
+    this.setState((prevState) => {
+      let clearedReviews = prevState.fetchedReviews.map((review) => {
+        review.checked = false;
+        return review;
+      });
+      return { fetchedReviews: clearedReviews };
+    });
+  }
   /**
    * Takes an array of reviews that are fetched from Publons API 
    * Pushes them to the reviews in the state
@@ -74,24 +88,40 @@ export default class ImportReviewsContainer extends React.Component {
   }
 
   /**
-   * Saves the reviews to blockchain and to the DB.
-   * Takes the array reviews and formats it in the standard format.
+   * Saves the reviews to blockchain.
+   * Takes the array of reviews selected and formats them in the standard format.
+   * Calls addMultipleReviews to save the formatted reviews.
    * 
    * @param {array} reviews - The array of reviews to be saved.
    */
   saveSelectedReviews = () => {
-    let allReviews = this.state.fetchedReviews;
-    let selectedReviews = allReviews.filter(review => review.checked); // Reviews that are marked selected. 
-    addMultipleReviews(selectedReviews)
+    this.setState({ isUploading: true });
+    let selectedReviews = this.state.fetchedReviews.filter(review => review.checked); // Reviews that are marked selected. 
+    let formattedReviews = this.formatPublonsReviews(selectedReviews);
+    addMultipleReviews(formattedReviews).then(() => {
+      this.setState({ isUploading: false });
+      this.clearSelected();
+    });
   }
+
   /**
-   * Function to convert Publons API format to peer-review format.
+   * Function to convert fetched data from Publons API to the according Review format in the smart contract.
    * 
    * @param {array} reviews - The array of reviews fetched and selected from Publons API.
    * @returns {array} Smart contract formatted array of reviews.
    */
-  formatReviews = (reviews) => {
-
+  formatPublonsReviews = (reviews) => {
+    return reviews.map((review) => {
+      return {
+        journalId: '',
+        publisher: review.publisher ? review.publisher.name : '',
+        manuscriptId: '',
+        manuscriptHash: '',
+        timestamp: moment(review.date_reviewed).unix(),
+        recommendation: '',
+        url: review.ids.academic.url
+      };
+    });
   }
 
   render() {
