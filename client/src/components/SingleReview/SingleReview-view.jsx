@@ -12,10 +12,12 @@ SingleReviewView.propTypes = {
   }),
   blockchainReview: PropTypes.shape({
     journalId: PropTypes.string.isRequired,
+    publisher: PropTypes.string.isRequired,
     manuscriptId: PropTypes.string.isRequired,
     manuscriptHash: PropTypes.string.isRequired,
     timestamp: PropTypes.number.isRequired,
-    recommendation: PropTypes.oneOf([0, 1, 2])
+    recommendation: PropTypes.oneOf([0, 1, 2, 3]),
+    url: PropTypes.string.isRequired
   })
 };
 
@@ -55,7 +57,12 @@ const JournalIdLockIconWrapper = styled.div`
 `;
 
 const TimeStampRecommendationWrapper = styled.div`
-`;
+  display: flex;
+  flex-direction: row;
+  & div {
+    flex: 0.5;  
+  }
+` ;
 
 const ContentWrapper = styled.div`
   flex: 1;
@@ -97,12 +104,14 @@ export default function SingleReviewView(props) {
                 <ReviewField title='Journal ID' value={props.blockchainReview.journalId} />
                 <img style={{ 'width': '35px' }} src={lock} alt='hanging lock' />
               </JournalIdLockIconWrapper>
+              <ReviewField title='Publisher' value={props.blockchainReview.publisher} />
               <ReviewField title='Manuscript ID' value={props.blockchainReview.manuscriptId} />
               <ReviewField title='Manuscript Hash' value={props.blockchainReview.manuscriptHash} />
               <TimeStampRecommendationWrapper>
                 <ReviewField title='Timestamp' value={props.blockchainReview.timestamp} />
                 <ReviewField title='Recommendation' value={props.blockchainReview.recommendation} />
               </TimeStampRecommendationWrapper>
+              <ReviewField title='URL' value={props.blockchainReview.url} />
             </UpperHalfRightWrapper>
           </UpperHalfWrapper>
           <ContentWrapper>
