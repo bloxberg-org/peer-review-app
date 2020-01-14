@@ -15,8 +15,8 @@ class SingleReviewContainer extends React.Component {
     super(props);
     this.state = {
       isReviewLoading: true,
-      DBreview: [],
-      blockchainReview: []
+      DBreview: {},
+      blockchainReview: {}
     };
   }
 
