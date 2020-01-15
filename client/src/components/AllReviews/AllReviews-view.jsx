@@ -29,8 +29,7 @@ const ReviewsTable = styled.table`
 const ReviewHeader = styled(({ className }) => {
   return (
     <tr className={className}>
-      <th>Title</th>
-      <th>Article DOI</th>
+      <th>Publisher</th>
       <th>Timestamp</th>
       <th>Verified</th>
     </tr>
@@ -47,9 +46,8 @@ const ReviewHeader = styled(({ className }) => {
 
 const ReviewRow = styled((props) => {
   return (
-    <tr className={props.className} onClick={() => { props.history.push(`/Reviews/${props.index}`); }}>
-      <td>{props.articleTitle}</td>
-      <td>{props.articleDOI}</td>
+    <tr className={props.className} onClick={() => { props.history.push(`/Reviews/${props.id}`); }}>
+      <td>{props.publisher}</td>
       <td>{props.timestamp}</td>
       <td>{props.verified ? 'Yes' : 'No'}</td>
     </tr>
@@ -76,9 +74,9 @@ const ReviewRow = styled((props) => {
 export default function AllReviewsView(props) {
   let history = useHistory(); // Use history to route to the review page onClick
 
-  const reviews = props.DBreviews.map((DBreview, i) => {
+  const reviews = props.blockchainReviews.map((blockchainReview, i) => {
     return (
-      <ReviewRow key={i} {...DBreview} {...props.blockchainReviews[i]} history={history} />
+      <ReviewRow key={i} {...blockchainReview} history={history} />
     );
   });
 

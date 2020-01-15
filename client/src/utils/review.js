@@ -13,6 +13,7 @@ import { get, getXML, post } from './endpoint';
 export const addReview = (data) => {
   // Prepare blockchain data.
   let chainData = {
+    id: data.id,
     journalId: data.journalId,
     publisher: data.publisher,
     manuscriptId: data.manuscriptId,
@@ -24,6 +25,7 @@ export const addReview = (data) => {
   return getCurrentAccount().then((address) => {
     // Prepare DB data.
     let dbData = {
+      id: data.id,
       articleTitle: data.articleTitle,
       author: address,
       content: data.content,
@@ -52,33 +54,37 @@ export const addReview = (data) => {
 };
 
 export const getAllBlockchainReviews = async () => {
-  let reviewCount;
+  let reviewIds;
   try {
-    reviewCount = await connection.getOwnReviewCount();
+    reviewIds = await connection.getOwnReviewIdsArray(); // Fetch review ids to fetch reviews one by one. (Smart contract can't return all reviews at once.)
+    if (reviewIds.length == 0) // return empty array if there are no reviews.
+      return [];
   } catch (e) {
-    console.log('Error getting review count');
+    console.log('Error getting review ids');
   }
 
-  console.log(`Review count is ${reviewCount}`);
+  console.log('Review ids are');
+  console.log(reviewIds);
 
   let reviewPromises = [];
-  for (let i = 0; i < reviewCount; i++) {
-    reviewPromises.push(connection.getOwnReview(i));
+  for (let i = 0; i < reviewIds.length; i++) {
+    reviewPromises.push(connection.getReview(reviewIds[i]));
   }
 
   return Promise.all(reviewPromises).then((reviewArr => {
     // Must format the reviews as a JSON. Data retrieved from blockchain is an array.
     return reviewArr.map((review) => {
       return {
-        journalId: review[0],
-        publisher: review[1],
-        manuscriptId: review[2],
-        manuscripthash: review[3],
-        timestamp: review[4].toNumber(), // Handle BigNumber
-        recommendation: review[5].toNumber(),
-        url: review[6],
-        verified: review[7],
-        vouchers: review[8]
+        id: review[0],
+        journalId: review[1],
+        publisher: review[2],
+        manuscriptId: review[3],
+        manuscripthash: review[4],
+        timestamp: review[5].toNumber(), // Handle BigNumber
+        recommendation: review[6].toNumber(),
+        url: review[7],
+        verified: review[8],
+        vouchers: review[9]
       };
     });
   })).catch((e) => {
@@ -87,18 +93,19 @@ export const getAllBlockchainReviews = async () => {
   });
 };
 
-export const getOneBlockchainReview = (index) => {
-  return connection.getOwnReview(index).then(review => {
+export const getOneBlockchainReview = (id) => {
+  return connection.getReview(id).then(review => {
     return {
-      journalId: review[0],
-      publisher: review[1],
-      manuscriptId: review[2],
-      manuscriptHash: review[3],
-      timestamp: review[4].toNumber(), // Handle BigNumber
-      recommendation: review[5].toNumber(),
-      url: review[6],
-      verified: review[7],
-      vouchers: review[8]
+      id: review[0],
+      journalId: review[1],
+      publisher: review[2],
+      manuscriptId: review[3],
+      manuscripthash: review[4],
+      timestamp: review[5].toNumber(), // Handle BigNumber
+      recommendation: review[6].toNumber(),
+      url: review[7],
+      verified: review[8],
+      vouchers: review[9]
     };
   }).catch((e) => {
     console.log(e);
@@ -157,9 +164,9 @@ export const getAllDatabaseReviews = (address) => {
   return get(`/reviews/${address}`);
 };
 
-export const getOneDatabaseReview = (address, index) => {
-  console.log(`Sending a GET at: /reviews/${address}/${index}`);
-  return get(`/reviews/${address}/${index}`);
+export const getOneDatabaseReview = (address, id) => {
+  console.log(`Sending a GET at: /reviews/${address}/${id}`);
+  return get(`/reviews/${address}/${id}`);
 };
 
 export const getReviewsOfArticle = (source, doi) => {

@@ -18,13 +18,6 @@ async function init() {
   }
 }
 
-// Get review count of some other address
-export const getReviewCount = async (authorAddr) => {
-  let [instance, accounts] = await init();
-  return instance.getReviewCount(authorAddr,
-    { from: accounts[0] });
-};
-
 export const getOwnReviewCount = async () => {
   let [instance, accounts] = await init();
   let authorAddr = accounts[0];
@@ -34,34 +27,33 @@ export const getOwnReviewCount = async () => {
 
 export const addReview = async (review) => {
   let [instance, accounts] = await init();
-  return instance.addReview(review.journalId, review.publisher, review.manuscriptId,
+  return instance.addReview(review.id, review.journalId, review.publisher, review.manuscriptId,
     review.manuscriptHash, review.timestamp, review.recommendation, review.url,
     { from: accounts[0] });
 };
 
 export const addMultipleReviews = async (reviewFieldsObj) => {
-  console.log('IN CONNECTION');
   let [instance, accounts] = await init();
-  return instance.addMultipleReviews(reviewFieldsObj.journalId, reviewFieldsObj.publisher, reviewFieldsObj.manuscriptId, reviewFieldsObj.manuscriptHash, reviewFieldsObj.timestamp, reviewFieldsObj.recommendation, reviewFieldsObj.url,
+  return instance.addMultipleReviews(reviewFieldsObj.id, reviewFieldsObj.journalId, reviewFieldsObj.publisher, reviewFieldsObj.manuscriptId, reviewFieldsObj.manuscriptHash, reviewFieldsObj.timestamp, reviewFieldsObj.recommendation, reviewFieldsObj.url,
     { from: accounts[0] });
 };
 
-export const getReview = async (addr, index) => {
+export const getReview = async (id) => {
   let [instance, accounts] = await init();
-  return instance.getReview(addr, index,
+  return instance.getReview(id,
     { from: accounts[0] });
 };
 
-export const getOwnReview = async (index) => {
+export const getOwnReviewIdsArray = async () => {
   let [instance, accounts] = await init();
   let addr = accounts[0];
-  return instance.getReview(addr, index,
+  return instance.getReviewsArrayOfUser(addr,
     { from: accounts[0] });
 };
 
-export const vouchReview = async (addr, index) => {
+export const vouchReview = async (id) => {
   let [instance, accounts] = await init();
-  return instance.vouch(addr, index,
+  return instance.vouch(id,
     { from: accounts[0] });
 };
 

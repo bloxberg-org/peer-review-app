@@ -11,6 +11,7 @@ SingleReviewView.propTypes = {
     content: PropTypes.string.isRequired
   }),
   blockchainReview: PropTypes.shape({
+    id: PropTypes.string.isRequired,
     journalId: PropTypes.string.isRequired,
     publisher: PropTypes.string.isRequired,
     manuscriptId: PropTypes.string.isRequired,
@@ -93,11 +94,11 @@ export default function SingleReviewView(props) {
   console.log(props);
   return (
     <Wrapper>
-      <CardWrapper title={props.DBreview.articleTitle}>
+      <CardWrapper title={props.DBreview ? props.DBreview.articleTitle : 'No title given'}>
         <InnerCardWrapper>
           <UpperHalfWrapper>
             <UpperHalfLeftWrapper>
-              <ReviewField title='Article DOI' value={props.DBreview.articleDOI} />
+              <ReviewField title='Article DOI' value={props.DBreview ? props.DBreview.articleDOI : 'N/A'} />
             </UpperHalfLeftWrapper>
             <UpperHalfRightWrapper>
               <JournalIdLockIconWrapper>
@@ -115,7 +116,7 @@ export default function SingleReviewView(props) {
             </UpperHalfRightWrapper>
           </UpperHalfWrapper>
           <ContentWrapper>
-            <ReviewField title='Content' value={props.DBreview.content} />
+            <ReviewField title='Content' value={props.DBreview ? props.DBreview.content : 'N/A'} />
           </ContentWrapper>
         </InnerCardWrapper>
       </CardWrapper>

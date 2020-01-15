@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import uniqid from 'uniqid';
 import { addReview } from '../../utils/review';
 import AddReviewView from './AddReview-view';
 
@@ -49,18 +50,18 @@ class AddReviewContainer extends React.Component {
     console.log(data);
     this.setState({ isLoading: true });
     let review = {
-      index: this.props.reviewsOfUser.length,
+      id: uniqid(),
       ...data
     };
     addReview(review)
       .then((response) => {
         console.log(response);
         this.setState({ isLoading: false });
-        let index = response.dbData.index; // Get the index to show the review page.
+        let id = response.chainData.id; // Get the index to show the review page.
         this.props.addReviewsToState([response.chainData]); // Add to App.js state explicitly as userReviews are only retrieved when refreshing.
         const { history } = this.props;
         // redirect to review page after adding
-        history.push(`/Reviews/${index}`);
+        history.push(`/Reviews/${id}`);
       })
       .catch(err => console.log(err));
   }
