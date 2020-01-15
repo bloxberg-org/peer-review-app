@@ -6,7 +6,7 @@ const { getXML, getPDF, getWithPublonsAuth } = require('../utils/restUtils');
 const { xml2json } = require('xml-js');
 const moment = require('moment');
 const crypto = require('crypto');
-
+'';
 // GET /reviews/import/publons/?academicId=${academicId}&page=${page}
 exports.importReviews = (req, res) => {
   let source = req.params.source; // 'publons'
@@ -30,8 +30,8 @@ exports.addReview = (req, res) => {
 
   let address = req.params.address;
   let review = new Review(req.body);
-
-  // "join" scholar and review through review id
+  console.log(review);
+  // Mutual field for scholar and review to "join"
   Scholar.findById(address).then(author => {
     author.reviews.push(review._id); // Add review ID to scholar field
     author.save();
@@ -60,10 +60,10 @@ exports.getAllReviews = (req, res) => {
 // GET /reviews/:address/:index
 exports.getReview = (req, res) => {
   let address = req.params.address;
-  let index = req.params.index;
+  let id = req.params.id;
   console.log('IN GET ONE REVIEW');
 
-  Review.findOne({ author: address, index: index }).then(review => {
+  Review.findOne({ author: address, id: id }).then(review => {
     console.log(review);
     res.status(200).json(review);
   }).catch(err => res.status(404).send(err));

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React from 'react';
+import uniqid from 'uniqid';
 import { addMultipleReviews } from '../../utils/review';
 import ImportReviewsView from './ImportReviews-view';
 
@@ -113,6 +114,7 @@ export default class ImportReviewsContainer extends React.Component {
   formatPublonsReviews = (reviews) => {
     return reviews.map((review) => {
       return {
+        id: uniqid(),
         journalId: '',
         publisher: review.publisher ? review.publisher.name : '',
         manuscriptId: '',

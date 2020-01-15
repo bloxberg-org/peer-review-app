@@ -28,9 +28,9 @@ class SingleReviewContainer extends React.Component {
 
   fetchReview() {
     let address = this.props.user._id;
-    let index = this.props.match.params.index;
+    let id = this.props.match.params.id;
 
-    return Promise.all([getOneDatabaseReview(address, index), getOneBlockchainReview(index)]);
+    return Promise.all([getOneDatabaseReview(address, id), getOneBlockchainReview(id)]);
   }
 
   render() {

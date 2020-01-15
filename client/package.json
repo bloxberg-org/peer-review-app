@@ -16,7 +16,8 @@
     "react-modal": "^3.11.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "styled-components": "^4.4.0"
+    "styled-components": "^4.4.0",
+    "uniqid": "^5.2.0"
   },
   "scripts": {
     "start": "PORT=3001 react-scripts start",

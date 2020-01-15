@@ -65,7 +65,7 @@ export default function AppView(props) {
               <TopBar title='Reviews' {...props} />
               <AllReviews {...props} />
             </Route>
-            <Route path="/Reviews/:index">
+            <Route path="/Reviews/:id">
               <TopBar title='Review' {...props} />
               <SingleReview {...props} />
             </Route>
