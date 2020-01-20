@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import moment from 'moment';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -30,7 +31,7 @@ const ReviewHeader = styled(({ className }) => {
   return (
     <tr className={className}>
       <th>Publisher</th>
-      <th>Timestamp</th>
+      <th>Year</th>
       <th>Verified</th>
     </tr>
   );
@@ -48,7 +49,7 @@ const ReviewRow = styled((props) => {
   return (
     <tr className={props.className} onClick={() => { props.history.push(`/Reviews/${props.id}`); }}>
       <td>{props.publisher}</td>
-      <td>{props.timestamp}</td>
+      <td>{moment.unix(props.timestamp).format('YYYY')}</td>
       <td>{props.verified ? 'Yes' : 'No'}</td>
     </tr>
   );
