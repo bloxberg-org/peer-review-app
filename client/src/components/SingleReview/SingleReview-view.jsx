@@ -1,3 +1,4 @@
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
@@ -109,7 +110,7 @@ export default function SingleReviewView(props) {
               <ReviewField title='Manuscript ID' value={props.blockchainReview.manuscriptId} />
               <ReviewField title='Manuscript Hash' value={props.blockchainReview.manuscriptHash} />
               <TimeStampRecommendationWrapper>
-                <ReviewField title='Timestamp' value={props.blockchainReview.timestamp} />
+                <ReviewField title='Year' value={moment.unix(props.blockchainReview.timestamp).format('YYYY')} />
                 <ReviewField title='Recommendation' value={props.blockchainReview.recommendation} />
               </TimeStampRecommendationWrapper>
               <ReviewField title='URL' value={props.blockchainReview.url} />
