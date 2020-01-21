@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import lock from '../../assets/lock.png';
 import CardWrapper from '../CardWrapper';
 
+const PUBLONS_ADDRESS = '0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311';
+
 SingleReviewView.propTypes = {
   DBreview: PropTypes.shape({
     articleTitle: PropTypes.string.isRequired,
@@ -19,7 +21,8 @@ SingleReviewView.propTypes = {
     manuscriptHash: PropTypes.string.isRequired,
     timestamp: PropTypes.number.isRequired,
     recommendation: PropTypes.oneOf([0, 1, 2, 3]),
-    url: PropTypes.string.isRequired
+    url: PropTypes.string.isRequired,
+    vouchers: PropTypes.array.isRequired
   })
 };
 
@@ -82,7 +85,7 @@ const ReviewField = styled(props => {
   return (
     <div className={props.className}>
       <ReviewFieldTitle> {props.title} </ReviewFieldTitle>
-      <ReviewFieldText> {props.value} </ReviewFieldText>
+      <ReviewFieldText> {props.children} </ReviewFieldText>
     </div>
   );
 })`
@@ -99,21 +102,30 @@ export default function SingleReviewView(props) {
         <InnerCardWrapper>
           <UpperHalfWrapper>
             <UpperHalfLeftWrapper>
-              <ReviewField title='Article DOI' value={props.DBreview ? props.DBreview.articleDOI : 'N/A'} />
+              <ReviewField title='Article DOI'>{props.DBreview ? props.DBreview.articleDOI : 'N/A'}</ReviewField>
             </UpperHalfLeftWrapper>
             <UpperHalfRightWrapper>
               <JournalIdLockIconWrapper>
-                <ReviewField title='Journal ID' value={props.blockchainReview.journalId} />
+                <ReviewField title='Journal ID'>{props.blockchainReview.journalId}</ReviewField>
                 <img style={{ 'width': '35px' }} src={lock} alt='hanging lock' />
               </JournalIdLockIconWrapper>
-              <ReviewField title='Publisher' value={props.blockchainReview.publisher} />
-              <ReviewField title='Manuscript ID' value={props.blockchainReview.manuscriptId} />
-              <ReviewField title='Manuscript Hash' value={props.blockchainReview.manuscriptHash} />
+              <ReviewField title='Publisher'>{props.blockchainReview.publisher}</ReviewField>
+              <ReviewField title='Manuscript ID'>{props.blockchainReview.manuscriptId}</ReviewField>
+              <ReviewField title='Manuscript Hash'>{props.blockchainReview.manuscriptHash}</ReviewField>
               <TimeStampRecommendationWrapper>
-                <ReviewField title='Year' value={moment.unix(props.blockchainReview.timestamp).format('YYYY')} />
-                <ReviewField title='Recommendation' value={props.blockchainReview.recommendation} />
+                <ReviewField title='Year'>{moment.unix(props.blockchainReview.timestamp).format('YYYY')}</ReviewField>
+                <ReviewField title='Recommendation'>{props.blockchainReview.recommendation}</ReviewField>
               </TimeStampRecommendationWrapper>
-              <ReviewField title='URL' value={props.blockchainReview.url} />
+              <ReviewField title='URL'>{props.blockchainReview.url}</ReviewField>
+              <ReviewField title='Vouchers'>
+                {
+                  props.blockchainReview.vouchers ?
+                    props.blockchainReview.vouchers.map((address) => {
+                      return address === PUBLONS_ADDRESS ? 'Publons' : address; // Display 'Publons' if addresses match, show the address otherise.
+                    })
+                    : null // Return null if no vouchers
+                }
+              </ReviewField>
             </UpperHalfRightWrapper>
           </UpperHalfWrapper>
           <ContentWrapper>
@@ -121,6 +133,6 @@ export default function SingleReviewView(props) {
           </ContentWrapper>
         </InnerCardWrapper>
       </CardWrapper>
-    </Wrapper>
+    </Wrapper >
   );
 }
