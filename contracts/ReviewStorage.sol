@@ -7,6 +7,7 @@ pragma experimental ABIEncoderV2;
 /// @dev
 contract ReviewStorage {
   address[] usersAddresses;
+  address publonsAddress = 0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311;
   enum Recommendation { NULL, ACCEPT, REVISE, REJECT }
   struct Review {
     string id;
@@ -19,7 +20,7 @@ contract ReviewStorage {
     string url;
     bool verified;
     address[] vouchers;
-    mapping(address => bool) vouchersMap;
+    mapping(address => bool) vouchersMap; // Check if vouched by a certain address.
   }
   // Mapping from Review ids to Reviews.
   mapping (string => Review) reviewsMap;
@@ -36,7 +37,7 @@ contract ReviewStorage {
   /// @param timestamp - uint32 Unix timestamp when review is published
   /// @param recommendation - 0,1 or 2 for ACCEPT, REVIEW, REJECT
   function addReview(string memory id, string memory journalId, string memory publisher,
-    string memory manuscriptId,string memory manuscriptHash, uint32 timestamp, Recommendation recommendation, string memory url) public {
+    string memory manuscriptId,string memory manuscriptHash, uint32 timestamp, Recommendation recommendation, string memory url) private returns (Review memory) {
     address author = msg.sender;
 
     Review memory review = Review({
@@ -53,6 +54,7 @@ contract ReviewStorage {
     });
     reviewsMap[id] = review;
     userReviewsIdsMap[author].push(id);
+    return review;
   }
 
   function addMultipleReviews(string[] memory ids, string[] memory journalIds, string[] memory publishers, string[] memory manuscriptIds,
@@ -82,6 +84,43 @@ contract ReviewStorage {
       userReviewsIdsMap[author].push(ids[i]);
     }
   }
+
+// TODO: REFACTOR, Repeating the code above.
+function addMultipleReviewsAndVerifyByPublons(string[] memory ids, string[] memory journalIds,
+  string[] memory publishers, string[] memory manuscriptIds, string[] memory manuscriptHashes,
+  uint32[] memory timestamps, Recommendation[] memory recommendations, string[] memory urls, bool[] memory verifieds) public {
+  require(ids.length == journalIds.length &&
+    journalIds.length == publishers.length &&
+    publishers.length == manuscriptIds.length &&
+    manuscriptIds.length == manuscriptHashes.length &&
+    manuscriptHashes.length == timestamps.length &&
+    timestamps.length == recommendations.length &&
+    recommendations.length == urls.length &&
+    urls.length == verifieds.length,
+    'Parameter lengths dont match');
+  uint24 length = uint24(journalIds.length);
+  address author = msg.sender;
+  for (uint i = 0; i < length; i++) {
+    Review storage review = reviewsMap[ids[i]];
+    review.id = ids[i];
+    review.journalId = journalIds[i];
+    review.publisher = publishers[i];
+    review.manuscriptId = manuscriptIds[i];
+    review.manuscriptHash = manuscriptHashes[i];
+    review.timestamp = timestamps[i];
+    review.recommendation = recommendations[i];
+    review.url = urls[i];
+    if(verifieds[i]){
+      review.verified = true;
+      review.vouchers = [publonsAddress]; // Add the publonsAddress as voucher.
+    } else {
+      review.verified = false;
+      review.vouchers = new address[](0); // Init empty array
+    }
+    
+    userReviewsIdsMap[author].push(ids[i]);
+  }
+}
 
   /// @notice Returns the Review belonging to the paramater address on the parameter index.
   /// @dev Returns the Review struct as an ordered key value object. e.g. {0: 'JOURNALID', 1: ....}
@@ -118,6 +157,7 @@ contract ReviewStorage {
       review.verified = true;
     }
   }
+
   /// @notice Function to check if the Review at the given address and index is vouched by msg.sender8i.
   /// @dev Assumes the voucher is the msg.sender.
   /// @param id - id of the review

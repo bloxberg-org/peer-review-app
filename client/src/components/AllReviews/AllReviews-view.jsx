@@ -50,7 +50,7 @@ const ReviewRow = styled((props) => {
     <tr className={props.className} onClick={() => { props.history.push(`/Reviews/${props.id}`); }}>
       <td>{props.publisher}</td>
       <td>{moment.unix(props.timestamp).format('YYYY')}</td>
-      <td>{props.verified ? 'Yes' : 'No'}</td>
+      <td>{props.verified ? 'Verified' : 'Not Verified'}</td>
     </tr>
   );
 })`

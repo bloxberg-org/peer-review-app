@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import uniqid from 'uniqid';
-import { addMultipleReviews } from '../../utils/review';
+import { addMultipleReviewsFromPublons } from '../../utils/review';
 import ImportReviewsView from './ImportReviews-view';
 
 export default class ImportReviewsContainer extends React.Component {
@@ -99,7 +99,7 @@ export default class ImportReviewsContainer extends React.Component {
     this.setState({ isUploading: true });
     let selectedReviews = this.state.fetchedReviews.filter(review => review.checked); // Reviews that are marked selected. 
     let formattedReviews = this.formatPublonsReviews(selectedReviews);
-    addMultipleReviews(formattedReviews).then(() => {
+    addMultipleReviewsFromPublons(formattedReviews).then(() => {
       this.setState({ isUploading: false });
       this.clearSelected();
     });
@@ -121,7 +121,8 @@ export default class ImportReviewsContainer extends React.Component {
         manuscriptHash: '',
         timestamp: moment(review.date_reviewed).unix(),
         recommendation: '',
-        url: review.ids.academic.url
+        url: review.ids.academic.url,
+        verified: review.verification.verified
       };
     });
   }

@@ -119,13 +119,13 @@ export const getOneBlockchainReview = (id) => {
  * 
  * @param {object} reviewsArr - Array of reviews to be added. 
  */
-export const addMultipleReviews = (reviewsArr) => {
+export const addMultipleReviewsFromPublons = (reviewsArr) => {
   console.log('Array of reviews to be added are:');
   console.log(reviewsArr);
   let reviewFieldsObj = decomposeReviews(reviewsArr);
   console.log('Decomposed array to object:');
   console.log(reviewFieldsObj);
-  return connection.addMultipleReviews(reviewFieldsObj);
+  return connection.addMultipleReviewsFromPublons(reviewFieldsObj);
 };
 
 /**
