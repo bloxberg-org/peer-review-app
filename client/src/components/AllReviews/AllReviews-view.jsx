@@ -3,6 +3,7 @@ import moment from 'moment';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import Button from '../Button';
 import CardWrapper from '../CardWrapper';
 
 const Wrapper = styled.div`
@@ -26,14 +27,26 @@ const ReviewsTable = styled.table`
     border-spacing: 0
   `;
 
+const ButtonWrapper = styled.div`
+  display:flex;
+  flex-direction: row-reverse;
+  margin: 10px 32px;
+`;
+
+const StyledButton = styled(Button)`
+  font-size: 0.9rem
+`;
+
 // ========== Compound Components ==========
 const ReviewHeader = styled(({ className }) => {
   return (
-    <tr className={className}>
-      <th>Publisher</th>
-      <th>Year</th>
-      <th>Verified</th>
-    </tr>
+    <thead> {/*thead needed for jsPDF.autoTable() */}
+      <tr className={className}>
+        <th>Publisher</th>
+        <th>Year</th>
+        <th>Verified</th>
+      </tr>
+    </thead>
   );
 })`
     & > th {
@@ -85,10 +98,15 @@ export default function AllReviewsView(props) {
     <Wrapper>
       <CardWrapper title='All Reviews' >
         <ResultsWrapper>
+          <ButtonWrapper>
+            <StyledButton onClick={props.savePDF} primary>Export all as PDF</StyledButton>
+          </ButtonWrapper>
           <ReviewsWrapper>
-            <ReviewsTable>
+            <ReviewsTable ref={props.tableRef} >
               <ReviewHeader />
-              {reviews}
+              <tbody> {/* needed for jsPDF.autoTable()  */}
+                {reviews}
+              </tbody>
             </ReviewsTable>
           </ReviewsWrapper>
         </ResultsWrapper>
