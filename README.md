@@ -45,6 +45,8 @@ Finally install all node dependencies by:
 npm install
 ```
 
+Note that you can encounter numerous errors. This should not be a problem for running the app. Also you'll see some vulnerability warnings, please ignore them at this stage. 
+
 ## Smart Contract
 First we need to get the `ganache-cli` running. `ganache-cli` will be our local blockchain network for testing purposes.
 
@@ -58,7 +60,14 @@ Run ganache by:
 ganache-cli --db ganache/  --networkId 5777
 ```
 
-Compile and migrate contracts by:
+Take note of the 12 word mnemonic phrase after launching ganache. Use this mnemonic as below if you want to use same accounts each time you run ganache:
+```
+ganache-cli --db ganache/  --networkId 5777 --mnemonic '<12-word-mnemonic>'
+```
+
+Use `--quiet` flag if you don't wan't ganache to constantly log on the terminal.
+
+In a new terminal compile and migrate contracts by:
 ```
 truffle migrate --network develop
 ```
@@ -72,7 +81,7 @@ Copy template configuration from `server/config-template.js` to `server/config.j
 cp server/config-template.js server/config.js
 ```
 
-And fill the appropiate fields with your config. Use the default config line in the file if you don't have any specific configurations.
+And fill the appropiate fields with your config. Use the default config URI in the file if you don't have any specific configurations.
 
 Check if mongo is running. Note the service name vary as mongo/mongod/mongodb.
 ```
@@ -84,11 +93,20 @@ Run mongodb if not running by:
 sudo service mongodb start
 ```
 
+### Publons auth
+
+In `server/config.js` we need another field. To import reviews from Publons you need to have an auth token. Login and find the token [here](https://publons.com/api/v2/).
+
 ## Run backend
 
-Run the backend in development mode with:
+In a new terminal, run the backend in development mode to watch changes with `nodemon`:
 ```
 npm run dev
+```
+
+If you encounter any file watcher errors you can stop using `nodemon` and run the server normally by
+```
+cd server/ && npm start
 ```
 
 ## Run frontend
@@ -100,27 +118,43 @@ npm run client
 
 This will open a new browser window at localhost:3001
 
-### Publons auth
+## Metamask
 
-To import reviews from Publons you need to have an auth token. Login and find the token [here](https://publons.com/api/v2/).
+To be able to interact with blockchain we need Metamask. By default you can use the wallet generated at ganache launch. Import this wallet using the mnemonic you saved. 
 
-Add this token to `server/config.js`.
+You should see around 100 ETH in your account in Metamask. If not check the network you are connected. Click top right to add Custom RPC and enter `http://localhost:8545` in RPC URL. 
 
-## Run the development environment
+
+## Adding a user
+
+As the application currently does not have account management, we will add a user to our database with the current account in Metamask.
+
+Find the account address in Metamask starting with `0x` and copy it.
+
+Open mongo-cli in a terminal with 
+```
+mongo
+```
+
+In mongo use the `test` database or the db name you've given with:
+```
+use test
+```
+
+then execute:
+
+```
+db.scholars.insert({ "_id" : "<Account-address>", "firstName" : "<FIRSTNAME>", "lastName" : "<SURNAME>", "email" : "<EMAIL>", "reviews" : []})
+```
+
+Now you should see the dashboard after refreshing and be able to interact with the application.
+
+## One click development environment
 
 You can run the complete dev environment (mongo, truffle, frontend, backend) by running the shell script.
 This requires VSCode and `tmux` to be installed. 
 
-Also add a mnemonic to the ganache config at `dev/scripts/secret-template.sh` and rename the file to `secret.sh` to use same addresses each time. You can use the mnemonic output of `ganache-cli` at the initial run, or your preferred wallet phrase. 
-
-You may want to use the same mnemonic in the Metamask to have sufficient ethers. Log out and import your ganache wallet to Metamask.
-
-### Adding a user
-
-As the application currently does not have account management, we will add a dummy account to our database. In mongo-cli execute:
-```
-db.scholars.insert({ "_id" : "0xDc276e636D0AbEc2157b033b6a6fb72eccA0BA84", "firstName" : "Kaan", "lastName" : "<SURNAME>", "email" : "<EMAIL>", "reviews" : []})
-```
+Also add the mnemonic to the ganache config at `dev/scripts/secret-template.sh` and rename the file to `secret.sh` to use same addresses each time. You can use the mnemonic output of `ganache-cli` above, or your preferred wallet phrase. 
 
 Launch the dev environment with: 
 
@@ -128,10 +162,14 @@ Launch the dev environment with:
 bash dev/bloxberg-dev.sh
 ```
 
-You can change windows at tmux by `Ctrl+B` and window number. E.g. `Ctrl+B` then `0` opens mongo window. 
+You can change windows at tmux by `Ctrl+B` and window number. E.g. `Ctrl+B` then `0` opens mongo window.
+
+You can send the session to background by `Ctrl+B` and `D`.
+
+Launch the session back with `tmux attach -t peer`. Kill the session by `tmux kill-session -t peer`.
 
 ## Troubleshooting
 
 When launching with the dev script, mongod starting command may be different and output a warning "mongod.service: Unit mongod.service not found.". Change the command appropiately to how you start the mongo service.
 
-If you get a 'EADDRINUSE' error at the backend stop running node daemons with `pkill node`.
+If you get a 'EADDRINUSE' error at the backend server stop running node daemons with `pkill node`. This happens when you kill the tmux window but the node keeps running.
