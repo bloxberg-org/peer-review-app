@@ -49,7 +49,7 @@ tmux send-keys -t $SESSION "truffle console --network $NETWORK" C-m
 
 # Start backend 
 tmux select-window -t $SESSION:2
-tmux send -t $SESSION 'npm run dev' C-m
+tmux send -t $SESSION 'cd server/; npm start' C-m
 
 # Start frontend 
 tmux select-window -t $SESSION:1
