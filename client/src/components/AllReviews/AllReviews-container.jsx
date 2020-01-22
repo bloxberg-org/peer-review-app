@@ -1,13 +1,17 @@
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { getAllBlockchainReviews, getAllDatabaseReviews } from '../../utils/review';
 import Loader from '../Loader';
 import AllReviewsView from './AllReviews-view';
 
+
 export default class AllReviewsContainer extends React.Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    isUserLoading: PropTypes.bool.isRequired
+    isUserLoading: PropTypes.bool.isRequired,
+
   }
 
   constructor(props) {
@@ -17,6 +21,7 @@ export default class AllReviewsContainer extends React.Component {
       DBreviews: [],
       blockchainReviews: []
     };
+    this.tableRef = React.createRef();
   }
 
   componentDidMount() {
@@ -32,12 +37,21 @@ export default class AllReviewsContainer extends React.Component {
     return Promise.all([getAllDatabaseReviews(address), getAllBlockchainReviews()]);
   }
 
+  savePDF = () => {
+    const doc = new jsPDF();
+    console.log(this.tableRef.current);
+    doc.autoTable({
+      html: this.tableRef.current,
+    });
+    doc.save('bloxberg-peer-reviews.pdf');
+  }
+
   render() {
     if (this.state.isReviewsLoading) {
       return (<Loader />);
     }
     return (
-      <AllReviewsView {...this.props} {...this.state} />
+      <AllReviewsView {...this.props} {...this.state} savePDF={this.savePDF} tableRef={this.tableRef} />
     );
   }
 }

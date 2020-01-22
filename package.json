@@ -10,6 +10,8 @@
     "@truffle/contract": "^4.0.36",
     "@truffle/hdwallet-provider": "^1.0.26",
     "client": "file:client",
+    "jspdf": "^1.5.3",
+    "jspdf-autotable": "^3.2.11",
     "moment": "^2.24.0",
     "peer-review-server": "file:server"
   },
