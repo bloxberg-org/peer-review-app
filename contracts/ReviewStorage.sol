@@ -6,7 +6,7 @@ pragma experimental ABIEncoderV2;
 /// @notice
 /// @dev
 contract ReviewStorage {
-  address[] usersAddresses;
+  // address[] usersAddresses; // Should we keep this?
   address publonsAddress = 0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311;
   enum Recommendation { NULL, ACCEPT, REVISE, REJECT }
   struct Review {
