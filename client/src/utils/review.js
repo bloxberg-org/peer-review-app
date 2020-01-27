@@ -30,8 +30,9 @@ export const addReview = (data) => {
       author: address,
       content: data.content,
       index: data.index,
-      articleDOI: data.articleDOI
+      articleDOI: data.articleDOI,
     };
+    console.log(chainData);
     return connection.addReview(chainData) // Write to blockchain.
       .then((tx) => { // Then to db.
         return post(`/reviews/${address}`, dbData)

@@ -2,10 +2,10 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import PropTypes from 'prop-types';
 import React from 'react';
+import logo from '../../assets/logo2.png';
 import { getAllBlockchainReviews, getAllDatabaseReviews } from '../../utils/review';
 import Loader from '../Loader';
 import AllReviewsView from './AllReviews-view';
-
 
 export default class AllReviewsContainer extends React.Component {
   static propTypes = {
@@ -38,15 +38,25 @@ export default class AllReviewsContainer extends React.Component {
   }
 
   savePDF = () => {
+    let { firstName, lastName, email } = this.props.user;
     const doc = new jsPDF();
-    console.log(this.tableRef.current);
+    doc.setFontSize(10);
+    var myImage = new Image();
+    myImage.src = logo;
+    doc.addImage(myImage, 'PNG', 10, 20, 48, 15);
+    doc.text(firstName + ' ' + lastName, 200, 20, 'right');
+    doc.text(email, 200, 25, 'right');
     doc.autoTable({
+      startY: 50,
       html: this.tableRef.current,
     });
-    doc.save('bloxberg-peer-reviews.pdf');
+    // doc.save('bloxberg-peer-reviews.pdf');
+    doc.output('dataurlnewwindow');
+
   }
 
   render() {
+    console.log(this.props.user)
     if (this.state.isReviewsLoading) {
       return (<Loader />);
     }
