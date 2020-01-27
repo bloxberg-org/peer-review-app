@@ -11,12 +11,14 @@ import Overview from '../Overview';
 import SideBar from '../SideBar';
 import SingleReview from '../SingleReview';
 import TopBar from '../TopBar';
+import InstallMetamask from './InstallMetamask';
 import NoUserFound from './NoUserFound';
 
 AppView.propTypes = {
   user: PropTypes.object,
   isUserLoading: PropTypes.bool.isRequired,
-  isNoUserFound: PropTypes.bool.isRequired
+  isNoUserFound: PropTypes.bool.isRequired,
+  isWeb3Available: PropTypes.bool.isRequired
 };
 
 const Wrapper = styled.div`
@@ -39,8 +41,9 @@ const SideBarWrapper = styled.div`
 
 export default function AppView(props) {
   let AppContent;
-
-  if (props.user === null) // Inform if no user found.
+  if (!props.isWeb3Available)
+    AppContent = <InstallMetamask />;
+  else if (props.user === null) // Inform if no user found.
     AppContent = <NoUserFound />;
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
