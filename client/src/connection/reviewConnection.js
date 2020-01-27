@@ -11,6 +11,7 @@ async function init() {
   try {
     instance = await ReviewStorage.deployed();
     accounts = await web3.eth.getAccounts();
+    console.log(`Web3 getAccounts:${accounts}`);
     return [instance, accounts];
   } catch (e) {
     console.log('Error in deploying contract');

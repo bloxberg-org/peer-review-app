@@ -43,10 +43,10 @@ export default function AppView(props) {
   let AppContent;
   if (!props.isWeb3Available)
     AppContent = <InstallMetamask />;
-  else if (props.user === null) // Inform if no user found.
-    AppContent = <NoUserFound />;
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
+  else if (props.isNoUserFound) // Inform if no user found.
+    AppContent = <NoUserFound />;
   else {
     AppContent = (
       <Switch>

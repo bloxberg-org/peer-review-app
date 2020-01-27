@@ -11,32 +11,34 @@ export default class App extends React.Component {
       isUserLoading: true,
       isNoUserFound: false,
       isWeb3Available: false,
-      reviewsOfUser: []
+      reviewsOfUser: [],
+      user: {}
     };
   }
 
   componentDidMount() {
+    // Check if a web3 provider is injected (Metamask).
     if (typeof window.ethereum !== 'undefined') {
       this.setState({ isWeb3Available: true });
-      // Event listener for when the account is changed
+
+      // TODO: Metamask does not recommend calling enable upon loading.
+      window.ethereum.enable()
+        .then(accounts => {
+          console.log(`The account address is ${accounts[0]}`);
+          return window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
+        })
+        .then(this.init)
+        .catch(err => console.log(err));
+
+      // Event listener for when the account is changed.
+      // Fetch new user when address changes.
       window.ethereum.on('accountsChanged', () => {
-        this.getUserAddress().then(address => this.getUser(address)).then((user) => {
-          this.setState({ user: user });
-        });
+        this.setState({ isUserLoading: true })
+        this.getUserAddress()
+          .then(this.init) // Fetch user.
+          .catch(err => console.log(err));
       });
 
-      let promises = [];
-      promises.push(getAllBlockchainReviews()); // Get all reviews from blockchain.
-      promises.push(this.getUserAddress().then(address => this.getUser(address))); // Get account details.
-
-      Promise.all(promises).then(([reviewsOfUser, user]) => {
-        this.setState({
-          isUserLoading: false,
-          isNoUserFound: false,
-          reviewsOfUser: reviewsOfUser,
-          user: user
-        });
-      });
     }
   }
 
@@ -50,7 +52,32 @@ export default class App extends React.Component {
     });
   }
 
-  getUser = (address) => {
+  init = (address) => {
+    this.getUserObj(address)
+      // Get the user from database.
+      .then(user => {
+        console.log('Found user:');
+        console.log(user);
+        this.setState({
+          user: user
+        });
+        return getAllBlockchainReviews(); // Then fetch the reviews if the user.
+      })
+      .catch(error => { // No user found.
+        console.log(error);
+        this.setState({ isUserLoading: false, isNoUserFound: true });
+        return Promise.reject('reject'); // Break the chain, avoid entering next then. (Is there a better practice?)
+      })
+      .then(reviewsOfUser => {
+        this.setState({
+          isUserLoading: false,
+          isNoUserFound: false,
+          reviewsOfUser: reviewsOfUser,
+        });
+      });
+  }
+
+  getUserObj = (address) => {
     return get(`/accounts/${address}`);
   }
 
