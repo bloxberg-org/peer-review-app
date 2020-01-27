@@ -10,9 +10,12 @@ exports.getAccount = async (req, res) => {
 
   Scholar.findById(address).then(scholar => {
     console.log(`Returning the scholar: ${scholar}`)
-    res.status(200).json(scholar);
+    if (scholar)
+      res.status(200).json(scholar);
+    else
+      res.status(404).send('No scholar found');
   }).catch(err => {
-    res.status(404).send(err);
+    res.status(500).send(err);
   });
 
   // console.log(review);
