@@ -2,6 +2,8 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import PropTypes from 'prop-types';
 import React from 'react';
+import '../../assets/fonts/js/Muli-bold';
+import '../../assets/fonts/js/Muli-normal';
 import logo from '../../assets/logo2.png';
 import { getAllBlockchainReviews, getAllDatabaseReviews } from '../../utils/review';
 import Loader from '../Loader';
@@ -40,7 +42,11 @@ export default class AllReviewsContainer extends React.Component {
   savePDF = () => {
     let { firstName, lastName, email } = this.props.user;
     const doc = new jsPDF();
+    // doc.addFileToVFS('muli-normal.ttf', muliNormal)
+    // doc.addFont(muliNormal, 'muli', 'normal')
+    // doc.setFont('muli', 'normal')
     doc.setFontSize(10);
+    doc.setFont('Muli');
     var myImage = new Image();
     myImage.src = logo;
     doc.addImage(myImage, 'PNG', 10, 20, 48, 15);
@@ -49,6 +55,14 @@ export default class AllReviewsContainer extends React.Component {
     doc.autoTable({
       startY: 50,
       html: this.tableRef.current,
+      styles: {
+        font: 'Muli'
+      },
+      headStyles: {
+        fillColor: [164, 5, 123],
+        font: 'Muli',
+        fontSize: 14,
+      },
     });
     // doc.save('bloxberg-peer-reviews.pdf');
     doc.output('dataurlnewwindow');
