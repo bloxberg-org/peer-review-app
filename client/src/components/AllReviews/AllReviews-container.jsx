@@ -52,9 +52,43 @@ export default class AllReviewsContainer extends React.Component {
     doc.addImage(myImage, 'PNG', 10, 20, 48, 15);
     doc.text(firstName + ' ' + lastName, 200, 20, 'right');
     doc.text(email, 200, 25, 'right');
+    let { columns, rows } = doc.autoTableHtmlToJson(this.tableRef.current); // Extract the html table.
+
+    // Each element has format: { rowSpan: 1, colSpan: 1, styles: null, content: "ID" }
+    // Need to pass content only to let autoTable calculate widths.
+    let rawColumn = columns.map((columnElement) => {
+      return columnElement.content;
+    });
+    rawColumn.push('ID'); // Add ID Column
+    let rawColumns = [rawColumn]; // Wrap in an array. Head expects 2D array as input.
+
+    // Calculate 2D row content array.
+    let rawRows = rows.map((row) => {
+      let newRow = row.map((rowElement) => {
+        return rowElement.content;
+      });
+      newRow.push(''); // Add 4th row for the ID link.
+      return newRow;
+    });
+
+    // Add review IDs and the link to the pdf.
+    // columns.push({ rowSpan: 1, colSpan: 1, styles: null, content: "ID" })
+    console.log(rawColumns);
+    console.log(rawRows);
     doc.autoTable({
+      head: rawColumns,
+      body: rawRows,
+      bodyStyles: { minCellWidth: 18 }, // Avoid narrow cell because of empty string when newRow.push('').
+      didDrawCell: (data) => { // Add the ID link.
+        if (data.column.index === 3 && data.cell.section === 'body') {
+          let i = data.row.index;
+          let id = this.state.blockchainReviews[i].id; // Get the id of the review.
+          var x = data.cell.x;
+          var y = data.cell.y + data.cell.height / 2 + 1; // Does not align well. +1 as workaround.
+          doc.textWithLink(id, x, y, { url: `${window.location.origin}/Reviews/${id}` });
+        }
+      },
       startY: 50,
-      html: this.tableRef.current,
       styles: {
         font: 'Muli'
       },
