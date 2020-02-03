@@ -52,9 +52,14 @@ export default class App extends React.Component {
     });
   }
 
+  /**
+   * Function to initialize the user after web3 is injected and the accounts are unlocked.
+   * Gets the user object using the address.
+   * Then gets all reviews saved to blockchain of this user.
+   */
   init = (address) => {
     this.getUserObj(address)
-      // Get the user from database.
+      // Get the user object from database.
       .then(user => {
         console.log('Found user:');
         console.log(user);
@@ -77,6 +82,9 @@ export default class App extends React.Component {
       });
   }
 
+  /**
+   * Takes and address and returns a Promise resolving to the user object from the database.
+   */
   getUserObj = (address) => {
     return get(`/accounts/${address}`);
   }

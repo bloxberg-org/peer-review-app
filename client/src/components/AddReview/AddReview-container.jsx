@@ -22,7 +22,7 @@ class AddReviewContainer extends React.Component {
         'timestamp': new Date(),
         'recommendation': ''
       },
-      isUploading: false,
+      isAddingReview: false,
       isF1000ModalOpen: false
     };
   }
@@ -48,7 +48,7 @@ class AddReviewContainer extends React.Component {
 
   handleSubmit = (data) => {
     console.log(data);
-    this.setState({ isLoading: true });
+    this.setState({ isAddingReview: true });
     let review = {
       id: uniqid(),
       ...data
@@ -56,7 +56,7 @@ class AddReviewContainer extends React.Component {
     addReview(review)
       .then((response) => {
         console.log(response);
-        this.setState({ isLoading: false });
+        this.setState({ isAddingReview: false });
         let id = response.chainData.id; // Get the index to show the review page.
         this.props.addReviewsToState([response.chainData]); // Add to App.js state explicitly as userReviews are only retrieved when refreshing.
         const { history } = this.props;
@@ -68,7 +68,7 @@ class AddReviewContainer extends React.Component {
 
   render() {
     return (
-      <AddReviewView review={this.state.review} handleF1000Open={this.handleF1000Open} handleF1000Close={this.handleF1000Close} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isUploading={this.state.isUploading} {...this.state} {...this.props} />
+      <AddReviewView review={this.state.review} handleF1000Open={this.handleF1000Open} handleF1000Close={this.handleF1000Close} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isAddingReview={this.state.isAddingReview} {...this.state} {...this.props} />
     );
   }
 }
