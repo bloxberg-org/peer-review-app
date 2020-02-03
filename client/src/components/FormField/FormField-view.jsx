@@ -7,12 +7,13 @@ import InputTitle from './InputTitle';
 
 
 const FormField = styled((props) => {
+  let { className, ...otherProps } = props;
   return (
     // Use ref from react-hook-form
-    <div className={props.className}>
+    <div className={className}>
       <InputTitle> {props.title} </InputTitle>
       {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
-      <Input ref={props.register} {...props} />
+      <Input ref={props.register} {...otherProps} />
     </div>
   );
 })`
