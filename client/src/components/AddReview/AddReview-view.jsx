@@ -21,7 +21,7 @@ AddReviewView.propTypes = {
   review: PropTypes.object.isRequired,
   onDateChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  isUploading: PropTypes.bool.isRequired,
+  isAddingReview: PropTypes.bool.isRequired,
   isUserLoading: PropTypes.bool.isRequired,
   isF1000ModalOpen: PropTypes.bool.isRequired,
   handleF1000Open: PropTypes.func.isRequired,
@@ -152,9 +152,9 @@ export default function AddReviewView(props) {
   const { register, handleSubmit, setValue, errors, reset } = useForm();
 
   // If loading, show the loader/spinner whatever you call it.
-  if (props.isUploading) {
+  if (props.isAddingReview) {
     return (
-      <Loader />
+      <Loader description='Your transaction is being processed' />
     );
   }
 
