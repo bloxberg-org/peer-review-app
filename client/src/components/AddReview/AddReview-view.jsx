@@ -95,7 +95,10 @@ const SelectField = styled((props) => {
       </Select>
     </div>
   );
-})``;
+})`
+  padding: 16px 0px;
+  border-bottom: 1px solid#DFE0EB;
+`;
 
 const DateInputField = styled((props) => {
   return (
@@ -115,16 +118,23 @@ const DateField = styled((props) => (
     {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
     <DateInputField {...props} />
   </div>
-))``;
-
-
-const ContentField = styled((props) => (
-  <div className={props.className}>
-    <InputTitle> {props.title} </InputTitle>
-    {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
-    <TextArea placeholder={props.placeholder} ref={props.register} {...props} />
-  </div>
 ))`
+  padding: 16px 0px;
+  border-bottom: 1px solid#DFE0EB;
+`;
+
+
+const ContentField = styled((props) => {
+  let { className, ...otherProps } = props;
+  return (
+    <div className={className}>
+      <InputTitle> {props.title} </InputTitle>
+      {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
+      <TextArea placeholder={props.placeholder} ref={props.register} {...otherProps} />
+    </div>
+  )
+}
+)`
   width: 100%;
   padding: 16px 0px;
 `;

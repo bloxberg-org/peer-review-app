@@ -33,7 +33,7 @@ export default class App extends React.Component {
       // Event listener for when the account is changed.
       // Fetch new user when address changes.
       window.ethereum.on('accountsChanged', () => {
-        this.setState({ isUserLoading: true })
+        this.setState({ isUserLoading: true });
         this.getUserAddress()
           .then(this.init) // Fetch user.
           .catch(err => console.log(err));
