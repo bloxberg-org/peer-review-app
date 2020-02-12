@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:4.2.3-bionic
+    container_name: mongo
+    volumes:
+      - /var/lib/mongodb/:/data/db
+  server:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+    user: "999:999"
+    container_name: server
+    working_dir: /home/node/app
+    depends_on: 
+      - mongo
+    environment: 
+      - MONGO_URL='mongodb://mongo/'
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    restart: always
+
