@@ -132,7 +132,7 @@ const ContentField = styled((props) => {
       {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
       <TextArea placeholder={props.placeholder} ref={props.register} {...otherProps} />
     </div>
-  )
+  );
 }
 )`
   width: 100%;
