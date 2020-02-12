@@ -102,6 +102,7 @@ export default class ImportReviewsContainer extends React.Component {
     addMultipleReviewsFromPublons(formattedReviews).then(() => {
       this.setState({ isUploading: false });
       this.clearSelected();
+      window.location.reload();
     });
   }
 

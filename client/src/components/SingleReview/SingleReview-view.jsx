@@ -119,17 +119,17 @@ export default function SingleReviewView(props) {
               <ReviewField title='URL'>{props.blockchainReview.url}</ReviewField>
               <ReviewField title='Vouchers'>
                 {
-                  props.blockchainReview.vouchers ?
+                  props.blockchainReview.vouchers.length > 0 ?
                     props.blockchainReview.vouchers.map((address) => {
                       return address === PUBLONS_ADDRESS ? 'Publons' : address; // Display 'Publons' if addresses match, show the address otherise.
                     })
-                    : null // Return null if no vouchers
+                    : 'N/A' // Return null if no vouchers
                 }
               </ReviewField>
             </UpperHalfRightWrapper>
           </UpperHalfWrapper>
           <ContentWrapper>
-            <ReviewField title='Content' value={props.DBreview ? props.DBreview.content : 'N/A'} />
+            <ReviewField title='Content'>{props.DBreview ? props.DBreview.content : 'N/A'} </ReviewField>
           </ContentWrapper>
         </InnerCardWrapper>
       </CardWrapper>

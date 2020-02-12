@@ -82,12 +82,13 @@ const ColumnTitles = styled((props) => {
   `;
 
 const TableRow = styled((props) => {
+
   return (
     <tr className={props.className} onClick={() => props.toggleCheckReview(props.index)}>
       <td> <input type='checkbox' checked={props.checked} /> </td>
       <td>{props.publisher ? props.publisher.name : 'N/A'}</td>
       <td>{props.date_reviewed ? props.date_reviewed : 'N/A'}</td>
-      <td>{props.verification ? 'Verified' : 'Not Verified'}</td>
+      <td>{props.verification.verified ? 'Verified' : 'Not Verified'}</td>
       <td><a href={props.ids.academic.url ? props.ids.academic.url : null} rel='noopener noreferrer' target='_blank'> Link </a> </td>
     </tr >
   );
