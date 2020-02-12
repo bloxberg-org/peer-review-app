@@ -25,3 +25,4 @@ ganache/
 # Configs with keys
 config.js
 secret.sh
+ssh.sh
