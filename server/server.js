@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const reviewRoutes = require('./routes/reviewRoutes');
 const accountRoutes = require('./routes/accountRoutes');
+const registerRoutes = require('./routes/registerRoutes');
 const mongo = require('./utils/mongo');
 
 const app = express();
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 
 app.use('/reviews', reviewRoutes);
 app.use('/accounts', accountRoutes);
+app.use('/register', registerRoutes);
 
 app.listen(port, () => {
 
@@ -35,4 +37,4 @@ app.listen(port, () => {
 
 });
 
-module.exports = app; // For testing 
+module.exports = app; // For testing
