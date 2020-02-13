@@ -14,7 +14,7 @@ An Ethereum dApp for aggregating peer review data.
 
 ### Node
 
-Dowload and install node.js and npm via [here](https://nodejs.org/en/download/). Use a [package manager](https://nodejs.org/en/download/package-manager/) for easier installation. 
+Dowload and install node.js and npm via [here](https://nodejs.org/en/download/). Use a [package manager](https://nodejs.org/en/download/package-manager/) for easier installation.
 
 ### Truffle
 
@@ -36,7 +36,7 @@ Install [mongoDB](https://www.mongodb.com/) for the server database.
 
 ### Metamask
 
-Install the Metamask browser extension [at](https://metamask.io/) to be able to interact with the blockchain on the browser. 
+Install the Metamask browser extension [at](https://metamask.io/) to be able to interact with the blockchain on the browser.
 
 ### Node dependencies
 
@@ -45,7 +45,7 @@ Finally install all node dependencies by:
 npm install
 ```
 
-Note that you can encounter numerous errors. This should not be a problem for running the app. Also you'll see some vulnerability warnings, please ignore them at this stage. 
+Note that you can encounter numerous errors. This should not be a problem for running the app. Also you'll see some vulnerability warnings, please ignore them at this stage.
 
 ## Smart Contract
 First we need to get the `ganache-cli` running. `ganache-cli` will be our local blockchain network for testing purposes.
@@ -120,43 +120,18 @@ This will open a new browser window at localhost:3001
 
 ## Metamask
 
-To be able to interact with blockchain we need Metamask. By default you can use the wallet generated at ganache launch. Import this wallet using the mnemonic you saved. 
+To be able to interact with blockchain we need Metamask. By default you can use the wallet generated at ganache launch. Import this wallet using the mnemonic you saved.
 
-You should see around 100 ETH in your account in Metamask. If not check the network you are connected. Click top right to add Custom RPC and enter `http://localhost:8545` in RPC URL. 
-
-
-## Adding a user
-
-As the application currently does not have account management, we will add a user to our database with the current account in Metamask.
-
-Find the account address in Metamask starting with `0x` and copy it.
-
-Open mongo-cli in a terminal with 
-```
-mongo
-```
-
-In mongo use the `test` database or the db name you've given with:
-```
-use test
-```
-
-then execute:
-
-```
-db.scholars.insert({ "_id" : "<Account-address>", "firstName" : "<FIRSTNAME>", "lastName" : "<SURNAME>", "email" : "<EMAIL>", "reviews" : []})
-```
-
-Now you should see the dashboard after refreshing and be able to interact with the application.
+You should see around 100 ETH in your account in Metamask. If not check the network you are connected. Click top right to add Custom RPC and enter `http://localhost:8545` in RPC URL.
 
 ## One click development environment
 
 You can run the complete dev environment (mongo, truffle, frontend, backend) by running the shell script.
-This requires VSCode and `tmux` to be installed. 
+This requires VSCode and `tmux` to be installed.
 
-Also add the mnemonic to the ganache config at `dev/scripts/secret-template.sh` and rename the file to `secret.sh` to use same addresses each time. You can use the mnemonic output of `ganache-cli` above, or your preferred wallet phrase. 
+Also add the mnemonic to the ganache config at `dev/scripts/secret-template.sh` and rename the file to `secret.sh` to use same addresses each time. You can use the mnemonic output of `ganache-cli` above, or your preferred wallet phrase.
 
-Launch the dev environment with: 
+Launch the dev environment with:
 
 ```
 bash dev/bloxberg-dev.sh
