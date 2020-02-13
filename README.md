@@ -75,10 +75,10 @@ truffle migrate --network develop
 Now the contracts are deployed to our local blockchain and will be accessible by the app.
 
 ## Configure database connection
-Copy template configuration from `server/config-template.js` to `server/config.js`:
+Copy template configuration from `server/config_template.js` to `server/config.js`:
 
 ```
-cp server/config-template.js server/config.js
+cp server/config_template.js server/config.js
 ```
 
 And fill the appropiate fields with your config. Use the default config URI in the file if you don't have any specific configurations.
