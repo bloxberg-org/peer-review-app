@@ -66,6 +66,8 @@ export const getAllBlockchainReviews = async () => {
 
   console.log('Review ids are');
   console.log(reviewIds);
+  
+  reviewIds = reviewIds || []
 
   let reviewPromises = [];
   for (let i = 0; i < reviewIds.length; i++) {
