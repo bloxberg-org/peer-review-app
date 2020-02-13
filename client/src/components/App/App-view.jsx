@@ -12,7 +12,7 @@ import SideBar from '../SideBar';
 import SingleReview from '../SingleReview';
 import TopBar from '../TopBar';
 import InstallMetamask from './InstallMetamask';
-import NoUserFound from './NoUserFound';
+import Register from '../Register';
 
 AppView.propTypes = {
   user: PropTypes.object,
@@ -41,12 +41,16 @@ const SideBarWrapper = styled.div`
 
 export default function AppView(props) {
   let AppContent;
+
+  //let history = useHistory();
+
   if (!props.isWeb3Available)
     AppContent = <InstallMetamask />;
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
-  else if (props.isNoUserFound) // Inform if no user found.
-    AppContent = <NoUserFound />;
+  else if (props.isNoUserFound ) {
+    AppContent = <Register/>;
+  }
   else {
     AppContent = (
       <Switch>
