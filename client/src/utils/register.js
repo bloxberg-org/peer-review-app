@@ -11,7 +11,6 @@ export const addScholar = (data) => {
   return getCurrentAccount().then((address) => {
     // Prepare DB data.
     let dbData = {
-      //_id: address,
       ...data,
       reviews: []
     };
