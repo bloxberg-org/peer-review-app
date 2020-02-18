@@ -7,12 +7,8 @@
     "test": "test"
   },
   "dependencies": {
-    "@truffle/contract": "^4.0.36",
     "@truffle/hdwallet-provider": "^1.0.26",
     "client": "file:client",
-    "jspdf": "^1.5.3",
-    "jspdf-autotable": "^3.2.11",
-    "moment": "^2.24.0",
     "peer-review-server": "file:server"
   },
   "devDependencies": {
@@ -20,7 +16,6 @@
     "chai-http": "^4.3.0",
     "eslint-plugin-react": "^7.18.3",
     "mocha": "^6.2.1",
-    "nodemon": "^1.19.3"
   },
   "scripts": {
     "test": "mocha",

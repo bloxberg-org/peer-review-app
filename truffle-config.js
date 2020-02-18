@@ -41,5 +41,6 @@ module.exports = {
         evmVersion: 'byzantium' // Default: "petersburg"
       }
     }
-  }
+  },
+  contracts_build_directory: './client/src/contracts'
 }

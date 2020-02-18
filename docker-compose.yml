@@ -21,4 +21,16 @@ services:
     ports:
       - "3000:3000"
     restart: always
-
+  client:
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    container_name: client
+    working_dir: /home/app
+    depends_on:
+      - server
+    expose:
+      - "80"
+    ports:
+      - "3001:80"
+    restart: always
