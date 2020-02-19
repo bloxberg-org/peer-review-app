@@ -2,7 +2,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import lock from '../../assets/lock.png';
+import chain from '../../assets/chain-tick.png';
 import CardWrapper from '../CardWrapper';
 
 const PUBLONS_ADDRESS = '0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311';
@@ -81,6 +81,25 @@ const ReviewFieldTitle = styled.span`
 const ReviewFieldText = styled.span`
   `;
 
+const ChainIconWrapper = styled.div`
+  p {
+    display: none;
+    position: absolute;
+    font-size: 10px;
+    text-align: center;
+    padding: 5px 2px;
+    background-color: rgba(0,0,0,0.3);
+    color: white;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.5s;
+  };
+  :hover p {
+    display: inherit;
+    opacity: 1;
+  };
+`;
+
 const ReviewField = styled(props => {
   return (
     <div className={props.className}>
@@ -107,7 +126,10 @@ export default function SingleReviewView(props) {
             <UpperHalfRightWrapper>
               <JournalIdLockIconWrapper>
                 <ReviewField title='Journal ID'>{props.blockchainReview.journalId}</ReviewField>
-                <img style={{ 'width': '35px' }} src={lock} alt='hanging lock' />
+                <ChainIconWrapper>
+                  <img style={{ 'width': '35px' }} src={chain} alt='chain approved' />
+                  <p> Secured by bloxberg blockchain </p>
+                </ChainIconWrapper>
               </JournalIdLockIconWrapper>
               <ReviewField title='Publisher'>{props.blockchainReview.publisher}</ReviewField>
               <ReviewField title='Manuscript ID'>{props.blockchainReview.manuscriptId}</ReviewField>

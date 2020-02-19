@@ -5,6 +5,8 @@ services:
     container_name: mongo
     volumes:
       - /var/lib/mongodb/:/data/db
+    ports:
+      - "27017":"27017"
   server:
     build:
       context: ./server/
