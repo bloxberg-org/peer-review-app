@@ -39,7 +39,7 @@ contract("ReviewStorage test", async accounts => {
     let vouchers = review[6]; // Index 6 of returned Review object
     let expectedVouchers = [voucher1];
 
-    assert.equal(hasVouched, true, 'Review not marked vouched by the msg.sender');
+    assert.equal(hasVouched, true, 'Review not marked vouched by the _msgSender()');
     assert.deepEqual(vouchers, expectedVouchers, 'Vouchers of review not as expected');
   })
 
@@ -57,7 +57,7 @@ contract("ReviewStorage test", async accounts => {
     let vouchers = review[6]; // Index 6 of returned Review object
     let expectedVouchers = [voucher1];
 
-    assert.equal(hasVouched, true, 'Review not marked vouched by the msg.sender');
+    assert.equal(hasVouched, true, 'Review not marked vouched by the _msgSender()');
     assert.deepEqual(vouchers, expectedVouchers, 'Vouchers of review not as expected');
   })
 

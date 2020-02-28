@@ -26,3 +26,5 @@ ganache/
 config.js
 secret.sh
 ssh.sh
+
+.openzeppelin/.session
