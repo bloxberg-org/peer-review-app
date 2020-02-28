@@ -1,0 +1,19 @@
+{
+  "manifestVersion": "2.2",
+  "contracts": {
+    "ReviewStorage": "ReviewStorage"
+  },
+  "dependencies": {},
+  "name": "peer-review-app",
+  "version": "0.0.1",
+  "compiler": {
+    "manager": "truffle",
+    "compilerSettings": {
+      "optimizer": {
+        "enabled": false,
+        "runs": "200"
+      }
+    }
+  },
+  "telemetryOptIn": false
+}

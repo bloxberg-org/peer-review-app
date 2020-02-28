@@ -1,9 +1,12 @@
 import TruffleContract from '@truffle/contract';
 import ReviewStorageArtifact from '../contracts/ReviewStorage.json';
 import getWeb3 from './web3';
+const Gsn = require('@openeth/gsn');
 
 async function init() {
   const web3 = await getWeb3();
+  const provider = new Gsn.RelayProvider(web3.currentProvider);
+  web3.setProvider(provider);
   const ReviewStorage = TruffleContract(ReviewStorageArtifact);
   ReviewStorage.setProvider(web3.currentProvider);
   let instance;
