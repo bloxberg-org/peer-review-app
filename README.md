@@ -74,6 +74,14 @@ truffle migrate --network develop
 
 Now the contracts are deployed to our local blockchain and will be accessible by the app.
 
+## Deploy to bloxberg
+In order to use meta-transactions, we utilize the Gas Station Network deployed on bloxberg. In order to deploy another contract, simply run:
+
+```
+oz create
+```
+on the bloxberg network while making sure to call initialize() to instantiate the contract. Then the new contract must be funded in order to use meta-transactions. This is done by calling depositFor() on the RelayHub contract located [here](https://blockexplorer.bloxberg.org/address/0xd216153c06e857cd7f72665e0af1d7d82172f494/contracts).
+
 ## Configure database connection
 Copy template configuration from `server/config_template.js` to `server/config.js`:
 
