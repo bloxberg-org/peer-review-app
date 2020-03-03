@@ -14,6 +14,7 @@ export const addScholar = (data) => {
       ...data,
       reviews: []
     };
+    console.log(`User data to be saved: ${dbData}`);
     return post(`/register/${address}`, dbData);
   });
 };

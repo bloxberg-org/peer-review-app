@@ -1,14 +1,13 @@
 FROM node:12.14.1-buster as builder
-WORKDIR /home/app
-COPY . /home/app
-# Copy contract ABIs as they are symbolically linked in the dev repo.
-RUN npm install
+WORKDIR /home/node/app
+COPY . /home/node/app
+RUN npm install --production
 RUN npm run build
 
 
 FROM nginx:alpine
 # Copy the build folder from react to the root of nginx (www)
-COPY --from=builder /home/app/build /usr/share/nginx/html
+COPY --from=builder /home/node/app/build /usr/share/nginx/html
 # If you are using react router you need to overwrite the default nginx configurations 
 # Remove default nginx configuration file
 RUN rm /etc/nginx/conf.d/default.conf
