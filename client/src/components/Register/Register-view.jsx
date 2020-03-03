@@ -37,14 +37,13 @@ export default function App() {
     addScholar(scholar)
       .then((response) => {
         console.log(response);
-        setAccount(scholar.id);
+        setAccount(scholar._id);
         history.push('/', scholar._id);
         window.location.reload();
       })
       .catch(err => console.log(err));
 
   };
-  console.log(errors);
 
   getCurrentAccount().then((address) => {
     setAccount(address);

@@ -12,7 +12,7 @@ const FormField = styled((props) => {
     // Use ref from react-hook-form
     <div className={className}>
       <InputTitle> {props.title} </InputTitle>
-      {props.errors && props.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
+      {otherProps.errors && otherProps.errors.type === 'required' && <ErrorText>This field is required</ErrorText>}
       <Input ref={props.register} {...otherProps} />
     </div>
   );
