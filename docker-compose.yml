@@ -2,16 +2,16 @@ version: '3'
 services:
   mongo:
     image: mongo:4.2.3-bionic
-    container_name: mongo
+    container_name: peer-review-mongo
     volumes:
       - /data/db
     ports:
-      - "27017":"27017"
+      - "27017:27017"
   server:
     build:
       context: ./server/
       dockerfile: Dockerfile
-    container_name: server
+    container_name: peer-review-server
     working_dir: /home/node/app
     depends_on: 
       - mongo
@@ -26,7 +26,7 @@ services:
     build:
       context: ./client/
       dockerfile: Dockerfile
-    container_name: client
+    container_name: peer-review-client
     working_dir: /home/node/app
     depends_on:
       - server
