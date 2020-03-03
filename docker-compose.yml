@@ -18,7 +18,8 @@ services:
     environment: 
       - MONGO_URL='mongodb://mongo/'
       - PORT=3000
-    env_file: .env
+    env_file: 
+      - .env
     ports:
       - "3000:3000"
     restart: always
