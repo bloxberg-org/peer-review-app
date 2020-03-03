@@ -7,8 +7,7 @@ exports.database = {
 };
 
 // Default: 
-// exports.databaseURI = 'mongodb://localhost:27017';
-exports.databaseURI = 'ENTER DB URI, WITH USER AND PASSWORD IF EXISTS';
+exports.databaseURI = process.env.MONGO_URL || 'mongodb://localhost:27017';
 
 // publons token
-exports.publonsAuthToken = 'Token <TOKEN_HERE>';
+exports.publonsAuthToken = process.env.PUBLONS_AUTH_TOKEN;

@@ -1,14 +1,14 @@
 version: '3'
 services:
   mongo:
-    image: mongo:4.2.3-bionic
+    image: mongo:4
     container_name: mongo-dev
     volumes:
       - /data/db
     ports:
       - "27017:27017"
   server:
-    image: node:12.14.1-buster
+    image: node:12
     container_name: server-dev
     volumes:  
       - ./server/:/home/node/app
@@ -22,11 +22,9 @@ services:
       - .env
     ports:
       - "3000:3000"
-    command: >
-      bash -c "npm install
-      && npm run devserver"
+    command: bash -c "npm install -g npm && npm install && npm run devserver"
   client:
-    image: node:12.14.1-buster
+    image: node:12
     container_name: client-dev
     volumes:  
       - ./client/:/home/node/app
@@ -39,9 +37,7 @@ services:
       - "3001"
     ports:
       - "3001:3001"
-    command: >
-      bash -c "npm install
-      && npm start"
+    command: bash -c "npm install -g npm && npm install && npm start"
   ganache:
     image: trufflesuite/ganache-cli
     container_name: ganache-dev
