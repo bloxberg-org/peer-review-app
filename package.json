@@ -19,7 +19,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "dev": "docker-compose -f docker-compose-dev.yaml up",
+    "dev": "docker-compose -f docker-compose-dev.yml up",
     "postinstall": "(cd ./client/ && npm install); (cd ./server/ && npm install);"
   },
   "repository": {
