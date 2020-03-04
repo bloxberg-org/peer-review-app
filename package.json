@@ -7,7 +7,6 @@
     "test": "test"
   },
   "dependencies": {
-    "@openeth/gsn": "^0.4.5",
     "@openzeppelin/network": "^0.4.1",
     "@truffle/hdwallet-provider": "^1.0.26",
     "client": "file:client",
