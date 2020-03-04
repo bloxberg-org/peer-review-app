@@ -29,3 +29,5 @@ ssh.sh
 
 # Contract ABIs, differs after every different migration
 client/src/contracts/
+
+.openzeppelin/.session

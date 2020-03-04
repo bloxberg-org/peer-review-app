@@ -7,14 +7,20 @@
     "test": "test"
   },
   "dependencies": {
+    "@openzeppelin/network": "^0.4.1",
     "@truffle/hdwallet-provider": "^1.0.26",
     "client": "file:client",
     "peer-review-server": "file:server"
   },
   "devDependencies": {
+    "@openzeppelin/cli": "^2.7.1",
+    "@openzeppelin/contracts-ethereum-package": "^2.4.0",
+    "@openzeppelin/gsn-helpers": "^0.2.3",
+    "@openzeppelin/upgrades": "^2.7.1",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "eslint-plugin-react": "^7.18.3",
+    "husky": "^4.2.3",
     "mocha": "^6.2.1"
   },
   "scripts": {

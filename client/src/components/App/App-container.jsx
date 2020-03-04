@@ -4,6 +4,7 @@ import { get } from '../../utils/endpoint';
 import { getAllBlockchainReviews } from '../../utils/review';
 import AppView from './App-view';
 
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -21,8 +22,10 @@ export default class App extends React.Component {
     if (typeof window.ethereum !== 'undefined') {
       this.setState({ isWeb3Available: true });
 
+
       // TODO: Metamask does not recommend calling enable upon loading.
       window.ethereum.enable()
+      
         .then(accounts => {
           console.log(`The account address is ${accounts[0]}`);
           return window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
