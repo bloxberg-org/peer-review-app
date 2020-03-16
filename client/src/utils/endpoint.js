@@ -1,4 +1,4 @@
-const URL =  'http://localhost:' + (process.env.REACT_APP_PORT || 3000);
+const URL =  'http://localhost:' + (process.env.REACT_APP_SERVER_PORT || 3000);
 
 export const post = (endpoint, body) => {
   console.log('IN POST');
