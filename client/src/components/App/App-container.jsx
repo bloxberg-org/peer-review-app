@@ -1,8 +1,10 @@
+import Fortmatic from 'fortmatic';
 import React from 'react';
 import { getCurrentAccount } from '../../connection/reviewConnection';
 import { get } from '../../utils/endpoint';
 import { getAllBlockchainReviews } from '../../utils/review';
 import AppView from './App-view';
+const fmPhantom = new Fortmatic.Phantom('pk_test_04AE794995EB0751'); // ✨
 
 
 export default class App extends React.Component {
@@ -25,7 +27,7 @@ export default class App extends React.Component {
 
       // TODO: Metamask does not recommend calling enable upon loading.
       window.ethereum.enable()
-      
+
         .then(accounts => {
           console.log(`The account address is ${accounts[0]}`);
           return window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.

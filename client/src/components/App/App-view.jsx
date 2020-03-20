@@ -8,11 +8,12 @@ import AllReviews from '../AllReviews';
 import ImportReviews from '../ImportReviews';
 import Loader from '../Loader';
 import Overview from '../Overview';
+import Register from '../Register';
 import SideBar from '../SideBar';
 import SingleReview from '../SingleReview';
 import TopBar from '../TopBar';
-import InstallMetamask from './InstallMetamask';
-import Register from '../Register';
+// import InstallMetamask from './InstallMetamask';
+import LoginWithFortmatic from './LoginWithFortmatic';
 
 AppView.propTypes = {
   user: PropTypes.object,
@@ -45,11 +46,12 @@ export default function AppView(props) {
   //let history = useHistory();
 
   if (!props.isWeb3Available)
-    AppContent = <InstallMetamask />;
+    // AppContent = <InstallMetamask />;
+    AppContent = <LoginWithFortmatic />;
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
-  else if (props.isNoUserFound ) {
-    AppContent = <Register/>;
+  else if (props.isNoUserFound) {
+    AppContent = <Register />;
   }
   else {
     AppContent = (
