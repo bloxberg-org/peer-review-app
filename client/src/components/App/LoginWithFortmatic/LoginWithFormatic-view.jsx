@@ -6,7 +6,8 @@ import Button from '../../Button';
 import FormField from '../../FormField/';
 
 LoginWithFortmaticView.propTypes = {
-  handleLogin: PropTypes.func.isRequired
+  handleLogin: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func.isRequired,
 };
 
 const Wrapper = styled.div`
@@ -36,6 +37,7 @@ export default function LoginWithFortmaticView(props) {
           register={register({ required: true })} />
         <Button> Login </Button>
       </form>
+      <Button onClick={props.handleLogout}> Logout </Button>
     </Wrapper>
   );
 }

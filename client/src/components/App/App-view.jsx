@@ -19,7 +19,10 @@ AppView.propTypes = {
   user: PropTypes.object,
   isUserLoading: PropTypes.bool.isRequired,
   isNoUserFound: PropTypes.bool.isRequired,
-  isWeb3Available: PropTypes.bool.isRequired
+  isLoggedInWithFm: PropTypes.bool.isRequired,
+  isLoggedInWithMetamask: PropTypes.bool.isRequired,
+  handleLoginWithMagicLink: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
@@ -43,11 +46,12 @@ const SideBarWrapper = styled.div`
 export default function AppView(props) {
   let AppContent;
 
-  //let history = useHistory();
-
-  if (!props.isWeb3Available)
-    // AppContent = <InstallMetamask />;
-    AppContent = <LoginWithFortmatic />;
+  // Show Fortmatic login if not logged in with fm or metamask.
+  if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
+    AppContent = <LoginWithFortmatic
+      handleLoginWithMagicLink={props.handleLoginWithMagicLink}
+      handleLogout={props.handleLogout}
+    />;
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
   else if (props.isNoUserFound) {
