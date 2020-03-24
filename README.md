@@ -91,3 +91,5 @@ You should be able to access the application at [http://localhost]
 Make sure no other processes are running on TCP ports: 27017 (mongo), 3000 (server), 8545 (ganache), 3001 (client-dev), 80 (client-production).
 
 If you get permission error when trying to stop docker containers, you can execute `sudo service docker restart` as a workaround.
+
+The `ganache/` folder has the owner `root` as this folder (docker volume, better said) is created by docker.  
