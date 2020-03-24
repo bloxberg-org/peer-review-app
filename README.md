@@ -2,19 +2,18 @@
 An Ethereum dApp for aggregating peer review data.
 
 ## Dependencies
-- node > 12.0 & npm 6.0
+- docker
+- docker-compose
 - truffle suite
-- ganache-cli
-- mongodb
 - Metamask
 
 # Installation
 
 ## Dependencies
 
-### Node
+### Docker
 
-Dowload and install node.js and npm via [here](https://nodejs.org/en/download/). Use a [package manager](https://nodejs.org/en/download/package-manager/) for easier installation.
+Dowload and install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/)
 
 ### Truffle
 
@@ -23,56 +22,48 @@ If not available, install `truffle` globally by:
 npm install -g truffle
 ```
 
-### Ganache-cli
-
-Also install `ganache-cli` by:
-```
-npm install -g ganache-cli
-```
-
-### MongoDB
-
-Install [mongoDB](https://www.mongodb.com/) for the server database.
-
 ### Metamask
 
 Install the Metamask browser extension [at](https://metamask.io/) to be able to interact with the blockchain on the browser.
 
-### Node dependencies
 
-Finally install all node dependencies by:
-```
-npm install
-```
+## Secrets
 
-Note that you can encounter numerous errors. This should not be a problem for running the app. Also you'll see some vulnerability warnings, please ignore them at this stage.
+To run the app we need two secrets in `.env` file. 
 
-## Smart Contract
-First we need to get the `ganache-cli` running. `ganache-cli` will be our local blockchain network for testing purposes.
+First make a copy of the `.env-template` file and name it `.env`. 
 
-Create the db folder for our blockchain:
-```
-mkdir ganache
-```
+Enter your 12 word MNEMONIC (seed phrase). You can use the MNEMONIC created by Metamask as described [here](https://metamask.zendesk.com/hc/en-us/articles/360015290032-How-to-Reveal-Your-Seed-Phrase).
 
-Run ganache by:
+To import reviews from Publons you need to have an auth token. Login and find the token [here](https://publons.com/api/v2/). Enter the found token `6452ac....4f2de` in the given format `Token 6452ac....4f2de` as the environment variable. 
+
+# Run Development
+
+## Modules
+You can easily run the development environment by executing
+
 ```
-ganache-cli --db ganache/  --networkId 5777
+npm run dev
 ```
 
-Take note of the 12 word mnemonic phrase after launching ganache. Use this mnemonic as below if you want to use same accounts each time you run ganache:
-```
-ganache-cli --db ganache/  --networkId 5777 --mnemonic '<12-word-mnemonic>'
-```
+This will pull the docker images and run the modules according to the settings in `docker-compose-dev.yml`. The initial run may take some time as it will be downloading the npm dependencies but subsequent runs should be quicker. Also both the server and client utilises _hot reloading_, meaning changes made to code are applied immediately.
 
-Use `--quiet` flag if you don't wan't ganache to constantly log on the terminal.
+Once ready you can reach the app at [http://localhost:3001]
 
-In a new terminal compile and migrate contracts by:
+## Deploy Contracts
+
+if you want to deploy the contracts in a test network follow the instructions. Otherwise you can use the contracts already deployed in the bloxberg network.
+
+*TODO*:
+- Add GSN Contract deployment
+- Fix truffle/hdwallet-provider missing
+First run an `npm install @truffle/hdwallet-provider` in the main folder as `truffle` will need `@truffle/hdwallet-provider`.
+
+Once you have the development blockchain network (ganache) running, you can deploy the contract to the network using:
+
 ```
 truffle migrate --network develop
 ```
-
-Now the contracts are deployed to our local blockchain and will be accessible by the app.
 
 ## Deploy to bloxberg
 In order to use meta-transactions, we utilize the Gas Station Network deployed on bloxberg. In order to deploy another contract, simply run:
@@ -82,77 +73,23 @@ oz create
 ```
 on the bloxberg network while making sure to call initialize() to instantiate the contract. Then the new contract must be funded in order to use meta-transactions. This is done by calling depositFor() on the RelayHub contract located [here](https://blockexplorer.bloxberg.org/address/0xd216153c06e857cd7f72665e0af1d7d82172f494/contracts).
 
-## Configure database connection
-Copy template configuration from `server/config_template.js` to `server/config.js`:
+# Run Production 
+
+Make sure you have set-up the `.env` file as described above.
+
+To build and run the production simple execute:
 
 ```
-cp server/config_template.js server/config.js
+docker-compose up
 ```
+This will create a production build of the client, serve it through a simple nginx server at port 80, start the express server at port 3000, and start the mongo service.
 
-And fill the appropiate fields with your config. Use the default config URI in the file if you don't have any specific configurations.
-
-Check if mongo is running. Note the service name vary as mongo/mongod/mongodb.
-```
-service mongodb status
-```
-
-Run mongodb if not running by:
-```
-sudo service mongodb start
-```
-
-### Publons auth
-
-In `server/config.js` we need another field. To import reviews from Publons you need to have an auth token. Login and find the token [here](https://publons.com/api/v2/).
-
-## Run backend
-
-In a new terminal, run the backend in development mode to watch changes with `nodemon`:
-```
-npm run dev
-```
-
-If you encounter any file watcher errors you can stop using `nodemon` and run the server normally by
-```
-cd server/ && npm start
-```
-
-## Run frontend
-
-Open a new terminal an start the client with:
-```
-npm run client
-```
-
-This will open a new browser window at localhost:3001
-
-## Metamask
-
-To be able to interact with blockchain we need Metamask. By default you can use the wallet generated at ganache launch. Import this wallet using the mnemonic you saved.
-
-You should see around 100 ETH in your account in Metamask. If not check the network you are connected. Click top right to add Custom RPC and enter `http://localhost:8545` in RPC URL.
-
-## One click development environment
-
-You can run the complete dev environment (mongo, truffle, frontend, backend) by running the shell script.
-This requires VSCode and `tmux` to be installed.
-
-Also add the mnemonic to the ganache config at `dev/scripts/secret-template.sh` and rename the file to `secret.sh` to use same addresses each time. You can use the mnemonic output of `ganache-cli` above, or your preferred wallet phrase.
-
-Launch the dev environment with:
-
-```
-bash dev/bloxberg-dev.sh
-```
-
-You can change windows at tmux by `Ctrl+B` and window number. E.g. `Ctrl+B` then `0` opens mongo window.
-
-You can send the session to background by `Ctrl+B` and `D`.
-
-Launch the session back with `tmux attach -t peer`. Kill the session by `tmux kill-session -t peer`.
+You should be able to access the application at [http://localhost]
 
 ## Troubleshooting
 
-When launching with the dev script, mongod starting command may be different and output a warning "mongod.service: Unit mongod.service not found.". Change the command appropiately to how you start the mongo service.
+Make sure no other processes are running on TCP ports: 27017 (mongo), 3000 (server), 8545 (ganache), 3001 (client-dev), 80 (client-production).
 
-If you get a 'EADDRINUSE' error at the backend server stop running node daemons with `pkill node`. This happens when you kill the tmux window but the node keeps running.
+If you get permission error when trying to stop docker containers, you can execute `sudo service docker restart` as a workaround.
+
+The `ganache/` folder has the owner `root` as this folder (docker volume, better said) is created by docker.  

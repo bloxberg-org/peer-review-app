@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 
 const reviewRoutes = require('./routes/reviewRoutes');
 const accountRoutes = require('./routes/accountRoutes');
@@ -9,17 +10,28 @@ const mongo = require('./utils/mongo');
 const app = express();
 const port = process.env.PORT || 3000;
 
+// CORS Policy
+const whitelist = ['http://127.0.0.1:3001', 'http://localhost:3001', 'http://127.0.0.1', 'http://localhost'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 mongo.connectToServer();
+
+// Apply CORS policy
+app.all('*', cors(corsOptions), function (req, res, next) {
+  next();
+});
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(function (req, res, next) {
-  //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:3001'); // update to match the client domain
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3001'); // update to match the client domain
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
-});
 
 // parse application/json
 app.use(bodyParser.json());

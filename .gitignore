@@ -23,8 +23,11 @@ logs/
 ganache/
 
 # Configs with keys
-config.js
 secret.sh
 ssh.sh
+.env
+
+# Contract ABIs, differs after every different migration
+client/src/contracts/
 
 .openzeppelin/.session

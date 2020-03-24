@@ -25,8 +25,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "dev": "nodemon ./server/server.js",
-    "client": "cd ./client/ && npm start",
+    "dev": "docker-compose -f docker-compose-dev.yml up",
     "postinstall": "(cd ./client/ && npm install); (cd ./server/ && npm install);"
   },
   "repository": {

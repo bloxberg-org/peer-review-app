@@ -2,24 +2,24 @@ version: '3'
 services:
   mongo:
     image: mongo:4.2.3-bionic
-    container_name: mongo
+    container_name: peer-review-mongo
     volumes:
-      - /var/lib/mongodb/:/data/db
+      - /data/db
     ports:
-      - "27017":"27017"
+      - "27017:27017"
   server:
     build:
       context: ./server/
       dockerfile: Dockerfile
-    user: "999:999"
-    container_name: server
+    container_name: peer-review-server
     working_dir: /home/node/app
     depends_on: 
       - mongo
     environment: 
       - MONGO_URL='mongodb://mongo/'
-    expose:
-      - "3000"
+      - PORT=3000
+    env_file: 
+      - .env
     ports:
       - "3000:3000"
     restart: always
@@ -27,12 +27,12 @@ services:
     build:
       context: ./client/
       dockerfile: Dockerfile
-    container_name: client
-    working_dir: /home/app
+    container_name: peer-review-client
+    working_dir: /home/node/app
     depends_on:
       - server
     expose:
       - "80"
     ports:
-      - "3001:80"
+      - "80:80"
     restart: always
