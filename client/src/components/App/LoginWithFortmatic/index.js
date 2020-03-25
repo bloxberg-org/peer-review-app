@@ -1,2 +1,2 @@
-export { default } from './LoginWithFortmatic-container';
+export { default } from './LoginWithFortmatic-view';
 

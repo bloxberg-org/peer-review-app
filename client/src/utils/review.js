@@ -58,7 +58,7 @@ export const getAllBlockchainReviews = async () => {
   let reviewIds;
   try {
     reviewIds = await connection.getOwnReviewIdsArray(); // Fetch review ids to fetch reviews one by one. (Smart contract can't return all reviews at once.)
-    if (reviewIds.length == 0) // return empty array if there are no reviews.
+    if (reviewIds.length === 0) // return empty array if there are no reviews.
       return [];
   } catch (e) {
     console.log('Error getting review ids');

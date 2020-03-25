@@ -1,7 +1,8 @@
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Proptypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../Button';
+import FAIconButton from '../Button/FAIconButton';
 import Search from './Search';
 import UserIcon from './UserIcon';
 
@@ -50,7 +51,7 @@ export default function TopBarView(props) {
         <UserIcon user={props.user} />
         {
           props.isLoggedInWithFm
-            ? <Button onClick={props.handleLogout}> Logout </Button>
+            ? <FAIconButton tooltip="Logout" onClick={props.handleLogout} icon={faSignOutAlt} />
             : null
         }
       </TopBarRightWrapper>

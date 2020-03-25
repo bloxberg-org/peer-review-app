@@ -54,6 +54,10 @@ export default class App extends React.Component {
       console.log(`Token: ${token}`);
       if (token) {
         console.log('Logged in with Fortmatic!');
+        this.getUserAddress().then(address => {
+          console.log('User address is');
+          console.log(address);
+        })
         this.setState({ isLoggedInWithFm: true });
         fmPhantom.user.getMetadata().then(metadata => {
           let addr = metadata.publicAddress;

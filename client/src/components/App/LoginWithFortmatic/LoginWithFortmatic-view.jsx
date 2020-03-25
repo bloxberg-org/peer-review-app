@@ -34,10 +34,9 @@ export default function LoginWithFortmaticView(props) {
           title='E-Mail'
           placeholder='planck@mail.com'
           errors={errors.email}
-          register={register({ required: true })} />
+          register={register({ required: true, pattern: /^\S+@\S+$/i })} />
         <Button> Login </Button>
       </form>
-      <Button onClick={props.handleLogout}> Logout </Button>
     </Wrapper>
   );
 }

@@ -49,13 +49,13 @@ export default function AppView(props) {
   // Show Fortmatic login if not logged in with fm or metamask.
   if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
     AppContent = <LoginWithFortmatic
-      handleLoginWithMagicLink={props.handleLoginWithMagicLink}
+      handleLogin={props.handleLoginWithMagicLink}
       handleLogout={props.handleLogout}
     />;
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
   else if (props.isNoUserFound) {
-    AppContent = <Register />;
+    AppContent = <Register {...props} />;
   }
   else {
     AppContent = (
