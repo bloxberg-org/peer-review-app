@@ -12,11 +12,13 @@ import Register from '../Register';
 import SideBar from '../SideBar';
 import SingleReview from '../SingleReview';
 import TopBar from '../TopBar';
+import ConnectToBloxberg from './ConnectToBloxberg';
 // import InstallMetamask from './InstallMetamask';
 import LoginWithFortmatic from './LoginWithFortmatic';
 
 AppView.propTypes = {
   user: PropTypes.object,
+  isConnectedToBloxberg: PropTypes.bool.isRequired,
   isUserLoading: PropTypes.bool.isRequired,
   isNoUserFound: PropTypes.bool.isRequired,
   isLoggedInWithFm: PropTypes.bool.isRequired,
@@ -44,7 +46,7 @@ const SideBarWrapper = styled.div`
   `;
 
 export default function AppView(props) {
-  let AppContent;
+  let AppContent = <Loader />;
 
   // Show Fortmatic login if not logged in with fm or metamask.
   if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
@@ -52,6 +54,8 @@ export default function AppView(props) {
       handleLogin={props.handleLoginWithMagicLink}
       handleLogout={props.handleLogout}
     />;
+  else if (!props.isConnectedToBloxberg)
+    AppContent = (<ConnectToBloxberg />);
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
   else if (props.isNoUserFound) {

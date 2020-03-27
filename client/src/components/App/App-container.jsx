@@ -17,6 +17,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isConnectedToBloxberg: false,
       isUserLoading: true,
       isLoggedInWithFm: false,
       isLoggedInWithMetamask: false,
@@ -29,6 +30,9 @@ export default class App extends React.Component {
   componentDidMount() {
     // Check if Metamask is there.
     if (typeof window.ethereum !== 'undefined') {
+      // Check which network is connected.
+      let netwId = parseInt(window.ethereum.networkVersion);
+      this.checkConnectedNetwork(netwId);
       // TODO: Metamask does not recommend calling enable upon loading.
       window.ethereum.enable()
         .then(accounts => {
@@ -50,6 +54,11 @@ export default class App extends React.Component {
     }
     else { // Use fortmatic
       window.web3 = new Web3(fmPhantom.getProvider()); // Inject Fortmatic.
+      // Check if connected to bloxberg network.
+      window.web3.eth.net.getId((id) => {
+        this.checkConnectedNetwork(id);
+      });
+
       let token = localStorage.getItem('didToken');
       console.log(`Token: ${token}`);
       if (token) {
@@ -57,7 +66,7 @@ export default class App extends React.Component {
         this.getUserAddress().then(address => {
           console.log('User address is');
           console.log(address);
-        })
+        });
         this.setState({ isLoggedInWithFm: true });
         fmPhantom.user.getMetadata().then(metadata => {
           let addr = metadata.publicAddress;
@@ -142,6 +151,14 @@ export default class App extends React.Component {
 
   getUserAddress = () => {
     return getCurrentAccount();
+  }
+
+  // Checks if the network id is of bloxberg's. Sets the state var isConnectedToBloxberg accordingly.
+  checkConnectedNetwork = (id) => {
+    console.log('Checking network id: ' + id);
+    id === 8995
+      ? this.setState({ isConnectedToBloxberg: true })
+      : this.setState({ isConnectedToBloxberg: false });
   }
 
   render() {
