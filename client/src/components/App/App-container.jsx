@@ -1,32 +1,42 @@
+import Fortmatic from 'fortmatic';
 import React from 'react';
+import Web3 from 'web3';
 import { getCurrentAccount } from '../../connection/reviewConnection';
 import { get } from '../../utils/endpoint';
 import { getAllBlockchainReviews } from '../../utils/review';
 import AppView from './App-view';
 
+const customNodeOptions = {
+  rpcUrl: 'https://core.bloxberg.org/', // your own node url
+  chainId: 8995 // chainId of your own node
+};
+
+const fmPhantom = new Fortmatic.Phantom('pk_test_04AE794995EB0751', customNodeOptions); // ✨
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isConnectedToBloxberg: false,
       isUserLoading: true,
+      isLoggedInWithFm: false,
+      isLoggedInWithMetamask: false,
       isNoUserFound: false,
-      isWeb3Available: false,
       reviewsOfUser: [],
-      user: {}
+      user: {},
     };
   }
 
   componentDidMount() {
-    // Check if a web3 provider is injected (Metamask).
+    // Check if Metamask is there.
     if (typeof window.ethereum !== 'undefined') {
-      this.setState({ isWeb3Available: true });
-
-
+      // Check which network is connected.
+      let netwId = parseInt(window.ethereum.networkVersion);
+      this.checkConnectedNetwork(netwId);
       // TODO: Metamask does not recommend calling enable upon loading.
       window.ethereum.enable()
-      
         .then(accounts => {
+          this.setState({ isLoggedInWithMetamask: true });
           console.log(`The account address is ${accounts[0]}`);
           return window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
         })
@@ -41,8 +51,55 @@ export default class App extends React.Component {
           .then(this.init) // Fetch user.
           .catch(err => console.log(err));
       });
-
     }
+    else { // Use fortmatic
+      window.web3 = new Web3(fmPhantom.getProvider()); // Inject Fortmatic.
+      // Check if connected to bloxberg network.
+      window.web3.eth.net.getId((id) => {
+        this.checkConnectedNetwork(id);
+      });
+
+      let token = localStorage.getItem('didToken');
+      console.log(`Token: ${token}`);
+      if (token) {
+        console.log('Logged in with Fortmatic!');
+        this.getUserAddress().then(address => {
+          console.log('User address is');
+          console.log(address);
+        });
+        this.setState({ isLoggedInWithFm: true });
+        fmPhantom.user.getMetadata().then(metadata => {
+          let addr = metadata.publicAddress;
+          this.init(addr);
+        });
+      }
+    }
+  }
+
+  /** 
+   * Logs the user in using Fortmatic.
+   */
+  handleLoginWithMagicLink = async (data) => {
+    const email = data.email;
+    const user = await fmPhantom.loginWithMagicLink({ email });
+    this.setState({ isLoggedInWithFm: true });
+    let token = await user.getIdToken(86400); // 86400 sec = 24 hours lifespan.
+    localStorage.setItem('didToken', token);
+    let addr = (await user.getMetadata()).publicAddress;
+    console.log(addr);
+    this.init(addr);
+  };
+
+  /**
+   * Logs user out from fortmatic
+   */
+  handleLogoutUser = () => {
+    console.log('Logging out');
+    fmPhantom.user.logout().then(() => {
+      console.log('Logged out');
+      localStorage.removeItem('didToken');
+      this.setState({ isLoggedInWithFm: false });
+    });
   }
 
   /**
@@ -96,9 +153,21 @@ export default class App extends React.Component {
     return getCurrentAccount();
   }
 
+  // Checks if the network id is of bloxberg's. Sets the state var isConnectedToBloxberg accordingly.
+  checkConnectedNetwork = (id) => {
+    console.log('Checking network id: ' + id);
+    id === 8995
+      ? this.setState({ isConnectedToBloxberg: true })
+      : this.setState({ isConnectedToBloxberg: false });
+  }
+
   render() {
     return (
-      <AppView addReviewsToState={this.addReviewsToState} {...this.state} />
+      <AppView
+        addReviewsToState={this.addReviewsToState}
+        handleLoginWithMagicLink={this.handleLoginWithMagicLink}
+        handleLogout={this.handleLogoutUser}
+        {...this.state} />
     );
   }
 }

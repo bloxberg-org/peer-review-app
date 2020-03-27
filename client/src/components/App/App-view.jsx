@@ -8,17 +8,23 @@ import AllReviews from '../AllReviews';
 import ImportReviews from '../ImportReviews';
 import Loader from '../Loader';
 import Overview from '../Overview';
+import Register from '../Register';
 import SideBar from '../SideBar';
 import SingleReview from '../SingleReview';
 import TopBar from '../TopBar';
-import InstallMetamask from './InstallMetamask';
-import Register from '../Register';
+import ConnectToBloxberg from './ConnectToBloxberg';
+// import InstallMetamask from './InstallMetamask';
+import LoginWithFortmatic from './LoginWithFortmatic';
 
 AppView.propTypes = {
   user: PropTypes.object,
+  isConnectedToBloxberg: PropTypes.bool.isRequired,
   isUserLoading: PropTypes.bool.isRequired,
   isNoUserFound: PropTypes.bool.isRequired,
-  isWeb3Available: PropTypes.bool.isRequired
+  isLoggedInWithFm: PropTypes.bool.isRequired,
+  isLoggedInWithMetamask: PropTypes.bool.isRequired,
+  handleLoginWithMagicLink: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
@@ -40,16 +46,20 @@ const SideBarWrapper = styled.div`
   `;
 
 export default function AppView(props) {
-  let AppContent;
+  let AppContent = <Loader />;
 
-  //let history = useHistory();
-
-  if (!props.isWeb3Available)
-    AppContent = <InstallMetamask />;
+  // Show Fortmatic login if not logged in with fm or metamask.
+  if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
+    AppContent = <LoginWithFortmatic
+      handleLogin={props.handleLoginWithMagicLink}
+      handleLogout={props.handleLogout}
+    />;
+  else if (!props.isConnectedToBloxberg)
+    AppContent = (<ConnectToBloxberg />);
   else if (props.isUserLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
-  else if (props.isNoUserFound ) {
-    AppContent = <Register/>;
+  else if (props.isNoUserFound) {
+    AppContent = <Register {...props} />;
   }
   else {
     AppContent = (

@@ -1,13 +1,17 @@
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Proptypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
+import FAIconButton from '../Button/FAIconButton';
 import Search from './Search';
 import UserIcon from './UserIcon';
 
 TopBarView.propTypes = {
   title: Proptypes.string,
   user: Proptypes.object,
-  isUserLoading: Proptypes.bool
+  isUserLoading: Proptypes.bool,
+  handleLogout: Proptypes.func.isRequired,
+  isLoggedInWithFm: Proptypes.bool.isRequired
 };
 
 const Title = styled.h1`
@@ -45,6 +49,11 @@ export default function TopBarView(props) {
       <TopBarRightWrapper>
         <Search />
         <UserIcon user={props.user} />
+        {
+          props.isLoggedInWithFm
+            ? <FAIconButton tooltip="Logout" onClick={props.handleLogout} icon={faSignOutAlt} />
+            : null
+        }
       </TopBarRightWrapper>
     </TopBarWrapper>
   );
