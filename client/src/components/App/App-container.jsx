@@ -17,8 +17,8 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
       isConnectedToBloxberg: false,
-      isUserLoading: true,
       isLoggedInWithFm: false,
       isLoggedInWithMetamask: false,
       isNoUserFound: false,
@@ -46,7 +46,7 @@ export default class App extends React.Component {
       // Event listener for when the account is changed.
       // Fetch new user when address changes.
       window.ethereum.on('accountsChanged', () => {
-        this.setState({ isUserLoading: true });
+        this.setState({ isLoading: true });
         this.getUserAddress()
           .then(this.init) // Fetch user.
           .catch(err => console.log(err));
@@ -54,10 +54,6 @@ export default class App extends React.Component {
     }
     else { // Use fortmatic
       window.web3 = new Web3(fmPhantom.getProvider()); // Inject Fortmatic.
-      // Check if connected to bloxberg network.
-      window.web3.eth.net.getId((id) => {
-        this.checkConnectedNetwork(id);
-      });
 
       let token = localStorage.getItem('didToken');
       console.log(`Token: ${token}`);
@@ -67,11 +63,14 @@ export default class App extends React.Component {
           console.log('User address is');
           console.log(address);
         });
-        this.setState({ isLoggedInWithFm: true });
+        this.setState({ isLoggedInWithFm: true, isConnectedToBloxberg: true });
         fmPhantom.user.getMetadata().then(metadata => {
           let addr = metadata.publicAddress;
           this.init(addr);
         });
+      } else {
+        this.setState({ isLoading: false });
+        // Login with fortmatic
       }
     }
   }
@@ -130,12 +129,12 @@ export default class App extends React.Component {
       })
       .catch(error => { // No user found.
         console.log(error);
-        this.setState({ isUserLoading: false, isNoUserFound: true });
+        this.setState({ isLoading: false, isNoUserFound: true });
         return Promise.reject('reject'); // Break the chain, avoid entering next then. (Is there a better practice?)
       })
       .then(reviewsOfUser => {
         this.setState({
-          isUserLoading: false,
+          isLoading: false,
           isNoUserFound: false,
           reviewsOfUser: reviewsOfUser,
         });

@@ -61,6 +61,15 @@ export default class OverviewContainer extends React.Component {
     return this.props.reviewsOfUser.filter(review => review.verified === true).length;
   }
 
+  // Returns the number of unique publisher names in reviewsOfUser. 
+  getNumberOfAffiliatedPublishers = () => {
+    // Extract publisher names as an array.
+    let publisherNames = this.props.reviewsOfUser.map((review) => {
+      return review.publisher;
+    });
+    return new Set(publisherNames).size; // Create a set and return its size.
+  }
+
   render() {
     if (this.props.isUserLoading)
       return (<LoaderView />);
@@ -70,7 +79,7 @@ export default class OverviewContainer extends React.Component {
       'Peer Reviews': this.getNumberOfReviews(),
       'Verified Reviews': this.getNumberOfVerifiedReviews(),
       'H-Index': 75,
-      'Affiliated Journals': 25
+      'Affiliated Publishers': this.getNumberOfAffiliatedPublishers()
     };
 
     return (

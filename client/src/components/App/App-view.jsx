@@ -19,7 +19,7 @@ import LoginWithFortmatic from './LoginWithFortmatic';
 AppView.propTypes = {
   user: PropTypes.object,
   isConnectedToBloxberg: PropTypes.bool.isRequired,
-  isUserLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isNoUserFound: PropTypes.bool.isRequired,
   isLoggedInWithFm: PropTypes.bool.isRequired,
   isLoggedInWithMetamask: PropTypes.bool.isRequired,
@@ -48,16 +48,16 @@ const SideBarWrapper = styled.div`
 export default function AppView(props) {
   let AppContent = <Loader />;
 
+  if (props.isLoading) // If loading user and reviews return the spinner
+    AppContent = (<Loader />);
   // Show Fortmatic login if not logged in with fm or metamask.
-  if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
+  else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
     AppContent = <LoginWithFortmatic
       handleLogin={props.handleLoginWithMagicLink}
       handleLogout={props.handleLogout}
     />;
   else if (!props.isConnectedToBloxberg)
     AppContent = (<ConnectToBloxberg />);
-  else if (props.isUserLoading) // If loading user and reviews return the spinner
-    AppContent = (<Loader />);
   else if (props.isNoUserFound) {
     AppContent = <Register {...props} />;
   }
