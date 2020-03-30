@@ -81,7 +81,7 @@ export default class App extends React.Component {
   handleLoginWithMagicLink = async (data) => {
     const email = data.email;
     const user = await fmPhantom.loginWithMagicLink({ email });
-    this.setState({ isLoggedInWithFm: true });
+    this.setState({ isLoggedInWithFm: true, isConnectedToBloxberg: true });
     let token = await user.getIdToken(86400); // 86400 sec = 24 hours lifespan.
     localStorage.setItem('didToken', token);
     let addr = (await user.getMetadata()).publicAddress;
