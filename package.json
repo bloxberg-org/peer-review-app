@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@openzeppelin/network": "^0.4.1",
-    "@truffle/hdwallet-provider": "^1.0.26",
+    "@truffle/hdwallet-provider": "^1.0.33",
     "client": "file:client",
     "peer-review-server": "file:server"
   },
