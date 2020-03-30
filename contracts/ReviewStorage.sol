@@ -8,8 +8,10 @@ pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol";
 
+
 contract ReviewStorage is GSNRecipient {
     // address[] usersAddresses; // Should we keep this?
+    event ReviewAdded(address indexed _from, string id);
     address publonsAddress = 0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311;
     enum Recommendation {NULL, ACCEPT, REVISE, REJECT}
     struct Review {
@@ -64,6 +66,7 @@ contract ReviewStorage is GSNRecipient {
         });
         reviewsMap[id] = review;
         userReviewsIdsMap[author].push(id);
+        emit ReviewAdded(author, id);
     }
 
     function addMultipleReviews(
@@ -101,6 +104,7 @@ contract ReviewStorage is GSNRecipient {
             review.verified = false;
             review.vouchers = new address[](0); // Init empty array
             userReviewsIdsMap[author].push(ids[i]);
+            emit ReviewAdded(author, ids[i]);
         }
     }
 
@@ -146,8 +150,8 @@ contract ReviewStorage is GSNRecipient {
                 review.verified = false;
                 review.vouchers = new address[](0); // Init empty array
             }
-
             userReviewsIdsMap[author].push(ids[i]);
+            emit ReviewAdded(author, ids[i]);
         }
     }
 
@@ -227,6 +231,7 @@ contract ReviewStorage is GSNRecipient {
         Review storage review = reviewsMap[id];
         return review.vouchersMap[voucher];
     }
+
     /// @notice Function to check if the Review at the given address and index is verified. I.e. vouched by 2 or more accounts.
     /// @param id - id of the review
     /// @return bool showing if Review is verified.
@@ -252,9 +257,12 @@ contract ReviewStorage is GSNRecipient {
     }
 
     // We won't do any pre or post processing, so leave _preRelayedCall and _postRelayedCall empty
-    function _preRelayedCall(bytes memory context) internal returns (bytes32) {
-    }
+    function _preRelayedCall(bytes memory context) internal returns (bytes32) {}
 
-    function _postRelayedCall(bytes memory context, bool, uint256 actualCharge, bytes32) internal {
-    }
+    function _postRelayedCall(
+        bytes memory context,
+        bool,
+        uint256 actualCharge,
+        bytes32
+    ) internal {}
 }

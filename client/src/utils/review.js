@@ -50,7 +50,7 @@ export const addReview = (data) => {
             return response;
           });
       })
-      .catch((err) => console.log('Error adding to the blockchain\n' + err));
+      .catch((err) => console.log('Error adding to the blockchain\n' + JSON.stringify(err)));
   });
 };
 

@@ -155,7 +155,7 @@ export default class App extends React.Component {
   // Checks if the network id is of bloxberg's. Sets the state var isConnectedToBloxberg accordingly.
   checkConnectedNetwork = (id) => {
     console.log('Checking network id: ' + id);
-    id === 8995 || id === 5777
+    (id === 8995 || id === 5777)
       ? this.setState({ isConnectedToBloxberg: true })
       : this.setState({ isConnectedToBloxberg: false });
   }
