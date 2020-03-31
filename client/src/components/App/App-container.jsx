@@ -2,6 +2,7 @@ import Fortmatic from 'fortmatic';
 import React from 'react';
 import Web3 from 'web3';
 import { getCurrentAccount } from '../../connection/reviewConnection';
+import getWeb3 from '../../connection/web3';
 import { get } from '../../utils/endpoint';
 import { getAllBlockchainReviews } from '../../utils/review';
 import AppView from './App-view';
@@ -31,9 +32,15 @@ export default class App extends React.Component {
   componentDidMount() {
     // Check if Metamask is there.
     if (typeof window.ethereum !== 'undefined') {
-      // Check which network is connected.
-      let netwId = parseInt(window.ethereum.networkVersion);
-      this.checkConnectedNetwork(netwId);
+      getWeb3()
+        .then(web3 => { // TODO: Redundant with ethereum.enable().
+          return web3.eth.net.getId();
+        })
+        .then(id => {
+          // Check which network is connected.
+          let netwId = parseInt(id);
+          this.checkConnectedNetwork(netwId);
+        });
       // TODO: Metamask does not recommend calling enable upon loading.
       window.ethereum.enable()
         .then(accounts => {
