@@ -1,0 +1,17 @@
+{
+  "name": "indexer",
+  "version": "1.0.0",
+  "description": "This script listens to ReviewAdded events in the contract and writes them to a DB for easy querying.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kuzdogan",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "@truffle/contract": "^4.1.14",
+    "daemon": "^1.1.0",
+    "mongoose": "^5.9.7",
+    "web3": "^1.2.6"
+  }
+}
