@@ -1,3 +1,5 @@
+const BlockchainReview = require('./models/BlockchainReview');
+const Author = require('./models/Author');
 
 /**
  * Function to index reviews to local Mongo DB.
@@ -9,6 +11,7 @@
  * @param {ContractInstance} instance - Contracts instance to interact with. Needed to retrieve the review data using the id in the event.
  */
 const reviewLogger = (event, instance) => {
+  console.log('Event emitted');
   let id = event.returnValues.id;
   let authorAddress = event.returnValues._from;
 

@@ -7,6 +7,10 @@ services:
       - /data/db
     ports:
       - "27017:27017"
+    environment: 
+      - NODE_ENV='development'
+    stdin_open: true
+    tty: true
   server:
     image: node:12
     container_name: server-dev
@@ -18,10 +22,13 @@ services:
     environment: 
       - MONGO_URL='mongodb://mongo/'
       - PORT=3000
+      - NODE_ENV='development'
     env_file: 
       - .env
     ports:
       - "3000:3000"
+    stdin_open: true
+    tty: true
     command: bash -c "npm install -g npm && npm install && npm run devserver"
   client:
     image: node:12
@@ -37,6 +44,8 @@ services:
       - "3001"
     ports:
       - "3001:3001"
+    stdin_open: true
+    tty: true
     command: bash -c "npm install -g npm && npm install && npm start"
   ganache:
     image: trufflesuite/ganache-cli
@@ -49,4 +58,23 @@ services:
       - .env
     ports:
       - "8545:8545"
+    stdin_open: true
+    tty: true
     command: ganache-cli --mnemonic "${MNEMONIC}" --db /home/ganache/  --networkId 5777 --quiet
+  indexer:
+    image: node:12
+    container_name: indexer-dev
+    volumes:  
+      - ./indexer/:/home/node/app
+      - ./client/src/contracts/:/home/node/app/contracts
+    working_dir: /home/node/app
+    depends_on: 
+      - mongo
+    environment: 
+      - MONGO_URL='mongodb://mongo/'
+      - NODE_ENV='development'
+    env_file: 
+      - .env
+    stdin_open: true
+    tty: true
+    command: bash -c "npm install -g npm && npm install && npm run dev"
