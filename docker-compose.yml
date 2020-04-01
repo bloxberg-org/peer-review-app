@@ -7,6 +7,8 @@ services:
       - /data/db
     ports:
       - "27017:27017"
+    environment: 
+      - NODE_ENV=production
   server:
     build:
       context: ./server/
@@ -15,8 +17,9 @@ services:
     working_dir: /home/node/app
     depends_on: 
       - mongo
-    environment: 
-      - MONGO_URL='mongodb://mongo/'
+    environment:
+      - NODE_ENV=production
+      - MONGO_URL=mongodb://mongo/
       - PORT=3000
     env_file: 
       - .env
@@ -35,4 +38,21 @@ services:
       - "80"
     ports:
       - "80:80"
+    restart: always
+  indexer:
+    build:
+      context: ./indexer/
+      dockerfile: Dockerfile
+    container_name: peer-review-indexer
+    working_dir: /home/node/app
+    # indexer needs to access contract builds.
+    volumes: 
+      - ./client/src/contracts/:/home/node/app/contracts
+    depends_on: 
+      - mongo
+    environment:
+      - NODE_ENV=production
+      - MONGO_URL=mongodb://mongo/
+    env_file: 
+      - .env
     restart: always

@@ -8,7 +8,7 @@ services:
     ports:
       - "27017:27017"
     environment: 
-      - NODE_ENV='development'
+      - NODE_ENV=development
     stdin_open: true
     tty: true
   server:
@@ -20,9 +20,9 @@ services:
     depends_on: 
       - mongo
     environment: 
-      - MONGO_URL='mongodb://mongo/'
+      - MONGO_URL=mongodb://mongo/
       - PORT=3000
-      - NODE_ENV='development'
+      - NODE_ENV=development
     env_file: 
       - .env
     ports:
@@ -71,8 +71,9 @@ services:
     depends_on: 
       - mongo
     environment: 
-      - MONGO_URL='mongodb://mongo/'
-      - NODE_ENV='development'
+      - MONGO_URL=mongodb://mongo/
+      - NODE_ENV=development
+      - DOCKER=yes
     env_file: 
       - .env
     stdin_open: true

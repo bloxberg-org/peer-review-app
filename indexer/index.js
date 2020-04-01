@@ -9,8 +9,8 @@ const TruffleContract = require('@truffle/contract');
 const ReviewStorageArtifact = require('./contracts/ReviewStorage.json');
 const reviewLogger = require('./reviewLogger');
 
-const bloxbergProvider = 'https://core.bloxberg.org';
-const localProvider = 'http://ganache:8545'; // Use Docker host name in docker, else localhost.
+const bloxbergProvider = 'wss://websockets.bloxberg.org';
+const localProvider = process.env.DOCKER === 'yes' ? 'http://ganache:8545' : 'http://localhost:8545'; // Use Docker host name in docker, else localhost.
 
 // Use ganache in development. 
 !process.env.NODE_ENV && console.error(new Error('NODE_ENV is not set! Defaulting to local test network'));
