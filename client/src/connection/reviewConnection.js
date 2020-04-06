@@ -7,10 +7,10 @@ async function init() {
   const web3 = await getWeb3();
   const netwId = await web3.eth.net.getId();
   console.log(`Network id is: ${netwId}`);
-  if (netwId !== 5777) { // Don't use Gas Station Network when interacting with Ganache.
-    const provider = new Gsn.RelayProvider(web3.currentProvider);
-    web3.setProvider(provider);
-  }
+  // if (netwId !== 5777) { // Don't use Gas Station Network when interacting with Ganache.
+  const provider = new Gsn.RelayProvider(web3.currentProvider);
+  web3.setProvider(provider);
+  // }
   const ReviewStorage = TruffleContract(ReviewStorageArtifact);
   ReviewStorage.setProvider(web3.currentProvider);
   let instance;

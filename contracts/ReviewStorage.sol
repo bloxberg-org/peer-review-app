@@ -12,7 +12,7 @@ import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol"
 contract ReviewStorage is GSNRecipient {
     // address[] usersAddresses; // Should we keep this?
     event ReviewAdded(address indexed _from, string id);
-    address publonsAddress = 0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311;
+    address publonsAddress;
     enum Recommendation {NULL, ACCEPT, REVISE, REJECT}
     struct Review {
         string id;
@@ -30,6 +30,11 @@ contract ReviewStorage is GSNRecipient {
     // Mapping from Review ids to Reviews.
     mapping(string => Review) reviewsMap;
     mapping(address => string[]) userReviewsIdsMap;
+
+    function initialize() public initializer {
+        GSNRecipient.initialize();
+        publonsAddress = 0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311;
+    }
 
     /// @notice Public method to add a review.
     /// @dev Assumes the owner(author) of the review is the _msgSender()

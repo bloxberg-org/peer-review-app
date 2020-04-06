@@ -1,6 +1,243 @@
 {
-  "contracts": {},
+  "contracts": {
+    "ReviewStorage": {
+      "address": "0xE18C7A2e1C22127b9c150a328696d87b69845D6E",
+      "constructorCode": "60806040526136cc806100136000396000f3fe",
+      "bodyBytecodeHash": "d4584b831e3e67eacce5aa6623310310e11afb82b2a73aea498dda759eec76c8",
+      "localBytecodeHash": "2eee3913a5830dba0b04e83a7c5ea349a1e5936300cce7b2f9af4f2144d8acb2",
+      "deployedBytecodeHash": "2eee3913a5830dba0b04e83a7c5ea349a1e5936300cce7b2f9af4f2144d8acb2",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_struct<ReviewStorage.Review>": {
+          "id": "t_struct<ReviewStorage.Review>",
+          "kind": "struct",
+          "label": "ReviewStorage.Review",
+          "members": [
+            {
+              "label": "id",
+              "astId": 77,
+              "type": "t_string",
+              "src": "529:9:1"
+            },
+            {
+              "label": "journalId",
+              "astId": 79,
+              "type": "t_string",
+              "src": "548:16:1"
+            },
+            {
+              "label": "publisher",
+              "astId": 81,
+              "type": "t_string",
+              "src": "582:16:1"
+            },
+            {
+              "label": "manuscriptId",
+              "astId": 83,
+              "type": "t_string",
+              "src": "626:19:1"
+            },
+            {
+              "label": "manuscriptHash",
+              "astId": 85,
+              "type": "t_string",
+              "src": "663:21:1"
+            },
+            {
+              "label": "timestamp",
+              "astId": 87,
+              "type": "t_uint32",
+              "src": "694:16:1"
+            },
+            {
+              "label": "recommendation",
+              "astId": 89,
+              "type": "t_enum<ReviewStorage.Recommendation>",
+              "src": "769:29:1"
+            },
+            {
+              "label": "url",
+              "astId": 91,
+              "type": "t_string",
+              "src": "808:10:1"
+            },
+            {
+              "label": "verified",
+              "astId": 93,
+              "type": "t_bool",
+              "src": "828:13:1"
+            },
+            {
+              "label": "vouchers",
+              "astId": 96,
+              "type": "t_array:dyn<t_address>",
+              "src": "851:18:1"
+            },
+            {
+              "label": "vouchersMap",
+              "astId": 100,
+              "type": "t_mapping<t_bool>",
+              "src": "879:36:1"
+            }
+          ]
+        },
+        "t_string": {
+          "id": "t_string",
+          "kind": "elementary",
+          "label": "string"
+        },
+        "t_uint32": {
+          "id": "t_uint32",
+          "kind": "elementary",
+          "label": "uint32"
+        },
+        "t_enum<ReviewStorage.Recommendation>": {
+          "id": "t_enum<ReviewStorage.Recommendation>",
+          "kind": "enum",
+          "label": "ReviewStorage.Recommendation",
+          "members": [
+            "NULL",
+            "ACCEPT",
+            "REVISE",
+            "REJECT"
+          ]
+        },
+        "t_array:dyn<t_address>": {
+          "id": "t_array:dyn<t_address>",
+          "valueType": "t_address",
+          "length": "dyn",
+          "kind": "array",
+          "label": "address[]"
+        },
+        "t_mapping<t_bool>": {
+          "id": "t_mapping<t_bool>",
+          "valueType": "t_bool",
+          "label": "mapping(key => bool)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_struct<ReviewStorage.Review>>": {
+          "id": "t_mapping<t_struct<ReviewStorage.Review>>",
+          "valueType": "t_struct<ReviewStorage.Review>",
+          "label": "mapping(key => ReviewStorage.Review)",
+          "kind": "mapping"
+        },
+        "t_array:dyn<t_string>": {
+          "id": "t_array:dyn<t_string>",
+          "valueType": "t_string",
+          "length": "dyn",
+          "kind": "array",
+          "label": "string[]"
+        },
+        "t_mapping<t_array:dyn<t_string>>": {
+          "id": "t_mapping<t_array:dyn<t_string>>",
+          "valueType": "t_array:dyn<t_string>",
+          "label": "mapping(key => string[])",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 1526,
+          "type": "t_bool",
+          "src": "757:24:6"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 1528,
+          "type": "t_bool",
+          "src": "876:25:6"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 1590,
+          "type": "t_array:50<t_uint256>",
+          "src": "1982:29:6"
+        },
+        {
+          "contract": "GSNRecipient",
+          "path": "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol",
+          "label": "_relayHub",
+          "astId": 898,
+          "type": "t_address",
+          "src": "1133:25:3"
+        },
+        {
+          "contract": "ReviewStorage",
+          "path": "contracts/ReviewStorage.sol",
+          "label": "publonsAddress",
+          "astId": 70,
+          "type": "t_address",
+          "src": "422:22:1"
+        },
+        {
+          "contract": "ReviewStorage",
+          "path": "contracts/ReviewStorage.sol",
+          "label": "reviewsMap",
+          "astId": 105,
+          "type": "t_mapping<t_struct<ReviewStorage.Review>>",
+          "src": "1012:36:1"
+        },
+        {
+          "contract": "ReviewStorage",
+          "path": "contracts/ReviewStorage.sol",
+          "label": "userReviewsIdsMap",
+          "astId": 110,
+          "type": "t_mapping<t_array:dyn<t_string>>",
+          "src": "1054:46:1"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    }
+  },
   "solidityLibs": {},
-  "proxies": {},
-  "manifestVersion": "2.2"
+  "proxies": {
+    "peer-review-app/ReviewStorage": [
+      {
+        "address": "0xFb2C2eD71f2CADa5D1D7325d637342475c5df983",
+        "version": "0.0.1",
+        "implementation": "0xE18C7A2e1C22127b9c150a328696d87b69845D6E",
+        "admin": "0x55D91413495560Ae5df37F8294b764b1fEd7B735",
+        "kind": "Upgradeable"
+      }
+    ]
+  },
+  "manifestVersion": "2.2",
+  "version": "0.0.1",
+  "proxyAdmin": {
+    "address": "0x55D91413495560Ae5df37F8294b764b1fEd7B735"
+  }
 }
