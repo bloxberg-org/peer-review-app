@@ -15,12 +15,16 @@ services:
       dockerfile: Dockerfile
     container_name: peer-review-server
     working_dir: /home/node/app
+    volumes:
+      # indexer needs to access contract builds.
+      - ./client/src/contracts/:/home/node/app/indexer/contracts
     depends_on: 
       - mongo
     environment:
       - NODE_ENV=production
       - MONGO_URL=mongodb://mongo/
       - PORT=3000
+      - DOCKER=yes
     env_file: 
       - .env
     ports:
@@ -38,21 +42,4 @@ services:
       - "80"
     ports:
       - "80:80"
-    restart: always
-  indexer:
-    build:
-      context: ./indexer/
-      dockerfile: Dockerfile
-    container_name: peer-review-indexer
-    working_dir: /home/node/app
-    # indexer needs to access contract builds.
-    volumes: 
-      - ./client/src/contracts/:/home/node/app/contracts
-    depends_on: 
-      - mongo
-    environment:
-      - NODE_ENV=production
-      - MONGO_URL=mongodb://mongo/
-    env_file: 
-      - .env
     restart: always
