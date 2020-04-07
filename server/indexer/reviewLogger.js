@@ -1,5 +1,5 @@
-const BlockchainReview = require('./models/BlockchainReview');
-const Author = require('./models/Author');
+const BlockchainReview = require('../models/BlockchainReview');
+const Author = require('../models/ReviewAuthor');
 
 /**
  * Function to index reviews to local Mongo DB.

@@ -1,4 +1,4 @@
-const Scholar = require('../models/Scholar');
+const Author = require('../models/ReviewAuthor');
 // const mongo = require('../utils/mongo');
 // const db = mongo.getDb();
 
@@ -8,12 +8,12 @@ exports.getAccount = async (req, res) => {
   console.log('Address is');
   console.log(address);
 
-  Scholar.findById(address).then(scholar => {
-    console.log(`Returning the scholar: ${scholar}`)
-    if (scholar)
-      res.status(200).json(scholar);
+  Author.findById(address).then(author => {
+    console.log(`Returning the author: ${author}`)
+    if (author)
+      res.status(200).json(author);
     else
-      res.status(404).send('No scholar found');
+      res.status(404).send('No author found');
   }).catch(err => {
     res.status(500).send(err);
   });

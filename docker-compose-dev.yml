@@ -16,6 +16,8 @@ services:
     container_name: server-dev
     volumes:  
       - ./server/:/home/node/app
+      # Mount symbolic link as a volume
+      - ./client/src/contracts:/home/node/app/indexer/contracts
     working_dir: /home/node/app
     depends_on: 
       - mongo
@@ -23,6 +25,7 @@ services:
       - MONGO_URL=mongodb://mongo/
       - PORT=3000
       - NODE_ENV=development
+      - DOCKER=yes
     env_file: 
       - .env
     ports:
@@ -61,24 +64,6 @@ services:
     stdin_open: true
     tty: true
     command: ganache-cli --mnemonic "${MNEMONIC}" --db /home/ganache/  --networkId 5777 --quiet
-  indexer:
-    image: node:12
-    container_name: indexer-dev
-    volumes:  
-      - ./indexer/:/home/node/app
-      - ./client/src/contracts/:/home/node/app/contracts
-    working_dir: /home/node/app
-    depends_on: 
-      - mongo
-    environment: 
-      - MONGO_URL=mongodb://mongo/
-      - NODE_ENV=development
-      - DOCKER=yes
-    env_file: 
-      - .env
-    stdin_open: true
-    tty: true
-    command: bash -c "npm install -g npm && npm install && npm run dev"
   relay:
     image: node:12
     container_name: relay-dev

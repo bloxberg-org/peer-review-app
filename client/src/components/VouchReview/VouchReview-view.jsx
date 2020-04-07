@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import FAIconButton from '../Button/FAIconButton';
 import CardWrapper from '../CardWrapper';
 import SearchBar from '../SearchBar';
+import ReviewsTable from './ReviewsTable';
+
 // ======== Base Components =============
 const Wrapper = styled.div`
   display: flex;
@@ -38,6 +40,7 @@ export default function VouchReviewView(props) {
           <StyledSearchBar placeholder='Search by email, name, or address' />
           <SearchButton icon={faSearch} />
         </SearchBarWrapper>
+        <ReviewsTable />
       </CardWrapper>
     </Wrapper>
   );

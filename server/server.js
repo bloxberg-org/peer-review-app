@@ -49,4 +49,7 @@ app.listen(port, () => {
 
 });
 
+console.log('Running indexer:');
+require('./indexer/index'); // Run the indexer
+
 module.exports = app; // For testing

@@ -17,13 +17,14 @@ const localProvider = process.env.DOCKER === 'yes' ? 'http://ganache:8545' : 'ht
 const provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === "production" ? bloxbergProvider : localProvider);
 const web3 = new Web3(provider);
 
-// Connect to db
-const mongo = require('./utils/mongo');
-mongo.connectToServer();
+// // Connect to db
+// const mongo = require('../utils/mongo');
+// mongo.connectToServer();
 
 // Connect to contract
 const ReviewStorage = TruffleContract(ReviewStorageArtifact);
 ReviewStorage.setProvider(web3.currentProvider);
+console.log('Trying to conntect weeb3')
 ReviewStorage.deployed()
   .then(instance => {
     console.log('Found instance');
