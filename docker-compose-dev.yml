@@ -79,3 +79,21 @@ services:
     stdin_open: true
     tty: true
     command: bash -c "npm install -g npm && npm install && npm run dev"
+  relay:
+    image: node:12
+    container_name: relay-dev
+    working_dir: /home/node/app
+    depends_on: 
+      - ganache
+    environment: 
+      - NODE_ENV=development
+      - DOCKER=yes
+    expose: 
+      - "8090"
+    env_file: 
+      - .env
+    ports:
+      - "8090:8090"
+    stdin_open: true
+    tty: true
+    command: bash -c "npm install @openzeppelin/gsn-helpers && npx oz-gsn run-relayer --quiet --ethereumNodeURL http://ganache:8545"

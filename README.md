@@ -46,7 +46,7 @@ You can easily run the development environment by executing
 npm run dev
 ```
 
-This will pull the docker images and run the modules according to the settings in `docker-compose-dev.yml`. The initial run may take some time as it will be downloading the npm dependencies but subsequent runs should be quicker. Also both the server and client utilises _hot reloading_, meaning changes made to code are applied immediately.
+This will pull the docker images and run the modules according to the settings in `docker-compose-dev.yml`. The initial run may take some time as it will be downloading the npm dependencies but subsequent runs should be quicker. Also both the server, indexer, and client utilises _hot reloading_, meaning changes made to code are applied immediately.
 
 Once ready you can reach the app at [http://localhost:3001]
 
@@ -55,8 +55,6 @@ Once ready you can reach the app at [http://localhost:3001]
 *TODO*:
 - Add GSN Contract deployment
 - Add ganache network deployment
-- Fix truffle/hdwallet-provider missing
-First run an `npm install @truffle/hdwallet-provider` in the main folder as `truffle` will need `@truffle/hdwallet-provider`.
 
 Our contract makes use of Gas Station Networks to enable gasless transactions so we need to initialize the contract and fund at the RelayHub.
 
