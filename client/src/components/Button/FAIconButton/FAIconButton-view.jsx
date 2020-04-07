@@ -3,6 +3,10 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 
+// Props:
+// icon: FontAwesome icon e.g. import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+// tooltip: Text in tooltip.
+
 export default styled(props => {
   return (
     <div className={props.className}>

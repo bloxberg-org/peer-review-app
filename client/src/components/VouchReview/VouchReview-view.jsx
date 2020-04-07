@@ -1,20 +1,43 @@
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import styled from 'styled-components';
+import FAIconButton from '../Button/FAIconButton';
 import CardWrapper from '../CardWrapper';
-
+import SearchBar from '../SearchBar';
+// ======== Base Components =============
 const Wrapper = styled.div`
   display: flex;
   flex: 1;
   height: 100%
 `;
 
-const SearchBar = styled.input`
+const SearchBarWrapper = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: row;
 `;
+
+// ========== Compound Components ==========\
+const StyledSearchBar = styled(SearchBar)`
+  flex: 1;
+  input {
+    font-size: 0.8em;
+    padding: 16px 0;
+  }
+`;
+
+const SearchButton = styled(FAIconButton)`
+  margin: 0 8px;
+`;
+
 export default function VouchReviewView(props) {
   return (
     <Wrapper>
       <CardWrapper title="Vouch Reviews">
-        <SearchBar></SearchBar>
+        <SearchBarWrapper>
+          <StyledSearchBar placeholder='Search by email, name, or address' />
+          <SearchButton icon={faSearch} />
+        </SearchBarWrapper>
       </CardWrapper>
     </Wrapper>
   );

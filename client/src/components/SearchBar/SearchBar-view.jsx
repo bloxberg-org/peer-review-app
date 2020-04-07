@@ -1,21 +1,24 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
-const Form = styled.form`
-  width: 100%;
-  `;
+SearchBar.propTypes = {
+  placeholder: PropTypes.string,
+  className: PropTypes.string
+};
 
 const Input = styled.input`
   width: 100%;
   height: 25px;
   color: ${props => props.theme.gray};
   font-size: 0.65em;
-  border: none;
   border-radius: 5px;
   font-family: 'Muli', sans-serif;
   padding: 4px;
-  -webkit-filter: drop-shadow(0px 0px 8px rgba(0,0,0,0.25));
   outline: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${props => props.theme.gray};
   `;
 
 const Wrapper = styled.div`
@@ -25,14 +28,11 @@ const Wrapper = styled.div`
   
 `;
 
-export default function Search(props) {
+export default function SearchBar(props) {
 
-  return(
-    <Wrapper>
-      <Form>
-        <Input placeholder='Try: "Max Planck"'>
-        </Input>
-      </Form>
+  return (
+    <Wrapper className={props.className}>
+      <Input placeholder={props.placeholder} />
     </Wrapper>
   );
 }
