@@ -52,19 +52,26 @@ Once ready you can reach the app at [http://localhost:3001]
 
 ## Deploy Contracts
 
-*TODO*:
-- Add GSN Contract deployment
-- Add ganache network deployment
-
 Our contract makes use of Gas Station Networks to enable gasless transactions so we need to initialize the contract and fund at the RelayHub.
 
+### Deploy to Bloxberg
 In order to deploy the contract, simply run the following command on the bloxberg network while making sure to call `initialize()`:
 
 ```
 npx oz create
 ```
 
-Then the new contract must be funded in order to use meta-transactions. This is done by calling depositFor() on the RelayHub contract located [here](https://blockexplorer.bloxberg.org/address/0xd216153c06e857cd7f72665e0af1d7d82172f494/contracts). You can use [this](https://gsn.openzeppelin.com/recipients) tool to send the transaction. Enter the address of your deployed contract and send the amount you want via Metamask.
+Then, the new contract must be funded in order to use meta-transactions. This is done by calling `depositFor()` on the RelayHub contract located [here](https://blockexplorer.bloxberg.org/address/0xd216153c06e857cd7f72665e0af1d7d82172f494/contracts). You can use [this](https://gsn.openzeppelin.com/recipients) tool to send the transaction. Enter the address of your deployed contract and send the amount you want via Metamask. Alternatively, compile the [GSNRecipient contract](https://github.com/OpenZeppelin/openzeppelin-contracts-ethereum-package/blob/master/contracts/GSN/GSNRecipient.sol) in [Remix](http://remix.ethereum.org/) and send a transaction with value you want to fund while calling `depositFor(<your-contract-address>)`. A value around 1ETH/bergs should work.
+
+### Deploy to Ganache
+When you ran `npm run dev` both ganache and the relayer were started. The relayer creates the RelayHub contract in ganache network, creates and runs a Relay, and funds the Relay. You only need to deploy your contract (in GSN terms the Recipient) and fund it. Deploy it while calling `initialize()`:
+```
+npx oz create
+```
+Then fund as described above.
+
+*TODO*:
+- Add GSN Contract deployment
 
 More info about GSNs [EIP-1613](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1613.md) and [OpenZeppelin docs](https://docs.openzeppelin.com/learn/sending-gasless-transactions).
 

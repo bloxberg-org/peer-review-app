@@ -37,11 +37,6 @@ const Wrapper = styled.div`
   flex: 1
   `;
 
-const FormWrapper = styled.div`
-  flex: 1;
-  margin: 0px 32px;
-  `;
-
 const ButtonWrapper = styled.div`
   width: 100%;
   display: flex;
@@ -211,86 +206,84 @@ export default function AddReviewView(props) {
       </Modal>
 
       <CardWrapper title='Add a Review'>
-        <FormWrapper>
-          <ImportWrapper>
-            <InputTitle>Import From:</InputTitle>
-            <ImportButton img={F1000Logo} backgroundColor='#f2673c' onClick={props.handleF1000Open} />
-          </ImportWrapper>
-          <form onSubmit={handleSubmit(props.onSubmit)}>
-            <FormField
-              name='articleTitle'
-              title='Article Title'
-              placeholder='Title of the reviewed article'
-              errors={errors.articleTitle}
-              register={register({ required: true })} />
-            <FormField
-              name='publisher'
-              title='Name of the Publisher'
-              placeholder='Publisher'
-              errors={errors.publisher}
-              register={register({ required: false })} />
-            <FormField
-              name='journalId'
-              title='Journal Identifier'
-              placeholder='Typically the ISSN'
-              errors={errors.journalId}
-              register={register({ required: true })} />
-            <FormField
-              name='manuscriptId'
-              title='Manuscript Identifier'
-              placeholder='Internal identifier of the journal'
-              errors={errors.manuscriptId}
-              register={register({ required: true })} />
-            <FormField
-              name='manuscriptHash'
-              title='Manuscript Hash'
-              placeholder='Hash of the review file'
-              errors={errors.manuscriptHash}
-              register={register({ required: true })} />
-            <FormField
-              name='articleDOI'
-              title='Article DOI'
-              placeholder='DOI'
-              errors={errors.articleDOI}
-              register={register({ required: true })} />
-            <SelectField
-              name='recommendation'
-              title='Recommendation'
-              placeholder='0, 1, or 2'
-              errors={errors.recommendation}
-              register={register({ required: true })}>
-              <option value="0">Accept</option>
-              <option value="1">Review</option>
-              <option value="2">Reject</option>
-            </SelectField>
-            <FormField
-              name='url'
-              title='Url to the review'
-              placeholder='URL'
-              errors={errors.url}
-              register={register({ required: false })} />
-            <DateField
-              name='timestamp'
-              title='Manuscript Date'
-              selected={props.review.timestamp}
-              onChange={(date) => {
-                props.onDateChange(date);
-                let unixDate = moment(date).unix();
-                setValue('timestamp', unixDate);
-              }
-              }
-              errors={errors.timestamp} />
-            <ContentField
-              name='content'
-              title='Content'
-              placeholder='Add the content of your review in this field'
-              errors={errors.content}
-              register={register({ required: true })} />
-            <ButtonWrapper>
-              <Button primary>Add Review</Button>
-            </ButtonWrapper>
-          </form>
-        </FormWrapper>
+        <ImportWrapper>
+          <InputTitle>Import From:</InputTitle>
+          <ImportButton img={F1000Logo} backgroundColor='#f2673c' onClick={props.handleF1000Open} />
+        </ImportWrapper>
+        <form onSubmit={handleSubmit(props.onSubmit)}>
+          <FormField
+            name='articleTitle'
+            title='Article Title'
+            placeholder='Title of the reviewed article'
+            errors={errors.articleTitle}
+            register={register({ required: true })} />
+          <FormField
+            name='publisher'
+            title='Name of the Publisher'
+            placeholder='Publisher'
+            errors={errors.publisher}
+            register={register({ required: false })} />
+          <FormField
+            name='journalId'
+            title='Journal Identifier'
+            placeholder='Typically the ISSN'
+            errors={errors.journalId}
+            register={register({ required: true })} />
+          <FormField
+            name='manuscriptId'
+            title='Manuscript Identifier'
+            placeholder='Internal identifier of the journal'
+            errors={errors.manuscriptId}
+            register={register({ required: true })} />
+          <FormField
+            name='manuscriptHash'
+            title='Manuscript Hash'
+            placeholder='Hash of the review file'
+            errors={errors.manuscriptHash}
+            register={register({ required: true })} />
+          <FormField
+            name='articleDOI'
+            title='Article DOI'
+            placeholder='DOI'
+            errors={errors.articleDOI}
+            register={register({ required: true })} />
+          <SelectField
+            name='recommendation'
+            title='Recommendation'
+            placeholder='0, 1, or 2'
+            errors={errors.recommendation}
+            register={register({ required: true })}>
+            <option value="0">Accept</option>
+            <option value="1">Review</option>
+            <option value="2">Reject</option>
+          </SelectField>
+          <FormField
+            name='url'
+            title='Url to the review'
+            placeholder='URL'
+            errors={errors.url}
+            register={register({ required: false })} />
+          <DateField
+            name='timestamp'
+            title='Manuscript Date'
+            selected={props.review.timestamp}
+            onChange={(date) => {
+              props.onDateChange(date);
+              let unixDate = moment(date).unix();
+              setValue('timestamp', unixDate);
+            }
+            }
+            errors={errors.timestamp} />
+          <ContentField
+            name='content'
+            title='Content'
+            placeholder='Add the content of your review in this field'
+            errors={errors.content}
+            register={register({ required: true })} />
+          <ButtonWrapper>
+            <Button primary>Add Review</Button>
+          </ButtonWrapper>
+        </form>
       </CardWrapper>
     </Wrapper>
   );
