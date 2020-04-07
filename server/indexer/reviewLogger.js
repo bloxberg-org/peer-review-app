@@ -30,8 +30,8 @@ const reviewLogger = (event, instance) => {
         url: review[7],
         verified: review[8],
         vouchers: review[9]
-      }
-      reviewToAdd = new BlockchainReview(reviewData);
+      };
+      let reviewToAdd = new BlockchainReview(reviewData);
       return reviewToAdd.save();
     })
     .then((review) => { // After saving the review, push into author's review array.
@@ -43,17 +43,17 @@ const reviewLogger = (event, instance) => {
             let newAuthor = new Author({
               _id: authorAddress,
               reviews: [review._id]
-            })
+            });
             return newAuthor.save();
           }
           console.log('Found author');
           console.log(author);
-          author.reviews.push(review._id);
+          author.blockchainReviews.push(review._id);
           return author.save();
-        })
+        });
     })
     .then(console.log('Successfully added the blockchain review'))
-    .catch(console.error)
-}
+    .catch(console.error);
+};
 
 module.exports = reviewLogger;

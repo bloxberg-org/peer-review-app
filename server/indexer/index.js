@@ -14,7 +14,7 @@ const localProvider = process.env.DOCKER === 'yes' ? 'http://ganache:8545' : 'ht
 
 // Use ganache in development. 
 !process.env.NODE_ENV && console.error(new Error('NODE_ENV is not set! Defaulting to local test network'));
-const provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === "production" ? bloxbergProvider : localProvider);
+const provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === 'production' ? bloxbergProvider : localProvider);
 const web3 = new Web3(provider);
 
 // // Connect to db

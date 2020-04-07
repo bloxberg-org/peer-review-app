@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 const Schema = mongoose.Schema;
 
 const BlockchainReviewSchema = new mongoose.Schema({
@@ -14,5 +15,7 @@ const BlockchainReviewSchema = new mongoose.Schema({
   verified: Boolean,
   vouchers: [String]
 });
+
+BlockchainReviewSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('BlockchainReview', BlockchainReviewSchema);

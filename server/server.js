@@ -14,10 +14,11 @@ const port = process.env.PORT || 3000;
 const whitelist = ['http://127.0.0.1:3001', 'http://localhost:3001', 'http://127.0.0.1', 'http://localhost'];
 const corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 // Allow if origin found in whitelist
+      || (process.env.NODE_ENV === 'development' && !origin)) { // or a REST tool (postman) is being used in development environment.
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS ' + origin));
     }
   },
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204

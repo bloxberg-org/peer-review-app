@@ -9,7 +9,7 @@ exports.getAccount = async (req, res) => {
   console.log(address);
 
   Author.findById(address).then(author => {
-    console.log(`Returning the author: ${author}`)
+    console.log(`Returning the author: ${author}`);
     if (author)
       res.status(200).json(author);
     else

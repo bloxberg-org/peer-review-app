@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 // const connection = require('../connection/reviewConnection');
 const Review = require('../models/Review');
+const BlockchainReview = require('../models/BlockchainReview');
 const Author = require('../models/ReviewAuthor');
 const { getXML, getWithPublonsAuth } = require('../utils/restUtils');
 const { xml2json } = require('xml-js');
@@ -11,7 +12,20 @@ const { extractReviewFromJsonDoc, downloadAndHashPdf, extractListOfReviews } = r
  * Function to get all reviews from the indexer database.
  */
 exports.getAllReviews = (req, res) => {
-
+  let page = req.query.page || 1; // Default page 1.
+  let limit = req.query.limit || 10; // Default limit to 10.
+  let options = {
+    page: parseInt(page),
+    limit: parseInt(limit)
+  };
+  console.log(`Options are`);
+  console.log(options);
+  let query = {}; // Empty query.
+  BlockchainReview.paginate(query, options)
+    .then((results) => {
+      res.status(200).json(results);
+    })
+    .catch(console.error);
 };
 
 // GET /reviews/import/publons/?academicId=${academicId}&page=${page}
