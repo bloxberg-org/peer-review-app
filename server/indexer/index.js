@@ -24,7 +24,7 @@ const web3 = new Web3(provider);
 // Connect to contract
 const ReviewStorage = TruffleContract(ReviewStorageArtifact);
 ReviewStorage.setProvider(web3.currentProvider);
-console.log('Trying to conntect weeb3')
+console.log('Trying to conntect weeb3');
 ReviewStorage.deployed()
   .then(instance => {
     console.log('Found instance');
@@ -33,7 +33,7 @@ ReviewStorage.deployed()
       .on('error', console.error);
 
   })
-  .catch(console.error)
+  .catch(console.error);
 
 // Keep the script running.
 setInterval(function () {

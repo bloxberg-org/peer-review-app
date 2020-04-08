@@ -9,21 +9,25 @@ const { extractReviewFromJsonDoc, downloadAndHashPdf, extractListOfReviews } = r
 
 // GET /reviews/all
 /**
- * Function to get all reviews from the indexer database.
+ * Function to get blockchain reviews that are indexed by indexer listening to events.
  */
-exports.getAllReviews = (req, res) => {
+exports.getIndexedReviews = (req, res) => {
   let page = req.query.page || 1; // Default page 1.
   let limit = req.query.limit || 10; // Default limit to 10.
+  let queryType = req.query.queryType;
+  let queryValue = req.query.queryValue;
   let options = {
     page: parseInt(page),
     limit: parseInt(limit)
   };
-  console.log(`Options are`);
+  console.log('Options are');
   console.log(options);
-  let query = {}; // Empty query.
+  let query;
+  // Assign query value if exists. E.g. name, email, _id
+  query = queryType ? query[queryType] = queryValue : {};
   BlockchainReview.paginate(query, options)
     .then((results) => {
-      res.status(200).json(results);
+      res.status(200).json(results.docs);
     })
     .catch(console.error);
 };
