@@ -8,7 +8,7 @@ export default class VouchReviewContainer extends React.Component {
 
   render() {
     return (
-      <VouchReviewView {...this.state} />
+      <VouchReviewView {...this.state} {...this.props} />
     );
   }
 }

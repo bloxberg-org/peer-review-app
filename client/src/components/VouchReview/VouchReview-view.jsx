@@ -33,6 +33,7 @@ const SearchButton = styled(FAIconButton)`
 `;
 
 export default function VouchReviewView(props) {
+  console.log(props)
   return (
     <Wrapper>
       <CardWrapper title="Vouch Reviews">

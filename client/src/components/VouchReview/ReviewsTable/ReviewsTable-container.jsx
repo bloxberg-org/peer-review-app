@@ -5,11 +5,10 @@ import ReviewsTableView from './ReviewsTable-view';
 // Using functional component to be able to use react-table hooks.
 export default function ReviewsTableContainer(props) {
   const columns = [
+    { Header: 'id', accessor: 'id' }, // This is hidden in the table.
     { Header: 'Author', accessor: 'author' },
     { Header: 'Publisher', accessor: 'publisher' },
     { Header: 'Publish Date', accessor: 'timestamp' },
-    { Header: 'Id', accessor: 'id' },
-    { Header: '', accessor: 'vouchButton' }
   ];
   const [reviews, setReviews] = useState([]);
 
