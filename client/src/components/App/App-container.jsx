@@ -11,7 +11,8 @@ const customNodeOptions = {
   chainId: 8995 // chainId of your own node
 };
 
-const fmPhantom = new Fortmatic.Phantom('pk_test_04AE794995EB0751', customNodeOptions); // ✨
+// const fmPhantom = new Fortmatic.Phantom('pk_live_F9432691E398BB8E', customNodeOptions); // Live.
+const fmPhantom = new Fortmatic.Phantom('pk_test_11959EA492A48695', customNodeOptions);
 
 export default class App extends React.Component {
   constructor(props) {
