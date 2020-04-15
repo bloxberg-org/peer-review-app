@@ -6,18 +6,26 @@ import Button from '../../../Button';
 const ReviewsTableRow = styled((props) => {
   const { row, key } = props;
   const history = useHistory(); // to create links onClick to row.
-
+  let id = row.allCells[0].value;
   return (
-
     // Create link at onClick to /Reviews/<id>. id is a hidden column and can be accessed by allCells[0].value.
-    <tr key={key} className={props.className} onClick={() => { history.push(`/Reviews/${row.allCells[0].value}`); }} {...row.getRowProps()}>
+    <tr key={key} className={props.className} onClick={() => { history.push(`/Reviews/${id}`); }} {...row.getRowProps()}>
       {
         // Create each cell.
         row.cells.map((cell, i) => {
           return <td key={i} {...cell.getCellProps()}>{cell.render('Cell')}</td>;
         })
       }
-      <td><Button onClick={() => console.log('Click!')} primary>Vouch</Button></td>
+      <td>
+        <Button
+          onClick={(e) => {
+            props.vouchReviewWithId(id);
+            e.stopPropagation(); // Avoid clicking the row.
+          }}
+          primary>
+          Vouch
+        </Button>
+      </td>
     </tr>
 
   );

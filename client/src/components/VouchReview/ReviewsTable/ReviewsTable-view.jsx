@@ -8,7 +8,8 @@ import ReviewsTableRow from './ReviewsTableRow';
 
 ReviewsTableView.propTypes = {
   columns: PropTypes.array.isRequired,
-  reviews: PropTypes.array.isRequired
+  reviews: PropTypes.array.isRequired,
+  vouchReviewWithId: PropTypes.func.isRequired
 };
 
 // =========== Base Components ===================
@@ -56,7 +57,7 @@ export default function ReviewsTableView(props) {
         <tbody {...getTableBodyProps()}>
           {rows.map((row, i) => {
             prepareRow(row);
-            return <ReviewsTableRow key={i} row={row} />
+            return <ReviewsTableRow key={i} row={row} vouchReviewWithId={props.vouchReviewWithId} />;
           })}
         </tbody>
       </table>
