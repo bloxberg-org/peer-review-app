@@ -11,17 +11,7 @@ const Wrapper = styled.div`
     height: 100%
   `;
 
-const ResultsWrapper = styled.div`
-    flex: 1;
-  `;
-
 // ========== Base Components ============
-const ReviewsWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin: 10px 32px;
-  `;
-
 const ReviewsTable = styled.table`
     width: 100%;
     border-spacing: 0
@@ -97,19 +87,15 @@ export default function AllReviewsView(props) {
   return (
     <Wrapper>
       <CardWrapper title='All Reviews' >
-        <ResultsWrapper>
-          <ButtonWrapper>
-            <StyledButton onClick={props.savePDF} primary>Export all as PDF</StyledButton>
-          </ButtonWrapper>
-          <ReviewsWrapper>
-            <ReviewsTable ref={props.tableRef} >
-              <ReviewHeader />
-              <tbody> {/* needed for jsPDF.autoTable()  */}
-                {reviews}
-              </tbody>
-            </ReviewsTable>
-          </ReviewsWrapper>
-        </ResultsWrapper>
+        <ButtonWrapper>
+          <StyledButton onClick={props.savePDF} primary>Export all as PDF</StyledButton>
+        </ButtonWrapper>
+        <ReviewsTable ref={props.tableRef} >
+          <ReviewHeader />
+          <tbody> {/* needed for jsPDF.autoTable()  */}
+            {reviews}
+          </tbody>
+        </ReviewsTable>
       </CardWrapper>
     </Wrapper>
   );

@@ -28,13 +28,21 @@ const Title = styled.span`
   margin: 32px;
   `;
 
+const ChildrenWrapper = styled.div`
+  margin: 0 32px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+`;
 export default function CardWrapper(props) {
   return (
     <Wrapper>
       <TitleWrapper>
         <Title>{props.title}</Title>
       </TitleWrapper>
-      {props.children}
+      <ChildrenWrapper>
+        {props.children}
+      </ChildrenWrapper>
     </Wrapper>
   );
 }

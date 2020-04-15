@@ -12,6 +12,7 @@ import Register from '../Register';
 import SideBar from '../SideBar';
 import SingleReview from '../SingleReview';
 import TopBar from '../TopBar';
+import VouchReview from '../VouchReview';
 import ConnectToBloxberg from './ConnectToBloxberg';
 // import InstallMetamask from './InstallMetamask';
 import LoginWithFortmatic from './LoginWithFortmatic';
@@ -81,6 +82,10 @@ export default function AppView(props) {
             <Route path="/Reviews/YourReviews">
               <TopBar title='Reviews' {...props} />
               <AllReviews {...props} />
+            </Route>
+            <Route path="/Reviews/VouchReview">
+              <TopBar title='Reviews' {...props} />
+              <VouchReview {...props} />
             </Route>
             <Route path="/Reviews/:id">
               <TopBar title='Review' {...props} />

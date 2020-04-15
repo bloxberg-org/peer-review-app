@@ -4,11 +4,16 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import styled from 'styled-components';
 import chain from '../../assets/chain-tick.png';
+import Button from '../Button/Button-view';
 import CardWrapper from '../CardWrapper';
+import Loader from '../Loader';
 
 const PUBLONS_ADDRESS = '0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311';
 
 SingleReviewView.propTypes = {
+  isVouching: PropTypes.bool.isRequired,
+  isReviewLoading: PropTypes.bool.isRequired,
+  vouchReview: PropTypes.func.isRequired,
   DBreview: PropTypes.shape({
     articleTitle: PropTypes.string.isRequired,
     articleDOI: PropTypes.string.isRequired,
@@ -27,13 +32,9 @@ SingleReviewView.propTypes = {
   })
 };
 
-const Wrapper = styled.div`
-    display: flex;
-    flex: 1;
-  `;
-
-const InnerCardWrapper = styled.div`
-  padding: 32px;
+const FlexDiv = styled.div`
+  display: flex;
+  flex: 1;
 `;
 
 const UpperHalfWrapper = styled.div`
@@ -70,17 +71,10 @@ const TimeStampRecommendationWrapper = styled.div`
   }
 ` ;
 
-const ContentWrapper = styled.div`
-  flex: 1;
-  margin: 32px 0
-`;
 const ReviewFieldTitle = styled.span`
   font-size: 1.1em;
   font-weight: bold;
 `;
-
-const ReviewFieldText = styled.span`
-  `;
 
 const ChainIconWrapper = styled.div`
   .tooltip{
@@ -90,63 +84,74 @@ const ChainIconWrapper = styled.div`
 
 const ReviewField = styled(props => {
   return (
-    <div className={props.className}>
+    <div className={props.className} style={props.style}>
       <ReviewFieldTitle> {props.title} </ReviewFieldTitle>
-      <ReviewFieldText> {props.children} </ReviewFieldText>
+      {props.children}
     </div>
   );
 })`
   display: flex;
   flex-direction: column;
   margin: 8px 0;
+  overflow: auto;
 `;
 
 export default function SingleReviewView(props) {
   console.log(props);
+  if (props.isVouching || props.isReviewLoading)
+    return <Loader />;
   return (
-    <Wrapper>
-      <CardWrapper title={props.DBreview ? props.DBreview.articleTitle : 'No title given'}>
-        <InnerCardWrapper>
-          <UpperHalfWrapper>
-            <UpperHalfLeftWrapper>
-              <ReviewField title='Article DOI'>{props.DBreview ? props.DBreview.articleDOI : 'N/A'}</ReviewField>
-            </UpperHalfLeftWrapper>
-            <UpperHalfRightWrapper>
-              <JournalIdLockIconWrapper>
-                <ReviewField title='Journal ID'>{props.blockchainReview.journalId}</ReviewField>
-                <ChainIconWrapper>
-                  <img
-                    style={{ 'width': '35px' }}
-                    src={chain}
-                    alt='chain approved'
-                    data-tip='Secured by bloxberg blockchain' />
-                  <ReactTooltip className='tooltip' place='bottom' effect='solid' />
-                </ChainIconWrapper>
-              </JournalIdLockIconWrapper>
-              <ReviewField title='Publisher'>{props.blockchainReview.publisher}</ReviewField>
-              <ReviewField title='Manuscript ID'>{props.blockchainReview.manuscriptId}</ReviewField>
-              <ReviewField title='Manuscript Hash'>{props.blockchainReview.manuscriptHash}</ReviewField>
-              <TimeStampRecommendationWrapper>
-                <ReviewField title='Year'>{moment.unix(props.blockchainReview.timestamp).format('YYYY')}</ReviewField>
-                <ReviewField title='Recommendation'>{props.blockchainReview.recommendation}</ReviewField>
-              </TimeStampRecommendationWrapper>
-              <ReviewField title='URL'>{props.blockchainReview.url}</ReviewField>
-              <ReviewField title='Vouchers'>
+    <FlexDiv>
+      <CardWrapper style={{ padding: '32px' }} title={props.DBreview ? props.DBreview.articleTitle : 'No title given'}>
+        <UpperHalfWrapper>
+          <UpperHalfLeftWrapper>
+            <ReviewField title='Article DOI'>{props.DBreview ? props.DBreview.articleDOI : 'N/A'}</ReviewField>
+          </UpperHalfLeftWrapper>
+          <UpperHalfRightWrapper>
+            <JournalIdLockIconWrapper>
+              <ReviewField title='Journal ID'>{props.blockchainReview.journalId}</ReviewField>
+              <ChainIconWrapper>
+                <img
+                  style={{ 'width': '35px' }}
+                  src={chain}
+                  alt='chain approved'
+                  data-tip='Secured by bloxberg blockchain' />
+                <ReactTooltip className='tooltip' place='bottom' effect='solid' />
+              </ChainIconWrapper>
+            </JournalIdLockIconWrapper>
+            <ReviewField title='Publisher'>{props.blockchainReview.publisher}</ReviewField>
+            <ReviewField title='Manuscript ID'>{props.blockchainReview.manuscriptId}</ReviewField>
+            <ReviewField title='Manuscript Hash'>{props.blockchainReview.manuscriptHash}</ReviewField>
+            <TimeStampRecommendationWrapper>
+              <ReviewField title='Year'>{moment.unix(props.blockchainReview.timestamp).format('YYYY')}</ReviewField>
+              <ReviewField title='Recommendation'>{props.blockchainReview.recommendation}</ReviewField>
+            </TimeStampRecommendationWrapper>
+            <ReviewField title='URL'>{props.blockchainReview.url}</ReviewField>
+            <FlexDiv style={{ flexDirection: 'row' }}>
+              <ReviewField title='Vouchers' style={{ flex: 0.5 }}>
                 {
                   props.blockchainReview.vouchers.length > 0 ?
                     props.blockchainReview.vouchers.map((address) => {
-                      return address === PUBLONS_ADDRESS ? 'Publons' : address; // Display 'Publons' if addresses match, show the address otherise.
+                      return address === PUBLONS_ADDRESS ? <span> Publons </span> : <span>{address}</span>; // Display 'Publons' if addresses match, show the address otherise.
                     })
                     : 'N/A' // Return null if no vouchers
                 }
               </ReviewField>
-            </UpperHalfRightWrapper>
-          </UpperHalfWrapper>
-          <ContentWrapper>
-            <ReviewField title='Content'>{props.DBreview ? props.DBreview.content : 'N/A'} </ReviewField>
-          </ContentWrapper>
-        </InnerCardWrapper>
+              <FlexDiv style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center' }}>
+                <Button primary onClick={props.vouchReview}>
+                  Vouch
+                </Button>
+              </FlexDiv>
+            </FlexDiv>
+          </UpperHalfRightWrapper>
+        </UpperHalfWrapper>
+        <div style={{
+          flex: 1,
+          margin: '32px 0'
+        }}>
+          <ReviewField title='Content'>{props.DBreview ? props.DBreview.content : 'N/A'} </ReviewField>
+        </div>
       </CardWrapper>
-    </Wrapper >
+    </FlexDiv >
   );
 }

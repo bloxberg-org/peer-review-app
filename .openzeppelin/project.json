@@ -13,7 +13,9 @@
         "enabled": false,
         "runs": "200"
       }
-    }
+    },
+    "artifactsDir": "build/contracts",
+    "contractsDir": "contracts"
   },
   "telemetryOptIn": false
 }
