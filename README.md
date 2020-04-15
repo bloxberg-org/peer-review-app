@@ -97,3 +97,5 @@ If you get permission error when trying to stop docker containers, you can execu
 The `ganache/` folder has the owner `root` as this folder (docker volume, better said) is created by docker.  
 
 If you receive mnemonic errors make sure you have the environment variable MNEMONIC is properly set. Also make sure
+
+If you receive `MODULE NOT FOUND` errors when running the development containers, remove the `node_modules` folder via `rm -rf node_modules/`. This is due to docker running as root and causes permission errors. Use this workaround temporarily. 

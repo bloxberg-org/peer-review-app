@@ -11,7 +11,7 @@ export const getIndexedReviews = (searchQuery, page, limit) => {
   if (searchQuery)
     URL += `&${queryType}=${searchQuery}`;
   return get(URL);
-}
+};
 /**
  * Function to add a single review.
  * Takes the object created by the form in AddReview page.
@@ -169,6 +169,10 @@ export const decomposeReviews = (reviewsArr) => {
   });
 
   return result;
+};
+
+export const vouchReview = (id) => {
+  return connection.vouchReview(id);
 };
 
 export const getAllDatabaseReviews = (address) => {
