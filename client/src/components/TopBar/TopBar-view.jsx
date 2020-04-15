@@ -3,7 +3,7 @@ import Proptypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import FAIconButton from '../Button/FAIconButton';
-import Search from './Search';
+import SearchBar from '../SearchBar';
 import UserIcon from './UserIcon';
 
 TopBarView.propTypes = {
@@ -38,6 +38,15 @@ const TopBarWrapper = styled.div`
   margin: 8px 30px;
 `;
 
+
+// ========== Compound Components ==========\
+const StyledSearchBar = styled(SearchBar)`
+  input {
+    -webkit-filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.25));
+    border: none;
+  }
+`;
+
 export default function TopBarView(props) {
   if (props.isUserLoading)
     return null;
@@ -47,7 +56,7 @@ export default function TopBarView(props) {
         <Title>{props.title}</Title>
       </TitleWrapper>
       <TopBarRightWrapper>
-        <Search />
+        <StyledSearchBar placeholder='Try: "Max Planck"' />
         <UserIcon user={props.user} />
         {
           props.isLoggedInWithFm

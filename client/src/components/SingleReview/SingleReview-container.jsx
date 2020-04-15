@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
-import { getOneBlockchainReview, getOneDatabaseReview } from '../../utils/review';
+import { getOneBlockchainReview, getOneDatabaseReview, vouchReview } from '../../utils/review';
 import Loader from '../Loader';
 import SingleReviewView from './SingleReview-view';
 
@@ -14,6 +14,7 @@ class SingleReviewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isVouching: false,
       isReviewLoading: true,
       DBreview: {},
       blockchainReview: {}
@@ -21,16 +22,31 @@ class SingleReviewContainer extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchAndLoadReview();
+  }
+
+  fetchAndLoadReview = () => {
     this.fetchReview().then(reviewArr => {
       this.setState({ DBreview: reviewArr[0], blockchainReview: reviewArr[1], isReviewLoading: false });
     });
   }
 
-  fetchReview() {
+  fetchReview = () => {
     let address = this.props.user._id;
     let id = this.props.match.params.id;
 
     return Promise.all([getOneDatabaseReview(address, id), getOneBlockchainReview(id)]);
+  }
+
+  vouchReview = () => {
+    let id = this.state.blockchainReview.id;
+    this.setState({ isVouching: true });
+    vouchReview(id)
+      .then(() => {
+        return this.fetchAndLoadReview();
+      })
+      .then(() => this.setState({ isVouching: false }))
+      .catch(console.error);
   }
 
   render() {
@@ -38,7 +54,7 @@ class SingleReviewContainer extends React.Component {
       return <Loader />;
 
     return (
-      <SingleReviewView {...this.state} {...this.props} />
+      <SingleReviewView {...this.state} {...this.props} vouchReview={this.vouchReview} />
     );
   }
 }

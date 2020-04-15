@@ -46,38 +46,40 @@ You can easily run the development environment by executing
 npm run dev
 ```
 
-This will pull the docker images and run the modules according to the settings in `docker-compose-dev.yml`. The initial run may take some time as it will be downloading the npm dependencies but subsequent runs should be quicker. Also both the server and client utilises _hot reloading_, meaning changes made to code are applied immediately.
+This will pull the docker images and run the modules according to the settings in `docker-compose-dev.yml`. The initial run may take some time as it will be downloading the npm dependencies but subsequent runs should be quicker. Also both the server, indexer, and client utilises _hot reloading_, meaning changes made to code are applied immediately.
 
 Once ready you can reach the app at [http://localhost:3001]
 
 ## Deploy Contracts
 
-if you want to deploy the contracts in a test network follow the instructions. Otherwise you can use the contracts already deployed in the bloxberg network.
+Our contract makes use of Gas Station Networks to enable gasless transactions so we need to initialize the contract and fund at the RelayHub.
+
+### Deploy to Bloxberg
+In order to deploy the contract, simply run the following command on the bloxberg network while making sure to call `initialize()`:
+
+```
+npx oz create
+```
+
+Then, the new contract must be funded in order to use meta-transactions. This is done by calling `depositFor()` on the RelayHub contract located [here](https://blockexplorer.bloxberg.org/address/0xd216153c06e857cd7f72665e0af1d7d82172f494/contracts). You can use [this](https://gsn.openzeppelin.com/recipients) tool to send the transaction. Enter the address of your deployed contract and send the amount you want via Metamask. Alternatively, compile the [GSNRecipient contract](https://github.com/OpenZeppelin/openzeppelin-contracts-ethereum-package/blob/master/contracts/GSN/GSNRecipient.sol) in [Remix](http://remix.ethereum.org/) and send a transaction with value you want to fund while calling `depositFor(<your-contract-address>)`. A value around 1ETH/bergs should work.
+
+### Deploy to Ganache
+When you ran `npm run dev` both ganache and the relayer were started. The relayer creates the RelayHub contract in ganache network, creates and runs a Relay, and funds the Relay. You only need to deploy your contract (in GSN terms the Recipient) and fund it. Deploy it while calling `initialize()`:
+```
+npx oz create
+```
+Then fund as described above.
 
 *TODO*:
 - Add GSN Contract deployment
-- Fix truffle/hdwallet-provider missing
-First run an `npm install @truffle/hdwallet-provider` in the main folder as `truffle` will need `@truffle/hdwallet-provider`.
 
-Once you have the development blockchain network (ganache) running, you can deploy the contract to the network using:
-
-```
-truffle migrate --network develop
-```
-
-## Deploy to bloxberg
-In order to use meta-transactions, we utilize the Gas Station Network deployed on bloxberg. In order to deploy another contract, simply run:
-
-```
-oz create
-```
-on the bloxberg network while making sure to call initialize() to instantiate the contract. Then the new contract must be funded in order to use meta-transactions. This is done by calling depositFor() on the RelayHub contract located [here](https://blockexplorer.bloxberg.org/address/0xd216153c06e857cd7f72665e0af1d7d82172f494/contracts).
+More info about GSNs [EIP-1613](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1613.md) and [OpenZeppelin docs](https://docs.openzeppelin.com/learn/sending-gasless-transactions).
 
 # Run Production 
 
 Make sure you have set-up the `.env` file as described above.
 
-To build and run the production simple execute:
+To build and run the production simply execute:
 
 ```
 docker-compose up
@@ -93,3 +95,7 @@ Make sure no other processes are running on TCP ports: 27017 (mongo), 3000 (serv
 If you get permission error when trying to stop docker containers, you can execute `sudo service docker restart` as a workaround.
 
 The `ganache/` folder has the owner `root` as this folder (docker volume, better said) is created by docker.  
+
+If you receive mnemonic errors make sure you have the environment variable MNEMONIC is properly set. Also make sure
+
+If you receive `MODULE NOT FOUND` errors when running the development containers, remove the `node_modules` folder via `rm -rf node_modules/`. This is due to docker running as root and causes permission errors. Use this workaround temporarily. 

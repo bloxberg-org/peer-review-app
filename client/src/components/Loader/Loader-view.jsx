@@ -20,7 +20,9 @@ export default withTheme(function SpinnerView(props) {
     <LoaderWrapper description={props.description} >
       <Loader
         type='Grid'
-        color={props.theme.primary}
+        color={props.color || props.theme.primary}
+        width={props.width}
+        height={props.height}
       />
       {props.description ? <span> {props.description} </span> : null}
     </LoaderWrapper>

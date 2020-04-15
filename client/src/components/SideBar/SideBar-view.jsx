@@ -56,11 +56,7 @@ export default function Navbar() {
           <SubButton to='/Reviews/YourReviews' title='Your Reviews' />
           <SubButton to='/Reviews/VouchReview' title='Vouch a Review' />
         </Button>
-        <Button to='/Publications' title='Publications' />
-        <Button to='/Colleagues' title='Calleagues' />
-        <Button to='/Affiliations' title='Affiliations' />
       </ButtonsWrapper>
-      <Button to='/Settings' title='Settings' />
     </Background>
   );
 }

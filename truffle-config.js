@@ -1,7 +1,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
+require('dotenv').config(); // Load env variables.
 
 const mnemonic = process.env.MNEMONIC;
-
 // Declare providers here to use getAddress() below. As every developer can use a different mnemonic the from field should be dynamic.
 let bloxbergProvider = new HDWalletProvider(mnemonic, 'https://core.bloxberg.org');
 let bloxbergDevProvider = new HDWalletProvider(mnemonic, 'https://bloxberg.org/eth/');
@@ -12,7 +12,7 @@ module.exports = {
     develop: {
       host: "localhost",
       port: 8545,
-      network_id: "*" // Match any network id
+      network_id: "5777" // Match any network id
     },
     bloxberg: {
       provider: bloxbergProvider,

@@ -2,6 +2,16 @@ import * as connection from '../connection/reviewConnection';
 import { getCurrentAccount } from '../connection/reviewConnection';
 import { get, getXML, post } from './endpoint';
 
+export const getIndexedReviews = (searchQuery, page, limit) => {
+  // Check the type of query: name, email, address?
+
+  let queryType = '_id';
+
+  let URL = `/reviews/all/?page=${page}&limit=${limit}`;
+  if (searchQuery)
+    URL += `&${queryType}=${searchQuery}`;
+  return get(URL);
+};
 /**
  * Function to add a single review.
  * Takes the object created by the form in AddReview page.
@@ -50,7 +60,7 @@ export const addReview = (data) => {
             return response;
           });
       })
-      .catch((err) => console.log('Error adding to the blockchain\n' + err));
+      .catch((err) => console.log('Error adding to the blockchain\n' + JSON.stringify(err)));
   });
 };
 
@@ -130,6 +140,7 @@ export const addMultipleReviewsFromPublons = (reviewsArr) => {
 };
 
 /**
+ * Function to decompose reviews.
  * Takes an array of reviews and formats them into an object of arrays, where each array is a concatanation of each field of the review obj. 
  * 
  * @param {Array} reviewsArr - An array of review Objects 
@@ -158,6 +169,10 @@ export const decomposeReviews = (reviewsArr) => {
   });
 
   return result;
+};
+
+export const vouchReview = (id) => {
+  return connection.vouchReview(id);
 };
 
 export const getAllDatabaseReviews = (address) => {

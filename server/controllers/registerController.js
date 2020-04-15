@@ -1,25 +1,25 @@
 /* eslint-disable indent */
 // const connection = require('../connection/reviewConnection');
-const Scholar = require('../models/Scholar');
+const Author = require('../models/ReviewAuthor');
 
 // POST /reviews
-exports.addScholar = (req, res) => {
-  console.log('IN ADD SCHOLAR');
+exports.addAuthor = (req, res) => {
+  console.log('IN ADD Author');
   console.log(req.body);
 
   let address = req.params.address;
-  let scholar = new Scholar(req.body);
+  let author = new Author(req.body);
 
-  console.log(scholar);
-  // Mutual field for scholar and review to "join"
-  Scholar.findById(address).then(author => {
-    console.error('Scholar with address' + author + ' already registered!');
+  console.log(author);
+  // Mutual field for author and review to "join"
+  Author.findById(address).then(author => {
+    console.error('Author with address' + author + ' already registered!');
     return;
   });
 
-  scholar.save().then(() => {
-    console.log('Successfully saved the scholar');
-    res.status(200).json(scholar);
+  author.save().then(() => {
+    console.log('Successfully saved the author');
+    res.status(200).json(author);
   }
   ).catch(err => console.log(err));
 

@@ -44,10 +44,7 @@ const ImportButtonsWrapper = styled.div`
 `;
 
 const CardContentWrapper = styled.div`
-  margin: 0 32px;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+
 `;
 
 const TableAndButtonsWrapper = styled.div`

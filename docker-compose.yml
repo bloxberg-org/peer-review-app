@@ -7,17 +7,24 @@ services:
       - /data/db
     ports:
       - "27017:27017"
+    environment: 
+      - NODE_ENV=production
   server:
     build:
       context: ./server/
       dockerfile: Dockerfile
     container_name: peer-review-server
     working_dir: /home/node/app
+    volumes:
+      # indexer needs to access contract builds.
+      - ./client/src/contracts/:/home/node/app/indexer/contracts
     depends_on: 
       - mongo
-    environment: 
-      - MONGO_URL='mongodb://mongo/'
+    environment:
+      - NODE_ENV=production
+      - MONGO_URL=mongodb://mongo/
       - PORT=3000
+      - DOCKER=yes
     env_file: 
       - .env
     ports:
