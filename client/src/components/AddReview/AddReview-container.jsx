@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
+import AddManually from './AddManually';
 import AddReviewView from './AddReview-view';
 
 class AddReviewContainer extends React.Component {
@@ -31,10 +32,10 @@ class AddReviewContainer extends React.Component {
           Email
         </Route>
         <Route path={`${path}/Manual`}>
-          Manual
+          <AddManually {...this.props} />
         </Route>
         <Route path={`${path}/`}>
-          <AddReviewView {...this.state} />
+          <AddReviewView {...this.state} {...this.props} />
         </Route>
       </Switch>
     );
