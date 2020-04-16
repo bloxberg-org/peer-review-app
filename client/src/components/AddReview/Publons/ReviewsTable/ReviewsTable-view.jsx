@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../../Button';
-import Loader from '../../Loader';
+import Button from '../../../Button';
+import Loader from '../../../Loader';
 
 ReviewsTableView.defaultProps = {
   titles: [

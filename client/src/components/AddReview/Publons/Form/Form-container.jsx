@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getReviewsOfAcademicFromPublons } from '../../../utils/review';
-import Loader from '../../Loader';
-import ImportModalView from './ImportModal-view';
+import { getReviewsOfAcademicFromPublons } from '../../../../utils/review';
+import Loader from '../../../Loader';
+import FormView from './Form-view';
 
-export default class ImportModalContainer extends React.Component {
+export default class FormContainer extends React.Component {
 
   static propTypes = {
     handleModalClose: PropTypes.func.isRequired,
@@ -52,7 +52,7 @@ export default class ImportModalContainer extends React.Component {
     }
 
     return (
-      <ImportModalView {...this.state} {...this.props}
+      <FormView {...this.state} {...this.props}
         onSubmit={this.handleSubmit}
       />
     );

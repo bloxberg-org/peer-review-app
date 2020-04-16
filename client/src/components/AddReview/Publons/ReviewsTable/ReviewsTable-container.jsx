@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getReviewsOfAcademicFromPublons } from '../../../utils/review';
+import { getReviewsOfAcademicFromPublons } from '../../../../utils/review';
 import ReviewsTableView from './ReviewsTable-view';
 
 export default class ReviewsTableContainer extends React.Component {

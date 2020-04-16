@@ -2,7 +2,6 @@ import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import AddReview from '../../AddReview';
 import AllReviews from '../../AllReviews';
-import ImportReviews from '../../ImportReviews';
 import Overview from '../../Overview';
 import SingleReview from '../../SingleReview';
 import TopBar from '../../TopBar';
@@ -17,10 +16,6 @@ export default function RoutesView(props) {
       <Route path="/Reviews/AddReview">
         <TopBar title='Reviews' {...props} />
         <AddReview {...props} />
-      </Route>
-      <Route path="/Reviews/ImportReviews">
-        <TopBar title='Reviews' {...props} />
-        <ImportReviews {...props} />
       </Route>
       <Route path="/Reviews/YourReviews">
         <TopBar title='Reviews' {...props} />

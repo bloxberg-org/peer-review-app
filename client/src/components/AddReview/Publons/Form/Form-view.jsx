@@ -2,21 +2,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import useForm from 'react-hook-form';
 import styled from 'styled-components';
-import Button from '../../Button';
-import FormField from '../../FormField';
+import Button from '../../../Button';
+import FormField from '../../../FormField';
 
 
-ImportModalView.propTypes = {
+FormView.propTypes = {
   onSubmit: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 70%;
-  justify-content: center;
-  align-items: center;
 `;
 
 const ButtonWrapper = styled.div`
@@ -24,7 +18,7 @@ const ButtonWrapper = styled.div`
   justify-content: flex-end;
 `;
 
-export default function ImportModalView(props) {
+export default function FormView(props) {
   const { register, handleSubmit, errors } = useForm();
 
   return (

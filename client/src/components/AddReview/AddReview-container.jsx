@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import AddManually from './AddManually';
 import AddReviewView from './AddReview-view';
-
+import Publons from './Publons';
 class AddReviewContainer extends React.Component {
   static propTypes = {
     match: PropTypes.shape({
@@ -23,7 +23,7 @@ class AddReviewContainer extends React.Component {
       // <AddReviewView review={this.state.review} handleF1000Open={this.handleF1000Open} handleF1000Close={this.handleF1000Close} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isAddingReview={this.state.isAddingReview} {...this.state} {...this.props} />
       <Switch>
         <Route path={`${path}/Publons`}>
-          Publons
+          <Publons {...this.props} />
         </Route>
         <Route path={`${path}/F1000R`}>
           F1000R
