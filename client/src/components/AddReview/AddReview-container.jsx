@@ -1,74 +1,42 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import uniqid from 'uniqid';
-import { addReview } from '../../utils/review';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import AddReviewView from './AddReview-view';
 
 class AddReviewContainer extends React.Component {
   static propTypes = {
-    reviewsOfUser: PropTypes.array,
-    history: PropTypes.object,
-    addReviewsToState: PropTypes.func.isRequired
+    match: PropTypes.shape({
+      path: PropTypes.string.isRequired
+    })
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      review: {
-        'journalId': '',
-        'manuscriptId': '',
-        'manuscriptHash': '',
-        'timestamp': new Date(),
-        'recommendation': ''
-      },
-      isAddingReview: false,
-      isF1000ModalOpen: false
     };
-  }
-
-  // Open F1000 import modal
-  handleF1000Open = () => {
-    this.setState({ isF1000ModalOpen: true });
-  }
-
-  // Close F1000 import modal
-  handleF1000Close = () => {
-    this.setState({ isF1000ModalOpen: false });
-  }
-
-  // Date change in the form
-  handleDateChange = (date) => {
-    let tempReview = { ...this.state.review };
-    tempReview.timestamp = date;
-    this.setState({
-      review: tempReview
-    });
-  }
-
-  handleSubmit = (data) => {
-    console.log(data);
-    this.setState({ isAddingReview: true });
-    let review = {
-      id: uniqid(),
-      ...data
-    };
-    addReview(review)
-      .then((response) => {
-        console.log(response);
-        this.setState({ isAddingReview: false });
-        let id = response.chainData.id; // Get the index to show the review page.
-        this.props.addReviewsToState([response.chainData]); // Add to App.js state explicitly as userReviews are only retrieved when refreshing.
-        const { history } = this.props;
-        // redirect to review page after adding
-        history.push(`/Reviews/${id}`);
-      })
-      .catch(err => console.log(err));
   }
 
   render() {
+    let path = this.props.match.path;
     return (
-      <AddReviewView review={this.state.review} handleF1000Open={this.handleF1000Open} handleF1000Close={this.handleF1000Close} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isAddingReview={this.state.isAddingReview} {...this.state} {...this.props} />
+      // <AddReviewView review={this.state.review} handleF1000Open={this.handleF1000Open} handleF1000Close={this.handleF1000Close} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isAddingReview={this.state.isAddingReview} {...this.state} {...this.props} />
+      <Switch>
+        <Route path={`${path}/Publons`}>
+          Publons
+        </Route>
+        <Route path={`${path}/F1000R`}>
+          F1000R
+        </Route>
+        <Route path={`${path}/Email`}>
+          Email
+        </Route>
+        <Route path={`${path}/Manual`}>
+          Manual
+        </Route>
+        <Route path={`${path}/`}>
+          <AddReviewView {...this.state} />
+        </Route>
+      </Switch>
     );
   }
 }
