@@ -1,10 +1,10 @@
 import moment from 'moment';
 import React from 'react';
 import uniqid from 'uniqid';
-import { addMultipleReviewsFromPublons } from '../../utils/review';
-import ImportReviewsView from './ImportReviews-view';
+import { addMultipleReviewsFromPublons } from '../../../utils/review';
+import PublonsView from './Publons-view';
 
-export default class ImportReviewsContainer extends React.Component {
+export default class PublonsContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -130,7 +130,7 @@ export default class ImportReviewsContainer extends React.Component {
 
   render() {
     return (
-      <ImportReviewsView {...this.state} {...this.props}
+      <PublonsView {...this.state} {...this.props}
         handleModalOpen={this.handleModalOpen}
         handleModalClose={this.handleModalClose}
         appendToReviews={this.appendToReviews}

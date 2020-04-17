@@ -6,7 +6,7 @@ import OverviewView from './Overview-view';
 export default class OverviewContainer extends React.Component {
   static propTypes = {
     reviewsOfUser: PropTypes.array.isRequired,
-    isUserLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -71,7 +71,7 @@ export default class OverviewContainer extends React.Component {
   }
 
   render() {
-    if (this.props.isUserLoading)
+    if (this.props.isLoading)
       return (<LoaderView />);
 
     // Format data on the cards

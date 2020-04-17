@@ -12,8 +12,7 @@ import AllReviewsView from './AllReviews-view';
 export default class AllReviewsContainer extends React.Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    isUserLoading: PropTypes.bool.isRequired,
-
+    isLoading: PropTypes.bool.isRequired,
   }
 
   constructor(props) {

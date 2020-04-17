@@ -10,7 +10,7 @@ OverviewView.propTypes = {
   graphData: PropTypes.object,
   highlightedReviews: PropTypes.array,
   reviewVerification: PropTypes.array,
-  isUserLoading: PropTypes.bool,
+  isLoading: PropTypes.bool,
   userName: PropTypes.string,
   cardsData: PropTypes.object
 };

@@ -9,7 +9,7 @@ import UserIcon from './UserIcon';
 TopBarView.propTypes = {
   title: Proptypes.string,
   user: Proptypes.object,
-  isUserLoading: Proptypes.bool,
+  isLoading: Proptypes.bool,
   handleLogout: Proptypes.func.isRequired,
   isLoggedInWithFm: Proptypes.bool.isRequired
 };
@@ -48,7 +48,7 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 export default function TopBarView(props) {
-  if (props.isUserLoading)
+  if (props.isLoading)
     return null;
   return (
     <TopBarWrapper>
