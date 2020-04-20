@@ -4,6 +4,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import F1000Logo from '../../assets/F1000R_logo.png';
 import PublonsLogo from '../../assets/publons_logo.png';
+import Button from '../Button/Button-view';
 import CardWrapper from '../CardWrapper';
 import InputTitle from '../FormField/InputTitle';
 
@@ -82,14 +83,14 @@ export default function AddReviewView() {
           </ImportButtonsWrapper>
         </div>
         <div style={{ margin: '24px 0' }}>
-          <TextButton onClick={() => history.push(`${url}/Email`)}>
+          <Button onClick={() => history.push(`${url}/Email`)}>
             Email Import
-          </TextButton>
+          </Button>
         </div>
         <div style={{ margin: '24px 0' }}>
-          <TextButton onClick={() => history.push(`${url}/Manual`)}>
+          <Button onClick={() => history.push(`${url}/Manual`)}>
             Add Manually
-          </TextButton>
+          </Button>
         </div>
       </CardWrapper>
     </Wrapper>

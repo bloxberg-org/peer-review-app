@@ -3,7 +3,7 @@ import useForm from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCurrentAccount } from '../../connection/reviewConnection';
-import { addScholar } from '../../utils/register';
+import { addAuthor } from '../../utils/register';
 import Button from '../Button';
 import CardWrapper from '../CardWrapper';
 import FormField from '../FormField';
@@ -31,14 +31,14 @@ export default function App() {
   const { register, handleSubmit, errors } = useForm();
   let history = useHistory();
 
-  const onSubmit = scholar => {
-    console.log(scholar);
+  const onSubmit = author => {
+    console.log(author);
 
-    addScholar(scholar)
+    addAuthor(author)
       .then((response) => {
         console.log(response);
-        setAccount(scholar._id);
-        history.push('/', scholar._id);
+        setAccount(author._id);
+        history.push('/', author._id);
         window.location.reload();
       })
       .catch(err => console.log(err));
