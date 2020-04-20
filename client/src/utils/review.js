@@ -185,14 +185,14 @@ export const getOneDatabaseReview = (address, id) => {
   return get(`/reviews/${address}/${id}`);
 };
 
-export const getReviewsOfArticle = (source, doi) => {
-  console.log(`Sending a GET at: /reviews/xml/${source}/?doi=${doi}`);
-  return getXML(`/reviews/xml/${source}/?doi=${doi}`);
+export const getReviewsOfArticleFromF1000R = (doi) => {
+  console.log(`Sending a GET at: /reviews/xml/f1000research/?doi=${doi}`);
+  return getXML(`/reviews/xml/f1000research/?doi=${doi}`);
 };
 
-export const getReviewOfArticle = (source, doi, index) => {
-  console.log(`Sending a GET at: /reviews/xml/${source}/?doi=${doi}&index=${index}`);
-  return getXML(`/reviews/xml/${source}/?doi=${doi}&index=${index}`);
+export const getReviewOfArticleFromF1000R = (doi, index) => {
+  console.log(`Sending a GET at: /reviews/xml/f1000research/?doi=${doi}&index=${index}`);
+  return getXML(`/reviews/xml/f1000research/?doi=${doi}&index=${index}`);
 };
 
 export const getReviewsOfAcademicFromPublons = (academicId, page) => {

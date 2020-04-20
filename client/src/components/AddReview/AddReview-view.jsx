@@ -57,7 +57,8 @@ const TextButton = styled(props => {
 })`
   font-weight: bold;
   &:hover {
-    cursor: pointer
+    cursor: pointer;
+    text-decoration: underline;
   }
 `;
 
@@ -65,7 +66,7 @@ const TextButton = styled(props => {
 // ============= Define base components =============
 //====================================================
 
-export default function AddReviewView(props) {
+export default function AddReviewView() {
   let history = useHistory();
   let { url } = useRouteMatch();
 
