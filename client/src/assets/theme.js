@@ -1,12 +1,12 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 export const theme = {
-  sidebarBackground: "#363740",
-  sidebarHover: "#5b5d6b",
-  sidebarInactiveText: "#ffffff80",
-  sidebarActiveText: "#fff",
-  primary: "#CB149D",
-  primaryDark: "#B20F8A",
-  background: '#EBEBEB',
+  sidebarBackground: '#363740',
+  sidebarHover: '#5b5d6b',
+  sidebarInactiveText: '#ffffff80',
+  sidebarActiveText: '#fff',
+  primary: '#CB149D',
+  primaryDark: '#B20F8A',
+  background: '#F1F2F6',
   gray: '#9FA2B4',
   border: '#DFE0EB',
   secondary: '#3751FF',

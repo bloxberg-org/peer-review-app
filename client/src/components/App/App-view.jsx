@@ -5,13 +5,12 @@ import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from '../../assets/theme';
 import Loader from '../Loader';
 import Register from '../Register';
+import LoginPage from '../LoginPage';
 import SideBar from '../SideBar';
 import ConnectToBloxberg from './ConnectToBloxberg';
 // import InstallMetamask from './InstallMetamask';
-import LoginWithFortmatic from './LoginWithFortmatic';
+// import LoginWithFortmatic from './LoginWithFortmatic';
 import Routes from './Routes';
-
-
 
 AppView.propTypes = {
   user: PropTypes.object,
@@ -45,18 +44,22 @@ const SideBarWrapper = styled.div`
 export default function AppView(props) {
   let AppContent = <Loader />;
 
+  // if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
+  //   AppLayout = (<LoginPage/>)
+
   if (props.isLoading) // If loading user and reviews return the spinner
     AppContent = (<Loader />);
   // Show Fortmatic login if not logged in with fm or metamask.
   else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
-    AppContent = <LoginWithFortmatic
-      handleLogin={props.handleLoginWithMagicLink}
-      handleLogout={props.handleLogout}
-    />;
+    // AppContent = <LoginWithFortmatic
+    //   handleLogin={props.handleLoginWithMagicLink}
+    //   handleLogout={props.handleLogout}
+    // />;
+    console.log('test')
   else if (!props.isConnectedToBloxberg)
     AppContent = (<ConnectToBloxberg />);
   else if (props.isNoUserFound) {
-    AppContent = <Register {...props} />;
+    AppContent = <LoginPage {...props} />;
   }
   else {
     AppContent = <Routes {...props} />;
@@ -66,6 +69,8 @@ export default function AppView(props) {
       <GlobalStyle />
       <Wrapper>
         <Router>
+          <LoginPage handleLogin={props.handleLoginWithMagicLink}
+            handleLogout={props.handleLogout} >
           <SideBarWrapper>
             <SideBar />
           </SideBarWrapper>
@@ -74,6 +79,7 @@ export default function AppView(props) {
               AppContent
             }
           </MainWrapper>
+          </LoginPage>
         </Router>
       </Wrapper>
     </ThemeProvider>

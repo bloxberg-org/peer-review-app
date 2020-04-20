@@ -18,6 +18,7 @@ const Logo = styled.img`
 
 `;
 
+
 const LogoWrapper = styled.div`
   padding: 30px 20px;
   flex-direction: column;
