@@ -11,10 +11,11 @@ const Author = require('../models/ReviewAuthor');
  * @param {ContractInstance} instance - Contracts instance to interact with. Needed to retrieve the review data using the id in the event.
  */
 const reviewLogger = (event, instance) => {
-  console.log('Event emitted');
-  let id = event.returnValues.id;
-  let authorAddress = event.returnValues._from;
 
+  let id = event.returnValues.id;
+  let authorAddress = event.returnValues.from;
+  console.log(event.returnValues);
+  console.log(`Review added by ${authorAddress} with id: ${id}`);
   // Get the review data using id.
   instance.getReview(id)
     .then(review => {

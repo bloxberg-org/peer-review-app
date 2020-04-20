@@ -172,6 +172,7 @@ export const decomposeReviews = (reviewsArr) => {
 };
 
 export const vouchReview = (id) => {
+  console.log(`Vouching review ${id}`);
   return connection.vouchReview(id);
 };
 

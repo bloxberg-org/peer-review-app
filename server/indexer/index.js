@@ -8,6 +8,7 @@ const Web3 = require('web3');
 const TruffleContract = require('@truffle/contract');
 const ReviewStorageArtifact = require('./contracts/ReviewStorage.json');
 const reviewLogger = require('./reviewLogger');
+const vouchLogger = require('./vouchLogger');
 
 const bloxbergProvider = 'wss://websockets.bloxberg.org';
 const localProvider = process.env.DOCKER === 'yes' ? 'http://ganache:8545' : 'http://localhost:8545'; // Use Docker host name in docker, else localhost.
@@ -31,7 +32,9 @@ ReviewStorage.deployed()
     instance.ReviewAdded() // Listen to ReviewAdded events.
       .on('data', (event) => reviewLogger(event, instance))
       .on('error', console.error);
-
+    instance.ReviewVouched() // Listen to ReviewVouched events.
+      .on('data', (event) => vouchLogger(event))
+      .on('error', console.error);
   })
   .catch(console.error);
 

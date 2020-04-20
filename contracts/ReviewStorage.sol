@@ -11,7 +11,8 @@ import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol"
 
 contract ReviewStorage is GSNRecipient {
     // address[] usersAddresses; // Should we keep this?
-    event ReviewAdded(address indexed _from, string id);
+    event ReviewAdded(address indexed from, string id);
+    event ReviewVouched(address indexed from, string id);
     address publonsAddress;
     enum Recommendation {NULL, ACCEPT, REVISE, REJECT}
     struct Review {
@@ -225,6 +226,7 @@ contract ReviewStorage is GSNRecipient {
         if (review.vouchers.length == 1) {
             review.verified = true;
         }
+        emit ReviewVouched(voucher, id);
     }
 
     /// @notice Function to check if the Review at the given address and index is vouched by _msgSender()8i.
