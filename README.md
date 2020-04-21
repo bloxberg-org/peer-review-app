@@ -99,3 +99,5 @@ The `ganache/` folder has the owner `root` as this folder (docker volume, better
 If you receive mnemonic errors make sure you have the environment variable MNEMONIC is properly set. Also make sure
 
 If you receive `MODULE NOT FOUND` errors when running the development containers, remove the `node_modules` folder via `rm -rf node_modules/`. This is due to docker running as root and causes permission errors. Use this workaround temporarily. 
+
+In the dev environment, the relay container funds the relays each time. This may cause your accounts to run out of balance. 
