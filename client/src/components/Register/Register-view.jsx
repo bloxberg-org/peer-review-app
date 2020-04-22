@@ -50,7 +50,7 @@ export default function App() {
   });
 
   return (
-    <CardWrapper title='Register account'>
+    <CardWrapper title='Account Details'>
       <Wrapper>
         <FormWrapper>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -83,7 +83,7 @@ export default function App() {
               errors={errors._id}
               register={register({ required: true })} value={account} disabled />
             <ButtonWrapper>
-              <Button primary>Register</Button>
+              <Button primary>Submit</Button>
             </ButtonWrapper>
           </form>
         </FormWrapper>

@@ -42,44 +42,80 @@ const SideBarWrapper = styled.div`
   `;
 
 export default function AppView(props) {
-  let AppContent = <Loader />;
-
-  // if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
-  //   AppLayout = (<LoginPage/>)
-
+  let AppContent = 
+    <Wrapper>
+      <Router>
+        <SideBarWrapper>
+          <SideBar />
+        </SideBarWrapper>
+        <MainWrapper>
+          <Loader />
+        </MainWrapper>
+      </Router>
+    </Wrapper>
   if (props.isLoading) // If loading user and reviews return the spinner
-    AppContent = (<Loader />);
+    AppContent =
+      <Wrapper>
+        <Router>
+          <SideBarWrapper>
+            <SideBar />
+         </SideBarWrapper>
+         <MainWrapper>
+          <Loader />;
+         </MainWrapper>
+        </Router>
+    </Wrapper>
   // Show Fortmatic login if not logged in with fm or metamask.
   else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
-    // AppContent = <LoginWithFortmatic
-    //   handleLogin={props.handleLoginWithMagicLink}
-    //   handleLogout={props.handleLogout}
-    // />;
-    console.log('test')
+    AppContent = <Wrapper>
+        <Router>
+          <LoginPage handleLogin={props.handleLoginWithMagicLink}
+                    handleLogout={props.handleLogout} />
+        </Router>
+      </Wrapper>
   else if (!props.isConnectedToBloxberg)
-    AppContent = (<ConnectToBloxberg />);
+  AppContent = (<Wrapper>
+    <Router>
+      <SideBarWrapper>
+        <SideBar />
+      </SideBarWrapper>
+      <MainWrapper>
+        <ConnectToBloxberg/>
+      </MainWrapper>);
+     </Router>
+  </Wrapper>)
   else if (props.isNoUserFound) {
-    AppContent = <LoginPage {...props} />;
+    AppContent = <Wrapper>
+        <Router>
+          <SideBarWrapper>
+            <SideBar />
+          </SideBarWrapper>
+          <MainWrapper>
+            <Register {...props} />
+          </MainWrapper>
+        </Router>
+    </Wrapper>
   }
   else {
-    AppContent = <Routes {...props} />;
+    AppContent = <Wrapper>
+        <Router>
+          <SideBarWrapper>
+            <SideBar />
+          </SideBarWrapper>
+          <MainWrapper>
+            <Routes {...props} />;
+          </MainWrapper>
+        </Router>
+    </Wrapper>
   }
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Wrapper>
         <Router>
-          <LoginPage handleLogin={props.handleLoginWithMagicLink}
-            handleLogout={props.handleLogout} >
-          <SideBarWrapper>
-            <SideBar />
-          </SideBarWrapper>
-          <MainWrapper>
-            {
-              AppContent
-            }
-          </MainWrapper>
-          </LoginPage>
+          {
+            AppContent
+          }
         </Router>
       </Wrapper>
     </ThemeProvider>

@@ -10,14 +10,31 @@ LoginWithFortmaticView.propTypes = {
   handleLogout: PropTypes.func.isRequired,
 };
 
-const Wrapper = styled.div`
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+const CustomFormField = styled(FormField)`
+  border-bottom: 0px;
 `;
 
+const Wrapper = styled.div`
+display: flex;
+text-align: center;
+justify-content: center;
+flex-direction: column;
+align-items: center;
+margin-top: 20vh;
+`;
+
+const FormWrapper = styled.div`
+  width: 75%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex: 0.4;
+`;
 
 const Text = styled.span`
 `;
@@ -27,16 +44,18 @@ export default function LoginWithFortmaticView(props) {
 
   return (
     <Wrapper>
-      <Text> Login with Fortmatic </Text>
+      <FormWrapper>
       <form onSubmit={handleSubmit(props.handleLogin)}>
-        <FormField
+        <CustomFormField
           name='email'
-          title='E-Mail'
-          placeholder='planck@mail.com'
+          placeholder='Email'
           errors={errors.email}
           register={register({ required: true, pattern: /^\S+@\S+$/i })} />
-        <Button> Login </Button>
-      </form>
+          <ButtonWrapper>
+            <Button primary> Login </Button>     
+          </ButtonWrapper>
+          </form>
+      </FormWrapper>
     </Wrapper>
   );
 }
