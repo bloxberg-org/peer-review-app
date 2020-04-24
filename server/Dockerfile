@@ -7,4 +7,4 @@ COPY . .
 EXPOSE 3000
 RUN npm install -g forever && npm install --production 
 
-CMD ["forever", "server.js"]
+CMD ["forever", "-l", "logFile.log", "-o", "out.log", "-e", "err.log", "server.js"]

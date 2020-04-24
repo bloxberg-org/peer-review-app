@@ -5,6 +5,7 @@ node_modules/
 /.pnp
 .pnp.js
 
+
 # production
 build/
 
@@ -26,6 +27,9 @@ ganache/
 secret.sh
 ssh.sh
 .env
+
+#deployment of static files
+deploymentProd.sh
 
 # Contract ABIs, differs after every different migration
 client/src/contracts/
