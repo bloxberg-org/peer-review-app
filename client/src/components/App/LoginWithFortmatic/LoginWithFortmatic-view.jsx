@@ -20,7 +20,8 @@ text-align: center;
 justify-content: center;
 flex-direction: column;
 align-items: center;
-margin-top: 20vh;
+width: 90%;
+margin-top: 10vh;
 `;
 
 const FormWrapper = styled.div`

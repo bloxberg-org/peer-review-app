@@ -26,6 +26,7 @@ const Title = styled.span`
   font-size: 1.5em;
   font-weight: bold;
   margin: 32px;
+  font-family: Lusitana;
   `;
 
 const ChildrenWrapper = styled.div`
@@ -44,5 +45,5 @@ export default function CardWrapper(props) {
         {props.children}
       </ChildrenWrapper>
     </Wrapper>
-  );
+  )
 }

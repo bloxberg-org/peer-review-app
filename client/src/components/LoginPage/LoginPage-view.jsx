@@ -51,9 +51,6 @@ const RightWrapper = styled.div`
   `;
 
 
-const Text = styled.span`
-`;
-
 const Logo = styled.img`
 
 `;
@@ -79,7 +76,7 @@ const LogoWrapper = styled.div`
 const TitleWrapper = styled.div`
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 90%;
         align-items: center;
         flex: 0.2;
         margin-top: 10vh;
@@ -88,9 +85,9 @@ const TitleWrapper = styled.div`
 const Title = styled.span`
       color: ${props => props.theme.primary};
       font-weight: bold;
-      font-size: 36px;
+      font-size: 2em;
       line-height: 48px;
-      font-family: Lusitana;
+      font-family: 'Lusitana';
       padding: 0 0 0;
 `;
 
@@ -98,10 +95,10 @@ const SubTitle = styled.span`
     font-family: Open Sans;
     font-style: normal;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 1em;
     line-height: 22px;
     text-align: center;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.2px;
     color: rgba(37, 39, 51, 0.65);
 `;
 
@@ -114,6 +111,7 @@ const RegisterText = styled.span`
     text-align: center;
     letter-spacing: 0.4px;
     color: rgba(37, 39, 51, 0.65);
+    width: 90%;
 `;
 
 const BloxbergLogo = styled.img`
@@ -124,11 +122,10 @@ const BloxbergLogoWrapper = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
+        width: 90%;
         text-align: center;
         flex-direction: column;
-        margin-top: 10%;
-        flex: 0.5;
+        flex: 0.4;
   `;
 
 

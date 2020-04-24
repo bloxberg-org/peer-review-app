@@ -14,6 +14,7 @@ export const theme = {
 };
 
 const muliPath = './fonts/Muli/';
+const lusitanaPath = './fonts/Lusitana/';
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Muli';
@@ -57,8 +58,24 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 600;
     font-style: normal;
   }
+  // Lusitana
+    @font-face {
+    font-family: 'Lusitana';
+    src: url(${require(lusitanaPath + 'Lusitana-Regular.ttf')}) format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+    @font-face {
+    font-family: 'Lusitana';
+    src: url(${require(lusitanaPath + 'Lusitana-Bold.ttf')}) format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
   body {
     font-family: 'Muli'
+  }
+  h2 {
+    font-family: 'Lusitana'
   }
 `;
 

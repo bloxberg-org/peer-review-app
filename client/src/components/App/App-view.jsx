@@ -61,7 +61,7 @@ export default function AppView(props) {
             <SideBar />
          </SideBarWrapper>
          <MainWrapper>
-          <Loader />;
+          <Loader />
          </MainWrapper>
         </Router>
     </Wrapper>
@@ -81,7 +81,7 @@ export default function AppView(props) {
       </SideBarWrapper>
       <MainWrapper>
         <ConnectToBloxberg/>
-      </MainWrapper>);
+      </MainWrapper>)
      </Router>
   </Wrapper>)
   else if (props.isNoUserFound) {
@@ -103,7 +103,7 @@ export default function AppView(props) {
             <SideBar />
           </SideBarWrapper>
           <MainWrapper>
-            <Routes {...props} />;
+            <Routes {...props} />
           </MainWrapper>
         </Router>
     </Wrapper>

@@ -50,7 +50,7 @@ export default function App() {
   });
 
   return (
-    <CardWrapper title='Account Details'>
+    <CardWrapper title='Account Settings'>
       <Wrapper>
         <FormWrapper>
           <form onSubmit={handleSubmit(onSubmit)}>
