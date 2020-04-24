@@ -7,7 +7,9 @@ import SingleReviewView from './SingleReview-view';
 class SingleReviewContainer extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
-    user: PropTypes.shape({ _id: PropTypes.string.isRequired })
+    user: PropTypes.shape({ _id: PropTypes.string.isRequired }),
+    deleteReviewFromState: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -51,9 +53,13 @@ class SingleReviewContainer extends React.Component {
     let id = this.state.blockchainReview.id;
     this.setState({ isLoading: true });
     deleteReview(id)
-      .then(console.log)
-      .then(alert('Review Deleted'))
-      .then(() => this.setState({ isLoading: false }))
+      .then((response) => {
+        console.log(response);
+        this.props.deleteReviewFromState(id);
+        this.setState({ isLoading: false });
+        console.log(`Review ${id} deleted`);
+        this.props.history.goBack();
+      })
       .catch(console.error);
   }
 

@@ -7,7 +7,7 @@
 const Web3 = require('web3');
 const TruffleContract = require('@truffle/contract');
 const ReviewStorageArtifact = require('./contracts/ReviewStorage.json');
-const reviewLogger = require('./reviewLogger');
+const { logAddedReview, logDeletedReview } = require('./reviewLogger');
 const vouchLogger = require('./vouchLogger');
 
 const bloxbergProvider = 'wss://websockets.bloxberg.org';
@@ -30,7 +30,10 @@ ReviewStorage.deployed()
   .then(instance => {
     console.log('Found instance');
     instance.ReviewAdded() // Listen to ReviewAdded events.
-      .on('data', (event) => reviewLogger(event, instance))
+      .on('data', (event) => logAddedReview(event, instance))
+      .on('error', console.error);
+    instance.ReviewDeleted() // Listen to ReviewAdded events.
+      .on('data', (event) => logDeletedReview(event))
       .on('error', console.error);
     instance.ReviewVouched() // Listen to ReviewVouched events.
       .on('data', (event) => vouchLogger(event))

@@ -1,11 +1,11 @@
 {
   "contracts": {
     "ReviewStorage": {
-      "address": "0x3Ea5e73F58c1dD3393DDe4c79699146D15E9235A",
-      "constructorCode": "6080604052613df0806100136000396000f3fe",
-      "bodyBytecodeHash": "7b54bdad267a22486f855e2d6ef0b1f45e13c9b12649c75feb0d8ffcf1c388b1",
-      "localBytecodeHash": "3f0d73a37f1a0c0c83432949ab04c1cce49412efc8c41d0c8d5ac6588df4827c",
-      "deployedBytecodeHash": "3f0d73a37f1a0c0c83432949ab04c1cce49412efc8c41d0c8d5ac6588df4827c",
+      "address": "0x4c69c239Cda4E11D3f133b63629067C916ED7bBe",
+      "constructorCode": "6080604052613e3e806100136000396000f3fe",
+      "bodyBytecodeHash": "9b19325408e8e2a83bde74d76aea847a32d3c2d11c3b69d972a424d84e72d3f1",
+      "localBytecodeHash": "8e52ffe46da06c6c5d8047efb12b0a4cdf84f9243cbe41d833d5577711daafdc",
+      "deployedBytecodeHash": "8e52ffe46da06c6c5d8047efb12b0a4cdf84f9243cbe41d833d5577711daafdc",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -36,81 +36,81 @@
           "members": [
             {
               "label": "id",
-              "astId": 83,
+              "astId": 89,
               "type": "t_string",
-              "src": "586:9:1"
+              "src": "644:9:1"
             },
             {
               "label": "index",
-              "astId": 85,
+              "astId": 91,
               "type": "t_uint32",
-              "src": "605:12:1"
+              "src": "663:12:1"
             },
             {
               "label": "author",
-              "astId": 87,
+              "astId": 93,
               "type": "t_address",
-              "src": "697:14:1"
+              "src": "755:14:1"
             },
             {
               "label": "journalId",
-              "astId": 89,
+              "astId": 95,
               "type": "t_string",
-              "src": "721:16:1"
+              "src": "779:16:1"
             },
             {
               "label": "publisher",
-              "astId": 91,
+              "astId": 97,
               "type": "t_string",
-              "src": "755:16:1"
+              "src": "813:16:1"
             },
             {
               "label": "manuscriptId",
-              "astId": 93,
+              "astId": 99,
               "type": "t_string",
-              "src": "799:19:1"
+              "src": "857:19:1"
             },
             {
               "label": "manuscriptHash",
-              "astId": 95,
+              "astId": 101,
               "type": "t_string",
-              "src": "836:21:1"
+              "src": "894:21:1"
             },
             {
               "label": "timestamp",
-              "astId": 97,
+              "astId": 103,
               "type": "t_uint32",
-              "src": "867:16:1"
+              "src": "925:16:1"
             },
             {
               "label": "recommendation",
-              "astId": 99,
+              "astId": 105,
               "type": "t_enum<ReviewStorage.Recommendation>",
-              "src": "942:29:1"
+              "src": "1000:29:1"
             },
             {
               "label": "url",
-              "astId": 101,
+              "astId": 107,
               "type": "t_string",
-              "src": "981:10:1"
+              "src": "1039:10:1"
             },
             {
               "label": "verified",
-              "astId": 103,
+              "astId": 109,
               "type": "t_bool",
-              "src": "1001:13:1"
+              "src": "1059:13:1"
             },
             {
               "label": "vouchers",
-              "astId": 106,
+              "astId": 112,
               "type": "t_array:dyn<t_address>",
-              "src": "1024:18:1"
+              "src": "1082:18:1"
             },
             {
               "label": "vouchersMap",
-              "astId": 110,
+              "astId": 116,
               "type": "t_mapping<t_bool>",
-              "src": "1052:36:1"
+              "src": "1110:36:1"
             }
           ]
         },
@@ -173,7 +173,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 1661,
+          "astId": 1672,
           "type": "t_bool",
           "src": "757:24:6"
         },
@@ -181,7 +181,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 1663,
+          "astId": 1674,
           "type": "t_bool",
           "src": "876:25:6"
         },
@@ -189,7 +189,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 1725,
+          "astId": 1736,
           "type": "t_array:50<t_uint256>",
           "src": "1982:29:6"
         },
@@ -197,7 +197,7 @@
           "contract": "GSNRecipient",
           "path": "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol",
           "label": "_relayHub",
-          "astId": 1033,
+          "astId": 1044,
           "type": "t_address",
           "src": "1133:25:3"
         },
@@ -205,25 +205,25 @@
           "contract": "ReviewStorage",
           "path": "contracts/ReviewStorage.sol",
           "label": "publonsAddress",
-          "astId": 76,
+          "astId": 82,
           "type": "t_address",
-          "src": "479:22:1"
+          "src": "537:22:1"
         },
         {
           "contract": "ReviewStorage",
           "path": "contracts/ReviewStorage.sol",
           "label": "reviewsMap",
-          "astId": 115,
+          "astId": 121,
           "type": "t_mapping<t_struct<ReviewStorage.Review>>",
-          "src": "1185:36:1"
+          "src": "1243:36:1"
         },
         {
           "contract": "ReviewStorage",
           "path": "contracts/ReviewStorage.sol",
           "label": "userReviewsIdsMap",
-          "astId": 120,
+          "astId": 126,
           "type": "t_mapping<t_array:dyn<t_string>>",
-          "src": "1287:46:1"
+          "src": "1345:46:1"
         }
       ],
       "warnings": {
@@ -239,10 +239,10 @@
   "proxies": {
     "peer-review-app/ReviewStorage": [
       {
-        "address": "0xf9893719f7cBdfB13D9bD3A5aEADcAe5C21ef4cA",
+        "address": "0xAA1b7cd1dCF68361A4b850E92d503065b4A79487",
         "version": "0.0.1",
-        "implementation": "0x3Ea5e73F58c1dD3393DDe4c79699146D15E9235A",
-        "admin": "0x4d041e01b59D324D9b2b1f7d6Dcb4F7608e6fd10",
+        "implementation": "0x4c69c239Cda4E11D3f133b63629067C916ED7bBe",
+        "admin": "0x09aFa1879fa654226D522f7099583d54ee8F18f4",
         "kind": "Upgradeable"
       }
     ]
@@ -250,6 +250,6 @@
   "manifestVersion": "2.2",
   "version": "0.0.1",
   "proxyAdmin": {
-    "address": "0x4d041e01b59D324D9b2b1f7d6Dcb4F7608e6fd10"
+    "address": "0x09aFa1879fa654226D522f7099583d54ee8F18f4"
   }
 }

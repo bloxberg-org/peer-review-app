@@ -10,8 +10,7 @@ const Author = require('../models/ReviewAuthor');
  * @param {Event} event - Event emitted when review is added.
  * @param {ContractInstance} instance - Contracts instance to interact with. Needed to retrieve the review data using the id in the event.
  */
-const reviewLogger = (event, instance) => {
-
+exports.logAddedReview = (event, instance) => {
   let id = event.returnValues.id;
   let authorAddress = event.returnValues.from;
   console.log(event.returnValues);
@@ -57,4 +56,16 @@ const reviewLogger = (event, instance) => {
     .catch(console.error);
 };
 
-module.exports = reviewLogger;
+exports.logDeletedReview = (event) => {
+  let reviewId = event.returnValues.id;
+  let authorAddress = event.returnValues.from;
+  console.log(`Deleting review ${reviewId}`)
+  BlockchainReview.findOneAndDelete({ id: reviewId })
+    .then((deletedReview) => {
+      console.log('Deleted review, now deleting ' + deletedReview._id + ' in author blockchainReviews ' + authorAddress)
+      return Author.findByIdAndUpdate(authorAddress, { $pull: { blockchainReviews: deletedReview._id } })
+        .catch('No authors found');
+    })
+    .then(`Successfully deleted review ${reviewId}`)
+    .catch(console.error);
+};
