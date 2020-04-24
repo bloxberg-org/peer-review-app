@@ -1,7 +1,7 @@
+import Gsn from '@openeth/gsn';
 import TruffleContract from '@truffle/contract';
 import ReviewStorageArtifact from '../contracts/ReviewStorage.json';
 import getWeb3 from './web3';
-const Gsn = require('@openeth/gsn');
 
 async function init() {
   const web3 = await getWeb3();
@@ -69,7 +69,8 @@ export const deleteReview = async (id) => {
   let [instance, accounts] = await init();
   return instance.deleteReview(id,
     { from: accounts[0] });
-}
+};
+
 export const getCurrentAccount = async () => {
   // eslint-disable-next-line no-unused-vars
   let [_, accounts] = await init();

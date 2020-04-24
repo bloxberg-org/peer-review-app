@@ -120,6 +120,17 @@ export default class App extends React.Component {
   }
 
   /**
+   * Removes the review from the state. Called when reviews are successfully removed to the DB and Blockchain. 
+   * @param id - Id of the review to be deleted.
+   */
+  deleteReviewFromState = (id) => {
+    this.setState((state) => {
+      let index = state.reviewsOfUser.findIndex((review) => review.id === id);
+      state.reviewsOfUser.splice(index, 1);
+      return state;
+    });
+  }
+  /**
    * Function to initialize the user after web3 is injected and the accounts are unlocked.
    * Gets the user object using the address.
    * Then gets all reviews saved to blockchain of this user.
@@ -172,6 +183,7 @@ export default class App extends React.Component {
     return (
       <AppView
         addReviewsToState={this.addReviewsToState}
+        deleteReviewFromState={this.deleteReviewFromState}
         handleLoginWithMagicLink={this.handleLoginWithMagicLink}
         handleLogout={this.handleLogoutUser}
         {...this.state} />

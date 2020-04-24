@@ -12,6 +12,7 @@ import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol"
 contract ReviewStorage is GSNRecipient {
     // address[] usersAddresses; // Should we keep this?
     event ReviewAdded(address indexed from, string id);
+    event ReviewDeleted(address indexed from, string id);
     event ReviewVouched(address indexed from, string id);
     address publonsAddress;
     enum Recommendation {NULL, ACCEPT, REVISE, REJECT}
@@ -236,6 +237,7 @@ contract ReviewStorage is GSNRecipient {
             userReviewsIdsMap[author][i] = userReviewsIdsMap[author][i + 1];
         }
         userReviewsIdsMap[author].length--;
+        emit ReviewDeleted(author, id);
     }
 
     /// @notice Function to vouch a Review at the given address and index.
