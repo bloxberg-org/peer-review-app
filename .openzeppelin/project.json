@@ -14,7 +14,7 @@
         "runs": "200"
       }
     },
-    "artifactsDir": "build/contracts",
+    "artifactsDir": "client/src/contracts",
     "contractsDir": "contracts"
   },
   "telemetryOptIn": false

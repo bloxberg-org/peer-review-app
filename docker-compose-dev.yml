@@ -21,6 +21,7 @@ services:
     working_dir: /home/node/app
     depends_on: 
       - mongo
+      - ganache
     environment: 
       - MONGO_URL=mongodb://mongo/
       - PORT=3000
@@ -32,7 +33,7 @@ services:
       - "3000:3000"
     stdin_open: true
     tty: true
-    command: bash -c "npm install -g npm && npm install && npm run devserver"
+    command: bash -c "npm run devserver"
   client:
     image: node:12
     container_name: client-dev
@@ -49,7 +50,8 @@ services:
       - "3001:3001"
     stdin_open: true
     tty: true
-    command: bash -c "npm install -g npm && npm install && npm start"
+    # Use npx concurrently to avoid create-react-app from clearing the console.
+    command: bash -c "npx concurrently npm:start"
   ganache:
     image: trufflesuite/ganache-cli
     container_name: ganache-dev
@@ -63,7 +65,7 @@ services:
       - "8545:8545"
     stdin_open: true
     tty: true
-    command: ganache-cli --mnemonic "${MNEMONIC}" --db /home/ganache/  --networkId 5777 --quiet
+    command: --mnemonic "${MNEMONIC}" --db /home/ganache/ --networkId 5777 --quiet
   relay:
     image: node:12
     container_name: relay-dev

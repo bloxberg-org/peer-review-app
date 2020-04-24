@@ -7,7 +7,9 @@ exports.getXML = (url) => {
     headers: {
       'Content-Type': 'application/xml'
     }
-  }).then(res => res.text());
+  })
+    .then(res => res.text())
+    .catch(console.error);
 };
 
 exports.getPDF = (url) => {
@@ -16,7 +18,9 @@ exports.getPDF = (url) => {
     headers: {
       'Content-Type': 'application/pdf'
     }
-  }).then(res => res.blob());
+  })
+    .then(res => res.blob())
+    .catch(console.error);
 };
 
 exports.getWithPublonsAuth = (url) => {
@@ -27,5 +31,7 @@ exports.getWithPublonsAuth = (url) => {
       'Authorization': publonsAuthToken,
       'Content-Type': 'application/json'
     }
-  }).then(res => res.json());
+  })
+    .then(res => res.json())
+    .catch(console.error);
 };

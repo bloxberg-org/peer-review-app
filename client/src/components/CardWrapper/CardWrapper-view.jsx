@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 CardWrapper.propTypes = {
   children: PropTypes.any,
-  title: PropTypes.string
+  title: PropTypes.string,
+  blurb: PropTypes.string
 };
 
 const Wrapper = styled.div`
@@ -18,8 +19,7 @@ const Wrapper = styled.div`
   `;
 
 const TitleWrapper = styled.div`
-  width: 100%;
-  display: flex;
+  margin: 32px 32px 8px;
   `;
 
 const Title = styled.span`
@@ -28,6 +28,16 @@ const Title = styled.span`
   margin: 32px;
   font-family: Lusitana;
   `;
+
+const BlurbWrapper = styled.div`
+  margin: 0px 32px;
+`;
+
+const BlurbText = styled.h3`
+  font-size: 10pt;
+  font-weight: 400;
+  margin: 0;
+`;
 
 const ChildrenWrapper = styled.div`
   margin: 0 32px;
@@ -41,6 +51,13 @@ export default function CardWrapper(props) {
       <TitleWrapper>
         <Title>{props.title}</Title>
       </TitleWrapper>
+      {
+        props.blurb
+          ? <BlurbWrapper>
+            <BlurbText>{props.blurb}</BlurbText>
+          </BlurbWrapper>
+          : null
+      }
       <ChildrenWrapper>
         {props.children}
       </ChildrenWrapper>

@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
-import { getOneBlockchainReview, getOneDatabaseReview, vouchReview } from '../../utils/review';
-import Loader from '../Loader';
+import { deleteReview, getOneBlockchainReview, getOneDatabaseReview, vouchReview } from '../../utils/review';
 import SingleReviewView from './SingleReview-view';
 
 class SingleReviewContainer extends React.Component {
@@ -14,8 +13,7 @@ class SingleReviewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVouching: false,
-      isReviewLoading: true,
+      isLoading: true,
       DBreview: {},
       blockchainReview: {}
     };
@@ -27,7 +25,7 @@ class SingleReviewContainer extends React.Component {
 
   fetchAndLoadReview = () => {
     this.fetchReview().then(reviewArr => {
-      this.setState({ DBreview: reviewArr[0], blockchainReview: reviewArr[1], isReviewLoading: false });
+      this.setState({ DBreview: reviewArr[0], blockchainReview: reviewArr[1], isLoading: false });
     });
   }
 
@@ -40,21 +38,34 @@ class SingleReviewContainer extends React.Component {
 
   vouchReview = () => {
     let id = this.state.blockchainReview.id;
-    this.setState({ isVouching: true });
+    this.setState({ isLoading: true });
     vouchReview(id)
       .then(() => {
         return this.fetchAndLoadReview();
       })
-      .then(() => this.setState({ isVouching: false }))
+      .then(() => this.setState({ isLoading: false }))
+      .catch(console.error);
+  }
+
+  deleteReview = () => {
+    let id = this.state.blockchainReview.id;
+    this.setState({ isLoading: true });
+    deleteReview(id)
+      .then(console.log)
+      .then(alert('Review Deleted'))
+      .then(() => this.setState({ isLoading: false }))
       .catch(console.error);
   }
 
   render() {
-    if (this.state.isReviewLoading)
-      return <Loader />;
-
     return (
-      <SingleReviewView {...this.state} {...this.props} vouchReview={this.vouchReview} />
+      <SingleReviewView
+        isLoading={this.state.isLoading}
+        DBreview={this.state.DBreview}
+        blockchainReview={this.state.blockchainReview}
+        deleteReview={this.deleteReview}
+        vouchReview={this.vouchReview}
+      />
     );
   }
 }

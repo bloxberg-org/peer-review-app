@@ -3,7 +3,9 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import AddManually from './AddManually';
 import AddReviewView from './AddReview-view';
+import F1000R from './F1000R';
 import Publons from './Publons';
+
 class AddReviewContainer extends React.Component {
   static propTypes = {
     match: PropTypes.shape({
@@ -26,7 +28,7 @@ class AddReviewContainer extends React.Component {
           <Publons {...this.props} />
         </Route>
         <Route path={`${path}/F1000R`}>
-          F1000R
+          <F1000R {...this.props} />
         </Route>
         <Route path={`${path}/Email`}>
           Email

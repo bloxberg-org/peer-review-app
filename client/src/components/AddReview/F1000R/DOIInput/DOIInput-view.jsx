@@ -2,23 +2,17 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import useForm from 'react-hook-form';
 import styled from 'styled-components';
-import Button from '../../Button';
-import FormField from '../../FormField';
+import Button from '../../../Button';
+import FormField from '../../../FormField';
 
-ImportModalView.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+DOIInputView.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
   isDoneFetching: PropTypes.bool.isRequired,
   reviews: PropTypes.array,
   onChooseReview: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 70%;
-  justify-content: center;
-  align-items: center;
 `;
 
 const ReviewBoxWrapper = styled.div`
@@ -60,7 +54,7 @@ const ReviewBox = styled((props) => {
   }
 `;
 
-export default function ImportModalView(props) {
+export default function DOIInputView(props) {
   const { register, handleSubmit, errors } = useForm();
 
   // console.log(props.reviews)
@@ -79,9 +73,8 @@ export default function ImportModalView(props) {
     );
   }
   return (
-
     <Wrapper>
-      <form onSubmit={handleSubmit(props.onSubmit)}>
+      <form onSubmit={handleSubmit(props.handleSubmit)}>
         <FormField
           noBorder
           title='Enter DOI of the original article the peer review is done for'

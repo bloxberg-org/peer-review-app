@@ -11,24 +11,24 @@ import Loader from '../Loader';
 const PUBLONS_ADDRESS = '0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311';
 
 SingleReviewView.propTypes = {
-  isVouching: PropTypes.bool.isRequired,
-  isReviewLoading: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   vouchReview: PropTypes.func.isRequired,
+  deleteReview: PropTypes.func.isRequired,
   DBreview: PropTypes.shape({
-    articleTitle: PropTypes.string.isRequired,
-    articleDOI: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired
+    articleTitle: PropTypes.string,
+    articleDOI: PropTypes.string,
+    content: PropTypes.string
   }),
   blockchainReview: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    journalId: PropTypes.string.isRequired,
-    publisher: PropTypes.string.isRequired,
-    manuscriptId: PropTypes.string.isRequired,
-    manuscriptHash: PropTypes.string.isRequired,
-    timestamp: PropTypes.number.isRequired,
+    journalId: PropTypes.string,
+    publisher: PropTypes.string,
+    manuscriptId: PropTypes.string,
+    manuscriptHash: PropTypes.string,
+    timestamp: PropTypes.number,
     recommendation: PropTypes.oneOf([0, 1, 2, 3]),
-    url: PropTypes.string.isRequired,
-    vouchers: PropTypes.array.isRequired
+    url: PropTypes.string,
+    vouchers: PropTypes.array
   })
 };
 
@@ -98,7 +98,7 @@ const ReviewField = styled(props => {
 
 export default function SingleReviewView(props) {
   console.log(props);
-  if (props.isVouching || props.isReviewLoading)
+  if (props.isLoading)
     return <Loader />;
   return (
     <FlexDiv>
@@ -150,6 +150,11 @@ export default function SingleReviewView(props) {
           margin: '32px 0'
         }}>
           <ReviewField title='Content'>{props.DBreview ? props.DBreview.content : 'N/A'} </ReviewField>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+          <Button onClick={props.deleteReview}>
+            Delete
+          </Button>
         </div>
       </CardWrapper>
     </FlexDiv >

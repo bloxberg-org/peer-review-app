@@ -11,11 +11,14 @@ import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol"
 
 contract ReviewStorage is GSNRecipient {
     // address[] usersAddresses; // Should we keep this?
-    event ReviewAdded(address indexed _from, string id);
+    event ReviewAdded(address indexed from, string id);
+    event ReviewVouched(address indexed from, string id);
     address publonsAddress;
     enum Recommendation {NULL, ACCEPT, REVISE, REJECT}
     struct Review {
         string id;
+        uint32 index; // index in the array of review ids from userReviewsIdsMap[<address>]
+        address author;
         string journalId; // ISSN
         string publisher; // Publisher Name
         string manuscriptId; // DOI?
@@ -29,6 +32,7 @@ contract ReviewStorage is GSNRecipient {
     }
     // Mapping from Review ids to Reviews.
     mapping(string => Review) reviewsMap;
+    // Mapping from user address to an array of review Ids.
     mapping(address => string[]) userReviewsIdsMap;
 
     function initialize() public initializer {
@@ -56,9 +60,12 @@ contract ReviewStorage is GSNRecipient {
         string memory url
     ) public {
         address author = _msgSender();
+        uint32 index = uint32(userReviewsIdsMap[author].length);
 
         Review memory review = Review({
             id: id,
+            index: index,
+            author: author,
             journalId: journalId,
             publisher: publisher,
             manuscriptId: manuscriptId,
@@ -96,9 +103,13 @@ contract ReviewStorage is GSNRecipient {
         );
         uint24 length = uint24(journalIds.length);
         address author = _msgSender();
-        for (uint256 i = 0; i < length; i++) {
+        uint32 index = uint32(userReviewsIdsMap[author].length);
+
+        for (uint32 i = 0; i < length; i++) {
             Review storage review = reviewsMap[ids[i]];
             review.id = ids[i];
+            review.index = index + i;
+            review.author = author;
             review.journalId = journalIds[i];
             review.publisher = publishers[i];
             review.manuscriptId = manuscriptIds[i];
@@ -138,9 +149,13 @@ contract ReviewStorage is GSNRecipient {
         );
         uint24 length = uint24(journalIds.length);
         address author = _msgSender();
-        for (uint256 i = 0; i < length; i++) {
+        uint32 index = uint32(userReviewsIdsMap[author].length);
+
+        for (uint32 i = 0; i < length; i++) {
             Review storage review = reviewsMap[ids[i]];
             review.id = ids[i];
+            review.index = index + i;
+            review.author = author;
             review.journalId = journalIds[i];
             review.publisher = publishers[i];
             review.manuscriptId = manuscriptIds[i];
@@ -176,6 +191,7 @@ contract ReviewStorage is GSNRecipient {
         view
         returns (
             string memory,
+            address,
             string memory,
             string memory,
             string memory,
@@ -190,6 +206,7 @@ contract ReviewStorage is GSNRecipient {
         Review memory review = reviewsMap[id];
         return (
             review.id,
+            review.author,
             review.journalId,
             review.publisher,
             review.manuscriptId,
@@ -210,10 +227,21 @@ contract ReviewStorage is GSNRecipient {
         return userReviewsIdsMap[addr];
     }
 
+    function deleteReview(string memory id) public {
+        Review storage review = reviewsMap[id];
+        uint32 index = review.index;
+        address author = review.author;
+        // from: https://ethereum.stackexchange.com/questions/1527/how-to-delete-an-element-at-a-certain-index-in-an-array
+        for (uint256 i = index; i < userReviewsIdsMap[author].length - 1; i++) {
+            userReviewsIdsMap[author][i] = userReviewsIdsMap[author][i + 1];
+        }
+        userReviewsIdsMap[author].length--;
+    }
+
     /// @notice Function to vouch a Review at the given address and index.
     /// @dev Assumes the voucher is the _msgSender(). Checks if the Review is already vouched by the same address.
     /// @param id - id of the review
-    function vouch(string memory id) public {
+    function vouchReview(string memory id) public {
         // TODO: Can't vouch herself
         address voucher = _msgSender(); // TODO: Avoid being vouched by a contract
         Review storage review = reviewsMap[id];
@@ -225,6 +253,7 @@ contract ReviewStorage is GSNRecipient {
         if (review.vouchers.length == 1) {
             review.verified = true;
         }
+        emit ReviewVouched(voucher, id);
     }
 
     /// @notice Function to check if the Review at the given address and index is vouched by _msgSender()8i.

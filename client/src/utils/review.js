@@ -24,6 +24,7 @@ export const addReview = (data) => {
   // Prepare blockchain data.
   let chainData = {
     id: data.id,
+    author: data.author,
     journalId: data.journalId,
     publisher: data.publisher,
     manuscriptId: data.manuscriptId,
@@ -87,15 +88,16 @@ export const getAllBlockchainReviews = async () => {
     return reviewArr.map((review) => {
       return {
         id: review[0],
-        journalId: review[1],
-        publisher: review[2],
-        manuscriptId: review[3],
-        manuscripthash: review[4],
-        timestamp: review[5].toNumber(), // Handle BigNumber
-        recommendation: review[6].toNumber(),
-        url: review[7],
-        verified: review[8],
-        vouchers: review[9]
+        author: review[1],
+        journalId: review[2],
+        publisher: review[3],
+        manuscriptId: review[4],
+        manuscripthash: review[5],
+        timestamp: review[6].toNumber(), // Handle BigNumber
+        recommendation: review[7].toNumber(),
+        url: review[8],
+        verified: review[9],
+        vouchers: review[10]
       };
     });
   })).catch((e) => {
@@ -108,15 +110,16 @@ export const getOneBlockchainReview = (id) => {
   return connection.getReview(id).then(review => {
     return {
       id: review[0],
-      journalId: review[1],
-      publisher: review[2],
-      manuscriptId: review[3],
-      manuscripthash: review[4],
-      timestamp: review[5].toNumber(), // Handle BigNumber
-      recommendation: review[6].toNumber(),
-      url: review[7],
-      verified: review[8],
-      vouchers: review[9]
+      author: review[1],
+      journalId: review[2],
+      publisher: review[3],
+      manuscriptId: review[4],
+      manuscripthash: review[5],
+      timestamp: review[6].toNumber(), // Handle BigNumber
+      recommendation: review[7].toNumber(),
+      url: review[8],
+      verified: review[9],
+      vouchers: review[10]
     };
   }).catch((e) => {
     console.log(e);
@@ -172,7 +175,13 @@ export const decomposeReviews = (reviewsArr) => {
 };
 
 export const vouchReview = (id) => {
+  console.log(`Vouching review ${id}`);
   return connection.vouchReview(id);
+};
+
+export const deleteReview = (id) => {
+  console.log(`Deleting review ${id}`);
+  return connection.deleteReview(id);
 };
 
 export const getAllDatabaseReviews = (address) => {
@@ -185,14 +194,14 @@ export const getOneDatabaseReview = (address, id) => {
   return get(`/reviews/${address}/${id}`);
 };
 
-export const getReviewsOfArticle = (source, doi) => {
-  console.log(`Sending a GET at: /reviews/xml/${source}/?doi=${doi}`);
-  return getXML(`/reviews/xml/${source}/?doi=${doi}`);
+export const getReviewsOfArticleFromF1000R = (doi) => {
+  console.log(`Sending a GET at: /reviews/xml/f1000research/?doi=${doi}`);
+  return getXML(`/reviews/xml/f1000research/?doi=${doi}`);
 };
 
-export const getReviewOfArticle = (source, doi, index) => {
-  console.log(`Sending a GET at: /reviews/xml/${source}/?doi=${doi}&index=${index}`);
-  return getXML(`/reviews/xml/${source}/?doi=${doi}&index=${index}`);
+export const getReviewOfArticleFromF1000R = (doi, index) => {
+  console.log(`Sending a GET at: /reviews/xml/f1000research/?doi=${doi}&index=${index}`);
+  return getXML(`/reviews/xml/f1000research/?doi=${doi}&index=${index}`);
 };
 
 export const getReviewsOfAcademicFromPublons = (academicId, page) => {

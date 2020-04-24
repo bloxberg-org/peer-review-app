@@ -4,6 +4,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import F1000Logo from '../../assets/F1000R_logo.png';
 import PublonsLogo from '../../assets/publons_logo.png';
+import Button from '../Button/Button-view';
 import CardWrapper from '../CardWrapper';
 import InputTitle from '../FormField/InputTitle';
 
@@ -57,7 +58,8 @@ const TextButton = styled(props => {
 })`
   font-weight: bold;
   &:hover {
-    cursor: pointer
+    cursor: pointer;
+    text-decoration: underline;
   }
 `;
 
@@ -65,14 +67,14 @@ const TextButton = styled(props => {
 // ============= Define base components =============
 //====================================================
 
-export default function AddReviewView(props) {
-  let history = useHistory();
-  let { url } = useRouteMatch();
+export default function AddReviewView() {
+  const history = useHistory();
+  const { url } = useRouteMatch();
 
+  const blurbText = 'You can add your peer review by importing from integrated journals and platforms, using review submission emails or manually.'
   return (
     <Wrapper>
-      <CardWrapper title="Add Review">
-        How would you like to add your review?
+      <CardWrapper title="Add Review" blurb={blurbText}>
         <div style={{ margin: '24px 0' }}>
           <InputTitle>Import From:</InputTitle>
           <ImportButtonsWrapper>
@@ -81,14 +83,14 @@ export default function AddReviewView(props) {
           </ImportButtonsWrapper>
         </div>
         <div style={{ margin: '24px 0' }}>
-          <TextButton onClick={() => history.push(`${url}/Email`)}>
+          <Button onClick={() => history.push(`${url}/Email`)}>
             Email Import
-          </TextButton>
+          </Button>
         </div>
         <div style={{ margin: '24px 0' }}>
-          <TextButton onClick={() => history.push(`${url}/Manual`)}>
+          <Button onClick={() => history.push(`${url}/Manual`)}>
             Add Manually
-          </TextButton>
+          </Button>
         </div>
       </CardWrapper>
     </Wrapper>

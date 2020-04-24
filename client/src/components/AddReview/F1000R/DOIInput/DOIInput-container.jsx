@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getReviewOfArticle, getReviewsOfArticle } from '../../../utils/review';
-import Loader from '../../Loader';
-import ImportModalView from './ImportModal-view';
+import { getReviewOfArticleFromF1000R, getReviewsOfArticleFromF1000R } from '../../../../utils/review';
+import Loader from '../../../Loader';
+import DOIInputView from './DOIInput-view';
 
-export default class ImportModalContainer extends React.Component {
+export default class DOIInputContainer extends React.Component {
   static propTypes = {
-    source: PropTypes.oneOf(['f1000research']),
-    fillForm: PropTypes.func.isRequired,
-    handleClose: PropTypes.func.isRequired
+    handleReview: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -22,26 +20,19 @@ export default class ImportModalContainer extends React.Component {
   }
 
   handleSubmit = (data) => {
-    let source = this.props.source;
     console.log(data);
-
     this.setState({ isFetching: true });
-
-    getReviewsOfArticle(source, data.doi).then((rawReviews) => {
+    getReviewsOfArticleFromF1000R(data.doi).then((rawReviews) => {
       let reviews = JSON.parse(rawReviews);
       this.setState({ doi: data.doi, reviews: reviews, isFetching: false, isDoneFetching: true });
     });
   }
 
   handleChooseReview = (index) => {
-    let source = this.props.source;
     let doi = this.state.doi;
-
     this.setState({ isFetching: true });
-
-    getReviewOfArticle(source, doi, index).then(data => {
-      this.props.fillForm(JSON.parse(data));
-      this.props.handleClose();
+    getReviewOfArticleFromF1000R(doi, index).then(data => {
+      this.props.handleReview(JSON.parse(data));
     });
   }
 
@@ -53,8 +44,8 @@ export default class ImportModalContainer extends React.Component {
     }
 
     return (
-      <ImportModalView
-        onSubmit={this.handleSubmit}
+      <DOIInputView
+        handleSubmit={this.handleSubmit}
         onChooseReview={this.handleChooseReview}
         {...this.state} {...this.props} />
     );
