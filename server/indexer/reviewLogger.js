@@ -21,16 +21,16 @@ const reviewLogger = (event, instance) => {
     .then(review => {
       let reviewData = { // Create object to save. 
         id: review[0],
-        author: authorAddress,
-        journalId: review[1],
-        publisher: review[2],
-        manuscriptId: review[3],
-        manuscripthash: review[4],
-        timestamp: review[5].toNumber(), // Handle BigNumber
-        recommendation: review[6].toNumber(),
-        url: review[7],
-        verified: review[8],
-        vouchers: review[9]
+        author: review[1],
+        journalId: review[2],
+        publisher: review[3],
+        manuscriptId: review[4],
+        manuscripthash: review[5],
+        timestamp: review[6].toNumber(), // Handle BigNumber
+        recommendation: review[7].toNumber(),
+        url: review[8],
+        verified: review[9],
+        vouchers: review[10]
       };
       let reviewToAdd = new BlockchainReview(reviewData);
       return reviewToAdd.save();

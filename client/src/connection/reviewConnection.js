@@ -61,10 +61,15 @@ export const getOwnReviewIdsArray = async () => {
 
 export const vouchReview = async (id) => {
   let [instance, accounts] = await init();
-  return instance.vouch(id,
+  return instance.vouchReview(id,
     { from: accounts[0] });
 };
 
+export const deleteReview = async (id) => {
+  let [instance, accounts] = await init();
+  return instance.deleteReview(id,
+    { from: accounts[0] });
+}
 export const getCurrentAccount = async () => {
   // eslint-disable-next-line no-unused-vars
   let [_, accounts] = await init();

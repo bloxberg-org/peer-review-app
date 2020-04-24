@@ -68,13 +68,13 @@ const TextButton = styled(props => {
 //====================================================
 
 export default function AddReviewView() {
-  let history = useHistory();
-  let { url } = useRouteMatch();
+  const history = useHistory();
+  const { url } = useRouteMatch();
 
+  const blurbText = 'You can add your peer review by importing from integrated journals and platforms, using review submission emails or manually.'
   return (
     <Wrapper>
-      <CardWrapper title="Add Review">
-        How would you like to add your review?
+      <CardWrapper title="Add Review" blurb={blurbText}>
         <div style={{ margin: '24px 0' }}>
           <InputTitle>Import From:</InputTitle>
           <ImportButtonsWrapper>

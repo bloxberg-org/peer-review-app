@@ -17,6 +17,7 @@ const SearchBarWrapper = styled.div`
   width: 50%;
   display: flex;
   flex-direction: row;
+  margin-top: 32px;
 `;
 
 // ========== Compound Components ==========\
@@ -34,9 +35,10 @@ const SearchButton = styled(FAIconButton)`
 
 export default function VouchReviewView(props) {
   console.log(props);
+  const blurbText = 'By vouching for a review, you are confirming that the review took place. Once a submitted review has been vouched, it is then marked as verified which enhances the authenticity of the review.';
   return (
     <Wrapper>
-      <CardWrapper title="Vouch Reviews">
+      <CardWrapper title="Vouch Reviews" blurb={blurbText}>
         <SearchBarWrapper>
           <StyledSearchBar placeholder='Search by email, name, or address' />
           <SearchButton icon={faSearch} />
