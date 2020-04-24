@@ -5,13 +5,12 @@ import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from '../../assets/theme';
 import Loader from '../Loader';
 import Register from '../Register';
+import LoginPage from '../LoginPage';
 import SideBar from '../SideBar';
 import ConnectToBloxberg from './ConnectToBloxberg';
 // import InstallMetamask from './InstallMetamask';
-import LoginWithFortmatic from './LoginWithFortmatic';
+// import LoginWithFortmatic from './LoginWithFortmatic';
 import Routes from './Routes';
-
-
 
 AppView.propTypes = {
   user: PropTypes.object,
@@ -43,37 +42,80 @@ const SideBarWrapper = styled.div`
   `;
 
 export default function AppView(props) {
-  let AppContent = <Loader />;
-
+  let AppContent = 
+    <Wrapper>
+      <Router>
+        <SideBarWrapper>
+          <SideBar />
+        </SideBarWrapper>
+        <MainWrapper>
+          <Loader />
+        </MainWrapper>
+      </Router>
+    </Wrapper>
   if (props.isLoading) // If loading user and reviews return the spinner
-    AppContent = (<Loader />);
+    AppContent =
+      <Wrapper>
+        <Router>
+          <SideBarWrapper>
+            <SideBar />
+         </SideBarWrapper>
+         <MainWrapper>
+          <Loader />
+         </MainWrapper>
+        </Router>
+    </Wrapper>
   // Show Fortmatic login if not logged in with fm or metamask.
   else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
-    AppContent = <LoginWithFortmatic
-      handleLogin={props.handleLoginWithMagicLink}
-      handleLogout={props.handleLogout}
-    />;
+    AppContent = <Wrapper>
+        <Router>
+          <LoginPage handleLogin={props.handleLoginWithMagicLink}
+                    handleLogout={props.handleLogout} />
+        </Router>
+      </Wrapper>
   else if (!props.isConnectedToBloxberg)
-    AppContent = (<ConnectToBloxberg />);
+  AppContent = (<Wrapper>
+    <Router>
+      <SideBarWrapper>
+        <SideBar />
+      </SideBarWrapper>
+      <MainWrapper>
+        <ConnectToBloxberg/>
+      </MainWrapper>)
+     </Router>
+  </Wrapper>)
   else if (props.isNoUserFound) {
-    AppContent = <Register {...props} />;
+    AppContent = <Wrapper>
+        <Router>
+          <SideBarWrapper>
+            <SideBar />
+          </SideBarWrapper>
+          <MainWrapper>
+            <Register {...props} />
+          </MainWrapper>
+        </Router>
+    </Wrapper>
   }
   else {
-    AppContent = <Routes {...props} />;
+    AppContent = <Wrapper>
+        <Router>
+          <SideBarWrapper>
+            <SideBar />
+          </SideBarWrapper>
+          <MainWrapper>
+            <Routes {...props} />
+          </MainWrapper>
+        </Router>
+    </Wrapper>
   }
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <Wrapper>
         <Router>
-          <SideBarWrapper>
-            <SideBar />
-          </SideBarWrapper>
-          <MainWrapper>
-            {
-              AppContent
-            }
-          </MainWrapper>
+          {
+            AppContent
+          }
         </Router>
       </Wrapper>
     </ThemeProvider>

@@ -63,5 +63,5 @@ export default function OverviewView(props) {
         </ListCard>
       </BottomCardsWrapper>
     </Wrapper>
-  );
+  )
 }
