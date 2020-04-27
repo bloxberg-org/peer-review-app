@@ -13,10 +13,9 @@ export default class OverviewContainer extends React.Component {
     super(props);
     this.state = {
       graphData: {
-        'Reviews this year': 17,
-        'Average Review Length (words)': 325,
-        'Most Recent Review': new Date('September 12, 2019'),
-        'Most Reviewed Journal': 'Nature'
+        'Reviews this year': this.getReviewsThisYear(),
+        'Most Recent Review': this.getMostRecentReviewYear(),
+        'Most Reviewed Publisher': this.getMostReviewedJournal()
       },
       highlightedReviews: [
         {
@@ -53,6 +52,52 @@ export default class OverviewContainer extends React.Component {
     };
   }
 
+  getReviewsThisYear = () => {
+    return this.props.reviewsOfUser.reduce((accumulator, currentReview) => {
+      let currentReviewYear = this.unixTimestampToUTCYear(currentReview.timestamp);
+      if (currentReviewYear === new Date().getUTCFullYear())
+        return ++accumulator;
+      return accumulator;
+    }, 0);
+  }
+
+  unixTimestampToUTCYear = (timestamp) => {
+    return new Date(timestamp * 1000).getUTCFullYear(); // multiplied by 1000 so that the argument is in milliseconds, not seconds.
+  }
+
+  getMostReviewedJournal = () => {
+    // from https://stackoverflow.com/questions/1053843/get-the-element-with-the-highest-occurrence-in-an-array
+    function mode(array) {
+      if (array.length == 0)
+        return null;
+      var modeMap = {};
+      var maxEl = array[0].publisher, maxCount = 1;
+      for (var i = 0; i < array.length; i++) {
+        var el = array[i].publisher;
+        if (modeMap[el] == null)
+          modeMap[el] = 1;
+        else
+          modeMap[el]++;
+        if (modeMap[el] > maxCount) {
+          maxEl = el;
+          maxCount = modeMap[el];
+        }
+      }
+      console.log(maxEl);
+      return maxEl;
+    }
+
+    return mode(this.props.reviewsOfUser);
+  }
+
+  getMostRecentReviewYear = () => {
+    let largestTimestampedReview = this.props.reviewsOfUser.reduce((accumulator, currentReview) => {
+      if (currentReview.timestamp > accumulator.timestamp)
+        return currentReview;
+      return accumulator;
+    });
+    return this.unixTimestampToUTCYear(largestTimestampedReview.timestamp);
+  }
 
   getNumberOfReviews = () => {
     return this.props.reviewsOfUser.length;
@@ -78,7 +123,7 @@ export default class OverviewContainer extends React.Component {
     let cardsData = {
       'Peer Reviews': this.getNumberOfReviews(),
       'Verified Reviews': this.getNumberOfVerifiedReviews(),
-      'H-Index': 75,
+      // 'H-Index': 75,
       'Affiliated Publishers': this.getNumberOfAffiliatedPublishers()
     };
 
