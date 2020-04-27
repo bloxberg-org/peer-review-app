@@ -25,7 +25,7 @@ const TitleWrapper = styled.div`
 const Title = styled.span`
   font-size: 1.5em;
   font-weight: bold;
-  margin: 32px;
+  margin: 32px 0px;
   font-family: Lusitana;
   `;
 

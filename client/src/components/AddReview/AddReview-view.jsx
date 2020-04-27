@@ -82,11 +82,11 @@ export default function AddReviewView() {
             <ImportButton img={PublonsLogo} backgroundColor='#336599' onClick={() => history.push(`${url}/Publons`)} />
           </ImportButtonsWrapper>
         </div>
-        <div style={{ margin: '24px 0' }}>
+        {/* <div style={{ margin: '24px 0' }}>
           <Button onClick={() => history.push(`${url}/Email`)}>
             Email Import
           </Button>
-        </div>
+        </div> */}
         <div style={{ margin: '24px 0' }}>
           <Button onClick={() => history.push(`${url}/Manual`)}>
             Add Manually
