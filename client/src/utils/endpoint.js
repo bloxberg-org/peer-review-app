@@ -8,7 +8,8 @@ export const post = (endpoint, body) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  });
+  })
+    .then(handleErrors);
 };
 
 export const get = (endpoint) => {
@@ -17,7 +18,9 @@ export const get = (endpoint) => {
     headers: {
       'Content-Type': 'application/json'
     },
-  }).then(res => res.json());
+  })
+    .then(handleErrors)
+    .then(res => res.json());
 };
 
 export const getXML = (endpoint) => {
@@ -26,5 +29,20 @@ export const getXML = (endpoint) => {
     headers: {
       'Content-Type': 'application/xml'
     },
-  }).then(res => res.text());
+  })
+    .then(handleErrors)
+    .then(res => res.text());
 };
+
+// Fetch does not `catch` HTTP statuses >3xx but has a handy ok flag. 
+// Throw Error to be caught if HTTP status is not OK. 
+// from https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+function handleErrors(response) {
+  if (!response.ok) {
+    return response.json().then(errObj => {
+      console.log(errObj)
+      throw new Error(errObj.description);
+    });
+  }
+  return response;
+}

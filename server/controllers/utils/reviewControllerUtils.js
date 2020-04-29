@@ -52,6 +52,8 @@ exports.extractListOfReviews = (jsonDoc) => {
   // TODO: What does it return when there's only 1 review? 
   console.log('Here are the unformatted reviews:');
   console.log(reviews);
+  if (!reviews)
+    return null;
   // Just format the response 
   reviews = reviews.map(review => {
     return {

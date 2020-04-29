@@ -113,25 +113,34 @@ exports.getReviewXML = (req, res) => {
     res.status(400).send('Unsupported Source');
   }
 
-  getXML(`${xmlURL}${doi}`).then(async (data) => {
-    if (!data)
-      res.status(404).send('XML is empty');
-    // Parse XML to JSON
-    let jsonText = xml2json(data, { compact: true, spaces: 2 }); // convert to json
-    let jsonDoc = JSON.parse(jsonText);
-    // If the specific review tied to this article is requested, send the review information.
-    // Else, first send the list of reviews of this article to ask user which review to return 
-    if (index) {
-      downloadAndHashPdf(`${pdfURL}${doi}`).then((hash) => {
-        let response = extractReviewFromJsonDoc(jsonDoc, index);
-        response.manuscriptHash = hash;
-        res.status(200).json(response);
-      }).catch(err => console.log(err));
-    } else {
-      let reviews = extractListOfReviews(jsonDoc);
-      res.status(200).json(reviews);
-    }
-  }).catch(err => res.status(500).send(err));
+  getXML(`${xmlURL}${doi}`)
+    .then(async (data) => {
+      console.log('Entered here!!!');
+      if (!data)
+        res.status(404).send('XML is empty');
+      // Parse XML to JSON
+      let jsonText = xml2json(data, { compact: true, spaces: 2 }); // convert to json
+      let jsonDoc = JSON.parse(jsonText);
+      // If the specific review tied to this article is requested, send the review information.
+      // Else, first send the list of reviews of this article to ask user which review to return 
+      if (index) {
+        downloadAndHashPdf(`${pdfURL}${doi}`).then((hash) => {
+          let response = extractReviewFromJsonDoc(jsonDoc, index);
+          response.manuscriptHash = hash;
+          res.status(200).json(response);
+        }).catch(err => console.log(err));
+      } else {
+        let reviews = extractListOfReviews(jsonDoc);
+        if (!reviews)
+          throw new Error('No peer reviews found for this article');
+        res.status(200).json(reviews);
+      }
+    }).catch(err => {
+      err.status === 404 // getXML Not found
+        ? res.status(404).json({ description: 'Invalid DOI or article not found in F1000R' })
+        : res.status(404).json({ description: err.message });
+      // send the status code from fetch request or generic 500 code.
+    });
 };
 
 // exports.getReview = async (req, res) => {
