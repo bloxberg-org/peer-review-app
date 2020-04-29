@@ -16,16 +16,22 @@ export default class DOIInputContainer extends React.Component {
       isDoneFetching: false,
       doi: 'default',
       reviews: [],
+      error: null
     };
   }
 
   handleSubmit = (data) => {
     console.log(data);
     this.setState({ isFetching: true });
-    getReviewsOfArticleFromF1000R(data.doi).then((rawReviews) => {
-      let reviews = JSON.parse(rawReviews);
-      this.setState({ doi: data.doi, reviews: reviews, isFetching: false, isDoneFetching: true });
-    });
+    getReviewsOfArticleFromF1000R(data.doi)
+      .then((rawReviews) => {
+        let reviews = JSON.parse(rawReviews);
+        this.setState({ doi: data.doi, reviews: reviews, isFetching: false, isDoneFetching: true });
+      })
+      .catch(error => {
+        console.log(error);
+        this.setState({ error: error.message, isFetching: false });
+      });
   }
 
   handleChooseReview = (index) => {

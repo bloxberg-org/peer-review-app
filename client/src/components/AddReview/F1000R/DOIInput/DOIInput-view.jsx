@@ -9,7 +9,8 @@ DOIInputView.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   isDoneFetching: PropTypes.bool.isRequired,
   reviews: PropTypes.array,
-  onChooseReview: PropTypes.func.isRequired
+  onChooseReview: PropTypes.func.isRequired,
+  error: PropTypes.string,
 };
 
 const Wrapper = styled.div`
@@ -22,6 +23,10 @@ const ReviewBoxWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const ErrorText = styled.span`
+  color: red;
 `;
 
 const ReviewBox = styled((props) => {
@@ -79,10 +84,11 @@ export default function DOIInputView(props) {
           noBorder
           title='Enter DOI of the original article the peer review is done for'
           name='doi'
-          placeholder='DOI of the article'
+          placeholder='e.g. 10.12688/f1000research.19542.1'
           errors={errors.doi}
           register={register({ required: true })}
         />
+        <ErrorText>{props.error}</ErrorText>
         <ButtonWrapper>
           <Button primary>Submit</Button>
         </ButtonWrapper>
