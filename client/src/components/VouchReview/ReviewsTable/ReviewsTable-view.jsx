@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useTable } from 'react-table';
 import styled from 'styled-components';
-import Loader from '../../Loader';
 import ReviewsTableRow from './ReviewsTableRow';
 
 ReviewsTableView.propTypes = {
@@ -16,6 +15,19 @@ ReviewsTableView.propTypes = {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const NoReviews = styled(props => {
+  return (
+    <div className={props.className}>
+      No Reviews found
+    </div>
+  )
+})`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default function ReviewsTableView(props) {
@@ -38,8 +50,8 @@ export default function ReviewsTableView(props) {
   const { getTableProps, getTableBodyProps, headerGroups,
     rows, prepareRow } = useTable(tableOptions);
 
-  if (!props.reviews.length)
-    return <Loader />;
+  if (props.reviews.length === 0)
+    return <NoReviews />;
 
   return (
     <Wrapper>

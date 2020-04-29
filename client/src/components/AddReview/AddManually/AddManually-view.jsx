@@ -19,7 +19,6 @@ AddManuallyView.propTypes = {
   onDateChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   isAddingReview: PropTypes.bool.isRequired,
-  isUserLoading: PropTypes.bool.isRequired,
 };
 
 //===================================================

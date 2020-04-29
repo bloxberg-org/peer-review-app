@@ -10,7 +10,7 @@ import F1000RView from './F1000R-view';
 class F1000RContainer extends React.Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    addReviewsToState: PropTypes.func.isRequired
+    refreshReviews: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -49,7 +49,7 @@ class F1000RContainer extends React.Component {
         console.log(response);
         this.setState({ isAddingReview: false });
         let id = response.chainData.id; // Get the index to show the review page.
-        this.props.addReviewsToState([response.chainData]); // Add to App.js state explicitly as userReviews are only retrieved when refreshing.
+        this.props.refreshReviews(); // Load the review to App state
         const { history } = this.props;
         // redirect to review page after adding
         history.push(`/Reviews/${id}`);

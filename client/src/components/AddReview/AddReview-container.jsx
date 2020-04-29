@@ -29,7 +29,7 @@ class AddReviewContainer extends React.Component {
           <Publons {...this.props} refreshReviews={this.props.refreshReviews} />
         </Route>
         <Route path={`${path}/F1000R`}>
-          <F1000R {...this.props} />
+          <F1000R {...this.props} refreshReviews={this.props.refreshReviews} />
         </Route>
         <Route path={`${path}/Email`}>
           Email

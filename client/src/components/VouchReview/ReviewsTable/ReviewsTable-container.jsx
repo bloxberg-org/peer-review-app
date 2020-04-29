@@ -6,12 +6,14 @@ import ReviewsTableView from './ReviewsTable-view';
 // Using functional component to be able to use react-table hooks.
 export default function ReviewsTableContainer(props) {
   const [reviews, setReviews] = useState([]);
-  const [isVouching, setIsVouching] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     getIndexedReviews({}, 1, 10)
       .then(fetchedReviews => {
         setReviews(fetchedReviews);
+        setIsLoading(false);
       });
   }, []); // Empty array as dependency to avoid calling every time.
 
@@ -22,14 +24,15 @@ export default function ReviewsTableContainer(props) {
 
 
   const vouchReviewWithId = (id) => {
-    setIsVouching(true);
+    setIsLoading(true);
     vouchReview(id)
-      .then(setIsVouching(false))
+      .then(setIsLoading(false))
       .catch(console.error);
   };
 
-  if (isVouching)
+  if (isLoading)
     return <Loader />;
+
   return (
     <ReviewsTableView reviews={reviews} {...props} vouchReviewWithId={vouchReviewWithId} />
   );
