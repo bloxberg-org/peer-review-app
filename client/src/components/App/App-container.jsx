@@ -29,7 +29,7 @@ export default class App extends React.Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // Check if Metamask is there.
     if (typeof window.ethereum !== 'undefined') {
       getWeb3()
@@ -61,11 +61,13 @@ export default class App extends React.Component {
       });
     }
     else { // Use fortmatic
+      console.log('Using fortmatic');
       window.web3 = new Web3(fmPhantom.getProvider()); // Inject Fortmatic.
+      // let token = localStorage.getItem('didToken');
+      // console.log(`Token: ${token}`);
+      // console.log('Is iser logged in? ' + await fmPhantom.user.isLoggedIn());
 
-      let token = localStorage.getItem('didToken');
-      console.log(`Token: ${token}`);
-      if (token) {
+      if (await fmPhantom.user.isLoggedIn()) {
         console.log('Logged in with Fortmatic!');
         this.getUserAddress().then(address => {
           console.log('User address is');
@@ -89,9 +91,10 @@ export default class App extends React.Component {
   handleLoginWithMagicLink = async (data) => {
     const email = data.email;
     const user = await fmPhantom.loginWithMagicLink({ email });
+    // console.log('Is iser logged in? ' + await fmPhantom.user.isLoggedIn());
     this.setState({ isLoggedInWithFm: true, isConnectedToBloxberg: true });
-    let token = await user.getIdToken(86400); // 86400 sec = 24 hours lifespan.
-    localStorage.setItem('didToken', token);
+    // let token = await user.getIdToken(86400); // 86400 sec = 24 hours lifespan.
+    // localStorage.setItem('didToken', token);
     let addr = (await user.getMetadata()).publicAddress;
     console.log(addr);
     this.init(addr);
@@ -104,7 +107,7 @@ export default class App extends React.Component {
     console.log('Logging out');
     fmPhantom.user.logout().then(() => {
       console.log('Logged out');
-      localStorage.removeItem('didToken');
+      // localStorage.removeItem('didToken');
       this.setState({ isLoggedInWithFm: false });
     });
   }
@@ -144,22 +147,25 @@ export default class App extends React.Component {
         this.setState({
           user: user
         });
-        return getAllBlockchainReviews(); // Then fetch the reviews if the user.
+        return this.fetchBlockchainReviewsAndSetReviewsOfUser(); // Then fetch the reviews if the user.
       })
       .catch(error => { // No user found.
         console.log(error);
         this.setState({ isLoading: false, isNoUserFound: true });
         return Promise.reject('reject'); // Break the chain, avoid entering next then. (Is there a better practice?)
-      })
-      .then(reviewsOfUser => {
-        this.setState({
-          isLoading: false,
-          isNoUserFound: false,
-          reviewsOfUser: reviewsOfUser,
-        });
       });
   }
 
+  fetchBlockchainReviewsAndSetReviewsOfUser = () => {
+    return getAllBlockchainReviews()
+      .then(reviewsOfUser => {
+        this.setState({
+          reviewsOfUser: reviewsOfUser,
+          isLoading: false,
+          isNoUserFound: false,
+        });
+      });
+  }
   /**
    * Takes and address and returns a Promise resolving to the user object from the database.
    */
@@ -186,6 +192,7 @@ export default class App extends React.Component {
         deleteReviewFromState={this.deleteReviewFromState}
         handleLoginWithMagicLink={this.handleLoginWithMagicLink}
         handleLogout={this.handleLogoutUser}
+        refreshReviews={this.fetchBlockchainReviewsAndSetReviewsOfUser}
         {...this.state} />
     );
   }

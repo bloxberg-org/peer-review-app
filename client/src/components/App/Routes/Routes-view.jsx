@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import AddReview from '../../AddReview';
@@ -6,6 +7,12 @@ import Overview from '../../Overview';
 import SingleReview from '../../SingleReview';
 import TopBar from '../../TopBar';
 import VouchReview from '../../VouchReview';
+
+RoutesView.propTypes = {
+  refreshReviews: PropTypes.func.isRequired
+};
+
+
 export default function RoutesView(props) {
   return (
     <Switch>
@@ -15,7 +22,7 @@ export default function RoutesView(props) {
       </Route>
       <Route path="/Reviews/AddReview">
         <TopBar title='Reviews' {...props} />
-        <AddReview {...props} />
+        <AddReview {...props} refreshReviews={props.refreshReviews} />
       </Route>
       <Route path="/Reviews/YourReviews">
         <TopBar title='Reviews' {...props} />

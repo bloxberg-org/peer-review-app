@@ -53,6 +53,8 @@ export default class OverviewContainer extends React.Component {
   }
 
   getReviewsThisYear = () => {
+    if (this.props.reviewsOfUser.length === 0)
+      return 0;
     return this.props.reviewsOfUser.reduce((accumulator, currentReview) => {
       let currentReviewYear = this.unixTimestampToUTCYear(currentReview.timestamp);
       if (currentReviewYear === new Date().getUTCFullYear())
@@ -66,6 +68,8 @@ export default class OverviewContainer extends React.Component {
   }
 
   getMostReviewedJournal = () => {
+    if (this.props.reviewsOfUser.length === 0)
+      return 'N/A';
     // from https://stackoverflow.com/questions/1053843/get-the-element-with-the-highest-occurrence-in-an-array
     function mode(array) {
       if (array.length == 0)
@@ -91,6 +95,8 @@ export default class OverviewContainer extends React.Component {
   }
 
   getMostRecentReviewYear = () => {
+    if (this.props.reviewsOfUser.length === 0)
+      return 'N/A';
     let largestTimestampedReview = this.props.reviewsOfUser.reduce((accumulator, currentReview) => {
       if (currentReview.timestamp > accumulator.timestamp)
         return currentReview;
@@ -100,14 +106,20 @@ export default class OverviewContainer extends React.Component {
   }
 
   getNumberOfReviews = () => {
+    if (this.props.reviewsOfUser.length === 0)
+      return 0;
     return this.props.reviewsOfUser.length;
   }
   getNumberOfVerifiedReviews = () => {
+    if (this.props.reviewsOfUser.length === 0)
+      return 0;
     return this.props.reviewsOfUser.filter(review => review.verified === true).length;
   }
 
   // Returns the number of unique publisher names in reviewsOfUser. 
   getNumberOfAffiliatedPublishers = () => {
+    if (this.props.reviewsOfUser.length === 0)
+      return 0;
     // Extract publisher names as an array.
     let publisherNames = this.props.reviewsOfUser.map((review) => {
       return review.publisher;

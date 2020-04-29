@@ -1,10 +1,15 @@
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import React from 'react';
 import uniqid from 'uniqid';
 import { addMultipleReviewsFromPublons } from '../../../utils/review';
 import PublonsView from './Publons-view';
 
 export default class PublonsContainer extends React.Component {
+  static propTypes = {
+    refreshReviews: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -102,7 +107,7 @@ export default class PublonsContainer extends React.Component {
     addMultipleReviewsFromPublons(formattedReviews).then(() => {
       this.setState({ isUploading: false });
       this.clearSelected();
-      window.location.reload();
+      this.props.refreshReviews(); // Load the reviews to App state.
     });
   }
 

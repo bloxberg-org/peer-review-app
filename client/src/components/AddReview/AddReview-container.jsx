@@ -10,7 +10,8 @@ class AddReviewContainer extends React.Component {
   static propTypes = {
     match: PropTypes.shape({
       path: PropTypes.string.isRequired
-    })
+    }),
+    refreshReviews: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -25,7 +26,7 @@ class AddReviewContainer extends React.Component {
       // <AddReviewView review={this.state.review} handleF1000Open={this.handleF1000Open} handleF1000Close={this.handleF1000Close} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isAddingReview={this.state.isAddingReview} {...this.state} {...this.props} />
       <Switch>
         <Route path={`${path}/Publons`}>
-          <Publons {...this.props} />
+          <Publons {...this.props} refreshReviews={this.props.refreshReviews} />
         </Route>
         <Route path={`${path}/F1000R`}>
           <F1000R {...this.props} />
