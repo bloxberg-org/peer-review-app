@@ -6,12 +6,10 @@ import styled from 'styled-components';
 import chain from '../../assets/chain-tick.png';
 import Button from '../Button/Button-view';
 import CardWrapper from '../CardWrapper';
-import Loader from '../Loader';
 
 const PUBLONS_ADDRESS = '0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311';
 
 SingleReviewView.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
   vouchReview: PropTypes.func.isRequired,
   deleteReview: PropTypes.func.isRequired,
   DBreview: PropTypes.shape({
@@ -98,8 +96,6 @@ const ReviewField = styled(props => {
 
 export default function SingleReviewView(props) {
   console.log(props);
-  if (props.isLoading)
-    return <Loader />;
   return (
     <FlexDiv>
       <CardWrapper style={{ padding: '32px' }} title={props.DBreview ? props.DBreview.articleTitle : 'No title given'}>

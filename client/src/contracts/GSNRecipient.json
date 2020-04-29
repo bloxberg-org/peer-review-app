@@ -9215,7 +9215,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.11",
-  "updatedAt": "2020-04-27T12:47:42.722Z",
+  "updatedAt": "2020-04-29T09:02:27.735Z",
   "devdoc": {
     "details": "Base GSN recipient contract: includes the {IRelayRecipient} interface and enables GSN support on all contracts in the inheritance tree. * TIP: This contract is abstract. The functions {acceptRelayedCall}, {_preRelayedCall}, and {_postRelayedCall} are not implemented and must be provided by derived contracts. See the xref:ROOT:gsn-strategies.adoc#gsn-strategies[GSN strategies] for more information on how to use the pre-built {GSNRecipientSignature} and {GSNRecipientERC20Fee}, or how to write your own.",
     "methods": {

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
 import { deleteReview, getOneBlockchainReview, getOneDatabaseReview, vouchReview } from '../../utils/review';
+import Loader from '../Loader';
 import SingleReviewView from './SingleReview-view';
 
 class SingleReviewContainer extends React.Component {
@@ -64,9 +65,10 @@ class SingleReviewContainer extends React.Component {
   }
 
   render() {
+    if (this.state.isLoading)
+      return <Loader />;
     return (
       <SingleReviewView
-        isLoading={this.state.isLoading}
         DBreview={this.state.DBreview}
         blockchainReview={this.state.blockchainReview}
         deleteReview={this.deleteReview}

@@ -1,7 +1,7 @@
 {
   "contracts": {
     "ReviewStorage": {
-      "address": "0x8Bdfa63ddf744a3eF4c13EC3351d1BCBa421C4Ce",
+      "address": "0xB01d189798dbcbAb735fD2314bAcdAAFBF4160Ba",
       "constructorCode": "6080604052613e3e806100136000396000f3fe",
       "bodyBytecodeHash": "9b19325408e8e2a83bde74d76aea847a32d3c2d11c3b69d972a424d84e72d3f1",
       "localBytecodeHash": "8e52ffe46da06c6c5d8047efb12b0a4cdf84f9243cbe41d833d5577711daafdc",
@@ -239,10 +239,10 @@
   "proxies": {
     "peer-review-app/ReviewStorage": [
       {
-        "address": "0x29a421A135c92BE6F04296fE2ffe82993Dcfbf44",
+        "address": "0x12e82b31BeAE4E12c99766FBbbC1D6C856CF5CFB",
         "version": "0.0.1",
-        "implementation": "0x8Bdfa63ddf744a3eF4c13EC3351d1BCBa421C4Ce",
-        "admin": "0xa6024E95b870FA061167D3FdcE34405F657d354C",
+        "implementation": "0xB01d189798dbcbAb735fD2314bAcdAAFBF4160Ba",
+        "admin": "0x5c3dA509d9C44b4719daFd286cB017f01b6a8e02",
         "kind": "Upgradeable"
       }
     ]
@@ -250,6 +250,6 @@
   "manifestVersion": "2.2",
   "version": "0.0.1",
   "proxyAdmin": {
-    "address": "0xa6024E95b870FA061167D3FdcE34405F657d354C"
+    "address": "0x5c3dA509d9C44b4719daFd286cB017f01b6a8e02"
   }
 }

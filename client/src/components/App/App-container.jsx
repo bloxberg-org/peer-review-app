@@ -112,15 +112,15 @@ export default class App extends React.Component {
     });
   }
 
-  /**
-   * Adds the review to the state. Called when reviews are successfully added to the DB and Blockchain. 
-   * @param reviewsAdded - Array of the reviews added.
-   */
-  addReviewsToState = (reviewsAdded) => {
-    this.setState((state) => {
-      return state.reviewsOfUser.concat(reviewsAdded);
-    });
-  }
+  // /**
+  //  * Adds the review to the state. Called when reviews are successfully added to the DB and Blockchain. 
+  //  * @param reviewsAdded - Array of the reviews added.
+  //  */
+  // addReviewsToState = (reviewsAdded) => {
+  //   this.setState((state) => {
+  //     return state.reviewsOfUser.concat(reviewsAdded);
+  //   });
+  // }
 
   /**
    * Removes the review from the state. Called when reviews are successfully removed to the DB and Blockchain. 
