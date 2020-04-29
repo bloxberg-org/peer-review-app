@@ -27,6 +27,19 @@ const StyledButton = styled(Button)`
   font-size: 0.9rem
 `;
 
+const YouHaveNoReviews = styled(props => {
+  return (
+    <div className={props.className}>
+      You Have No Reviews
+    </div>
+  );
+})`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 // ========== Compound Components ==========
 const ReviewHeader = styled(({ className }) => {
   return (
@@ -87,15 +100,21 @@ export default function AllReviewsView(props) {
   return (
     <Wrapper>
       <CardWrapper title='All Reviews' >
-        <ButtonWrapper>
-          <StyledButton onClick={props.savePDF} primary>Export all as PDF</StyledButton>
-        </ButtonWrapper>
-        <ReviewsTable ref={props.tableRef} >
-          <ReviewHeader />
-          <tbody> {/* needed for jsPDF.autoTable()  */}
-            {reviews}
-          </tbody>
-        </ReviewsTable>
+        {props.blockchainReviews.length === 0 // Don't show table if user has no reviews
+          ? <YouHaveNoReviews />
+          :
+          <div>
+            <ButtonWrapper>
+              <StyledButton onClick={props.savePDF} primary>Export all as PDF</StyledButton>
+            </ButtonWrapper>
+            <ReviewsTable ref={props.tableRef} >
+              <ReviewHeader />
+              <tbody> {/* needed for jsPDF.autoTable()  */}
+                {reviews}
+              </tbody>
+            </ReviewsTable>
+          </div>
+        }
       </CardWrapper>
     </Wrapper>
   );
