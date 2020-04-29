@@ -4,8 +4,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from '../../assets/theme';
 import Loader from '../Loader';
-import Register from '../Register';
 import LoginPage from '../LoginPage';
+import Register from '../Register';
 import SideBar from '../SideBar';
 import ConnectToBloxberg from './ConnectToBloxberg';
 // import InstallMetamask from './InstallMetamask';
@@ -20,7 +20,8 @@ AppView.propTypes = {
   isLoggedInWithFm: PropTypes.bool.isRequired,
   isLoggedInWithMetamask: PropTypes.bool.isRequired,
   handleLoginWithMagicLink: PropTypes.func.isRequired,
-  handleLogout: PropTypes.func.isRequired
+  handleLogout: PropTypes.func.isRequired,
+  refreshReviews: PropTypes.func.isRequired
 };
 
 const Wrapper = styled.div`
@@ -41,83 +42,71 @@ const SideBarWrapper = styled.div`
   flex: 0.25;
   `;
 
-export default function AppView(props) {
-  let AppContent = 
+const AppContentWithoutSideBar = styled((props) => {
+  return (
+    <Wrapper>
+      <Router>
+        {props.children}
+      </Router>
+    </Wrapper>
+  );
+})``;
+
+const AppContentWithSideBar = styled((props) => {
+  return (
     <Wrapper>
       <Router>
         <SideBarWrapper>
           <SideBar />
         </SideBarWrapper>
         <MainWrapper>
-          <Loader />
+          {props.children}
         </MainWrapper>
       </Router>
     </Wrapper>
+  );
+})``;
+
+export default function AppView(props) {
+  let AppContent =
+    <AppContentWithSideBar>
+      <Loader />
+    </AppContentWithSideBar>;
   if (props.isLoading) // If loading user and reviews return the spinner
-    AppContent =
-      <Wrapper>
-        <Router>
-          <SideBarWrapper>
-            <SideBar />
-         </SideBarWrapper>
-         <MainWrapper>
-          <Loader />
-         </MainWrapper>
-        </Router>
-    </Wrapper>
+    AppContent = (
+      <AppContentWithSideBar>
+        <Loader />
+      </AppContentWithSideBar>
+    );
   // Show Fortmatic login if not logged in with fm or metamask.
   else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
-    AppContent = <Wrapper>
-        <Router>
-          <LoginPage handleLogin={props.handleLoginWithMagicLink}
-                    handleLogout={props.handleLogout} />
-        </Router>
-      </Wrapper>
+    AppContent =
+      <AppContentWithoutSideBar>
+        <LoginPage handleLogin={props.handleLoginWithMagicLink}
+          handleLogout={props.handleLogout} />
+      </AppContentWithoutSideBar>;
   else if (!props.isConnectedToBloxberg)
-  AppContent = (<Wrapper>
-    <Router>
-      <SideBarWrapper>
-        <SideBar />
-      </SideBarWrapper>
-      <MainWrapper>
-        <ConnectToBloxberg/>
-      </MainWrapper>)
-     </Router>
-  </Wrapper>)
-  else if (props.isNoUserFound) {
-    AppContent = <Wrapper>
-        <Router>
-          <SideBarWrapper>
-            <SideBar />
-          </SideBarWrapper>
-          <MainWrapper>
-            <Register {...props} />
-          </MainWrapper>
-        </Router>
-    </Wrapper>
-  }
-  else {
-    AppContent = <Wrapper>
-        <Router>
-          <SideBarWrapper>
-            <SideBar />
-          </SideBarWrapper>
-          <MainWrapper>
-            <Routes {...props} />
-          </MainWrapper>
-        </Router>
-    </Wrapper>
-  }
+    AppContent =
+      <AppContentWithSideBar>
+        <ConnectToBloxberg />
+      </AppContentWithSideBar>;
+  else if (props.isNoUserFound)
+    AppContent =
+      <AppContentWithSideBar>
+        <Register {...props} />
+      </AppContentWithSideBar>;
+  else // Normal flow
+    AppContent =
+      <AppContentWithSideBar>
+        <Routes {...props} refreshReviews={props.refreshReviews} />
+      </AppContentWithSideBar>;
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <Wrapper>
-        <Router>
-          {
-            AppContent
-          }
-        </Router>
-      </Wrapper>
+      {
+        AppContent
+      }
     </ThemeProvider>
   );
 }

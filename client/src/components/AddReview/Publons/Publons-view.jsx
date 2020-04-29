@@ -5,7 +5,7 @@ import Button from '../../Button';
 import CardWrapper from '../../CardWrapper';
 import Loader from '../../Loader';
 import Form from './Form';
-import ImportedReviewsTable from './ReviewsTable';
+import ReviewsTable from './ReviewsTable';
 
 PublonsView.propTypes = {
   isModalOpen: PropTypes.bool.isRequired,
@@ -70,7 +70,7 @@ export default function PublonsView(props) {
                 <ImportButtonsWrapper>
                   <StyledButton primary onClick={props.saveSelectedReviews}>Import Selected</StyledButton>
                 </ImportButtonsWrapper>
-                <ImportedReviewsTable
+                <ReviewsTable
                   reviews={props.fetchedReviews}
                   reviewsMeta={props.fetchedReviewsMeta}
                   toggleCheckReview={props.toggleCheckReview}

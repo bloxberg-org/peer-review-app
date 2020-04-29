@@ -103,3 +103,9 @@ If you receive `MODULE NOT FOUND` errors when running the development containers
 In the dev environment, the relay container funds the relays each time. This may cause your accounts to run out of balance. 
 
 If you reset the development blockchain by clearing the ganache folder make sure you reset the Metamask account by Settings > Advanced > Reset Account. If not you will receive `Error: [ethjs-rpc] rpc error with payload` and not even able to send ether transactions from Metamask.
+
+If you get `Error: connection not open at WebsocketProvider.send (/home/node/app/node_modules/web3-providers-ws/src/index.js:282:18)` this is because the indexer is running before ganache and can't connect to the ganache network. Make indexer run after network is set up. Should not be a problem in production as bloxberg will be running all the time. 
+
+Fortmatic wallet uses 3rd party cookies for authentication. Blocking of 3rd party cookies will disrupt the login process.
+
+On the frontend the error: Objects are not valid as react child can occur when declaring styled components. Don't forget the template literals at the declaration. See [here](https://stackoverflow.com/a/61497342/6528944)

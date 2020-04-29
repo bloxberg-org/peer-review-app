@@ -1,11 +1,11 @@
 {
   "contracts": {
     "ReviewStorage": {
-      "address": "0x6b8C286a79315DDC42Bf6c24423182175A165436",
-      "constructorCode": "60806040527314b3a00c89bddb6c0577e518fca87ec19b1b2311603460006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550613586806100686000396000f3fe",
-      "bodyBytecodeHash": "2430e8ea5e12a1f673b0248f4a4310fdc2a5cd3ad321a5acb3f8b724d115cd54",
-      "localBytecodeHash": "d274c8a172bf703d855b9864d84aeeb9a96c28c4f9cfd921c04c27af0ef374a2",
-      "deployedBytecodeHash": "d274c8a172bf703d855b9864d84aeeb9a96c28c4f9cfd921c04c27af0ef374a2",
+      "address": "0x8Bdfa63ddf744a3eF4c13EC3351d1BCBa421C4Ce",
+      "constructorCode": "6080604052613e3e806100136000396000f3fe",
+      "bodyBytecodeHash": "9b19325408e8e2a83bde74d76aea847a32d3c2d11c3b69d972a424d84e72d3f1",
+      "localBytecodeHash": "8e52ffe46da06c6c5d8047efb12b0a4cdf84f9243cbe41d833d5577711daafdc",
+      "deployedBytecodeHash": "8e52ffe46da06c6c5d8047efb12b0a4cdf84f9243cbe41d833d5577711daafdc",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -36,69 +36,81 @@
           "members": [
             {
               "label": "id",
-              "astId": 78,
+              "astId": 89,
               "type": "t_string",
-              "src": "574:9:1"
+              "src": "644:9:1"
+            },
+            {
+              "label": "index",
+              "astId": 91,
+              "type": "t_uint32",
+              "src": "663:12:1"
+            },
+            {
+              "label": "author",
+              "astId": 93,
+              "type": "t_address",
+              "src": "755:14:1"
             },
             {
               "label": "journalId",
-              "astId": 80,
+              "astId": 95,
               "type": "t_string",
-              "src": "593:16:1"
+              "src": "779:16:1"
             },
             {
               "label": "publisher",
-              "astId": 82,
+              "astId": 97,
               "type": "t_string",
-              "src": "627:16:1"
+              "src": "813:16:1"
             },
             {
               "label": "manuscriptId",
-              "astId": 84,
+              "astId": 99,
               "type": "t_string",
-              "src": "671:19:1"
+              "src": "857:19:1"
             },
             {
               "label": "manuscriptHash",
-              "astId": 86,
+              "astId": 101,
               "type": "t_string",
-              "src": "708:21:1"
+              "src": "894:21:1"
             },
             {
               "label": "timestamp",
-              "astId": 88,
+              "astId": 103,
               "type": "t_uint32",
-              "src": "739:16:1"
+              "src": "925:16:1"
             },
             {
               "label": "recommendation",
-              "astId": 90,
+              "astId": 105,
               "type": "t_enum<ReviewStorage.Recommendation>",
-              "src": "814:29:1"
+              "src": "1000:29:1"
             },
             {
               "label": "url",
-              "astId": 92,
+              "astId": 107,
               "type": "t_string",
-              "src": "853:10:1"
+              "src": "1039:10:1"
             },
             {
               "label": "verified",
-              "astId": 94,
+              "astId": 109,
               "type": "t_bool",
-              "src": "873:13:1"
+              "src": "1059:13:1"
             },
             {
               "label": "vouchers",
-              "astId": 97,
+              "astId": 112,
               "type": "t_array:dyn<t_address>",
-              "src": "896:18:1"
+              "src": "1082:18:1"
             },
             {
               "label": "vouchersMap",
-              "astId": 101,
+              "astId": 116,
               "type": "t_mapping<t_bool>",
-              "src": "924:36:1"
+              "src": "1110:36:1"
             }
           ]
         },
@@ -161,7 +173,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 1512,
+          "astId": 1672,
           "type": "t_bool",
           "src": "757:24:6"
         },
@@ -169,7 +181,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 1514,
+          "astId": 1674,
           "type": "t_bool",
           "src": "876:25:6"
         },
@@ -177,7 +189,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 1576,
+          "astId": 1736,
           "type": "t_array:50<t_uint256>",
           "src": "1982:29:6"
         },
@@ -185,7 +197,7 @@
           "contract": "GSNRecipient",
           "path": "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol",
           "label": "_relayHub",
-          "astId": 884,
+          "astId": 1044,
           "type": "t_address",
           "src": "1133:25:3"
         },
@@ -193,44 +205,33 @@
           "contract": "ReviewStorage",
           "path": "contracts/ReviewStorage.sol",
           "label": "publonsAddress",
-          "astId": 71,
+          "astId": 82,
           "type": "t_address",
-          "src": "422:67:1"
+          "src": "537:22:1"
         },
         {
           "contract": "ReviewStorage",
           "path": "contracts/ReviewStorage.sol",
           "label": "reviewsMap",
-          "astId": 106,
+          "astId": 121,
           "type": "t_mapping<t_struct<ReviewStorage.Review>>",
-          "src": "1057:36:1"
+          "src": "1243:36:1"
         },
         {
           "contract": "ReviewStorage",
           "path": "contracts/ReviewStorage.sol",
           "label": "userReviewsIdsMap",
-          "astId": 111,
+          "astId": 126,
           "type": "t_mapping<t_array:dyn<t_string>>",
-          "src": "1099:46:1"
+          "src": "1345:46:1"
         }
       ],
       "warnings": {
         "hasConstructor": false,
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
-        "hasInitialValuesInDeclarations": true,
-        "uninitializedBaseContracts": [],
-        "storageUncheckedVars": [
-          {
-            "contract": "ReviewStorage",
-            "path": "contracts/ReviewStorage.sol",
-            "label": "reviewsMap",
-            "astId": 106,
-            "type": "t_mapping<t_struct<ReviewStorage.Review>>",
-            "src": "1057:36:1"
-          }
-        ],
-        "storageDiff": []
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
       }
     }
   },
@@ -238,24 +239,10 @@
   "proxies": {
     "peer-review-app/ReviewStorage": [
       {
-        "address": "0x5eCf9bef3E1EE2260dea56AD187f84d427E9a983",
+        "address": "0x29a421A135c92BE6F04296fE2ffe82993Dcfbf44",
         "version": "0.0.1",
-        "implementation": "0x760b2C552f6800CDc43A2996e08F9cE4D2A13eF6",
-        "admin": "0xb3b4f6184F210e6B1bF32913d369Af68796F8bB4",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x51b6f2ca29f7cb5AC42b865F32F5C47fa682258a",
-        "version": "0.0.1",
-        "implementation": "0x760b2C552f6800CDc43A2996e08F9cE4D2A13eF6",
-        "admin": "0xb3b4f6184F210e6B1bF32913d369Af68796F8bB4",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x414Ca5b2E7AC85e6181E839a540e516Ee9eF5494",
-        "version": "0.0.1",
-        "implementation": "0x6b8C286a79315DDC42Bf6c24423182175A165436",
-        "admin": "0xb3b4f6184F210e6B1bF32913d369Af68796F8bB4",
+        "implementation": "0x8Bdfa63ddf744a3eF4c13EC3351d1BCBa421C4Ce",
+        "admin": "0xa6024E95b870FA061167D3FdcE34405F657d354C",
         "kind": "Upgradeable"
       }
     ]
@@ -263,6 +250,6 @@
   "manifestVersion": "2.2",
   "version": "0.0.1",
   "proxyAdmin": {
-    "address": "0xb3b4f6184F210e6B1bF32913d369Af68796F8bB4"
+    "address": "0xa6024E95b870FA061167D3FdcE34405F657d354C"
   }
 }

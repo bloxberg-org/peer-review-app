@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../../../Button';
 import Loader from '../../../Loader';
 
 ReviewsTableView.defaultProps = {
@@ -39,16 +38,16 @@ const ReviewsTable = styled.table`
     border-spacing: 0
   `;
 
-const StyledButton = styled(Button)`
-  width: auto;
-  padding: 0 16px;
-  font-size: 0.98rem;
-`;
+// const StyledButton = styled(Button)`
+//   width: auto;
+//   padding: 0 16px;
+//   font-size: 0.98rem;
+// `;
 
 // ========== Compound Components ==========
 const SelectAllCheckbox = styled((props) => { // Each page has its own select all checkbox.
   return (
-    <input type='checkbox' checked={props.isCheckedAllOfPage[props.page]} onClick={() => props.handleToggleSelectAllOfPage(props.page)} />
+    <input type='checkbox' checked={props.isCheckedAllOfPage[props.page]} onChange={() => props.handleToggleSelectAllOfPage(props.page)} />
   );
 })`
 `;
@@ -59,11 +58,11 @@ const ColumnTitles = styled((props) => {
       {
         props.titles.map((title, i) => {
           if (i === 0) { // Render checkbox.
-            return <SelectAllCheckbox
+            return <th key={i}><SelectAllCheckbox
               page={props.page}
               handleToggleSelectAllOfPage={props.handleToggleSelectAllOfPage}
               isCheckedAllOfPage={props.isCheckedAllOfPage}
-            />;
+            /></th>;
           }
           // Render titles.
           return (<th key={i}>{title}</th>);
@@ -85,7 +84,7 @@ const TableRow = styled((props) => {
 
   return (
     <tr className={props.className} onClick={() => props.toggleCheckReview(props.index)}>
-      <td> <input type='checkbox' checked={props.checked} /> </td>
+      <td> <input type='checkbox' checked={props.checked} onChange={() => props.toggleCheckReview(props.index)} /> </td>
       <td>{props.publisher ? props.publisher.name : 'N/A'}</td>
       <td>{props.date_reviewed ? props.date_reviewed : 'N/A'}</td>
       <td>{props.verification.verified ? 'Verified' : 'Not Verified'}</td>
@@ -114,9 +113,9 @@ const EndRow = styled((props) => {
         <span> Total reviews: {props.totalReviewCount} </span>
       </div>
       <PageIndicator page={props.page} totalPages={props.totalPages} changePage={props.changePage} />
-      <div className='buttonWrapper'>
+      {/* <div className='buttonWrapper'>
         <StyledButton secondary>Import All {props.totalReviewCount} Reviews</StyledButton>
-      </div>
+      </div> */}
     </div>
   );
 })`
@@ -190,13 +189,17 @@ export default function ReviewsTableView(props) {
   return (
     <Wrapper>
       <ReviewsTable>
-        <ColumnTitles
-          titles={props.titles}
-          page={props.page}
-          handleToggleSelectAllOfPage={props.handleToggleSelectAllOfPage} // Used by select all checkbox.
-          isCheckedAllOfPage={props.isCheckedAllOfPage} // Used by select all checkbox.
-        />
-        {props.isLoadingPage ? null : reviewRows}
+        <thead>
+          <ColumnTitles
+            titles={props.titles}
+            page={props.page}
+            handleToggleSelectAllOfPage={props.handleToggleSelectAllOfPage} // Used by select all checkbox.
+            isCheckedAllOfPage={props.isCheckedAllOfPage} // Used by select all checkbox.
+          />
+        </thead>
+        <tbody>
+          {props.isLoadingPage ? null : reviewRows}
+        </tbody>
       </ReviewsTable>
       {props.isLoadingPage ?
         <StyledLoader /> :
