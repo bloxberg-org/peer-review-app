@@ -71,7 +71,8 @@ export default function AddReviewView() {
   const history = useHistory();
   const { url } = useRouteMatch();
 
-  const blurbText = 'You can add your peer review by importing from integrated journals and platforms, using review submission emails or manually.'
+  // const blurbText = 'You can add your peer review by importing from integrated journals and platforms, using review submission emails or manually.';
+  const blurbText = 'You can add your peer review by importing from integrated journals and platforms or manually.';
   return (
     <Wrapper>
       <CardWrapper title="Add Review" blurb={blurbText}>

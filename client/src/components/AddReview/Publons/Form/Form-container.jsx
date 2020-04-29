@@ -16,7 +16,8 @@ export default class FormContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isFetching: false
+      isFetching: false,
+      error: null
     };
   }
 
@@ -30,18 +31,26 @@ export default class FormContainer extends React.Component {
     this.setState({ isFetching: true });
     console.log(data);
     let page = 1; // Modal fetches page 1.
-    getReviewsOfAcademicFromPublons(data.academicId, page).then((reviews) => {
-      console.log(reviews);
-      this.setState({ isFetching: false });
-      let reviewsMeta = {
-        totalReviewCount: reviews.count,
-        totalPages: reviews.count % 10 === 0 ? reviews.count / 10 : Math.floor(reviews.count / 10 + 1),
-        academicId: data.academicId
-      };
-      this.props.setFetchedReviewsMeta(reviewsMeta);
-      this.props.appendToReviews(reviews.results);
-      this.props.handleModalClose();
-    });
+    getReviewsOfAcademicFromPublons(data.academicId, page)
+      .then((reviews) => {
+        this.setState({ isFetching: false });
+        console.log(reviews);
+        if (reviews.detail) {
+          this.setState({ error: reviews.detail });
+          throw new Error(reviews.detail);
+        }
+        let reviewsMeta = {
+          totalReviewCount: reviews.count,
+          totalPages: reviews.count % 10 === 0 ? reviews.count / 10 : Math.floor(reviews.count / 10 + 1),
+          academicId: data.academicId
+        };
+        this.props.setFetchedReviewsMeta(reviewsMeta);
+        this.props.appendToReviews(reviews.results);
+        this.props.handleModalClose();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   render() {
@@ -53,7 +62,7 @@ export default class FormContainer extends React.Component {
 
     return (
       <FormView {...this.state} {...this.props}
-        onSubmit={this.handleSubmit}
+        onSubmit={this.handleSubmit} error={this.state.error}
       />
     );
   }

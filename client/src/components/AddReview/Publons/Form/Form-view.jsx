@@ -7,7 +7,8 @@ import FormField from '../../../FormField';
 
 
 FormView.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  error: PropTypes.string
 };
 
 const Wrapper = styled.div`
@@ -16,6 +17,10 @@ const Wrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+`;
+
+const ErrorText = styled.span`
+  color: red;
 `;
 
 export default function FormView(props) {
@@ -32,6 +37,7 @@ export default function FormView(props) {
           errors={errors.academicId}
           register={register({ required: true })}
         />
+        <ErrorText>{props.error}</ErrorText>
         <ButtonWrapper>
           <Button primary>Submit</Button>
         </ButtonWrapper>
