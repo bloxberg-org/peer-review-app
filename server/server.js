@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 var cors = require('cors');
 
 const reviewRoutes = require('./routes/reviewRoutes');
-const accountRoutes = require('./routes/accountRoutes');
+const authorRoutes = require('./routes/authorRoutes');
 const registerRoutes = require('./routes/registerRoutes');
 const mongo = require('./utils/mongo');
 
@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/api/reviews', reviewRoutes);
-app.use('/api/accounts', accountRoutes);
+app.use('/api/authors', authorRoutes);
 app.use('/api/register', registerRoutes);
 
 app.listen(port, () => {

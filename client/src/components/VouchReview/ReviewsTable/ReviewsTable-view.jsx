@@ -22,7 +22,7 @@ const NoReviews = styled(props => {
     <div className={props.className}>
       No Reviews found
     </div>
-  )
+  );
 })`
   display: flex;
   flex: 1;
@@ -36,8 +36,8 @@ export default function ReviewsTableView(props) {
     { Header: 'id', accessor: 'id' }, // This is hidden in the table.
     { Header: 'Author', accessor: 'author' },
     { Header: 'Publisher', accessor: 'publisher' },
-    { Header: 'Publish Date', accessor: 'timestamp', Cell: ({ cell: { value } }) => moment.unix(value).format('YYYY') }],
-    []);
+    { Header: 'Publish Date', accessor: 'timestamp', Cell: ({ cell: { value } }) => moment.unix(value).format('YYYY') }]
+    , []);
 
   const tableOptions = {
     columns: columns,
