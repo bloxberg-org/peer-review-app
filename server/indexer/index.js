@@ -19,7 +19,7 @@ const options = {
   // Enable auto reconnection
   reconnect: {
     auto: true,
-    delay: 5000, // ms
+    delay: 1000, // ms
     maxAttempts: 5,
     onTimeout: false
   }
