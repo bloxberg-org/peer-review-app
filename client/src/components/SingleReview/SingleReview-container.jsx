@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { withRouter } from 'react-router';
+import { getAllAuthorNames } from '../../utils/authors';
 import { deleteReview, getOneBlockchainReview, getOneDatabaseReview, vouchReview } from '../../utils/review';
 import Loader from '../Loader';
 import SingleReviewView from './SingleReview-view';
@@ -27,11 +28,31 @@ class SingleReviewContainer extends React.Component {
   }
 
   fetchAndLoadReview = () => {
-    this.fetchReview().then(reviewArr => {
-      this.setState({ DBreview: reviewArr[0], blockchainReview: reviewArr[1], isLoading: false });
-    });
+    this.fetchReview()
+      .then(reviewArr => {
+        this.setState({ DBreview: reviewArr[0] });
+        return this.fetchAllAuthorsAndReplaceAuthorField(reviewArr[1]);
+      })
+      .then(blockChainReviewWithName => {
+        this.setState({ blockchainReview: blockChainReviewWithName, isLoading: false });
+      })
+      .catch(console.error);
   }
 
+  /**
+   * Function to replace author address with author name and surname in the current review.
+   * 
+   * @param {Object} - blockchainReview the review object from blockchain
+   * @returns {Object} - modified review with author names instead of address.
+   */
+  fetchAllAuthorsAndReplaceAuthorField = (blockchainReview) => {
+    return getAllAuthorNames()
+      .then(authorsMap => {
+        let addr = blockchainReview.author;
+        blockchainReview.author = authorsMap[addr].firstName + ' ' + authorsMap[addr].lastName;
+        return blockchainReview;
+      });
+  }
   fetchReview = () => {
     let address = this.props.user._id;
     let id = this.props.match.params.id;

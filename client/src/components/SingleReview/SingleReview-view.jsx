@@ -18,6 +18,7 @@ SingleReviewView.propTypes = {
     content: PropTypes.string
   }),
   blockchainReview: PropTypes.shape({
+    author: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     journalId: PropTypes.string,
     publisher: PropTypes.string,
@@ -115,6 +116,7 @@ export default function SingleReviewView(props) {
                 <ReactTooltip className='tooltip' place='bottom' effect='solid' />
               </ChainIconWrapper>
             </JournalIdLockIconWrapper>
+            <ReviewField title='Author'>{props.blockchainReview.author}</ReviewField>
             <ReviewField title='Publisher'>{props.blockchainReview.publisher}</ReviewField>
             <ReviewField title='Manuscript ID'>{props.blockchainReview.manuscriptId}</ReviewField>
             <ReviewField title='Manuscript Hash'>{props.blockchainReview.manuscriptHash}</ReviewField>
