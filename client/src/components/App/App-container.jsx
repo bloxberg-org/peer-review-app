@@ -170,7 +170,7 @@ export default class App extends React.Component {
    * Takes and address and returns a Promise resolving to the user object from the database.
    */
   getUserObj = (address) => {
-    return get(`/accounts/${address}`);
+    return get(`/authors/${address}`);
   }
 
   getUserAddress = () => {
