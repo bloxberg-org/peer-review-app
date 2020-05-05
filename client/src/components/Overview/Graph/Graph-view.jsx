@@ -1,6 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
-import Button from '../../Button';
+import React from 'react';
+import styled from 'styled-components';
 import figure from '../../../assets/full_graph.png';
 
 const Wrapper = styled.div`
@@ -62,40 +61,35 @@ const StatsCardWrapper = styled.div`
   border-bottom: 1px solid ${props => props.theme.border};
   `;
 
-const ExportButtonWrapper = styled(StatsCardWrapper)`
-  border-bottom: 0px
-`;
+
 const StatsCard = props => {
   let title = props.title;
   let value = props.value instanceof Date ? props.value.toLocaleDateString() : props.value;
   return (
-  <StatsCardWrapper>
-    <StatsTitle>{title}</StatsTitle>
-    <StatsValue>{value}</StatsValue>
-  </StatsCardWrapper>
+    <StatsCardWrapper>
+      <StatsTitle>{title}</StatsTitle>
+      <StatsValue>{value}</StatsValue>
+    </StatsCardWrapper>
   )
 };
 
-export default function Graph(props){
+export default function Graph(props) {
   let data = props.data;
   let cards = [];
   let i = 0;
   for (let key of Object.keys(data)) {
     cards.push(<StatsCard key={i++} title={key} value={data[key]}></StatsCard>)
   }
-  
-  return(
+
+  return (
     <Wrapper>
       <GraphWrapper>
         <FigureTitle>{props.userName}'s Reviews</FigureTitle>
         <FigureDate> as of October 21st, 2019</FigureDate>
-        <Figure src={figure}/>
+        <Figure src={figure} />
       </GraphWrapper>
       <StatsWrapper>
         {cards}
-        <ExportButtonWrapper>
-          <Button secondary>Export</Button> 
-        </ExportButtonWrapper>
       </StatsWrapper>
     </Wrapper>
   );

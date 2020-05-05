@@ -11,9 +11,6 @@ FormView.propTypes = {
   error: PropTypes.string
 };
 
-const Wrapper = styled.div`
-`;
-
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -27,21 +24,19 @@ export default function FormView(props) {
   const { register, handleSubmit, errors } = useForm();
 
   return (
-    <Wrapper>
-      <form onSubmit={handleSubmit(props.onSubmit)}>
-        <FormField
-          noBorder
-          title='Enter Publons ID, ORCID, Web of Science ResearcherID or TRUID'
-          name='academicId'
-          placeholder='e.g. 0000-0002-1825-0097'
-          errors={errors.academicId}
-          register={register({ required: true })}
-        />
-        <ErrorText>{props.error}</ErrorText>
-        <ButtonWrapper>
-          <Button primary>Submit</Button>
-        </ButtonWrapper>
-      </form>
-    </Wrapper>
+    <form onSubmit={handleSubmit(props.onSubmit)}>
+      <FormField
+        noBorder
+        title='Enter Publons ID, ORCID, Web of Science ResearcherID or TRUID'
+        name='academicId'
+        placeholder='e.g. 0000-0002-1825-0097'
+        errors={errors.academicId}
+        register={register({ required: true })}
+      />
+      <ErrorText>{props.error}</ErrorText>
+      <ButtonWrapper>
+        <Button primary>Submit</Button>
+      </ButtonWrapper>
+    </form>
   );
 }

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../Button';
-import CardWrapper from '../../CardWrapper';
 import Loader from '../../Loader';
 import Form from './Form';
 import ReviewsTable from './ReviewsTable';
@@ -22,29 +21,14 @@ PublonsView.propTypes = {
 };
 
 // ======== Basic Components ==========
-const Wrapper = styled.div`
-    display: flex;
-    flex: 1;
-    height: 100%
-  `;
-
 const ImportButtonsWrapper = styled.div`
   display: flex;
   flex-direction: row-reverse;
 `;
 
-const CardContentWrapper = styled.div`
-
-`;
-
 const TableAndButtonsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
-`;
-
-const StyledCardWrapper = styled(CardWrapper)`
-  display:flex;
   flex: 1;
 `;
 
@@ -58,37 +42,31 @@ export default function PublonsView(props) {
       <Loader />
     );
   }
-  return (
-    <Wrapper>
-      <StyledCardWrapper title='Import Reviews from Publons'>
-        <CardContentWrapper>
-          {
-            // Render Table if reviews are fetched. Render Form if not yet fetched.
-            props.fetchedReviews.length > 0
-              ?
-              <TableAndButtonsWrapper>
-                <ImportButtonsWrapper>
-                  <StyledButton primary onClick={props.saveSelectedReviews}>Import Selected</StyledButton>
-                </ImportButtonsWrapper>
-                <ReviewsTable
-                  reviews={props.fetchedReviews}
-                  reviewsMeta={props.fetchedReviewsMeta}
-                  toggleCheckReview={props.toggleCheckReview}
-                  appendToReviews={props.appendToReviews}
-                  selectReview={props.selectReview}
-                />
-              </TableAndButtonsWrapper>
-              :
-              <Form
-                handleModalOpen={props.handleModalOpen}
-                handleModalClose={props.handleModalClose}
-                appendToReviews={props.appendToReviews}
-                setFetchedReviewsMeta={props.setFetchedReviewsMeta}
-              />
-          }
-        </CardContentWrapper>
-      </StyledCardWrapper>
-    </Wrapper>
+  // Render Table if reviews are fetched. Render Form if not yet fetched.
+  if (props.fetchedReviews.length > 0) {
+    return (
+      <TableAndButtonsWrapper>
+        <ImportButtonsWrapper>
+          <StyledButton primary onClick={props.saveSelectedReviews}>Import Selected</StyledButton>
+        </ImportButtonsWrapper>
+        <ReviewsTable
+          reviews={props.fetchedReviews}
+          reviewsMeta={props.fetchedReviewsMeta}
+          toggleCheckReview={props.toggleCheckReview}
+          appendToReviews={props.appendToReviews}
+          selectReview={props.selectReview}
+        />
+      </TableAndButtonsWrapper>
+    );
+  } else {
+    return (
+      <Form
+        handleModalOpen={props.handleModalOpen}
+        handleModalClose={props.handleModalClose}
+        appendToReviews={props.appendToReviews}
+        setFetchedReviewsMeta={props.setFetchedReviewsMeta}
+      />
+    );
+  }
 
-  );
 }
