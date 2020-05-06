@@ -1,5 +1,6 @@
 const BlockchainReview = require('../models/BlockchainReview');
 const Author = require('../models/ReviewAuthor');
+const logger = require('winston');
 
 /**
  * Function to index reviews to local Mongo DB.
@@ -13,8 +14,8 @@ const Author = require('../models/ReviewAuthor');
 exports.logAddedReview = (event, instance) => {
   let id = event.returnValues.id;
   let authorAddress = event.returnValues.from;
-  console.log(event.returnValues);
-  console.log(`Review added by ${authorAddress} with id: ${id}`);
+  logger.info(event.returnValues);
+  logger.info(`Review added by ${authorAddress} with id: ${id}`);
   // Get the review data using id.
   instance.getReview(id)
     .then(review => {
@@ -39,33 +40,33 @@ exports.logAddedReview = (event, instance) => {
       return Author.findById(authorAddress)
         .then(author => {
           if (!author) { // Create author if doesn't exist.
-            console.log('Creating new author: ' + authorAddress);
+            logger.info('Creating new author: ' + authorAddress);
             let newAuthor = new Author({
               _id: authorAddress,
               reviews: [review._id]
             });
             return newAuthor.save();
           }
-          console.log('Found author');
-          console.log(author);
+          logger.info('Found author');
+          logger.info(author);
           author.blockchainReviews.push(review._id);
           return author.save();
         });
     })
-    .then(console.log('Successfully added the blockchain review'))
-    .catch(console.error);
+    .then(logger.info('Successfully added the blockchain review'))
+    .catch(logger.error);
 };
 
 exports.logDeletedReview = (event) => {
   let reviewId = event.returnValues.id;
   let authorAddress = event.returnValues.from;
-  console.log(`Deleting review ${reviewId}`)
+  logger.info(`Deleting review ${reviewId}`);
   BlockchainReview.findOneAndDelete({ id: reviewId })
     .then((deletedReview) => {
-      console.log('Deleted review, now deleting ' + deletedReview._id + ' in author blockchainReviews ' + authorAddress)
+      logger.info('Deleted review, now deleting ' + deletedReview._id + ' in author blockchainReviews ' + authorAddress);
       return Author.findByIdAndUpdate(authorAddress, { $pull: { blockchainReviews: deletedReview._id } })
         .catch('No authors found');
     })
     .then(`Successfully deleted review ${reviewId}`)
-    .catch(console.error);
+    .catch(logger.error);
 };

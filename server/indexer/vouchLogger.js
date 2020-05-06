@@ -1,4 +1,6 @@
 const BlockchainReview = require('../models/BlockchainReview');
+const logger = require('winston');
+
 /**
  * Function to index vouched Reviews to local Mongo DB.
  * 
@@ -8,7 +10,7 @@ const BlockchainReview = require('../models/BlockchainReview');
 const vouchLogger = (event) => {
   let id = event.returnValues.id;
   let authorAddress = event.returnValues.from;
-  console.log(`Vouched review ${id} from ${authorAddress}`);
+  logger.info(`Vouched review ${id} from ${authorAddress}`);
 
   BlockchainReview.findOne({ id: id })
     .then(review => {
@@ -19,8 +21,8 @@ const vouchLogger = (event) => {
         review.verified = true;
       return review.save();
     })
-    .then(console.log('Successfully logged the vouched review'))
-    .catch(console.error);
+    .then(logger.info('Successfully logged the vouched review'))
+    .catch(logger.error);
 };
 
 module.exports = vouchLogger;

@@ -1,15 +1,16 @@
 const Author = require('../models/ReviewAuthor');
 // const mongo = require('../utils/mongo');
 // const db = mongo.getDb();
+const logger = require('winston');
 
 // GET /authors/:address
 exports.getAuthor = async (req, res) => {
   let address = req.params.address;
-  console.log('Address is');
-  console.log(address);
+  logger.info('Address is');
+  logger.info(address);
 
   Author.findById(address).then(author => {
-    console.log(`Returning the author: ${author}`);
+    logger.info(`Returning the author: ${author}`);
     if (author)
       res.status(200).json(author);
     else
@@ -18,18 +19,18 @@ exports.getAuthor = async (req, res) => {
     res.status(500).send(err);
   });
 
-  // console.log(review);
+  // logger.info(review);
   // review.save().then(
-  //   console.log('Successfully saved the review')
-  // ).catch(err => console.log(err));
+  //   logger.info('Successfully saved the review')
+  // ).catch(err => logger.info(err));
 };
 
 // GET /authors/
 exports.getAllAuthorNames = (_, res) => {
   Author.find({}).select({ _id: 1, firstName: 1, lastName: 1 })
     .then(authors => {
-      console.log(`Returning ${authors.length} authors`);
-      let authorsMap = {} // All authors as an object with address as keys and {fistName, lastName} as values.
+      logger.info(`Returning ${authors.length} authors`);
+      let authorsMap = {}; // All authors as an object with address as keys and {fistName, lastName} as values.
       for (const author of authors) {
         authorsMap[author._id] = {
           firstName: author.firstName,

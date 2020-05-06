@@ -2,6 +2,7 @@ const TruffleContract = require('@truffle/contract');
 const ReviewStorageArtifact = require('../../build/contracts/ReviewStorage.json');
 const web3 = require('./web3');
 const Gsn = require('@openeth/gsn');
+const logger = require('winston');
 
 const ReviewStorage = TruffleContract(ReviewStorageArtifact);
 const provider = new Gsn.RelayProvider(web3.currentProvider);
@@ -16,8 +17,8 @@ async function init() {
     accounts = await web3.eth.getAccounts();
     return [instance, accounts];
   } catch (e) {
-    console.log('Error in deploying contract');
-    console.error(e);
+    logger.info('Error in deploying contract');
+    logger.error(e);
   }
 }
 

@@ -9,12 +9,13 @@ const TruffleContract = require('@truffle/contract');
 const ReviewStorageArtifact = require('./contracts/ReviewStorage.json');
 const { logAddedReview, logDeletedReview } = require('./reviewLogger');
 const vouchLogger = require('./vouchLogger');
+const logger = require('winston');
 
 const bloxbergProvider = 'wss://websockets.bloxberg.org';
 const localProvider = process.env.DOCKER === 'yes' ? 'http://ganache:8545' : 'http://localhost:8545'; // Use Docker host name in docker, else localhost.
 
 // Use ganache in development. 
-!process.env.NODE_ENV && console.error(new Error('NODE_ENV is not set! Defaulting to local test network'));
+!process.env.NODE_ENV && logger.error(new Error('NODE_ENV is not set! Defaulting to local test network'));
 const options = {
   // Enable auto reconnection
   reconnect: {
@@ -23,7 +24,7 @@ const options = {
     maxAttempts: 5,
     onTimeout: false
   }
-}
+};
 
 let provider, web3;
 setTimeout(() => { // Workaround to avoid connecting to ganache before it starts with `npm run dev` script. 
@@ -31,11 +32,11 @@ setTimeout(() => { // Workaround to avoid connecting to ganache before it starts
   web3 = new Web3(provider);
 
   provider.on('connect', init);
-  provider.on('error', e => console.log('WS Error', e));
+  provider.on('error', e => logger.info('WS Error', e));
   provider.on('end', e => {
-    console.log('WS closed');
+    logger.info('WS closed');
   });
-}, 2000)
+}, 2000);
 
 
 
@@ -54,19 +55,19 @@ function init() {
   // Connect to contract
   const ReviewStorage = TruffleContract(ReviewStorageArtifact);
   ReviewStorage.setProvider(web3.currentProvider);
-  console.log('Trying to conntect weeb3');
+  logger.info('Trying to conntect weeb3');
   ReviewStorage.deployed()
     .then(instance => {
-      console.log('Found instance');
+      logger.info('Found instance');
       instance.ReviewAdded() // Listen to ReviewAdded events.
         .on('data', (event) => logAddedReview(event, instance))
-        .on('error', console.error);
+        .on('error', logger.error);
       instance.ReviewDeleted() // Listen to ReviewAdded events.
         .on('data', (event) => logDeletedReview(event))
-        .on('error', console.error);
+        .on('error', logger.error);
       instance.ReviewVouched() // Listen to ReviewVouched events.
         .on('data', (event) => vouchLogger(event))
-        .on('error', console.error);
+        .on('error', logger.error);
     })
-    .catch(console.error);
+    .catch(logger.error);
 }

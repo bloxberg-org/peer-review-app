@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const winston = require('./config/winston');
-const morgan = require('morgan');
+var winston = require('./config/winston');
+var morgan = require('morgan');
 var cors = require('cors');
 
 const reviewRoutes = require('./routes/reviewRoutes');

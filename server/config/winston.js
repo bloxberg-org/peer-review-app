@@ -1,8 +1,9 @@
-const winston = require('winston');
+var logger = require('winston');
 require('winston-daily-rotate-file');
 
 // ===== Set winston logger up ======
-
+// Use default logger instead of declaring a new logger below with:
+// var logger = logger.createLogger(.... as in the examples
 var options = {
   infofile: {
     level: 'info',
@@ -25,13 +26,13 @@ var options = {
 };
 
 // code from: https://github.com/winstonjs/winston
-const logger = winston.createLogger({
+logger.createLogger({
   level: 'info',
-  format: winston.format.json(),
+  format: logger.format.json(),
   defaultMeta: { service: 'user-service' },
   transports: [
-    new winston.transports.DailyRotateFile(options.errorfile),
-    new winston.transports.DailyRotateFile(options.infofile)
+    new logger.transports.DailyRotateFile(options.errorfile),
+    new logger.transports.DailyRotateFile(options.infofile)
   ]
 });
 
@@ -40,8 +41,16 @@ const logger = winston.createLogger({
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 // 
 if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.simple()
+  logger.add(new logger.transports.Console({
+    format: logger.format.combine(
+      logger.format.colorize(),
+      logger.format.timestamp({
+        format: 'HH:mm:ss'
+      }),
+      logger.format.align(),
+      logger.format.printf(info => `${info.timestamp} [${info.level}]: ${info.message}`),
+    ),
+    level: 'info'
   }));
 }
 

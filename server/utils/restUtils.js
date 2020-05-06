@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const { publonsAuthToken } = require('../config');
+const logger = require('winston');
 
 exports.getXML = (url) => {
   return fetch(url, {
@@ -20,11 +21,11 @@ exports.getPDF = (url) => {
     }
   })
     .then(res => res.blob())
-    .catch(console.error);
+    .catch(logger.error);
 };
 
 exports.getWithPublonsAuth = (url) => {
-  console.log(publonsAuthToken);
+  logger.log(publonsAuthToken);
   return fetch(url, {
     method: 'get',
     headers: {
@@ -33,7 +34,7 @@ exports.getWithPublonsAuth = (url) => {
     }
   })
     .then(res => res.json())
-    .catch(console.error);
+    .catch(logger.error);
 };
 
 // from https://www.npmjs.com/package/node-fetch#handling-client-and-server-errors
