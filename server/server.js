@@ -52,11 +52,11 @@ app.use('/api/register', registerRoutes);
 
 app.listen(port, () => {
 
-  console.log('Express Listening at http://localhost:' + port);
+  winston.info('Express Listening at http://localhost:' + port);
 
 });
 
-console.log('Running indexer:');
+winston.info('Running indexer:');
 require('./indexer/index'); // Run the indexer
 
 module.exports = app; // For testing

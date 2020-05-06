@@ -23,6 +23,7 @@
     "save": "^2.4.0",
     "web3": "^1.2.1",
     "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
