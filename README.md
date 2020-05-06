@@ -111,3 +111,5 @@ Fortmatic wallet uses 3rd party cookies for authentication. Blocking of 3rd part
 On the frontend the error: Objects are not valid as react child can occur when declaring styled components. Don't forget the template literals at the declaration. See [here](https://stackoverflow.com/a/61497342/6528944)
 
 To run a clean state in development drop the database `test` from mongo console. By typing `mongo` in the terminal. Then `use test` and `db.dropDatabase()`. Also clean the blokchain state by removing the ganache folder `rm -rf ganache` and recreating it: `mkdir ganache`. Don't forget to reset your Metamask account by Settings > Advanced > Reset Account.
+
+`TypeError: Cannot create property 'Symbol(level)' on string` is thrown if you are not logging with `winston` properly. Do not use `logger.log(message)`. Either user `logger.info(message)` or `logger.log('info', message)`. Same for errors: `logger.error(message)` or `logger.log('error', message)`
