@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const winston = require('./config/winston');
+const morgan = require('morgan');
 var cors = require('cors');
 
 const reviewRoutes = require('./routes/reviewRoutes');
@@ -10,7 +12,16 @@ const mongo = require('./utils/mongo');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// CORS Policy
+
+
+// ====== Connect Mongo ========
+mongo.connectToServer();
+
+
+// ====== Connect morgan HTTP logger to winston 
+app.use(morgan('combined', { stream: winston.stream }));
+
+// ======== CORS Policy =======
 const whitelist = ['http://127.0.0.1:3001', 'http://localhost:3001', 'http://127.0.0.1', 'http://localhost'];
 const corsOptions = {
   origin: function (origin, callback) {
@@ -23,8 +34,6 @@ const corsOptions = {
   },
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-
-mongo.connectToServer();
 
 // Apply CORS policy
 app.all('*', cors(corsOptions), function (req, res, next) {

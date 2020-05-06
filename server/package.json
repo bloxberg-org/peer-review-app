@@ -18,8 +18,11 @@
     "moment": "^2.24.0",
     "mongoose": "^5.7.8",
     "mongoose-paginate": "^5.0.3",
+    "morgan": "^1.10.0",
     "node-fetch": "^2.6.0",
+    "save": "^2.4.0",
     "web3": "^1.2.1",
+    "winston": "^3.2.1",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
