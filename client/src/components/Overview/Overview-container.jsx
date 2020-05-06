@@ -13,8 +13,8 @@ export default class OverviewContainer extends React.Component {
     super(props);
     this.state = {
       graphData: {
-        'Reviews this year': this.getReviewsThisYear(),
         'Most Recent Review': this.getMostRecentReviewYear(),
+        'First Review': this.getFirstReviewYear(),
         'Most Reviewed Publisher': this.getMostReviewedJournal()
       },
       highlightedReviews: [
@@ -105,6 +105,17 @@ export default class OverviewContainer extends React.Component {
     return this.unixTimestampToUTCYear(largestTimestampedReview.timestamp);
   }
 
+  getFirstReviewYear = () => {
+    if (this.props.reviewsOfUser.length === 0)
+      return 'N/A';
+    let largestTimestampedReview = this.props.reviewsOfUser.reduce((accumulator, currentReview) => {
+      if (currentReview.timestamp < accumulator.timestamp)
+        return currentReview;
+      return accumulator;
+    });
+    return this.unixTimestampToUTCYear(largestTimestampedReview.timestamp);
+  }
+
   getNumberOfReviews = () => {
     if (this.props.reviewsOfUser.length === 0)
       return 0;
@@ -135,7 +146,7 @@ export default class OverviewContainer extends React.Component {
     let cardsData = {
       'Peer Reviews': this.getNumberOfReviews(),
       'Verified Reviews': this.getNumberOfVerifiedReviews(),
-      // 'H-Index': 75,
+      'Reviews This Year': this.getReviewsThisYear(),
       'Affiliated Publishers': this.getNumberOfAffiliatedPublishers()
     };
 

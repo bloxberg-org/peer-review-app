@@ -35,3 +35,6 @@ deploymentProd.sh
 client/src/contracts/
 
 .openzeppelin/.session
+
+# Development server configurations
+.openzeppelin/dev-5777.json
