@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('../config');
+const logger = require('winston')
 
 var _db;
 
@@ -8,14 +9,14 @@ exports.connectToServer = () => {
   const dbURI = config.databaseURI;
   mongoose.connect(dbURI, dbConfig, (err) => {
     if (err)
-      console.log(err);
+      logger.log(err);
     else {
       _db = mongoose.connection;
       _db.on('error', () => {
-        console.log('> error occurred from the database');
+        logger.log('> error occurred from the database');
       });
       _db.once('open', () => {
-        console.log('> successfully opened the database');
+        logger.log('> successfully opened the database');
       });
       return _db;
     }

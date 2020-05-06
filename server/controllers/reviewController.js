@@ -6,6 +6,7 @@ const Author = require('../models/ReviewAuthor');
 const { getXML, getWithPublonsAuth } = require('../utils/restUtils');
 const { xml2json } = require('xml-js');
 const { extractReviewFromJsonDoc, downloadAndHashPdf, extractListOfReviews } = require('./utils/reviewControllerUtils');
+const logger = require('winston');
 
 // GET /reviews/all
 /**
@@ -20,8 +21,8 @@ exports.getIndexedReviews = (req, res) => {
     page: parseInt(page),
     limit: parseInt(limit)
   };
-  console.log('Options are');
-  console.log(options);
+  logger.info('Options are');
+  logger.info(options);
   let query;
   // Assign query value if exists. E.g. name, email, _id
   query = queryType ? query[queryType] = queryValue : {};
@@ -29,7 +30,7 @@ exports.getIndexedReviews = (req, res) => {
     .then((results) => {
       res.status(200).json(results.docs);
     })
-    .catch(console.error);
+    .catch(logger.error);
 };
 
 // GET /reviews/import/publons/?academicId=${academicId}&page=${page}
@@ -50,12 +51,12 @@ exports.importReviews = (req, res) => {
 
 // POST /reviews
 exports.addReview = (req, res) => {
-  console.log('IN ADD REVIEW');
-  console.log(req.body);
+  logger.info('IN ADD REVIEW');
+  logger.info(req.body);
 
   let address = req.params.address;
   let review = new Review(req.body);
-  console.log(review);
+  logger.info(review);
   // Mutual field for author and review to "join"
   Author.findById(address).then(author => {
     author.reviews.push(review._id); // Add review ID to author field
@@ -63,19 +64,19 @@ exports.addReview = (req, res) => {
   });
 
   review.save().then(() => {
-    console.log('Successfully saved the review');
+    logger.info('Successfully saved the review');
     res.status(200).json(review);
   }
-  ).catch(err => console.log(err));
+  ).catch(err => logger.info(err));
 
 };
 
 // GET /reviews/:address
 exports.getAllReviewsOfAddress = (req, res) => {
-  console.log('IN GET ALL REVIEWS');
+  logger.info('IN GET ALL REVIEWS');
 
   let address = req.params.address;
-  console.log(`Address is: ${address}`);
+  logger.info(`Address is: ${address}`);
 
   Author.findById(address).populate('reviews').then(author => {
     res.status(200).json(author.reviews);
@@ -86,17 +87,17 @@ exports.getAllReviewsOfAddress = (req, res) => {
 exports.getReview = (req, res) => {
   let address = req.params.address;
   let id = req.params.id;
-  console.log('IN GET ONE REVIEW');
+  logger.info('IN GET ONE REVIEW');
 
   Review.findOne({ author: address, id: id }).then(review => {
-    console.log(review);
+    logger.info(review);
     res.status(200).json(review);
   }).catch(err => res.status(404).send(err));
 };
 
 // GET /reviews/xml/f1000research/?doi=10.12688/f1000research.19542.1
 exports.getReviewXML = (req, res) => {
-  console.log('IN getReviewXML');
+  logger.info('IN getReviewXML');
   let source = req.params.source; // f1000research, orchid etc.
   let doi = req.query.doi;
   let index = req.query.index;
@@ -115,7 +116,7 @@ exports.getReviewXML = (req, res) => {
 
   getXML(`${xmlURL}${doi}`)
     .then(async (data) => {
-      console.log('Entered here!!!');
+      logger.info('Entered here!!!');
       if (!data)
         res.status(404).send('XML is empty');
       // Parse XML to JSON
@@ -128,7 +129,7 @@ exports.getReviewXML = (req, res) => {
           let response = extractReviewFromJsonDoc(jsonDoc, index);
           response.manuscriptHash = hash;
           res.status(200).json(response);
-        }).catch(err => console.log(err));
+        }).catch(err => logger.info(err));
       } else {
         let reviews = extractListOfReviews(jsonDoc);
         if (!reviews)
@@ -147,7 +148,7 @@ exports.getReviewXML = (req, res) => {
 //   let review;
 //   try {
 //     review = await connection.getReview(req.params.addr, req.params.reviewIndex);
-//     console.log(review);
+//     logger.info(review);
 
 //     let response = {
 //       journalId: review[0],
@@ -160,7 +161,7 @@ exports.getReviewXML = (req, res) => {
 //     };
 //     res.json(response);
 //   } catch (e) {
-//     console.log(e);
+//     logger.info(e);
 //     res.status(404).json({ message: 'Review not found' });
 //   }
 // };
@@ -172,7 +173,7 @@ exports.getReviewXML = (req, res) => {
 //     await connection.vouchReview(voucher, index);
 //     res.status(200).json({ author: voucher, index: index });
 //   } catch (e) {
-//     console.log('Error vouching review');
+//     logger.info('Error vouching review');
 //     res.status(500).send(e);
 //   }
 // };

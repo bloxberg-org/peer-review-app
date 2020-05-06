@@ -2,9 +2,10 @@
 const moment = require('moment');
 const crypto = require('crypto');
 const { getPDF } = require('../../utils/restUtils');
+const logger = require('winston');
 
 exports.extractReviewFromJsonDoc = (jsonDoc, index) => {
-  console.log('REQUESTED REVIEW WITH ID ' + index);
+  logger.info('REQUESTED REVIEW WITH ID ' + index);
   // Relevant fields of the whole json
   let reviewDoc = jsonDoc['article']['sub-article'][index];
   let articleMeta = jsonDoc['article']['front']['article-meta'];
@@ -28,9 +29,9 @@ exports.extractReviewFromJsonDoc = (jsonDoc, index) => {
 
 exports.downloadAndHashPdf = (URL) => {
   return new Promise((resolve, reject) => {
-    console.log('DOWNLOADING PDF');
+    logger.info('DOWNLOADING PDF');
     getPDF(URL).then((blob) => {
-      console.log('SUCCESSFULLY DONWLOADED PDF');
+      logger.info('SUCCESSFULLY DONWLOADED PDF');
       let stream = blob.stream();
       let hash = crypto.createHash('sha256');
       hash.setEncoding('hex');
@@ -38,7 +39,7 @@ exports.downloadAndHashPdf = (URL) => {
 
       // Event listener on when reading end.
       stream.on('end', function () {
-        console.log('ENDED HASHING');
+        logger.info('ENDED HASHING');
         hash.end();
         resolve(hash.read());
       });
@@ -47,11 +48,11 @@ exports.downloadAndHashPdf = (URL) => {
 };
 
 exports.extractListOfReviews = (jsonDoc) => {
-  console.log('ASKING USER TO CHOOSE A REVIEW');
+  logger.info('ASKING USER TO CHOOSE A REVIEW');
   let reviews = jsonDoc['article']['sub-article']; // Returns an array of reviews when there are 2 or more reivews.
   // TODO: What does it return when there's only 1 review? 
-  console.log('Here are the unformatted reviews:');
-  console.log(reviews);
+  logger.info('Here are the unformatted reviews:');
+  logger.info(reviews);
   if (!reviews)
     return null;
   // Just format the response 
@@ -69,8 +70,8 @@ exports.extractListOfReviews = (jsonDoc) => {
       }
     };
   });
-  console.log('Returning reviews:');
-  console.log(reviews);
+  logger.info('Returning reviews:');
+  logger.info(reviews);
   return reviews;
 };
 
@@ -105,7 +106,7 @@ function extractRecommendation(reviewDoc) {
   let reccommendationStr = reviewDoc['front-stub']['custom-meta-group']['custom-meta']['meta-value']['_text'];
   // TODO: Check returned strings for review and reject.
   // TODO: Change strings to numbers in accordance to the blockchain.
-  console.log(reccommendationStr);
+  logger.info(reccommendationStr);
   switch (reccommendationStr) {
     case ('approve'):
       return 0;
