@@ -10,6 +10,15 @@ export default function ReviewsTableContainer(props) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    init();
+  }, []); // Empty array passed as dependency to avoid calling every time i.e. call useEffect once.
+
+  // console.log reviews after state change
+  useEffect(() => {
+    console.log(reviews);
+  }, [reviews]);
+
+  const init = () => {
     setIsLoading(true);
     // TODO: Paginate reviews with search. For now just fetch 100 reviews.
     let reviewsAndAuthorsPromises = [getIndexedReviews({}, 1, 100), getAllAuthorNames()]; // Fetch reviews and authors paralelly.
@@ -21,13 +30,7 @@ export default function ReviewsTableContainer(props) {
         setReviews(reviewsWithAuthorNames);
         setIsLoading(false);
       });
-  }, []); // Empty array passed as dependency to avoid calling every time i.e. call useEffect once.
-
-  // console.log reviews after state change
-  useEffect(() => {
-    console.log(reviews);
-  }, [reviews]);
-
+  };
   /**
    * Function that takes an array of revies and returns a new array of reviews. Each review of the new array has the author field firstName + ' ' + lastName instead of the Ethereum address.
    * 
@@ -49,7 +52,7 @@ export default function ReviewsTableContainer(props) {
     setIsLoading(true);
     vouchReview(id)
       .then(() => {
-        setIsLoading(false);
+        init(); // refresh to turn vouch button to disabled;
       })
       .catch(console.error);
   };
