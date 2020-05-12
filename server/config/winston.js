@@ -40,13 +40,22 @@ var mainLoggers = logger.createLogger({
 
 logger.add(mainLoggers);
 
+
+// Don't print morgan HTTP requests to console
+const ignoreMorgan = logger.format((info, opts) => {
+  if (info.morgan) { return false; }
+  return info;
+});
+
 //
 // If we're not in production then log to the `console` with the format:
 // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
 // 
 if (process.env.NODE_ENV !== 'production') {
   logger.add(new logger.transports.Console({
+    handleExceptions: true,
     format: logger.format.combine(
+      ignoreMorgan(),
       logger.format.colorize(),
       logger.format.timestamp({
         format: 'HH:mm:ss'
@@ -62,7 +71,7 @@ if (process.env.NODE_ENV !== 'production') {
 // from: https://jojozhuang.github.io/tutorial/express-js/express-combine-morgan-and-winston/
 logger.stream = {
   write: function (message) {
-    logger.info(message);
+    logger.log({ level: 'info', message: message, morgan: true });
   }
 };
 
