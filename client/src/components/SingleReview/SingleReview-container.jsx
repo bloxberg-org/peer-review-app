@@ -3,6 +3,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { getAllAuthorNames } from '../../utils/authors';
 import { deleteReview, getOneBlockchainReview, getOneDatabaseReview, vouchReview } from '../../utils/review';
+import Context from '../Context';
 import Loader from '../Loader';
 import SingleReviewView from './SingleReview-view';
 
@@ -14,12 +15,15 @@ class SingleReviewContainer extends React.Component {
     history: PropTypes.object.isRequired,
   }
 
+  static contextType = Context; // Access user Context
+
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
       DBreview: {},
-      blockchainReview: {}
+      blockchainReview: {},
+      isVouchedByUser: false
     };
   }
 
@@ -30,11 +34,17 @@ class SingleReviewContainer extends React.Component {
   fetchAndLoadReview = () => {
     this.fetchReview()
       .then(reviewArr => {
-        this.setState({ DBreview: reviewArr[0] });
+        this.setState({
+          DBreview: reviewArr[0],
+          isVouchedByUser: this.checkIsVouchedByUser(this.context.user._id, reviewArr[1].vouchers)
+        });
         return this.fetchAllAuthorsAndReplaceAuthorField(reviewArr[1]);
       })
       .then(blockChainReviewWithName => {
-        this.setState({ blockchainReview: blockChainReviewWithName, isLoading: false });
+        this.setState({
+          blockchainReview: blockChainReviewWithName,
+          isLoading: false
+        });
       })
       .catch(console.error);
   }
@@ -48,8 +58,17 @@ class SingleReviewContainer extends React.Component {
   fetchAllAuthorsAndReplaceAuthorField = (blockchainReview) => {
     return getAllAuthorNames()
       .then(authorsMap => {
-        let addr = blockchainReview.author;
-        blockchainReview.author = authorsMap[addr].firstName + ' ' + authorsMap[addr].lastName;
+        let reviewAuthor = blockchainReview.author;
+        if (authorsMap[reviewAuthor] !== undefined) {
+          // Change author name in object
+          blockchainReview.author = authorsMap[reviewAuthor].firstName + ' ' + authorsMap[reviewAuthor].lastName;
+        }
+        // Change voucher addresses to names
+        for (const [i, voucher] of blockchainReview.vouchers.entries()) {
+          if (authorsMap[voucher] !== undefined) {
+            blockchainReview.vouchers[i] = authorsMap[voucher].firstName + ' ' + authorsMap[voucher].lastName;
+          }
+        }
         return blockchainReview;
       });
   }
@@ -69,6 +88,10 @@ class SingleReviewContainer extends React.Component {
       })
       .then(() => this.setState({ isLoading: false }))
       .catch(console.error);
+  }
+
+  checkIsVouchedByUser = (address, array) => {
+    return array.includes(address);
   }
 
   deleteReview = () => {
@@ -94,6 +117,7 @@ class SingleReviewContainer extends React.Component {
         blockchainReview={this.state.blockchainReview}
         deleteReview={this.deleteReview}
         vouchReview={this.vouchReview}
+        isVouchedByUser={this.state.isVouchedByUser}
       />
     );
   }

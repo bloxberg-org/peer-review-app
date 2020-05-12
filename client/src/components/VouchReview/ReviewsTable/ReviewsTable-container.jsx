@@ -48,7 +48,9 @@ export default function ReviewsTableContainer(props) {
   const vouchReviewWithId = (id) => {
     setIsLoading(true);
     vouchReview(id)
-      .then(setIsLoading(false))
+      .then(() => {
+        setIsLoading(false);
+      })
       .catch(console.error);
   };
 
