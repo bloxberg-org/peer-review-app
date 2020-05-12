@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('../config');
-const logger = require('winston')
+const logger = require('winston');
 
 var _db;
 
