@@ -25,7 +25,7 @@ exports.getPDF = (url) => {
 };
 
 exports.getWithPublonsAuth = (url) => {
-  logger.log(publonsAuthToken);
+  logger.info(publonsAuthToken);
   return fetch(url, {
     method: 'get',
     headers: {

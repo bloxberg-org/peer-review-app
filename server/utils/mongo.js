@@ -9,14 +9,14 @@ exports.connectToServer = () => {
   const dbURI = config.databaseURI;
   mongoose.connect(dbURI, dbConfig, (err) => {
     if (err)
-      logger.log(err);
+      logger.info(err);
     else {
       _db = mongoose.connection;
       _db.on('error', () => {
-        logger.log('> error occurred from the database');
+        logger.error('> error occurred from the database');
       });
       _db.once('open', () => {
-        logger.log('> successfully opened the database');
+        logger.info('> successfully opened the database');
       });
       return _db;
     }
