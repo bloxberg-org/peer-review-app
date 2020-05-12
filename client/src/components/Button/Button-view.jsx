@@ -40,6 +40,11 @@ const StyledButton = styled.button`
     transform: translateY(4px);
     -webkit-filter: drop-shadow(0px 0px 2px black);
   }
+  &:disabled {
+    filter: none;
+    opacity: 50%;
+    cursor: default;
+  }
   `;
 
 export default function Button(props) {

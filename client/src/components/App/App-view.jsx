@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from '../../assets/theme';
+import Context from '../Context';
 import Loader from '../Loader';
 import LoginPage from '../LoginPage';
 import Register from '../Register';
@@ -68,6 +69,7 @@ const AppContentWithSideBar = styled((props) => {
 })``;
 
 export default function AppView(props) {
+
   let AppContent =
     <AppContentWithSideBar>
       <Loader />
@@ -102,11 +104,13 @@ export default function AppView(props) {
       </AppContentWithSideBar>;
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      {
-        AppContent
-      }
-    </ThemeProvider>
+    <Context.Provider value={{ user: props.user }}>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        {
+          AppContent
+        }
+      </ThemeProvider>
+    </Context.Provider>
   );
 }

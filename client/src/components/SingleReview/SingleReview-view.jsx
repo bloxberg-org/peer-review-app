@@ -12,6 +12,7 @@ const PUBLONS_ADDRESS = '0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311';
 SingleReviewView.propTypes = {
   vouchReview: PropTypes.func.isRequired,
   deleteReview: PropTypes.func.isRequired,
+  isVouchedByUser: PropTypes.bool.isRequired,
   DBreview: PropTypes.shape({
     articleTitle: PropTypes.string,
     articleDOI: PropTypes.string,
@@ -136,8 +137,12 @@ export default function SingleReviewView(props) {
                 }
               </ReviewField>
               <FlexDiv style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center' }}>
-                <Button primary onClick={props.vouchReview}>
-                  Vouch
+                <Button primary onClick={props.vouchReview} disabled={props.isVouchedByUser}>
+                  {
+                    props.isVouchedByUser
+                      ? 'Vouched'
+                      : 'Vouch'
+                  }
                 </Button>
               </FlexDiv>
             </FlexDiv>
