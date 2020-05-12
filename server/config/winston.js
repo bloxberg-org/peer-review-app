@@ -2,8 +2,10 @@ var logger = require('winston');
 require('winston-daily-rotate-file');
 
 // ===== Set winston logger up ======
-// Use default logger instead of declaring a new logger below with:
-// var logger = logger.createLogger(.... as in the examples
+// Use default logger of the library
+// logger.createLogger(options)
+// instead of declaring a new logger below with:
+// var logger = logger.createLogger(....) as in the examples
 var options = {
   infofile: {
     level: 'info',
@@ -12,7 +14,7 @@ var options = {
     // winston-daily-rotate-file options
     filename: 'logs/combined-%DATE%.log',
     datePattern: 'YYYY-MM-DD', // rotate every day
-    maxFiles: 14, // Keep biweekly logs 
+    maxFiles: '14d', // Keep biweekly logs 
   },
   errorfile: {
     level: 'error',
@@ -21,12 +23,12 @@ var options = {
     // winston-daily-rotate-file options
     filename: 'logs/error-%DATE%.log',
     datePattern: 'YYYY-MM-DD', // rotate every day
-    maxFiles: 14, // Keep biweekly logs 
+    maxFiles: '14d', // Keep biweekly logs 
   }
 };
 
 // code from: https://github.com/winstonjs/winston
-logger.createLogger({
+var mainLoggers = logger.createLogger({
   level: 'info',
   format: logger.format.json(),
   defaultMeta: { service: 'user-service' },
@@ -35,6 +37,8 @@ logger.createLogger({
     new logger.transports.DailyRotateFile(options.infofile)
   ]
 });
+
+logger.add(mainLoggers);
 
 //
 // If we're not in production then log to the `console` with the format:

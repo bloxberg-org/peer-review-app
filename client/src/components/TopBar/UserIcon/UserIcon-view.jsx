@@ -1,7 +1,7 @@
 import Proptypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import example from '../../../assets/example.png';
+import userIcon from '../../../assets/user.png';
 
 UserIconView.propTypes = {
   user: Proptypes.object
@@ -9,7 +9,9 @@ UserIconView.propTypes = {
 
 const Name = styled.div`
   font-weight: bold;
-  font-size: 0.8em
+  font-size: 0.8em;
+  /* Remove the small inherent padding of the font. Alings the text with the icon centered */
+  line-height: 100%; 
   `;
 
 const Wrapper = styled.div`
@@ -31,7 +33,7 @@ export default function UserIconView(props) {
   return (
     <Wrapper>
       <Name>{props.user.firstName} {props.user.lastName}</Name>
-      <Picture src={example} />
+      <Picture src={userIcon} />
     </Wrapper>
   );
 }

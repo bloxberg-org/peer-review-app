@@ -3,7 +3,7 @@
 exports.database = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: 'test' // change db name accordingly
+  dbName: process.env.NODE_ENV === 'development' ? 'test' : 'peer-review' // change db name accordingly
 };
 
 // Default: 

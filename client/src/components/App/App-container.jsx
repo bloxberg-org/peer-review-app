@@ -177,7 +177,7 @@ export default class App extends React.Component {
     return getCurrentAccount();
   }
 
-  // Checks if the network id is of bloxberg's. Sets the state var isConnectedToBloxberg accordingly.
+  // Checks if the network id is of bloxberg's. Sets the state var isConnectedToBloxberg accordingly. 8995 => bloxberg id, 5777 => ganache id
   checkConnectedNetwork = (id) => {
     console.log('Checking network id: ' + id);
     (id === 8995 || id === 5777)
