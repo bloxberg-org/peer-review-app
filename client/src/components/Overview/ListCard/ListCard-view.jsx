@@ -1,5 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   background-color: white;
@@ -20,15 +21,6 @@ const Wrapper = styled.div`
 const Title = styled.h2`
   font-weight: 600;
   font-size: 0.85em;
-  `;
-
-const ExpandButton = styled.a`
-  color: blue;
-  text-decoration: none;
-  font-size: 0.55em;
-  &:hover{
-    cursor: pointer;
-  }
   `;
 
 const TopWrapper = styled.div`
@@ -57,9 +49,14 @@ const ItemWrapper = styled.div`
   }
   `;
 
-const ItemTitle = styled.div`
+const ItemTitle = styled.a`
   font-size: 8pt;
   font-weight: 300;
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+  }
   `;
 
 const ItemValue = styled.div`
@@ -68,7 +65,7 @@ const ItemValue = styled.div`
   `;
 
 const ItemVerifyStatus = styled.div`
-  background-color: ${(props) => props.verified ? 'green' : 'pink'};
+  background-color: ${(props) => props.verified ? 'green' : 'rgba(0, 0, 0, 0.5)'};
   padding: 5px;
   border-radius: 3px;
   font-size: 0.55em;
@@ -77,68 +74,50 @@ const ItemVerifyStatus = styled.div`
   text-align: center;
   `;
 
-const CreateNewTitle = styled(ItemTitle)`
-  color: ${props => props.theme.gray};
-`
+const Item = (props) => {
+  let history = useHistory();
+  return (
+    <ItemWrapper>
+      <ItemTitle onClick={() => history.push(`/Reviews/${props.id}`)}>{props.publisher}</ItemTitle>
+      {
+        props.type === 'highlight'
+          ?
+          <ItemValue>{props.voucherCount} voucher{/*add plural -s*/props.voucherCount > 1 ? 's' : null}</ItemValue>
+          :
+          <ItemVerifyStatus verified={props.verified}>
+            {props.verified ? 'Verified' : 'Not Verified'}
+          </ItemVerifyStatus>
+      }
+    </ItemWrapper>
+  );
+}
 
-const CreateNewButton = styled(ItemTitle)`
-  color: ${props => props.theme.gray};
-  margin: 0px 5px;
-`;
-
-const CreateNewVerificationItemWrapper = styled(ItemWrapper)`
-  justify-content: center;
-`;
-
-const Item = (props) => (
-  <ItemWrapper>
-    <ItemTitle>{props.title}</ItemTitle>
-    {props.type === 'highlight' ? 
-      <ItemValue>{props.value}</ItemValue> :
-      <ItemVerifyStatus verified={props.verified}>
-        {props.verified ? 'Verified' : 'Not Verified'}
-      </ItemVerifyStatus>
-    }
-  </ItemWrapper>
-);
-
-const CreateNewVerificationItem = (props) => (
-  <CreateNewVerificationItemWrapper>
-    <CreateNewButton>+</CreateNewButton>
-    <CreateNewTitle> Create new verification </CreateNewTitle>
-  </CreateNewVerificationItemWrapper>
-)
 const Items = (props) => {
   let type = props.type;
   let items = props.children;
   return (
     <ItemsWrapper>
       {
-        type === 'review' ?
-        <CreateNewVerificationItem/> : null
-      }
-      { 
-        items.map( (item, i) => {
+        items.map((item, i) => {
           return type === 'highlight' ?
-            <Item title={item.title} value={item.count} type={type} key={i}/> :
-            <Item title={item.title} verified={item.verified} type={type} key={i}/>
+            <Item publisher={item.publisher} voucherCount={item.vouchers.length} type={type} key={i} id={item.id} /> :
+            <Item publisher={item.publisher} verified={item.verified} type={type} key={i} id={item.id} />;
         })
       }
     </ItemsWrapper>
-  )
-}
-export default function ListCard(props) {
-  return(
+  );
+};
+export default function ListCardView(props) {
+  return (
     <Wrapper>
       <TopWrapper>
         <Title>{props.title}</Title>
-        <ExpandButton>{props.expandLabel}</ExpandButton>
       </TopWrapper>
       <ItemsWrapper>
         <Items type={props.type}>
-          {props.children}
+          {props.reviews}
         </Items>
       </ItemsWrapper>
     </Wrapper>
-  )
+  );
 }

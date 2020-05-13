@@ -27,7 +27,7 @@ const TopBarRightWrapper = styled.div`
   flex:0.5;
   flex-direction: row;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: stretch;
 `;
 
@@ -56,7 +56,7 @@ export default function TopBarView(props) {
         <Title>{props.title}</Title>
       </TitleWrapper>
       <TopBarRightWrapper>
-        <StyledSearchBar placeholder='Try: "Max Planck"' />
+        {/* <StyledSearchBar placeholder='Try: "Max Planck"' /> */}
         <UserIcon user={props.user} />
         {
           props.isLoggedInWithFm

@@ -14,7 +14,7 @@ const BlockchainReviewSchema = new mongoose.Schema({
   url: String,
   verified: Boolean,
   vouchers: [String]
-});
+}, { timestamps: true });
 
 BlockchainReviewSchema.plugin(mongoosePaginate);
 

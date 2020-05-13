@@ -55,12 +55,17 @@ export default function OverviewView(props) {
       </CardsWrapper>
       <Graph userName={props.user.firstName + ' ' + props.user.lastName} data={props.graphData} />
       <BottomCardsWrapper>
-        <ListCard title='Highlighted Reviews' expandLabel='View details' type='highlight'>
-          {props.highlightedReviews}
-        </ListCard>
-        <ListCard title='Review Verification' expandLabel='View all' type='review'>
-          {props.reviewVerification}
-        </ListCard>
+        <ListCard
+          title='Highlighted Reviews'
+          expandLabel='View details'
+          type='highlight'
+          reviews={props.highlightedReviews}
+        />
+        <ListCard
+          title='Latest Reviews'
+          type='review'
+          reviews={props.reviewVerification}
+        />
       </BottomCardsWrapper>
     </Wrapper>
   )

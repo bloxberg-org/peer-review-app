@@ -15,22 +15,44 @@ const logger = require('winston');
 exports.getIndexedReviews = (req, res) => {
   let page = req.query.page || 1; // Default page 1.
   let limit = req.query.limit || 10; // Default limit to 10.
+  let sortBy = req.query.sortBy;
   let queryType = req.query.queryType;
   let queryValue = req.query.queryValue;
   let options = {
     page: parseInt(page),
-    limit: parseInt(limit)
+    limit: parseInt(limit),
   };
+  if (sortBy)
+    options.sort = { createdAt: -1 };
   logger.info('Options are');
-  logger.info(options);
+  logger.info(JSON.stringify(options));
   let query;
   // Assign query value if exists. E.g. name, email, _id
   query = queryType ? query[queryType] = queryValue : {};
-  BlockchainReview.paginate(query, options)
-    .then((results) => {
-      res.status(200).json(results.docs);
-    })
-    .catch(logger.error);
+
+  if (sortBy === 'vouchers') { //TODO: Write a seperate handler/controller for sort by vouchers
+    // from https://stackoverflow.com/questions/9040161/mongo-order-by-length-of-array
+    BlockchainReview.aggregate([
+      {
+        $addFields: { vouchersCount: { $size: { '$ifNull': ['$vouchers', []] } } }
+      },
+      {
+        $sort: { 'vouchersCount': -1 }
+      },
+      { '$limit': options.limit }
+    ])
+      .then((results) => {
+        res.status(200).json(results);
+      })
+      .catch(logger.error);
+
+  } else {
+    BlockchainReview.paginate(query, options)
+      .then((results) => {
+        res.status(200).json(results.docs);
+      })
+      .catch(logger.error);
+  }
 };
 
 // GET /reviews/import/publons/?academicId=${academicId}&page=${page}
