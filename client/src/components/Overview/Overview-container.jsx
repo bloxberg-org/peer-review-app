@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { getLatestNReviews, getMostVouchedNReviews } from '../../utils/review';
 import LoaderView from '../Loader';
 import OverviewView from './Overview-view';
 
@@ -17,39 +18,22 @@ export default class OverviewContainer extends React.Component {
         'First Review': this.getFirstReviewYear(),
         'Most Reviewed Publisher': this.getMostReviewedJournal()
       },
-      highlightedReviews: [
-        {
-          title: 'On an Improvement of Wien\'s Equation for the Spectrum',
-          count: 4238
-        },
-        {
-          title: 'On the Theory of the Energy Distribution Law of the Normal Spectrum',
-          count: 1005
-        },
-        {
-          title: 'Entropy and Temperatire of Radiant Heat',
-          count: 914
-        },
-        {
-          title: 'Eight Lectures on Theoretical Physics',
-          count: 281
-        }
-      ],
-      reviewVerification: [
-        {
-          title: 'Theory of Relatively Review',
-          verified: true
-        },
-        {
-          title: 'Thermodynamics Review',
-          verified: false
-        },
-        {
-          title: 'Statistical Mechanics',
-          verified: false
-        }
-      ]
+      highlightedReviews: [],
+      reviewVerification: []
     };
+  }
+
+  componentDidMount() {
+    getLatestNReviews(4)
+      .then(reviews => {
+        this.setState({ reviewVerification: reviews });
+      })
+      .catch(console.error);
+    getMostVouchedNReviews(4)
+      .then(reviews => {
+        this.setState({ highlightedReviews: reviews });
+      })
+      .catch(console.error);
   }
 
   getReviewsThisYear = () => {

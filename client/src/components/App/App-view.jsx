@@ -70,10 +70,7 @@ const AppContentWithSideBar = styled((props) => {
 
 export default function AppView(props) {
 
-  let AppContent =
-    <AppContentWithSideBar>
-      <Loader />
-    </AppContentWithSideBar>;
+  let AppContent;
   if (props.isLoading) // If loading user and reviews return the spinner
     AppContent = (
       <AppContentWithSideBar>

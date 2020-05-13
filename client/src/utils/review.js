@@ -2,6 +2,17 @@ import * as connection from '../connection/reviewConnection';
 import { getCurrentAccount } from '../connection/reviewConnection';
 import { get, getXML, post } from './endpoint';
 
+// Used in bottom part of Overview. In ListCard
+export const getLatestNReviews = (limit) => {
+  let URL = `/reviews/all/?limit=${limit}&sortBy=createdAt`;
+  return get(URL);
+};
+
+export const getMostVouchedNReviews = (limit) => {
+  let URL = `/reviews/all/?limit=${limit}&sortBy=vouchers`;
+  return get(URL);
+}
+
 export const getIndexedReviews = (searchQuery, page, limit) => {
   // Check the type of query: name, email, address?
 

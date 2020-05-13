@@ -9,7 +9,7 @@ const ReviewSchema = new mongoose.Schema({
   articleDOI: String,
   index: Number, // index on the blockchain storage Reviews[address][index]
   content: String
-});
+}, { timestamps: true });
 
 ReviewSchema.plugin(mongoosePaginate);
 

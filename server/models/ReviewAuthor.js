@@ -9,6 +9,6 @@ const ReviewAuthorSchema = new mongoose.Schema({
   profilePicture: Buffer,
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
   blockchainReviews: [{ type: Schema.Types.ObjectId, ref: 'BlockchainReview' }]
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model('ReviewAuthor', ReviewAuthorSchema);
