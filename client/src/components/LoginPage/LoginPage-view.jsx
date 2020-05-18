@@ -31,19 +31,28 @@ const WrapperContainer = styled.div`
 `;
 
 const LeftWrapper = styled.div`
-  background-color: ${props => props.theme.background};
+@media (min-width: 769px) {
   display: flex;
+}
+@media (max-width: 768px) {
+  display: none;
+}
+  background-color: ${props => props.theme.background};
   flex: 0.5;
   text-align: center;
   justify-content: center;
   width: 100%;
   padding: 50px 0px 50px;
+
   `;
 
 const RightWrapper = styled.div`
+  @media (max-width: 770px) {
+  flex: 1.0;
+  }
+  flex: 0.5;
   background-color: ${props => props.theme.background};
   display: flex;
-  flex: 0.5;
   text-align: center;
   justify-content: flex-start;
   width: 100%;
@@ -62,6 +71,7 @@ const Caption = styled.div`
 `;
 
 const LogoWrapper = styled.div`
+@media (min-width: 769px) {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -70,6 +80,7 @@ const LogoWrapper = styled.div`
         text-align: center;
         padding: 0px 50px 0px;
         border: 8px solid #AF1578;
+}
   `;
 
 
