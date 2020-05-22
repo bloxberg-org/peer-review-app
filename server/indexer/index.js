@@ -5,11 +5,14 @@
  * Sets a 1 sec interval to keep script running in background.
  * */
 const Web3 = require('web3');
-const TruffleContract = require('@truffle/contract');
 const ReviewStorageArtifact = require('./contracts/ReviewStorage.json');
 const { logAddedReview, logDeletedReview } = require('./reviewLogger');
 const vouchLogger = require('./vouchLogger');
 const logger = require('winston');
+
+const networkId = process.env.NODE_ENV === 'production' ? 8995 : 5777; // bloxberg=8995, localhost=5777
+const deployedAddress = ReviewStorageArtifact.networks[networkId].address;
+
 
 const bloxbergProvider = 'wss://websockets.bloxberg.org';
 const localProvider = process.env.DOCKER === 'yes' ? 'http://ganache:8545' : 'http://localhost:8545'; // Use Docker host name in docker, else localhost.
@@ -29,6 +32,7 @@ const options = {
 let provider, web3;
 setTimeout(() => { // Workaround to avoid connecting to ganache before it starts with `npm run dev` script. 
   provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === 'production' ? bloxbergProvider : localProvider, options);
+  // provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === 'production' ? localProvider : bloxbergProvider, options);
   web3 = new Web3(provider);
 
   provider.on('connect', init);
@@ -53,21 +57,15 @@ setInterval(function () {
 
 function init() {
   // Connect to contract
-  const ReviewStorage = TruffleContract(ReviewStorageArtifact);
-  ReviewStorage.setProvider(web3.currentProvider);
+  const ReviewStorage = new web3.eth.Contract(ReviewStorageArtifact.abi, deployedAddress);
   logger.info('Trying to conntect weeb3');
-  ReviewStorage.deployed()
-    .then(instance => {
-      logger.info('Found instance');
-      instance.ReviewAdded() // Listen to ReviewAdded events.
-        .on('data', (event) => logAddedReview(event, instance))
-        .on('error', logger.error);
-      instance.ReviewDeleted() // Listen to ReviewAdded events.
-        .on('data', (event) => logDeletedReview(event))
-        .on('error', logger.error);
-      instance.ReviewVouched() // Listen to ReviewVouched events.
-        .on('data', (event) => vouchLogger(event))
-        .on('error', logger.error);
-    })
-    .catch(logger.error);
+  ReviewStorage.events.ReviewAdded() // Listen to ReviewAdded events.
+    .on('data', (event) => logAddedReview(event, ReviewStorage))
+    .on('error', logger.error);
+  ReviewStorage.events.ReviewDeleted() // Listen to ReviewAdded events.
+    .on('data', (event) => logDeletedReview(event))
+    .on('error', logger.error);
+  ReviewStorage.events.ReviewVouched() // Listen to ReviewVouched events.
+    .on('data', (event) => vouchLogger(event))
+    .on('error', logger.error);
 }

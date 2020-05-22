@@ -3,7 +3,8 @@ const Author = require('../models/ReviewAuthor');
 const logger = require('winston');
 
 /**
- * Function to index reviews to local Mongo DB.
+ * Function to write added reviews to local Mongo DB.
+ * Called when a ReviewAdded event is emitted.
  * Gets the review from the ReviewStorage contract.
  * Writes the review to the database in blockchainreview collection.
  * Pushes the review id to Author's reviews array.
@@ -14,10 +15,9 @@ const logger = require('winston');
 exports.logAddedReview = (event, instance) => {
   let id = event.returnValues.id;
   let authorAddress = event.returnValues.from;
-  logger.info(event.returnValues);
   logger.info(`Review added by ${authorAddress} with id: ${id}`);
-  // Get the review data using id.
-  instance.getReview(id)
+  // Get the review data by calling contract method getReview(id)
+  instance.methods.getReview(id).call()
     .then(review => {
       let reviewData = { // Create object to save. 
         id: review[0],
@@ -26,8 +26,8 @@ exports.logAddedReview = (event, instance) => {
         publisher: review[3],
         manuscriptId: review[4],
         manuscripthash: review[5],
-        timestamp: review[6].toNumber(), // Handle BigNumber
-        recommendation: review[7].toNumber(),
+        timestamp: review[6],
+        recommendation: review[7],
         url: review[8],
         verified: review[9],
         vouchers: review[10]
@@ -47,14 +47,13 @@ exports.logAddedReview = (event, instance) => {
             });
             return newAuthor.save();
           }
-          logger.info('Found author');
-          logger.info(author);
+          logger.info(`Found author ${author.id}`);
           author.blockchainReviews.push(review._id);
           return author.save();
         });
     })
     .then(logger.info('Successfully added the blockchain review'))
-    .catch(logger.error);
+    .catch(err => logger.error('Error while logAddedReview:', err));
 };
 
 exports.logDeletedReview = (event) => {
@@ -67,6 +66,6 @@ exports.logDeletedReview = (event) => {
       return Author.findByIdAndUpdate(authorAddress, { $pull: { blockchainReviews: deletedReview._id } })
         .catch('No authors found');
     })
-    .then(`Successfully deleted review ${reviewId}`)
-    .catch(logger.error);
+    .then(() => logger.info(`Successfully deleted review ${reviewId}`))
+    .catch(err => logger.error('Error while logDeletedReview:', err));
 };
