@@ -13,7 +13,9 @@ const BlockchainReviewSchema = new mongoose.Schema({
   recommendation: String,
   url: String,
   verified: Boolean,
-  vouchers: [String]
+  vouchers: [String],
+  blockNumber: Number, // Block height when mined
+  transactionIndex: Number // Tx id in the block
 }, { timestamps: true });
 
 BlockchainReviewSchema.plugin(mongoosePaginate);

@@ -30,7 +30,9 @@ exports.logAddedReview = (event, instance) => {
         recommendation: review[7],
         url: review[8],
         verified: review[9],
-        vouchers: review[10]
+        vouchers: review[10],
+        blockNumber: event.blockNumber,
+        transactionIndex: event.transactionIndex
       };
       let reviewToAdd = new BlockchainReview(reviewData);
       return reviewToAdd.save();

@@ -61,11 +61,15 @@ function init() {
   logger.info('Trying to conntect weeb3');
   ReviewStorage.events.ReviewAdded() // Listen to ReviewAdded events.
     .on('data', (event) => logAddedReview(event, ReviewStorage))
-    .on('error', logger.error);
+    .on('error', err => logger.error('ReviewAdded error:', err));
+  ReviewStorage.getPastEvents('ReviewAdded', { fromBlock: 0 }) // Listen to ReviewAdded events.
+    .then(array => {
+      console.log(`Total number of events found: ${array.length}`)
+    })
   ReviewStorage.events.ReviewDeleted() // Listen to ReviewAdded events.
     .on('data', (event) => logDeletedReview(event))
-    .on('error', logger.error);
+    .on('error', err => logger.error('ReviewDeleted error:', err));
   ReviewStorage.events.ReviewVouched() // Listen to ReviewVouched events.
     .on('data', (event) => vouchLogger(event))
-    .on('error', logger.error);
+    .on('error', err => logger.error('ReviewVouched error:', err));
 }
