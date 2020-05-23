@@ -18,8 +18,6 @@ export default class OverviewContainer extends React.Component {
         'First Review': this.getFirstReviewYear(),
         'Most Reviewed Publisher': this.getMostReviewedJournal()
       },
-      highlightedReviews: [],
-      reviewVerification: []
     };
   }
 

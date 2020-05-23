@@ -113,11 +113,16 @@ export default function ListCardView(props) {
       <TopWrapper>
         <Title>{props.title}</Title>
       </TopWrapper>
+
       <ItemsWrapper>
-        <Items type={props.type}>
-          {props.reviews}
-        </Items>
+        {props.reviews.length === 0
+          ? <div style={{ textAlign: 'center' }}>No reviews found</div>
+          : <Items type={props.type}>
+            {props.reviews}
+          </Items>
+        }
       </ItemsWrapper>
+
     </Wrapper>
   );
 }

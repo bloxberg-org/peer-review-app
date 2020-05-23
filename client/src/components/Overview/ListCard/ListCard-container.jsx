@@ -14,7 +14,7 @@ export default class ListCardContainer extends React.Component {
 
   render() {
     const { reviews, title, type } = this.props;
-    if (reviews.length === 0)
+    if (!reviews)
       return <Loader />;
     return (
       <ListCardView
