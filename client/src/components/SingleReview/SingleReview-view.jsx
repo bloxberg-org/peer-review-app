@@ -13,6 +13,7 @@ SingleReviewView.propTypes = {
   vouchReview: PropTypes.func.isRequired,
   deleteReview: PropTypes.func.isRequired,
   isVouchedByUser: PropTypes.bool.isRequired,
+  isOwnReview: PropTypes.bool.isRequired,
   DBreview: PropTypes.shape({
     articleTitle: PropTypes.string,
     articleDOI: PropTypes.string,
@@ -98,6 +99,19 @@ const ReviewField = styled(props => {
 
 export default function SingleReviewView(props) {
   console.log(props);
+
+  // Don't show vouch button for own reviews.
+  const VouchButton =
+    props.isOwnReview
+      ? null
+      : <Button primary onClick={props.vouchReview} disabled={props.isVouchedByUser}>
+        {
+          props.isVouchedByUser
+            ? 'Vouched'
+            : 'Vouch'
+        }
+      </Button>;
+
   return (
     <FlexDiv>
       <CardWrapper style={{ padding: '32px' }} title={props.DBreview ? props.DBreview.articleTitle : 'No title given'}>
@@ -137,13 +151,7 @@ export default function SingleReviewView(props) {
                 }
               </ReviewField>
               <FlexDiv style={{ flex: 0.5, alignItems: 'center', justifyContent: 'center' }}>
-                <Button primary onClick={props.vouchReview} disabled={props.isVouchedByUser}>
-                  {
-                    props.isVouchedByUser
-                      ? 'Vouched'
-                      : 'Vouch'
-                  }
-                </Button>
+                {VouchButton}
               </FlexDiv>
             </FlexDiv>
           </UpperHalfRightWrapper>

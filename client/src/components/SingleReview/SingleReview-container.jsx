@@ -23,7 +23,8 @@ class SingleReviewContainer extends React.Component {
       isLoading: true,
       DBreview: {},
       blockchainReview: {},
-      isVouchedByUser: false
+      isVouchedByUser: false,
+      isOwnReview: false, // Is the review owned by the current user?
     };
   }
 
@@ -35,6 +36,7 @@ class SingleReviewContainer extends React.Component {
     this.fetchReview()
       .then(reviewArr => {
         this.setState({
+          isOwnReview: this.context.user._id === reviewArr[1].author, // Do this before fetchAllAuthorsAndReplaceAuthorField. Should be refactored. See function comments.
           DBreview: reviewArr[0],
           isVouchedByUser: this.checkIsVouchedByUser(this.context.user._id, reviewArr[1].vouchers)
         });
@@ -51,6 +53,7 @@ class SingleReviewContainer extends React.Component {
 
   /**
    * Function to replace author address with author name and surname in the current review.
+   * TODO: It does not make sense to get all of the authors. There should be an endpoint where we query with an address and get the author firstName + lastName.
    * 
    * @param {Object} - blockchainReview the review object from blockchain
    * @returns {Object} - modified review with author names instead of address.
@@ -118,6 +121,7 @@ class SingleReviewContainer extends React.Component {
         deleteReview={this.deleteReview}
         vouchReview={this.vouchReview}
         isVouchedByUser={this.state.isVouchedByUser}
+        isOwnReview={this.state.isOwnReview}
       />
     );
   }
