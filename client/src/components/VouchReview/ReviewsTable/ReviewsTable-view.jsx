@@ -1,7 +1,7 @@
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useTable } from 'react-table';
+import { useSortBy, useTable } from 'react-table';
 import styled from 'styled-components';
 import ReviewsTableRow from './ReviewsTableRow';
 
@@ -36,19 +36,20 @@ export default function ReviewsTableView(props) {
     { Header: 'id', accessor: 'id' }, // This is hidden in the table.
     { Header: 'Author', accessor: 'author' },
     { Header: 'Publisher', accessor: 'publisher' },
-    { Header: 'Publish Date', accessor: 'timestamp', Cell: ({ cell: { value } }) => moment.unix(value).format('YYYY') }]
+    { Header: 'Publish Date', accessor: 'timestamp', Cell: ({ cell: { value } }) => moment.unix(value).format('YYYY') },
+    { Header: 'Created At', accessor: 'createdAt', Cell: ({ cell: { value } }) => moment(value).format('DD MMM YYYY') },]
     , []);
-
   const tableOptions = {
     columns: columns,
     data: props.reviews,
     initialState: {
-      hiddenColumns: ['id'] // Don't show id. ID needed for creating links when clicked.
+      hiddenColumns: ['id'], // Don't show id. ID needed for creating links when clicked.
+      sortBy: React.useMemo(() => [{ id: 'createdAt', desc: true }], [])
     }
   };
 
   const { getTableProps, getTableBodyProps, headerGroups,
-    rows, prepareRow } = useTable(tableOptions);
+    rows, prepareRow } = useTable(tableOptions, useSortBy);
 
   if (props.reviews.length === 0)
     return <NoReviews />;
