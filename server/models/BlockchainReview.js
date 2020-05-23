@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
-const Schema = mongoose.Schema;
 
 const BlockchainReviewSchema = new mongoose.Schema({
-  author: { type: Schema.Types.String, ref: 'Author' },
+  author: { type: mongoose.Schema.Types.String, ref: 'Author' },
   id: String,
   journalId: String,
   publisher: String,

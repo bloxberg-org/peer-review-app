@@ -6,9 +6,9 @@
  * */
 const Web3 = require('web3');
 const ReviewStorageArtifact = require('./contracts/ReviewStorage.json');
-const { logAddedReview, logDeletedReview } = require('./reviewLogger');
-const vouchLogger = require('./vouchLogger');
+const { logAddedReview, logDeletedReview, logVouchedReview } = require('./reviewLogger');
 const logger = require('winston');
+const BlockchainReviewMeta = require('../models/BlockchainReviewMeta');
 
 const networkId = process.env.NODE_ENV === 'production' ? 8995 : 5777; // bloxberg=8995, localhost=5777
 const deployedAddress = ReviewStorageArtifact.networks[networkId].address;
@@ -55,21 +55,36 @@ setInterval(function () {
 }, 1000);
 
 
-function init() {
+async function init() {
+  const fromBlock = await getLastSyncedBlock() + 1;
   // Connect to contract
   const ReviewStorage = new web3.eth.Contract(ReviewStorageArtifact.abi, deployedAddress);
   logger.info('Trying to conntect weeb3');
-  ReviewStorage.events.ReviewAdded() // Listen to ReviewAdded events.
+  ReviewStorage.events.ReviewAdded({ fromBlock: fromBlock })
     .on('data', (event) => logAddedReview(event, ReviewStorage))
     .on('error', err => logger.error('ReviewAdded error:', err));
-  ReviewStorage.getPastEvents('ReviewAdded', { fromBlock: 0 }) // Listen to ReviewAdded events.
-    .then(array => {
-      console.log(`Total number of events found: ${array.length}`)
-    })
-  ReviewStorage.events.ReviewDeleted() // Listen to ReviewAdded events.
+  ReviewStorage.events.ReviewDeleted({ fromBlock: fromBlock })
     .on('data', (event) => logDeletedReview(event))
     .on('error', err => logger.error('ReviewDeleted error:', err));
-  ReviewStorage.events.ReviewVouched() // Listen to ReviewVouched events.
-    .on('data', (event) => vouchLogger(event))
+  ReviewStorage.events.ReviewVouched({ fromBlock: fromBlock })
+    .on('data', (event) => logVouchedReview(event))
     .on('error', err => logger.error('ReviewVouched error:', err));
+}
+
+/**
+ * Syncs the indexer upon launching. 
+ * Checks the last block with an event synced. 
+ * Returns the block number.
+ */
+function getLastSyncedBlock() {
+  return BlockchainReviewMeta.findOne()
+    .then(metadata => {
+      if (!metadata) { // running for the first time
+        logger.info('No BlockchainReviewMeta found, setting blockOfLastEvent to 0')
+        return new BlockchainReviewMeta({ blockOfLastEvent: 0 }).save().then(() => 0);
+      }
+      logger.info(`The last event synced was at block: ${metadata.blockOfLastEvent}`);
+      return metadata.blockOfLastEvent;
+    })
+    .catch(err => logger.error('getLastSyncedBlock error: ', err));
 }
