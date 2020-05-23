@@ -8,7 +8,8 @@ import ReviewsTableRow from './ReviewsTableRow';
 ReviewsTableView.propTypes = {
   columns: PropTypes.array.isRequired,
   reviews: PropTypes.array.isRequired,
-  vouchReviewWithId: PropTypes.func.isRequired
+  vouchReviewWithId: PropTypes.func.isRequired,
+  getAuthorNameFromAddress: PropTypes.func.isRequired
 };
 
 // =========== Base Components ===================
@@ -34,7 +35,7 @@ export default function ReviewsTableView(props) {
 
   const columns = React.useMemo(() => [
     { Header: 'id', accessor: 'id' }, // This is hidden in the table.
-    { Header: 'Author', accessor: 'author' },
+    { Header: 'Author', accessor: 'author', Cell: ({ cell: { value } }) => props.getAuthorNameFromAddress(value) }, // Display name instead of address on the table.
     { Header: 'Publisher', accessor: 'publisher' },
     { Header: 'Publish Date', accessor: 'timestamp', Cell: ({ cell: { value } }) => moment.unix(value).format('YYYY') },
     { Header: 'Created At', accessor: 'createdAt', Cell: ({ cell: { value } }) => moment(value).format('DD MMM YYYY') },]

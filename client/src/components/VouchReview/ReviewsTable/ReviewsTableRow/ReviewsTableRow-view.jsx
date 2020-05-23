@@ -19,8 +19,27 @@ const ReviewsTableRow = styled((props) => {
     }
   }, [props.row]);
 
+  // Don't show Vouch button for own reviews.
+  const VouchButton =
+    user._id !== row.original.author
+      ? <Button
+        onClick={(e) => {
+          props.vouchReviewWithId(id);
+          e.stopPropagation(); // Avoid clicking the row.
+        }}
+        disabled={vouched}
+        primary>
+        {vouched
+          ? 'Vouched'
+          : 'Vouch'
+        }
+      </Button>
+      : null;
+
   return (
     // Create link at onClick to /Reviews/<id>. id is a hidden column and can be accessed by allCells[0].value.
+
+
     <tr key={key} className={props.className} onClick={() => { history.push(`/Reviews/${id}`); }} {...row.getRowProps()}>
       {
         // Create each cell.
@@ -29,18 +48,7 @@ const ReviewsTableRow = styled((props) => {
         })
       }
       <td>
-        <Button
-          onClick={(e) => {
-            props.vouchReviewWithId(id);
-            e.stopPropagation(); // Avoid clicking the row.
-          }}
-          disabled={vouched}
-          primary>
-          {vouched
-            ? 'Vouched'
-            : 'Vouch'
-          }
-        </Button>
+        {VouchButton}
       </td>
     </tr>
 

@@ -7,6 +7,7 @@ import ReviewsTableView from './ReviewsTable-view';
 // Using functional component to be able to use react-table hooks.
 export default function ReviewsTableContainer(props) {
   const [reviews, setReviews] = useState([]);
+  const [authorsMap, setAuthorsMap] = useState({}); // An object with author addresses as keys and object { firstName, lastName } as values.
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,28 +25,21 @@ export default function ReviewsTableContainer(props) {
     let reviewsAndAuthorsPromises = [getIndexedReviews({}, 1, 100), getAllAuthorNames()]; // Fetch reviews and authors paralelly.
     Promise.all(reviewsAndAuthorsPromises)
       .then(valuesArray => {
-        let fetchedReviews = valuesArray[0];
-        let authorsMap = valuesArray[1]; // An object with author addresses as keys and object {firstName, lastName} as values.
-        let reviewsWithAuthorNames = replaceAuthorAddressWithNames(fetchedReviews, authorsMap);
-        setReviews(reviewsWithAuthorNames);
+        setReviews(valuesArray[0]);
+        setAuthorsMap(valuesArray[1]); // Save to state. Do the mapping in each row.
         setIsLoading(false);
       });
   };
   /**
-   * Function that takes an array of revies and returns a new array of reviews. Each review of the new array has the author field firstName + ' ' + lastName instead of the Ethereum address.
+   * Function that takes an author address and returns the corresponding firstName + ' ' + lastName
    * 
-   * @param {Array} reviews 
-   * @param {Object} authorsMap 
+   * @param {String} adress - author address
    * 
-   * @returns {array} A new array of reviews with author field as names instead of address.
+   * @returns {String} - concatanated first name and last name of author.
    */
-  const replaceAuthorAddressWithNames = (reviews, authorsMap) => {
+  const getAuthorNameFromAddress = (address) => {
     console.log(authorsMap);
-    return reviews.map(review => {
-      let authorAddress = review.author;
-      review.author = authorsMap[authorAddress].firstName + ' ' + authorsMap[authorAddress].lastName;
-      return review;
-    });
+    return authorsMap[address].firstName + ' ' + authorsMap[address].lastName;
   };
 
   const vouchReviewWithId = (id) => {
@@ -61,6 +55,6 @@ export default function ReviewsTableContainer(props) {
     return <Loader />;
 
   return (
-    <ReviewsTableView reviews={reviews} {...props} vouchReviewWithId={vouchReviewWithId} />
+    <ReviewsTableView reviews={reviews} {...props} vouchReviewWithId={vouchReviewWithId} getAuthorNameFromAddress={getAuthorNameFromAddress} />
   );
 }
