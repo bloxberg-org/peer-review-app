@@ -112,6 +112,14 @@ export default function SingleReviewView(props) {
         }
       </Button>;
 
+  // Don't show delete button for not owned reviews.
+  const DeleteButton =
+    props.isOwnReview
+      ? <Button onClick={props.deleteReview}>
+        Delete
+      </Button>
+      : null;
+
   return (
     <FlexDiv>
       <CardWrapper style={{ padding: '32px' }} title={props.DBreview ? props.DBreview.articleTitle : 'No title given'}>
@@ -163,9 +171,7 @@ export default function SingleReviewView(props) {
           <ReviewField title='Content'>{props.DBreview ? props.DBreview.content : 'N/A'} </ReviewField>
         </div>
         <div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
-          <Button onClick={props.deleteReview}>
-            Delete
-          </Button>
+          {DeleteButton}
         </div>
       </CardWrapper>
     </FlexDiv >
