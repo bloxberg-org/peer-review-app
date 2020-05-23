@@ -10,7 +10,6 @@ import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol"
 
 
 contract ReviewStorage is GSNRecipient {
-    // address[] usersAddresses; // Should we keep this?
     event ReviewAdded(address indexed from, string id);
     event ReviewDeleted(address indexed from, string id);
     event ReviewVouched(address indexed from, string id);
@@ -39,6 +38,22 @@ contract ReviewStorage is GSNRecipient {
     function initialize() public initializer {
         GSNRecipient.initialize();
         publonsAddress = 0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311;
+    }
+
+    modifier onlyByAuthor(string memory id) {
+        require(
+            reviewsMap[id].author == _msgSender(),
+            "Operation permitted for the author of the review only."
+        );
+        _;
+    }
+
+    modifier onlyByOthers(string memory id) {
+        require(
+            reviewsMap[id].author != _msgSender(),
+            "Operation not permitted for the author of the review."
+        );
+        _;
     }
 
     /// @notice Public method to add a review.
@@ -228,7 +243,7 @@ contract ReviewStorage is GSNRecipient {
         return userReviewsIdsMap[addr];
     }
 
-    function deleteReview(string memory id) public {
+    function deleteReview(string memory id) public onlyByAuthor(id) {
         Review storage review = reviewsMap[id];
         uint32 index = review.index;
         address author = review.author;
@@ -243,7 +258,7 @@ contract ReviewStorage is GSNRecipient {
     /// @notice Function to vouch a Review at the given address and index.
     /// @dev Assumes the voucher is the _msgSender(). Checks if the Review is already vouched by the same address.
     /// @param id - id of the review
-    function vouchReview(string memory id) public {
+    function vouchReview(string memory id) public onlyByOthers(id) {
         // TODO: Can't vouch herself
         address voucher = _msgSender(); // TODO: Avoid being vouched by a contract
         Review storage review = reviewsMap[id];
