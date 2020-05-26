@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getAllAuthorNames } from '../../../utils/authors';
-import { getIndexedReviews, vouchReview } from '../../../utils/review';
+import { getAllIndexedReviews, vouchReview } from '../../../utils/review';
 import Loader from '../../Loader';
 import ReviewsTableView from './ReviewsTable-view';
 
@@ -22,7 +22,7 @@ export default function ReviewsTableContainer(props) {
   const init = () => {
     setIsLoading(true);
     // TODO: Paginate reviews with search. For now just fetch 100 reviews.
-    let reviewsAndAuthorsPromises = [getIndexedReviews({}, 1, 100), getAllAuthorNames()]; // Fetch reviews and authors paralelly.
+    let reviewsAndAuthorsPromises = [getAllIndexedReviews(), getAllAuthorNames()]; // Fetch reviews and authors paralelly.
     Promise.all(reviewsAndAuthorsPromises)
       .then(valuesArray => {
         setReviews(valuesArray[0]);

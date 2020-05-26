@@ -2,25 +2,19 @@ import * as connection from '../connection/reviewConnection';
 import { getCurrentAccount } from '../connection/reviewConnection';
 import { get, getXML, post } from './endpoint';
 
-// Used in bottom part of Overview. In ListCard
-export const getLatestNReviews = (limit) => {
-  let URL = `/reviews/all/?limit=${limit}&sortBy=createdAt`;
+export const getAllIndexedReviews = () => {
+  let URL = '/reviews/all/?sortBy=createdAt&sortOrder=desc';
   return get(URL);
 };
 
-export const getMostVouchedNReviews = (limit) => {
-  let URL = `/reviews/all/?limit=${limit}&sortBy=vouchers`;
+// Used in bottom part of Overview. In ListCard
+export const getLatestNIndexedReviews = (limit) => {
+  let URL = `/reviews/all/?limit=${limit}&sortBy=createdAt&sortOrder=desc`;
   return get(URL);
-}
+};
 
-export const getIndexedReviews = (searchQuery, page, limit) => {
-  // Check the type of query: name, email, address?
-
-  let queryType = '_id';
-
-  let URL = `/reviews/all/?page=${page}&limit=${limit}`;
-  if (searchQuery)
-    URL += `&${queryType}=${searchQuery}`;
+export const getMostVouchedNIndexedReviews = (limit) => {
+  let URL = `/reviews/all/?limit=${limit}&sortBy=vouchers&sortOrder=desc`;
   return get(URL);
 };
 /**

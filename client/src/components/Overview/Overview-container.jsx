@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getLatestNReviews, getMostVouchedNReviews } from '../../utils/review';
+import { getLatestNIndexedReviews, getMostVouchedNIndexedReviews } from '../../utils/review';
 import LoaderView from '../Loader';
 import OverviewView from './Overview-view';
 
@@ -22,12 +22,12 @@ export default class OverviewContainer extends React.Component {
   }
 
   componentDidMount() {
-    getLatestNReviews(4)
+    getLatestNIndexedReviews(4)
       .then(reviews => {
         this.setState({ reviewVerification: reviews });
       })
       .catch(console.error);
-    getMostVouchedNReviews(4)
+    getMostVouchedNIndexedReviews(4)
       .then(reviews => {
         this.setState({ highlightedReviews: reviews });
       })

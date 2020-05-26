@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate');
 
 const BlockchainReviewSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.String, ref: 'Author' },
@@ -16,7 +15,5 @@ const BlockchainReviewSchema = new mongoose.Schema({
   blockNumber: Number, // Block height when mined
   transactionIndex: Number // Tx id in the block
 }, { timestamps: true });
-
-BlockchainReviewSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('BlockchainReview', BlockchainReviewSchema);

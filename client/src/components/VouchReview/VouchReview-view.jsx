@@ -1,3 +1,4 @@
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import styled from 'styled-components';
 import FAIconButton from '../Button/FAIconButton';
@@ -38,10 +39,10 @@ export default function VouchReviewView(props) {
   return (
     <Wrapper>
       <CardWrapper title="Vouch Reviews" blurb={blurbText}>
-        {/* <SearchBarWrapper>
-          <StyledSearchBar placeholder='Search by email, name, or address' />
+        <SearchBarWrapper>
+          <StyledSearchBar placeholder='Search by email, name, publisher, title etc.' />
           <SearchButton icon={faSearch} />
-        </SearchBarWrapper> */}
+        </SearchBarWrapper>
         <ReviewsTable />
       </CardWrapper>
     </Wrapper>

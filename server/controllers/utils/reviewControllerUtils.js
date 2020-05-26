@@ -4,6 +4,13 @@ const crypto = require('crypto');
 const { getPDF } = require('../../utils/restUtils');
 const logger = require('winston');
 
+/**
+ * Function to extract the review object from the jsonDoc which is the F1000R review converted to json from xml. 
+ * 
+ * @param {Object} jsonDoc - raw json review converted from F1000R XML format
+ * @param {Number} index - index of the review under an article. An article has multiple reviews and the user chooses is promted to choose one after she submits the article DOI.
+ * @returns {Object} Formatted review object
+ */
 exports.extractReviewFromJsonDoc = (jsonDoc, index) => {
   logger.info('REQUESTED REVIEW WITH ID ' + index);
   // Relevant fields of the whole json
@@ -79,21 +86,23 @@ exports.extractListOfReviews = (jsonDoc) => {
 // ============ Util functions for functions above ===========
 
 function extractReviewBody(reviewBody) {
+  /**
+   * Extract the review content from the converted json file.
+   * reviewBody object is of the following format:
 
-  // Extract the review content from the converted json file. 
-  // reviewBody object is of the following format:
-  // 
-  // p: [
-  //   {
-  //     _text: 'This is a well selected review that covers most of the essential 2018 works on Tourette syndrome.'
-  //   },
-  //   {
-  //     _text: ' These measures are related to SMA and basal ganglia functioning which is pretty consistent with neuroimaging and electrophysio....
-  // 
-  // We need the content of the review text under p.
-  // So we reduce the array under the field 'p'.
-  // First set an empty string to be the initial value of the accumulator.
-  // Then accumulate _text fields of each subsequent element , with a new line, into a single string.
+   * p: [
+   *   {
+   *     _text: 'This is a well selected review that covers most of the essential 2018 works on Tourette syndrome.'
+   *   },
+   *   {
+   *     _text: ' These measures are related to SMA and basal ganglia functioning which is pretty consistent with neuroimaging and electrophysio....
+
+   * We need the content of the review text under p.
+   * So we reduce the array under the field 'p'.
+   * First set an empty string to be the initial value of the accumulator.
+   * Then accumulate _text fields of each subsequent element , with a new line, into a single string.
+   */
+
   let reviewContent = reviewBody['p'].reduce((accumulator, currentVal) => {
     // TODO: Handle Arrays. We assume just one level of depth and Array of strings get concatenated via toString() automatically. This leaves emptry strings in the text for some reason.
     return accumulator + currentVal['_text'] + '\n';

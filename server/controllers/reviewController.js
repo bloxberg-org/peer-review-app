@@ -8,29 +8,28 @@ const { xml2json } = require('xml-js');
 const { extractReviewFromJsonDoc, downloadAndHashPdf, extractListOfReviews } = require('./utils/reviewControllerUtils');
 const logger = require('winston');
 
-// GET /reviews/all
 /**
- * Function to get blockchain reviews that are indexed by indexer listening to events.
+ * GET /reviews/all
+ * 
+ * Middleware function to get blockchain reviews that are indexed by the indexer listening to events.
  */
 exports.getIndexedReviews = (req, res) => {
-  let page = req.query.page || 1; // Default page 1.
-  let limit = req.query.limit || 10; // Default limit to 10.
-  let sortBy = req.query.sortBy;
-  let queryType = req.query.queryType;
-  let queryValue = req.query.queryValue;
-  let options = {
-    page: parseInt(page),
-    limit: parseInt(limit),
-  };
-  if (sortBy)
-    options.sort = { createdAt: -1 };
-  logger.info('Options are');
-  logger.info(JSON.stringify(options));
-  let query;
-  // Assign query value if exists. E.g. name, email, _id
-  query = queryType ? query[queryType] = queryValue : {};
 
-  if (sortBy === 'vouchers') { //TODO: Write a seperate handler/controller for sort by vouchers
+  logger.info('Requested all reviews');
+  // Commenting these lines out as we stop paginating server side. Instead we fetch all indexed reviews and filter client-side. 
+
+  // Parse queries.
+  // let page = req.query.page || 1; // Default page 1.
+  let limit = req.query.limit;
+  let sortOrder = req.query.sortOrder || 'desc';
+  // let search = req.query.search;
+  let sortBy = req.query.sortBy || 'createdAt';
+
+  // mongoose-paginate options
+  let sort = { [sortBy]: sortOrder };
+  // let query = buildReviewSearchQuery(search);
+
+  if (sortBy === 'vouchers') {
     // from https://stackoverflow.com/questions/9040161/mongo-order-by-length-of-array
     BlockchainReview.aggregate([
       {
@@ -39,17 +38,16 @@ exports.getIndexedReviews = (req, res) => {
       {
         $sort: { 'vouchersCount': -1 }
       },
-      { '$limit': options.limit }
+      { '$limit': limit }
     ])
       .then((results) => {
         res.status(200).json(results);
       })
       .catch(logger.error);
-
   } else {
-    BlockchainReview.paginate(query, options)
+    BlockchainReview.find({}).sort(sort)
       .then((results) => {
-        res.status(200).json(results.docs);
+        res.status(200).json(results);
       })
       .catch(logger.error);
   }
@@ -200,3 +198,39 @@ exports.getReviewXML = (req, res) => {
 //   }
 // };
 
+/**
+ * Commented out for the same reason above: not server-side paginating anymore. Fetching all indexed reviews and filtering client-side isntead.
+ * Builds the mongoose query object for text search in review fields publisher, url...
+ *
+ * @param {String} searchedString - text to search
+ */
+// function buildReviewSearchQuery(searchedString) {
+//   if (!searchedString)
+//     return {};
+
+//   return {
+//     $or: [
+//       { 'publisher': { $regex: '.*' + searchedString + '.*' } },
+//       { 'url': { $regex: '.*' + searchedString + '.*' } }
+//     ]
+//   };
+// }
+
+/**
+ * Commented out for the same reason above: not server-side paginating anymore. Fetching all indexed reviews and filtering client-side isntead.
+ * Builds the mongoose query object for text search in author fields: firstName, lastName, email,
+ *
+ * @param {String} searchedString - Text to search
+ */
+// function buildAuthorSearchQuery(searchedString) {
+//   if (!searchedString)
+//     return {};
+
+//   return {
+//     $or: [
+//       { 'firstName': { $regex: '.*' + searchedString + '.*' } },
+//       { 'lastName': { $regex: '.*' + searchedString + '.*' } },
+//       { 'email': { $regex: '.*' + searchedString + '.*' } }
+//     ]
+//   };
+// }
