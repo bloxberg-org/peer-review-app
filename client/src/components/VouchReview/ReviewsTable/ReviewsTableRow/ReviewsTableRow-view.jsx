@@ -21,7 +21,7 @@ const ReviewsTableRow = styled((props) => {
 
   // Don't show Vouch button for own reviews.
   const VouchButton =
-    user._id !== row.original.author
+    user._id !== row.original.author._id
       ? <Button
         onClick={(e) => {
           props.vouchReviewWithId(id);

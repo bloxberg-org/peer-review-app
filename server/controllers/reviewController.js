@@ -45,8 +45,9 @@ exports.getIndexedReviews = (req, res) => {
       })
       .catch(logger.error);
   } else {
-    BlockchainReview.find({}).sort(sort)
+    BlockchainReview.find({}).sort(sort).populate('author')
       .then((results) => {
+        logger.info(`Sending ${results.length} reviews`);
         res.status(200).json(results);
       })
       .catch(logger.error);

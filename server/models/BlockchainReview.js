@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const BlockchainReviewSchema = new mongoose.Schema({
-  author: { type: mongoose.Schema.Types.String, ref: 'Author' },
+  author: { type: mongoose.Schema.Types.String, ref: 'ReviewAuthor' },
   id: String,
   journalId: String,
   publisher: String,
