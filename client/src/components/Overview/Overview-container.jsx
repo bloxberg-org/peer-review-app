@@ -13,7 +13,7 @@ export default class OverviewContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      graphData: {
+      graphStatsData: {
         'Most Recent Review': this.getMostRecentReviewYear(),
         'First Review': this.getFirstReviewYear(),
         'Most Reviewed Publisher': this.getMostReviewedJournal()
@@ -133,7 +133,14 @@ export default class OverviewContainer extends React.Component {
     };
 
     return (
-      <OverviewView {...this.props} {...this.state} cardsData={cardsData} />
+      <OverviewView
+        {...this.props}
+        highlightedReviews={this.state.highlightedReviews}
+        reviewVerification={this.state.reviewVerification}
+        graphStatsData={this.state.graphStatsData}
+        cardsData={cardsData}
+        reviewsOfUser={this.props.reviewsOfUser}
+      />
     );
   }
 }

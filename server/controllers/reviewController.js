@@ -20,7 +20,7 @@ exports.getIndexedReviews = (req, res) => {
 
   // Parse queries.
   // let page = req.query.page || 1; // Default page 1.
-  let limit = req.query.limit;
+  let limit = parseInt(req.query.limit);
   let sortOrder = req.query.sortOrder || 'desc';
   // let search = req.query.search;
   let sortBy = req.query.sortBy || 'createdAt';
@@ -30,6 +30,7 @@ exports.getIndexedReviews = (req, res) => {
   // let query = buildReviewSearchQuery(search);
 
   if (sortBy === 'vouchers') {
+    logger.info(`Sorting by vouchers sortby:${sortBy} limit:${limit}`);
     // from https://stackoverflow.com/questions/9040161/mongo-order-by-length-of-array
     BlockchainReview.aggregate([
       {
@@ -45,12 +46,16 @@ exports.getIndexedReviews = (req, res) => {
       })
       .catch(logger.error);
   } else {
-    BlockchainReview.find({}).sort(sort).populate('author')
+    logger.info(JSON.stringify(sort));
+    BlockchainReview.find({}).limit(limit).sort(sort).populate('author')
       .then((results) => {
         logger.info(`Sending ${results.length} reviews`);
         res.status(200).json(results);
       })
-      .catch(logger.error);
+      .catch(err => {
+        logger.error(err);
+        res.status(500).send(new Error(err));
+      });
   }
 };
 

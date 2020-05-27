@@ -15,6 +15,7 @@ import Routes from './Routes';
 
 AppView.propTypes = {
   user: PropTypes.object,
+  reviewsOfUser: PropTypes.array,
   isConnectedToBloxberg: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isNoUserFound: PropTypes.bool.isRequired,
@@ -101,7 +102,7 @@ export default function AppView(props) {
       </AppContentWithSideBar>;
 
   return (
-    <Context.Provider value={{ user: props.user }}>
+    <Context.Provider value={{ user: props.user, reviews: props.reviewsOfUser }}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         {

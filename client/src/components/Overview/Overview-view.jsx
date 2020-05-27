@@ -7,7 +7,7 @@ import OverviewCard from './OverviewCard';
 
 OverviewView.propTypes = {
   data: PropTypes.object,
-  graphData: PropTypes.object,
+  graphStatsData: PropTypes.object,
   highlightedReviews: PropTypes.array,
   reviewVerification: PropTypes.array,
   isLoading: PropTypes.bool,
@@ -37,7 +37,6 @@ const Wrapper = styled.div`
 `;
 
 export default function OverviewView(props) {
-
   // Render cards e.g. 'H-Index': 75, (Number of ) 'Peer Reviews': 32...
   let cardsData = props.cardsData;
   let cards = [];
@@ -53,7 +52,7 @@ export default function OverviewView(props) {
           cards
         }
       </CardsWrapper>
-      <Graph userName={props.user.firstName + ' ' + props.user.lastName} data={props.graphData} />
+      <Graph statsData={props.graphStatsData} />
       <BottomCardsWrapper>
         <ListCard
           title='Highlighted Reviews'
@@ -68,5 +67,5 @@ export default function OverviewView(props) {
         />
       </BottomCardsWrapper>
     </Wrapper>
-  )
+  );
 }
