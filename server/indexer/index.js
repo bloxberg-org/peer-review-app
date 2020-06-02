@@ -29,6 +29,7 @@ const options = {
   }
 };
 
+var isInit = false;
 let provider, web3;
 setTimeout(() => { // Workaround to avoid connecting to ganache before it starts with `npm run dev` script. 
   provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === 'production' ? bloxbergProvider : localProvider, options);
@@ -60,15 +61,18 @@ async function init() {
   // Connect to contract
   const ReviewStorage = new web3.eth.Contract(ReviewStorageArtifact.abi, deployedAddress);
   logger.info('Trying to conntect weeb3');
-  ReviewStorage.events.ReviewAdded({ fromBlock: fromBlock })
-    .on('data', (event) => logAddedReview(event, ReviewStorage))
-    .on('error', err => logger.error('ReviewAdded error:', err));
-  ReviewStorage.events.ReviewDeleted({ fromBlock: fromBlock })
-    .on('data', (event) => logDeletedReview(event))
-    .on('error', err => logger.error('ReviewDeleted error:', err));
-  ReviewStorage.events.ReviewVouched({ fromBlock: fromBlock })
-    .on('data', (event) => logVouchedReview(event))
-    .on('error', err => logger.error('ReviewVouched error:', err));
+  if (!isInit) { // Workaround: Avoid registering multiple listeners. Because WebSocket keeps reconnecting, it keeps registering new event listeners. Do this once.
+    ReviewStorage.events.ReviewAdded({ fromBlock: fromBlock })
+      .on('data', (event) => logAddedReview(event, ReviewStorage))
+      .on('error', err => logger.error('ReviewAdded error:', err));
+    ReviewStorage.events.ReviewDeleted({ fromBlock: fromBlock })
+      .on('data', (event) => logDeletedReview(event))
+      .on('error', err => logger.error('ReviewDeleted error:', err));
+    ReviewStorage.events.ReviewVouched({ fromBlock: fromBlock })
+      .on('data', (event) => logVouchedReview(event))
+      .on('error', err => logger.error('ReviewVouched error:', err));
+    isInit = true;
+  }
 }
 
 /**
