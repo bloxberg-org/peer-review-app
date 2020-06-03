@@ -1,10 +1,11 @@
-import Proptypes from 'prop-types';
+import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import userIcon from '../../../assets/user.png';
 
 UserIconView.propTypes = {
-  user: Proptypes.object
+  user: PropTypes.object,
+  onClick: PropTypes.func
 };
 
 const Name = styled.div`
@@ -17,9 +18,9 @@ const Name = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  flex: 0.5;
   justify-content: flex-end;
   align-items: center;
+  cursor: pointer;
   `;
 
 const Picture = styled.img`
@@ -31,7 +32,7 @@ const Picture = styled.img`
 
 export default function UserIconView(props) {
   return (
-    <Wrapper>
+    <Wrapper onClick={props.onClick}>
       <Name>{props.user.firstName} {props.user.lastName}</Name>
       <Picture src={userIcon} />
     </Wrapper>

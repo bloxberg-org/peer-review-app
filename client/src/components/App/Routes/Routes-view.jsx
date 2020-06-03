@@ -24,7 +24,7 @@ export default function RoutesView(props) {
         <TopBar title='Reviews' {...props} />
         <AddReview {...props} refreshReviews={props.refreshReviews} />
       </Route>
-      <Route path="/Reviews/YourReviews">
+      <Route path="/Reviews/MyReviews">
         <TopBar title='Reviews' {...props} />
         <AllReviews {...props} />
       </Route>

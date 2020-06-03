@@ -1,6 +1,7 @@
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import Proptypes from 'prop-types';
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import FAIconButton from '../Button/FAIconButton';
 import SearchBar from '../SearchBar';
@@ -48,6 +49,8 @@ const StyledSearchBar = styled(SearchBar)`
 `;
 
 export default function TopBarView(props) {
+  const history = useHistory();
+
   if (props.isLoading)
     return null;
   return (
@@ -57,7 +60,7 @@ export default function TopBarView(props) {
       </TitleWrapper>
       <TopBarRightWrapper>
         {/* <StyledSearchBar placeholder='Try: "Max Planck"' /> */}
-        <UserIcon user={props.user} />
+        <UserIcon user={props.user} onClick={() => history.push('/Overview')} />
         {
           props.isLoggedInWithFm
             ? <FAIconButton tooltip="Logout" onClick={props.handleLogout} icon={faSignOutAlt} />
