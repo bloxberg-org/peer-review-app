@@ -36,9 +36,10 @@ export default function RoutesView(props) {
         <TopBar title='Review' {...props} />
         <SingleReview {...props} />
       </Route>
-
-      {/* Redirect to AddReview at route /Review/ */}
-      <Redirect to='/Reviews/AddReview' />
+      <Route path="/Reviews/">
+        {/* Redirect to AddReview at route /Review/ */}
+        <Redirect to='/Reviews/AddReview' />
+      </Route>
       <Route path="/">
         <Redirect to="/Overview" />
       </Route>
