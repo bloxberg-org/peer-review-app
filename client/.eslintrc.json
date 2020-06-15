@@ -38,7 +38,8 @@
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "require-atomic-updates": "off"
   },
   "settings": {
     "react": {
