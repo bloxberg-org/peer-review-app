@@ -11,7 +11,7 @@ TopBarView.propTypes = {
   title: Proptypes.string,
   user: Proptypes.object,
   isLoading: Proptypes.bool,
-  handleLogout: Proptypes.func.isRequired,
+  logoutFromFortmatic: Proptypes.func.isRequired,
   isLoggedInWithFm: Proptypes.bool.isRequired
 };
 
@@ -63,7 +63,7 @@ export default function TopBarView(props) {
         <UserIcon user={props.user} onClick={() => history.push('/Overview')} />
         {
           props.isLoggedInWithFm
-            ? <FAIconButton tooltip="Logout" onClick={props.handleLogout} icon={faSignOutAlt} />
+            ? <FAIconButton tooltip="Logout" onClick={props.logoutFromFortmatic} icon={faSignOutAlt} />
             : null
         }
       </TopBarRightWrapper>

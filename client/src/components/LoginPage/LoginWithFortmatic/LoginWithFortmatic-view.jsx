@@ -20,8 +20,7 @@ text-align: center;
 justify-content: center;
 flex-direction: column;
 align-items: center;
-width: 90%;
-margin-top: 10vh;
+margin-bottom: 5vh;
 `;
 
 const FormWrapper = styled.div`
@@ -46,16 +45,16 @@ export default function LoginWithFortmaticView(props) {
   return (
     <Wrapper>
       <FormWrapper>
-      <form onSubmit={handleSubmit(props.handleLogin)}>
-        <CustomFormField
-          name='email'
-          placeholder='Email'
-          errors={errors.email}
-          register={register({ required: true, pattern: /^\S+@\S+$/i })} />
+        <form onSubmit={handleSubmit(props.handleLogin)}>
+          <CustomFormField
+            name='email'
+            placeholder='Email'
+            errors={errors.email}
+            register={register({ required: true, pattern: /^\S+@\S+$/i })} />
           <ButtonWrapper>
-            <Button primary> Login </Button>     
+            <Button primary> Login </Button>
           </ButtonWrapper>
-          </form>
+        </form>
       </FormWrapper>
     </Wrapper>
   );

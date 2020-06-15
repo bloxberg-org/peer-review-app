@@ -3,26 +3,23 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 import GlobalStyle, { theme } from '../../assets/theme';
-import Context from '../Context';
 import Loader from '../Loader';
 import LoginPage from '../LoginPage';
 import Register from '../Register';
 import SideBar from '../SideBar';
 import ConnectToBloxberg from './ConnectToBloxberg';
 // import InstallMetamask from './InstallMetamask';
-// import LoginWithFortmatic from './LoginWithFortmatic';
 import Routes from './Routes';
 
 AppView.propTypes = {
-  user: PropTypes.object,
-  reviewsOfUser: PropTypes.array,
   isConnectedToBloxberg: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isNoUserFound: PropTypes.bool.isRequired,
   isLoggedInWithFm: PropTypes.bool.isRequired,
   isLoggedInWithMetamask: PropTypes.bool.isRequired,
-  handleLoginWithMagicLink: PropTypes.func.isRequired,
-  handleLogout: PropTypes.func.isRequired,
+  loginWithFortmatic: PropTypes.func.isRequired,
+  logoutFromFortmatic: PropTypes.func.isRequired,
+  loginWithMetamask: PropTypes.func.isRequired,
   refreshReviews: PropTypes.func.isRequired
 };
 
@@ -82,8 +79,11 @@ export default function AppView(props) {
   else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
     AppContent =
       <AppContentWithoutSideBar>
-        <LoginPage handleLogin={props.handleLoginWithMagicLink}
-          handleLogout={props.handleLogout} />
+        <LoginPage
+          loginWithFortmatic={props.loginWithFortmatic}
+          logoutFromFortmatic={props.logoutFromFortmatic}
+          loginWithMetamask={props.loginWithMetamask}
+        />
       </AppContentWithoutSideBar>;
   else if (!props.isConnectedToBloxberg)
     AppContent =
@@ -102,13 +102,11 @@ export default function AppView(props) {
       </AppContentWithSideBar>;
 
   return (
-    <Context.Provider value={{ user: props.user, reviews: props.reviewsOfUser }}>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        {
-          AppContent
-        }
-      </ThemeProvider>
-    </Context.Provider>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      {
+        AppContent
+      }
+    </ThemeProvider>
   );
 }

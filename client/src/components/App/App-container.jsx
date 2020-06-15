@@ -2,9 +2,9 @@ import Fortmatic from 'fortmatic';
 import React from 'react';
 import Web3 from 'web3';
 import { getCurrentAccount } from '../../connection/reviewConnection';
-import getWeb3 from '../../connection/web3';
 import { get } from '../../utils/endpoint';
 import { getAllBlockchainReviews } from '../../utils/review';
+import Context from '../Context';
 import AppView from './App-view';
 
 const customNodeOptions = {
@@ -26,69 +26,92 @@ export default class App extends React.Component {
       isNoUserFound: false,
       reviewsOfUser: [],
       user: {},
+      web3: {}
     };
   }
 
-  async componentDidMount() {
-    // Check if Metamask is there.
+  loginWithMetamask = async () => {
     if (typeof window.ethereum !== 'undefined') {
-      getWeb3()
-        .then(web3 => { // TODO: Redundant with ethereum.enable().
-          return web3.eth.net.getId();
-        })
-        .then(id => {
-          // Check which network is connected.
-          let netwId = parseInt(id);
-          this.checkConnectedNetwork(netwId);
-        });
-      // TODO: Metamask does not recommend calling enable upon loading.
-      window.ethereum.enable()
-        .then(accounts => {
-          this.setState({ isLoggedInWithMetamask: true });
-          console.log(`The account address is ${accounts[0]}`);
-          return window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
-        })
-        .then(this.init)
-        .catch(err => console.log(err));
-
+      try {
+        this.setState({ isLoading: true });
+        const accounts = await window.ethereum.enable();
+        const web3 = new Web3(window.ethereum);
+        const netId = await web3.eth.net.getId();
+        this.checkConnectedNetwork(parseInt(netId));
+        // Set accounts below even if connected to false network. 
+        this.setState({ web3: web3, isLoggedInWithMetamask: true });
+        console.log(`The account address is ${accounts[0]}`);
+        const accountAddress = await window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
+        await this.init(accountAddress);
+      } catch (e) {
+        this.setState({ isLoading: false });
+        console.error(e);
+      }
       // Event listener for when the account is changed.
       // Fetch new user when address changes.
       window.ethereum.on('accountsChanged', () => {
+        console.log('Metamask account changed');
         this.setState({ isLoading: true });
         this.getUserAddress()
           .then(this.init) // Fetch user.
           .catch(err => console.log(err));
       });
-    }
-    else { // Use fortmatic
-      console.log('Using fortmatic');
-      window.web3 = new Web3(fmPhantom.getProvider()); // Inject Fortmatic.
-      // let token = localStorage.getItem('didToken');
-      // console.log(`Token: ${token}`);
-      // console.log('Is iser logged in? ' + await fmPhantom.user.isLoggedIn());
 
-      if (await fmPhantom.user.isLoggedIn()) {
-        console.log('Logged in with Fortmatic!');
-        this.getUserAddress().then(address => {
-          console.log('User address is');
-          console.log(address);
+      // Event listener for when the network is changed. Metamask will stop doing this automatically soon. https://github.com/MetaMask/metamask-extension/issues/8077
+      // Fetch new user when address changes.
+
+      window.ethereum.on('chainChanged', () => {
+        console.log('Connected chain changed');
+        this.setState({ isLoading: true });
+        this.getUserAddress()
+          .then(this.init) // Fetch user.
+          .catch(err => console.log(err));
+      });
+    } else {
+      alert('Please install Metamask or another wallet');
+    }
+  }
+
+  async componentDidMount() {
+    // Check if Metamask is there and user is already logged in (window.enable()). 
+    // If so, prompt log in with Metamask (to avoid showing user the login screen again).
+    if (typeof window.ethereum !== 'undefined') {
+      window.ethereum.autoRefreshOnNetworkChange = false; // Supress browser console warning. 
+      const web3 = new Web3(window.ethereum);
+      this.setState({ web3: web3 });
+      web3.eth.getAccounts()
+        .then(accounts => {
+          if (accounts.length > 0) {
+            this.loginWithMetamask();
+          }
         });
-        this.setState({ isLoggedInWithFm: true, isConnectedToBloxberg: true });
-        fmPhantom.user.getMetadata().then(metadata => {
-          let addr = metadata.publicAddress;
-          this.init(addr);
-        });
-      } else {
-        this.setState({ isLoading: false });
-        // Login with fortmatic
-      }
+    }
+    // let token = localStorage.getItem('didToken');
+    // console.log(`Token: ${token}`);
+    // console.log('Is iser logged in? ' + await fmPhantom.user.isLoggedIn());
+    if (await fmPhantom.user.isLoggedIn()) {
+      console.log('Logged in with Fortmatic!');
+      const web3 = new Web3(fmPhantom.getProvider()); // Inject Fortmatic.
+      this.setState({ web3: web3, isLoading: true });
+      this.getUserAddress().then(address => {
+        console.log('User address is');
+        console.log(address);
+      });
+      this.setState({ isLoggedInWithFm: true, isConnectedToBloxberg: true });
+      fmPhantom.user.getMetadata().then(metadata => {
+        let addr = metadata.publicAddress;
+        this.init(addr);
+      });
+    } else {
+      this.setState({ isLoading: false });
+      // Login with fortmatic
     }
   }
 
   /** 
    * Logs the user in using Fortmatic.
    */
-  handleLoginWithMagicLink = async (data) => {
+  loginWithFortmatic = async (data) => {
     const email = data.email;
     const user = await fmPhantom.loginWithMagicLink({ email });
     // console.log('Is iser logged in? ' + await fmPhantom.user.isLoggedIn());
@@ -103,7 +126,7 @@ export default class App extends React.Component {
   /**
    * Logs user out from fortmatic
    */
-  handleLogoutUser = () => {
+  logoutFromFortmatic = () => {
     console.log('Logging out');
     fmPhantom.user.logout().then(() => {
       console.log('Logged out');
@@ -187,13 +210,16 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <AppView
-        addReviewsToState={this.addReviewsToState}
-        deleteReviewFromState={this.deleteReviewFromState}
-        handleLoginWithMagicLink={this.handleLoginWithMagicLink}
-        handleLogout={this.handleLogoutUser}
-        refreshReviews={this.fetchBlockchainReviewsAndSetReviewsOfUser}
-        {...this.state} />
+      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, web3: this.state.web3 }}>
+        <AppView
+          addReviewsToState={this.addReviewsToState}
+          deleteReviewFromState={this.deleteReviewFromState}
+          loginWithFortmatic={this.loginWithFortmatic}
+          logoutFromFortmatic={this.logoutFromFortmatic}
+          refreshReviews={this.fetchBlockchainReviewsAndSetReviewsOfUser}
+          loginWithMetamask={this.loginWithMetamask}
+          {...this.state} />
+      </Context.Provider>
     );
   }
 }
