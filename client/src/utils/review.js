@@ -77,7 +77,7 @@ export const getAllBlockchainReviews = async () => {
     if (reviewIds.length === 0) // return empty array if there are no reviews.
       return [];
   } catch (e) {
-    console.log('Error getting review ids');
+    console.log('Error getting review ids. Is the contract deployed?\n', e);
   }
 
   console.log('Review ids are');

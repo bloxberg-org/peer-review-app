@@ -24,10 +24,10 @@ AppView.propTypes = {
 };
 
 const Wrapper = styled.div`
-   display: flex;
-   flex: 1;
-   min-height: 100vh;
-   max-width: 100vw;
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+  max-width: 100vw;
 `;
 
 const MainWrapper = styled.div`
@@ -43,13 +43,16 @@ const SideBarWrapper = styled.div`
 
 const AppContentWithoutSideBar = styled((props) => {
   return (
-    <Wrapper>
+    <Wrapper className={props.className}>
       <Router>
         {props.children}
       </Router>
     </Wrapper>
   );
-})``;
+})`
+  align-items: center;
+  justify-content: center;
+`;
 
 const AppContentWithSideBar = styled((props) => {
   return (
@@ -69,14 +72,16 @@ const AppContentWithSideBar = styled((props) => {
 export default function AppView(props) {
 
   let AppContent;
-  if (props.isLoading) // If loading user and reviews return the spinner
+  if (props.isLoading) { // If loading user and reviews return the spinner
     AppContent = (
-      <AppContentWithSideBar>
+      <AppContentWithoutSideBar>
         <Loader />
-      </AppContentWithSideBar>
+      </AppContentWithoutSideBar>
     );
+    console.log('Show default loading');
+  }
   // Show Fortmatic login if not logged in with fm or metamask.
-  else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask)
+  else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask) {
     AppContent =
       <AppContentWithoutSideBar>
         <LoginPage
@@ -85,6 +90,8 @@ export default function AppView(props) {
           loginWithMetamask={props.loginWithMetamask}
         />
       </AppContentWithoutSideBar>;
+    console.log('Show Log In Screen');
+  }
   else if (!props.isConnectedToBloxberg)
     AppContent =
       <AppContentWithSideBar>

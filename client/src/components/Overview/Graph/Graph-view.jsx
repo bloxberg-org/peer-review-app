@@ -111,9 +111,9 @@ function Graph(props) {
   const allMonthsArray = monthlyGroupReviews(reviews);
   const chartData = get12MonthsDataOfYearsBefore(allMonthsArray, yearsFromNow);
   let statsData = props.statsData;
-  console.log(reviews);
-  console.log('Years from now in Graph: ', yearsFromNow);
-  console.log(chartData);
+  // console.log(reviews);
+  // console.log('Years from now in Graph: ', yearsFromNow);
+  // console.log(chartData);
 
   let cards = [];
   let i = 0;
@@ -209,7 +209,7 @@ function formatMonthsMapToChart(monthsMap) {
  */
 function fillEmptyMonths(monthsMap, sortedReviews) {
 
-  console.log('Received months: ', monthsMap);
+  // console.log('Received months: ', monthsMap);
 
   if (sortedReviews.length === 1)
     return monthsMap;
@@ -224,7 +224,7 @@ function fillEmptyMonths(monthsMap, sortedReviews) {
   // Iterate from currentReviewMonth until lastReviewMonth
   while (moment(currentReviewDate).isSameOrBefore(lastReviewDate)) {
     let currentReviewMonth = currentReviewDate.format(GRAPH_DATE_FORMAT);
-    console.log('Current month is: ', currentReviewMonth);
+    // console.log('Current month is: ', currentReviewMonth);
     // If the month is empty
     if (!Object.prototype.hasOwnProperty.call(monthsMap, currentReviewMonth)) {
       allMonthsMap[currentReviewMonth] = 0;
@@ -238,7 +238,7 @@ function fillEmptyMonths(monthsMap, sortedReviews) {
   // Assign last review month.
   allMonthsMap[lastReviewMonth] = monthsMap[lastReviewMonth];
 
-  console.log('Filled months: ', allMonthsMap);
+  // console.log('Filled months: ', allMonthsMap);
   return allMonthsMap;
 }
 
@@ -261,11 +261,11 @@ function monthlyGroupReviews(reviews) {
  * @returns {Array} - Array of 12 review objects with format [{month: 'Apr 2018' count:0}, ... , {month: 'Mar 2019', count: 3}].
  */
 function get12MonthsDataOfYearsBefore(allMonthsArray, yearsFromNow) {
-  console.log('All Months Array: ', allMonthsArray);
-  console.log('Years from now: ', yearsFromNow);
+  // console.log('All Months Array: ', allMonthsArray);
+  // console.log('Years from now: ', yearsFromNow);
   let lastIndex = allMonthsArray.length - 1 - (yearsFromNow * 12);
   let firstIndex = lastIndex - 11; // slice() is first inclusive
-  console.log('First index: ', firstIndex, ' Last Index: ', lastIndex);
+  // console.log('First index: ', firstIndex, ' Last Index: ', lastIndex);
   if (yearsFromNow < 0)
     return [];
   if (lastIndex < 0)

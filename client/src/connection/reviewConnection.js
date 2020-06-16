@@ -16,7 +16,9 @@ async function init() {
   let instance;
   let accounts;
   try {
-    instance = await ReviewStorage.deployed();
+    console.log('Getting contract instance');
+    instance = await ReviewStorage.deployed(); // TODO: This takes a little too long. Can we optimize?
+    console.log('Got contract instance')
     accounts = await web3.eth.getAccounts();
     console.log(`Web3 getAccounts:${accounts}`);
     return [instance, accounts];
