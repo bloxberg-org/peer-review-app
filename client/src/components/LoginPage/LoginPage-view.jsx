@@ -123,14 +123,6 @@ const BloxbergLogoWrapper = styled.div`
         flex: 0.4;
   `;
 
-const SignUpText = styled.span`
-    color: ${props => props.theme.primary};
-`;
-const LoginWrapper = styled.div`
-display: flex;
-`;
-
-
 export default function LoginPage(props) {
   return (
     <Background>

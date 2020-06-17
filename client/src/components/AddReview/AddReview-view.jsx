@@ -42,7 +42,7 @@ const StyledInput = styled(props => {
 const ImportButton = styled((props) => {
   return (
     <div className={props.className} onClick={props.onClick}>
-      <img src={props.img} />
+      <img src={props.img} alt='Import Button' />
     </div>
   );
 })`

@@ -31,45 +31,6 @@ export default class App extends React.Component {
     };
   }
 
-  loginWithMetamask = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        this.setState({ isLoading: true });
-        const accounts = await window.ethereum.enable();
-        console.log(`The account address is ${accounts[0]}`);
-        const accountAddress = await window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
-
-        // Event listener for when the account is changed.
-        // Fetch new user when address changes.
-        window.ethereum.on('accountsChanged', () => {
-          console.log('Metamask account changed');
-          this.setState({ isLoading: true });
-          this.init(accountAddress);
-        });
-
-        // Event listener for when the network is changed. Metamask will stop doing this automatically soon. https://github.com/MetaMask/metamask-extension/issues/8077
-        // Fetch new user when address changes.
-        window.ethereum.on('networkChanged', () => {
-          console.log('Connected chain changed');
-          this.setState({ isLoading: true });
-          this.init(accountAddress);
-        });
-
-        const web3 = new Web3(new RelayProvider(window.ethereum));
-        const netId = await web3.eth.net.getId();
-        this.checkConnectedNetwork(parseInt(netId));
-        // Set accounts below even if connected to false network. 
-        this.setState({ web3: web3, isLoggedInWithMetamask: true });
-        await this.init(accountAddress);
-      } catch (e) {
-        this.setState({ isLoading: false });
-        console.error(e);
-      }
-    } else {
-      alert('Please install Metamask or another wallet');
-    }
-  }
-
   async componentDidMount() {
     console.log('Mounted!');
     // Check if Metamask is there and user is already logged in (window.enable()). 
@@ -113,6 +74,47 @@ export default class App extends React.Component {
 
     // Load the contract instance
 
+  }
+
+  loginWithMetamask = async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        this.setState({ isLoading: true });
+        const accounts = await window.ethereum.enable();
+        console.log(`The account address is ${accounts[0]}`);
+        const accountAddress = await window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
+        const web3 = new Web3(new RelayProvider(window.ethereum));
+        const netId = await web3.eth.net.getId();
+        this.checkConnectedNetwork(parseInt(netId));
+        // Set accounts below even if connected to false network. 
+        this.setState({ web3: web3, isLoggedInWithMetamask: true });
+        this.init(accountAddress);
+
+        // Event listener for when the account is changed.
+        // Fetch new user when address changes.
+        window.ethereum.on('accountsChanged', () => {
+          console.log('Metamask account changed');
+          this.setState({ isLoading: true });
+          this.init(accountAddress);
+        });
+
+        // Event listener for when the network is changed. Metamask will stop doing this automatically soon. https://github.com/MetaMask/metamask-extension/issues/8077
+        // Fetch new user when address changes.
+        window.ethereum.on('networkChanged', async () => {
+          console.log('Connected chain changed');
+          const netId = await web3.eth.net.getId();
+          this.setState({ isLoading: true });
+          this.checkConnectedNetwork(parseInt(netId));
+          this.init(accountAddress);
+        });
+
+      } catch (e) {
+        this.setState({ isLoading: false });
+        console.error(e);
+      }
+    } else {
+      alert('Please install Metamask or another wallet');
+    }
   }
 
   /** 
@@ -167,6 +169,8 @@ export default class App extends React.Component {
    * Function to initialize the user after web3 is injected and the accounts are unlocked.
    * Gets the user object using the address.
    * Then gets all reviews saved to blockchain of this user.
+   * 
+   * @returns {Promise} - async function fetchBlockchainReviewsAndSetReviewsOfUser
    */
   init = (address) => {
     this.getUserObj(address)
@@ -208,7 +212,7 @@ export default class App extends React.Component {
     console.log('Checking network id: ' + id);
     (id === 8995 || id === 5777)
       ? this.setState({ isConnectedToBloxberg: true })
-      : this.setState({ isConnectedToBloxberg: false });
+      : this.setState({ isLoading: false, isConnectedToBloxberg: false });
   }
 
   render() {

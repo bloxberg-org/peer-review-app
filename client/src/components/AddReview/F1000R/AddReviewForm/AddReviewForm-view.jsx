@@ -115,7 +115,7 @@ export default function AddReviewFormView(props) {
   // Fill the form with fetched review data once ../DOIInput fetches and saves into parent state.
   useEffect(() => {
     reset(props.review);
-  }, [props.review]);
+  }, [props.review, reset]);
 
   // Register timestamp field manually. Can't reach ref field in Datepicker.
   register(

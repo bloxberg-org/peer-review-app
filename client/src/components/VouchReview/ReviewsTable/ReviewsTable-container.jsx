@@ -6,7 +6,6 @@ import ReviewsTableView from './ReviewsTable-view';
 // Using functional component to be able to use react-table hooks.
 export default function ReviewsTableContainer(props) {
   const [reviews, setReviews] = useState([]);
-  const [authorsMap, setAuthorsMap] = useState({}); // An object with author addresses as keys and object { firstName, lastName } as values.
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,17 +25,6 @@ export default function ReviewsTableContainer(props) {
         setIsLoading(false);
       });
   };
-  /**
-   * Function that takes an author address and returns the corresponding firstName + ' ' + lastName
-   * 
-   * @param {String} adress - author address
-   * 
-   * @returns {String} - concatanated first name and last name of author.
-   */
-  const getAuthorNameFromAddress = (address) => {
-    console.log(authorsMap);
-    return authorsMap[address].firstName + ' ' + authorsMap[address].lastName;
-  };
 
   const vouchReviewWithId = (id) => {
     setIsLoading(true);
@@ -51,6 +39,6 @@ export default function ReviewsTableContainer(props) {
     return <Loader />;
 
   return (
-    <ReviewsTableView reviews={reviews} {...props} vouchReviewWithId={vouchReviewWithId} getAuthorNameFromAddress={getAuthorNameFromAddress} />
+    <ReviewsTableView reviews={reviews} {...props} vouchReviewWithId={vouchReviewWithId} />
   );
 }

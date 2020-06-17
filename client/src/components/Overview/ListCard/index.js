@@ -1,1 +1,2 @@
-export { default } from './ListCard-container';
+export { default } from './ListCard-view';
+

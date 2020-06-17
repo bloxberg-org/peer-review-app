@@ -7,7 +7,7 @@ import Context from '../../Context';
 
 Graph.propTypes = {
   theme: PropTypes.object,
-  statsData: PropTypes.array.isRequired,
+  statsData: PropTypes.object.isRequired,
 };
 
 const GRAPH_DATE_FORMAT = 'MMM YYYY';

@@ -1,6 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import Loader from '../../Loader';
 
 const Wrapper = styled.div`
   background-color: white;
@@ -82,7 +84,7 @@ const Item = (props) => {
       {
         props.type === 'highlight'
           ?
-          <ItemValue>{props.voucherCount} voucher{/*add plural -s*/props.voucherCount > 1 ? 's' : null}</ItemValue>
+          <ItemValue>{props.vouchersCount} voucher{/*add plural -s*/props.vouchersCount > 1 ? 's' : null}</ItemValue>
           :
           <ItemVerifyStatus verified={props.verified}>
             {props.verified ? 'Verified' : 'Not Verified'}
@@ -90,7 +92,15 @@ const Item = (props) => {
       }
     </ItemWrapper>
   );
-}
+};
+
+Item.propTypes = {
+  id: PropTypes.string.isRequired,
+  publisher: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  vouchersCount: PropTypes.number.isRequired,
+  verified: PropTypes.bool.isRequired,
+};
 
 const Items = (props) => {
   let type = props.type;
@@ -99,15 +109,26 @@ const Items = (props) => {
     <ItemsWrapper>
       {
         items.map((item, i) => {
-          return type === 'highlight' ?
-            <Item publisher={item.publisher} voucherCount={item.vouchers.length} type={type} key={i} id={item.id} /> :
-            <Item publisher={item.publisher} verified={item.verified} type={type} key={i} id={item.id} />;
+          return <Item publisher={item.publisher} verified={item.verified} vouchersCount={item.vouchers.length} type={type} key={i} id={item.id} />;
         })
       }
     </ItemsWrapper>
   );
 };
+Items.propTypes = {
+  type: PropTypes.string.isRequired,
+  children: PropTypes.array.isRequired
+};
+
+ListCardView.propTypes = {
+  reviews: PropTypes.array,
+  title: PropTypes.string,
+  type: PropTypes.string,
+};
+
 export default function ListCardView(props) {
+  if (!props.reviews)
+    return <Loader />;
   return (
     <Wrapper>
       <TopWrapper>

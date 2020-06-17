@@ -1,2 +1,2 @@
-export { default } from './VouchReview-container';
+export { default } from './VouchReview-view';
 

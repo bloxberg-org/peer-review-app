@@ -9,7 +9,6 @@ ReviewsTableView.propTypes = {
   columns: PropTypes.array.isRequired,
   reviews: PropTypes.array.isRequired,
   vouchReviewWithId: PropTypes.func.isRequired,
-  getAuthorNameFromAddress: PropTypes.func.isRequired
 };
 
 // =========== Base Components ===================
@@ -37,11 +36,11 @@ const NoReviews = styled(props => {
 // from https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/filtering?file=/src/App.js:681-1348
 const GlobalFilter = styled(({
   className,
-  preGlobalFilteredRows,
+  // preGlobalFilteredRows,
   globalFilter,
   setGlobalFilter,
 }) => {
-  const count = preGlobalFilteredRows.length;
+  // const count = preGlobalFilteredRows.length;
   const [value, setValue] = React.useState(globalFilter);
   const onChange = useAsyncDebounce(value => {
     setGlobalFilter(value || undefined);

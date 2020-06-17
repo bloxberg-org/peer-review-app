@@ -54,7 +54,7 @@ export default class OverviewContainer extends React.Component {
       return 'N/A';
     // from https://stackoverflow.com/questions/1053843/get-the-element-with-the-highest-occurrence-in-an-array
     function mode(array) {
-      if (array.length == 0)
+      if (array.length === 0)
         return null;
       var modeMap = {};
       var maxEl = array[0].publisher, maxCount = 1;

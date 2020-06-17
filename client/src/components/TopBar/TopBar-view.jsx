@@ -4,7 +4,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import FAIconButton from '../Button/FAIconButton';
-import SearchBar from '../SearchBar';
 import UserIcon from './UserIcon';
 
 TopBarView.propTypes = {
@@ -41,12 +40,6 @@ const TopBarWrapper = styled.div`
 
 
 // ========== Compound Components ==========\
-const StyledSearchBar = styled(SearchBar)`
-  input {
-    -webkit-filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.25));
-    border: none;
-  }
-`;
 
 export default function TopBarView(props) {
   const history = useHistory();

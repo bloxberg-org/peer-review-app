@@ -36,9 +36,6 @@ const ButtonWrapper = styled.div`
   flex: 0.4;
 `;
 
-const Text = styled.span`
-`;
-
 export default function LoginWithFortmaticView(props) {
   const { register, handleSubmit, errors } = useForm();
 

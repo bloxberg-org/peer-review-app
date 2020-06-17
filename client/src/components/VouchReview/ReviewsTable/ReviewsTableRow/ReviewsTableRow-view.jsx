@@ -17,7 +17,7 @@ const ReviewsTableRow = styled((props) => {
     if (row.original.vouchers.includes(user._id)) {
       setVouched(true);
     }
-  }, [props.row]);
+  }, [row.original.vouchers, user._id]);
 
   // Don't show Vouch button for own reviews.
   const VouchButton =
