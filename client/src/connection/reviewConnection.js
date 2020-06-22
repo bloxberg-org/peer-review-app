@@ -1,6 +1,6 @@
 import Gsn from '@openeth/gsn';
 import TruffleContract from '@truffle/contract';
-import ReviewStorageArtifact from '../contracts/ReviewStorage.json';
+import ReviewStorageArtifact from 'contracts/ReviewStorage.json';
 import getWeb3 from './web3';
 
 async function init() {

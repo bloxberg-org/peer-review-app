@@ -1,9 +1,9 @@
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import FAIconButton from 'components/Button/FAIconButton';
 import Proptypes from 'prop-types';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import FAIconButton from '../Button/FAIconButton';
 import UserIcon from './UserIcon';
 
 TopBarView.propTypes = {

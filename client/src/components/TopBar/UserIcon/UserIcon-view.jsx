@@ -1,7 +1,7 @@
+import userIcon from 'assets/user.png';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import userIcon from '../../../assets/user.png';
 
 UserIconView.propTypes = {
   user: PropTypes.object,

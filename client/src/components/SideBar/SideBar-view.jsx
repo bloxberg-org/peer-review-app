@@ -1,6 +1,6 @@
+import logo from 'assets/logo.png';
 import React from 'react';
 import styled from 'styled-components';
-import logo from '../../assets/logo.png';
 import Button from './SideBarButton';
 
 const Background = styled.div`
@@ -56,6 +56,7 @@ export default function Navbar() {
           <SubButton to='/Reviews/MyReviews' title='My Reviews' />
           <SubButton to='/Reviews/VouchReview' title='Vouch a Review' />
         </Button>
+        <Button to='/Settings' title='Settings' />
       </ButtonsWrapper>
     </Background>
   );

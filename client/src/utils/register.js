@@ -1,4 +1,4 @@
-import { getCurrentAccount } from '../connection/reviewConnection';
+import { getCurrentAccount } from 'connection/reviewConnection';
 import { post } from './endpoint';
 
 /**

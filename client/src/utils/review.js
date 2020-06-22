@@ -1,5 +1,5 @@
-import * as connection from '../connection/reviewConnection';
-import { getCurrentAccount } from '../connection/reviewConnection';
+import * as connection from 'connection/reviewConnection';
+import { getCurrentAccount } from 'connection/reviewConnection';
 import { get, getXML, post } from './endpoint';
 
 export const getAllIndexedReviews = () => {
