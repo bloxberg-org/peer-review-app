@@ -2,7 +2,7 @@ import Button from 'components/Button';
 import FormField from 'components/FormField';
 import ErrorText from 'components/FormField/ErrorText';
 import Input from 'components/FormField/Input';
-import inputStyle from 'components/FormField/inputStyle';
+import inputStyle from 'components/FormField/Input/inputStyle';
 import InputTitle from 'components/FormField/InputTitle';
 import moment from 'moment';
 import PropTypes from 'prop-types';

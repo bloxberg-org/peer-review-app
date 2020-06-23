@@ -50,7 +50,7 @@ export default function Settings() {
       email: user.email,
       _id: user._id
     });
-  }, [user]);
+  }, [user, reset]);
 
   const resetAreDisabled = () => {
     setAreDisabled(new Array(3).fill(true));

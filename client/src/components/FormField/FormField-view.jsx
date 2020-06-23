@@ -2,12 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import ErrorText from './ErrorText';
-import inputStyle from './inputStyle';
+import Input from './Input';
 import InputTitle from './InputTitle';
-
-const Input = styled.input`
-  ${inputStyle}
-  `;
 
 const FormField = styled((props) => {
   let { className, children, ...otherProps } = props;
