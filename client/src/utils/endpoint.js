@@ -23,6 +23,19 @@ export const get = (endpoint) => {
     .then(res => res.json());
 };
 
+export const put = (endpoint, body) => {
+  console.log('IN PUT');
+  console.log(body);
+  return fetch(URL + endpoint, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+    .then(handleErrors);
+};
+
 export const getXML = (endpoint) => {
   return fetch(URL + endpoint, {
     method: 'GET',
@@ -40,7 +53,7 @@ export const getXML = (endpoint) => {
 function handleErrors(response) {
   if (!response.ok) {
     return response.json().then(errObj => {
-      console.log(errObj)
+      console.log(errObj);
       throw new Error(errObj.description);
     });
   }

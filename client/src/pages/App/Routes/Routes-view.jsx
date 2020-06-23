@@ -2,6 +2,7 @@ import TopBar from 'components/TopBar';
 import AddReview from 'pages/AddReview';
 import AllReviews from 'pages/AllReviews';
 import Overview from 'pages/Overview';
+import Settings from 'pages/Settings';
 import SingleReview from 'pages/SingleReview';
 import VouchReview from 'pages/VouchReview';
 import PropTypes from 'prop-types';
@@ -39,6 +40,10 @@ export default function RoutesView(props) {
       <Route path="/Reviews/">
         {/* Redirect to AddReview at route /Review/ */}
         <Redirect to='/Reviews/AddReview' />
+      </Route>
+      <Route path="/Settings">
+        <TopBar title='Settings' {...props} />
+        <Settings {...props} />
       </Route>
       <Route path="/">
         <Redirect to="/Overview" />

@@ -45,3 +45,44 @@ exports.getAllAuthorNames = (_, res) => {
       res.status(500).send(err);
     });
 };
+
+// POST /authors/
+exports.addAuthor = (req, res) => {
+  logger.info('IN ADD Author');
+  logger.info(req.body);
+
+  let address = req.params.address;
+  let author = new Author(req.body);
+
+  return Author.findById(address)
+    .then(author => {
+      if (author) {
+        res.status(400).json({ message: 'Author with address already registered' });
+        throw new Error('Author with address' + address + ' already registered!');
+      }
+      return author.save();
+    })
+    .then(() => {
+      logger.info('Successfully saved the author');
+      res.status(200).json(author);
+    })
+    .catch(err => logger.error(err));
+};
+
+// PUT /authors/
+exports.updateAuthor = (req, res) => {
+  logger.info('In PUT Author');
+  logger.info('Request body: ');
+  let { _id, ...newAuthor } = req.body; // Strip _id off
+  logger.info(JSON.stringify(newAuthor));
+  let address = req.params.address;
+  res.status(200);
+  return Author.findByIdAndUpdate(address, newAuthor)
+    .then(updatedAuthor => {
+      res.status(200).json(updatedAuthor);
+    })
+    .catch(err => {
+      res.status(404).send(err);
+      logger.error(err);
+    });
+};

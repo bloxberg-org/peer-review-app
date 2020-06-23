@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import useForm from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { addAuthor } from 'utils/register';
+import { addAuthor } from 'utils/authors';
 
 const Wrapper = styled.div`
   display: flex;

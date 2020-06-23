@@ -173,16 +173,10 @@ export default class App extends React.Component {
    * @returns {Promise} - async function fetchBlockchainReviewsAndSetReviewsOfUser
    */
   init = (address) => {
-    this.getUserObj(address)
-      // Get the user object from database.
-      .then(user => {
-        console.log('Found user:');
-        console.log(user);
-        this.setState({
-          user: user
-        });
-        return this.fetchBlockchainReviewsAndSetReviewsOfUser(); // Then fetch the reviews if the user.
-      })
+    // Get the user object from database.
+    this.getUserObjAndSetState(address)
+      // Then fetch the reviews of the user.
+      .then(this.fetchBlockchainReviewsAndSetReviewsOfUser)
       .catch(error => { // No user found.
         console.log(error);
         this.setState({ isLoading: false, isNoUserFound: true });
@@ -207,6 +201,25 @@ export default class App extends React.Component {
     return get(`/authors/${address}`);
   }
 
+  getUserObjAndSetState = (address) => {
+    return this.getUserObj(address)
+      // Get the user object from database.
+      .then(user => {
+        console.log('Found user:');
+        console.log(user);
+        this.setState({
+          user: user
+        });
+      })
+      .catch(err => console.error(err));
+  }
+
+  refreshUser = () => {
+    if (!this.state.user._id)
+      return console.error('User object is empty!');
+    this.getUserObjAndSetState(this.state.user._id);
+  }
+
   // Checks if the network id is of bloxberg's. Sets the state var isConnectedToBloxberg accordingly. 8995 => bloxberg id, 5777 => ganache id
   checkConnectedNetwork = (id) => {
     console.log('Checking network id: ' + id);
@@ -217,7 +230,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, web3: this.state.web3 }}>
+      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, web3: this.state.web3, refreshUser: this.refreshUser }}>
         <AppView
           addReviewsToState={this.addReviewsToState}
           deleteReviewFromState={this.deleteReviewFromState}

@@ -6,7 +6,6 @@ var cors = require('cors');
 
 const reviewRoutes = require('./routes/reviewRoutes');
 const authorRoutes = require('./routes/authorRoutes');
-const registerRoutes = require('./routes/registerRoutes');
 const mongo = require('./utils/mongo');
 
 const app = express();
@@ -48,7 +47,6 @@ app.use(bodyParser.json());
 
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/authors', authorRoutes);
-app.use('/api/register', registerRoutes);
 
 app.listen(port, () => {
 
