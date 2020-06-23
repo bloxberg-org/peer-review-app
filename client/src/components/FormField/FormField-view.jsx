@@ -7,7 +7,6 @@ import InputTitle from './InputTitle';
 
 const FormField = styled((props) => {
   let { className, children, ...otherProps } = props;
-  console.log(otherProps.errors);
   return (
     // Use ref from react-hook-form
     <div className={className}>

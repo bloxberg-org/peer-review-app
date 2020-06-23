@@ -1,8 +1,9 @@
 import Button from 'components/Button';
 import CardWrapper from 'components/CardWrapper';
+import Context from 'components/Context';
 import FormField from 'components/FormField';
 import { getCurrentAccount } from 'connection/reviewConnection';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import useForm from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -27,10 +28,14 @@ const ButtonWrapper = styled.div`
 
 export default function App() {
   const [account, setAccount] = useState(0);
-
-  const { register, handleSubmit, errors } = useForm();
+  const { fortmaticMetadata } = useContext(Context);
+  const { register, handleSubmit, errors } = useForm({
+    defaultValues: {
+      email: fortmaticMetadata ? fortmaticMetadata.email : null
+    }
+  });
   let history = useHistory();
-
+  console.log(fortmaticMetadata);
   const onSubmit = author => {
     console.log(author);
 
@@ -74,6 +79,7 @@ export default function App() {
               name="email"
               title="Email"
               errors={errors.email}
+              disabled={fortmaticMetadata}
               register={register({ required: true, pattern: /^\S+@\S+$/i })} />
             <FormField
               type="text"
@@ -81,7 +87,8 @@ export default function App() {
               name="_id"
               title="Ethereum Address"
               errors={errors._id}
-              register={register({ required: true })} value={account} disabled />
+              register={register({ required: true })} value={account}
+              disabled />
             <ButtonWrapper>
               <Button primary>Submit</Button>
             </ButtonWrapper>

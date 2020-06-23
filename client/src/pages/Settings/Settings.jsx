@@ -88,7 +88,7 @@ export default function Settings() {
               title="First Name"
               errors={errors.firstName}
               disabled={areDisabled[0]}
-              register={register({ required: true, maxLength: 80, minLength: 1 })}>
+              register={register({ required: true, maxLength: 80 })}>
               <EditButton onClick={() => toggleDisabled(0)} />
             </FormField>
           </div>
@@ -99,7 +99,7 @@ export default function Settings() {
             title="Last Name"
             errors={errors.lastName}
             disabled={areDisabled[1]}
-            register={register({ required: true, maxLength: 100, minLength: 1 })}>
+            register={register({ required: true, maxLength: 100 })}>
             <EditButton onClick={() => toggleDisabled(1)} />
           </FormField>
           <FormField

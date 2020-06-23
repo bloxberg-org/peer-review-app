@@ -1,4 +1,5 @@
 import Context from 'components/Context';
+import { setContract } from 'connection/reviewConnection';
 import Fortmatic from 'fortmatic';
 import React from 'react';
 import { get } from 'utils/endpoint';
@@ -26,7 +27,8 @@ export default class App extends React.Component {
       reviewsOfUser: [],
       user: {},
       web3: {},
-      instance: {} // @truffle/contract instance of the ReviewStorage.
+      fortmaticMetadata: null // make falsy
+      // instance: {} // @truffle/contract instance of the ReviewStorage.
     };
   }
 
@@ -38,6 +40,7 @@ export default class App extends React.Component {
       console.log('Hmm you seem to have Metamask. Lets see if its enabled');
       window.ethereum.autoRefreshOnNetworkChange = false; // Supress browser console warning. 
       const web3 = new Web3(window.ethereum);
+      setContract(); // Set the contract instance. Is this the right way?
       web3.eth.getAccounts()
         .then(accounts => {
           if (accounts.length > 0) {
@@ -57,11 +60,14 @@ export default class App extends React.Component {
       console.log('Logged in with Fortmatic!');
       const web3 = new Web3(fmPhantom.getProvider());
       window.web3 = web3;
+      setContract(); // Set the contract instance. Is this the right way?
       this.setState({
         web3: web3, isLoading: true,
         isLoggedInWithFm: true, isConnectedToBloxberg: true
       });
       fmPhantom.user.getMetadata().then(metadata => {
+        this.setState({ fortmaticMetadata: metadata });
+        console.log('User metadata: ', metadata);
         let addr = metadata.publicAddress;
         this.init(addr);
       });
@@ -123,13 +129,10 @@ export default class App extends React.Component {
   loginWithFortmatic = async (data) => {
     const email = data.email;
     const user = await fmPhantom.loginWithMagicLink({ email });
-    // console.log('Is iser logged in? ' + await fmPhantom.user.isLoggedIn());
-    this.setState({ isLoggedInWithFm: true, isConnectedToBloxberg: true });
-    // let token = await user.getIdToken(86400); // 86400 sec = 24 hours lifespan.
-    // localStorage.setItem('didToken', token);
-    let addr = (await user.getMetadata()).publicAddress;
-    console.log(addr);
-    this.init(addr);
+    let metadata = await user.getMetadata();
+    this.setState({ fortmaticMetadata: metadata, isLoggedInWithFm: true, isConnectedToBloxberg: true });
+    console.log('Fortmatic metadata:', metadata);
+    this.init(metadata.publicAddress);
   };
 
   /**
@@ -231,8 +234,9 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log('Rendering...');
     return (
-      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, web3: this.state.web3, refreshUser: this.refreshUser }}>
+      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, web3: this.state.web3, refreshUser: this.refreshUser, fortmaticMetadata: this.state.fortmaticMetadata }}>
         <AppView
           addReviewsToState={this.addReviewsToState}
           deleteReviewFromState={this.deleteReviewFromState}

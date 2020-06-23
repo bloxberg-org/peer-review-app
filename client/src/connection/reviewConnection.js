@@ -3,10 +3,13 @@ import TruffleContract from '@truffle/contract';
 import ReviewStorageArtifact from 'contracts/ReviewStorage.json';
 import getWeb3 from './web3';
 
-const web3 = getWeb3();
-const relayProvider = new RelayProvider(web3.currentProvider); // Wrapped with RelayProvider at App.js
-const ReviewStorage = TruffleContract(ReviewStorageArtifact);
-ReviewStorage.setProvider(relayProvider);
+let web3, ReviewStorage;
+export function setContract() {
+  web3 = getWeb3();
+  const relayProvider = new RelayProvider(web3.currentProvider); // Wrapped with RelayProvider at App.js
+  ReviewStorage = TruffleContract(ReviewStorageArtifact);
+  ReviewStorage.setProvider(relayProvider);
+}
 
 async function init() {
   let instance;
@@ -70,7 +73,8 @@ export const deleteReview = async (id) => {
 };
 
 export const getCurrentAccount = async () => {
-  // eslint-disable-next-line no-unused-vars
-  let [_, accounts] = await init();
+  let accounts = await web3.eth.getAccounts();
+  console.log('Called getCurrentAccount: ', accounts);
+  console.log(`Returning: ${accounts[0]}`);
   return accounts[0];
 };
