@@ -49,14 +49,14 @@ exports.getAllAuthorNames = (_, res) => {
 // POST /authors/
 exports.addAuthor = (req, res) => {
   logger.info('IN ADD Author');
-  logger.info(req.body);
+  logger.info(JSON.stringify(req.body));
 
   let address = req.params.address;
   let author = new Author(req.body);
 
-  return Author.findById(address)
-    .then(author => {
-      if (author) {
+  Author.findById(address)
+    .then(foundAuthor => {
+      if (foundAuthor) {
         res.status(400).json({ message: 'Author with address already registered' });
         throw new Error('Author with address' + address + ' already registered!');
       }

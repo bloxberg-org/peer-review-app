@@ -1,4 +1,3 @@
-import Gsn from '@openeth/gsn';
 import TruffleContract from '@truffle/contract';
 import ReviewStorageArtifact from 'contracts/ReviewStorage.json';
 import getWeb3 from './web3';
@@ -8,11 +7,10 @@ async function init() {
   const netwId = await web3.eth.net.getId();
   console.log(`Network id is: ${netwId}`);
   // if (netwId !== 5777) { // Don't use Gas Station Network when interacting with Ganache.
-  const provider = new Gsn.RelayProvider(web3.currentProvider);
-  web3.setProvider(provider);
+  const relayProvider = web3.currentProvider; // Wrapped with RelayProvider at App.js
   // }
   const ReviewStorage = TruffleContract(ReviewStorageArtifact);
-  ReviewStorage.setProvider(web3.currentProvider);
+  ReviewStorage.setProvider(relayProvider);
   let instance;
   let accounts;
   try {

@@ -32,8 +32,8 @@ const options = {
 var isInit = false;
 let provider, web3;
 setTimeout(() => { // Workaround to avoid connecting to ganache before it starts with `npm run dev` script. 
-  provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === 'production' ? bloxbergProvider : localProvider, options);
-  // provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === 'production' ? localProvider : bloxbergProvider, options);
+  // provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === 'production' ? bloxbergProvider : localProvider, options);
+  provider = new Web3.providers.WebsocketProvider(process.env.NODE_ENV === 'production' ? localProvider : bloxbergProvider, options);
   web3 = new Web3(provider);
 
   provider.on('connect', init);

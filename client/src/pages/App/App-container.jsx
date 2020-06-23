@@ -57,6 +57,7 @@ export default class App extends React.Component {
     else if (await fmPhantom.user.isLoggedIn()) {
       console.log('Logged in with Fortmatic!');
       const web3 = new Web3(new RelayProvider(fmPhantom.getProvider()));
+      window.web3 = web3;
       this.setState({
         web3: web3, isLoading: true,
         isLoggedInWithFm: true, isConnectedToBloxberg: true
@@ -175,12 +176,15 @@ export default class App extends React.Component {
   init = (address) => {
     // Get the user object from database.
     this.getUserObjAndSetState(address)
-      // Then fetch the reviews of the user.
-      .then(this.fetchBlockchainReviewsAndSetReviewsOfUser)
-      .catch(error => { // No user found.
-        console.log(error);
+      .catch(err => { // User not found, register.
+        console.error(err);
         this.setState({ isLoading: false, isNoUserFound: true });
         return Promise.reject('reject'); // Break the chain, avoid entering next then. (Is there a better practice?)
+      })
+      // Then fetch the reviews of the user.
+      .then(this.fetchBlockchainReviewsAndSetReviewsOfUser)
+      .catch(error => {
+        console.error(error);
       });
   }
 
@@ -211,7 +215,6 @@ export default class App extends React.Component {
           user: user
         });
       })
-      .catch(err => console.error(err));
   }
 
   refreshUser = () => {
