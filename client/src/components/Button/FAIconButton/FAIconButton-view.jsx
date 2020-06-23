@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 export default styled(props => {
   return (
-    <div className={props.className}>
+    <div className={props.className} onClick={props.onClick}>
       {props.tooltip &&
         <ReactTooltip
           className='tooltip'

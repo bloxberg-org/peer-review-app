@@ -8,7 +8,6 @@ const inputStyle = css`
   font-family: 'Muli', sans-serif;
   width: 100%;
   padding: 16px 8px;
-  margin: 4px 0px;
 `;
 
 export default inputStyle;
