@@ -1,4 +1,3 @@
-import { RelayProvider } from '@openeth/gsn';
 import Context from 'components/Context';
 import Fortmatic from 'fortmatic';
 import React from 'react';
@@ -38,7 +37,7 @@ export default class App extends React.Component {
     if (typeof window.ethereum !== 'undefined') {
       console.log('Hmm you seem to have Metamask. Lets see if its enabled');
       window.ethereum.autoRefreshOnNetworkChange = false; // Supress browser console warning. 
-      const web3 = new Web3(new RelayProvider(window.ethereum));
+      const web3 = new Web3(window.ethereum);
       web3.eth.getAccounts()
         .then(accounts => {
           if (accounts.length > 0) {
@@ -56,7 +55,7 @@ export default class App extends React.Component {
     // console.log('Is iser logged in? ' + await fmPhantom.user.isLoggedIn());
     else if (await fmPhantom.user.isLoggedIn()) {
       console.log('Logged in with Fortmatic!');
-      const web3 = new Web3(new RelayProvider(fmPhantom.getProvider()));
+      const web3 = new Web3(fmPhantom.getProvider());
       window.web3 = web3;
       this.setState({
         web3: web3, isLoading: true,
@@ -84,7 +83,7 @@ export default class App extends React.Component {
         const accounts = await window.ethereum.enable();
         console.log(`The account address is ${accounts[0]}`);
         const accountAddress = await window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
-        const web3 = new Web3(new RelayProvider(window.ethereum));
+        const web3 = new Web3(window.ethereum);
         const netId = await web3.eth.net.getId();
         this.checkConnectedNetwork(parseInt(netId));
         // Set accounts below even if connected to false network. 
@@ -214,7 +213,7 @@ export default class App extends React.Component {
         this.setState({
           user: user
         });
-      })
+      });
   }
 
   refreshUser = () => {
