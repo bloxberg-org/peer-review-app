@@ -5,9 +5,8 @@ import LoginPage from 'pages/LoginPage';
 import Register from 'pages/Register';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
-import ConnectToBloxberg from './ConnectToBloxberg';
 // import InstallMetamask from './InstallMetamask';
 import Routes from './Routes';
 
@@ -44,9 +43,7 @@ const SideBarWrapper = styled.div`
 const AppContentWithoutSideBar = styled((props) => {
   return (
     <Wrapper className={props.className}>
-      <Router>
-        {props.children}
-      </Router>
+      {props.children}
     </Wrapper>
   );
 })`
@@ -57,63 +54,69 @@ const AppContentWithoutSideBar = styled((props) => {
 const AppContentWithSideBar = styled((props) => {
   return (
     <Wrapper>
-      <Router>
-        <SideBarWrapper>
-          <SideBar />
-        </SideBarWrapper>
-        <MainWrapper>
-          {props.children}
-        </MainWrapper>
-      </Router>
+      <SideBarWrapper>
+        <SideBar />
+      </SideBarWrapper>
+      <MainWrapper>
+        {props.children}
+      </MainWrapper>
     </Wrapper>
   );
 })``;
 
 export default function AppView(props) {
 
-  let AppContent;
-  if (props.isLoading) { // If loading user and reviews return the spinner
-    AppContent = (
-      <AppContentWithoutSideBar>
-        <Loader />
-      </AppContentWithoutSideBar>
-    );
+  if (props.isLoading) { // If loading return the spinner
     console.log('Show default loading');
+    return (
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <AppContentWithoutSideBar>
+          <Loader />
+        </AppContentWithoutSideBar>
+      </ThemeProvider>
+    );
   }
-  // Show Fortmatic login if not logged in with fm or metamask.
-  else if (!props.isLoggedInWithFm && !props.isLoggedInWithMetamask) {
-    AppContent =
-      <AppContentWithoutSideBar>
-        <LoginPage
-          loginWithFortmatic={props.loginWithFortmatic}
-          logoutFromFortmatic={props.logoutFromFortmatic}
-          loginWithMetamask={props.loginWithMetamask}
-        />
-      </AppContentWithoutSideBar>;
-    console.log('Show Log In Screen');
-  }
-  else if (!props.isConnectedToBloxberg)
-    AppContent =
-      <AppContentWithSideBar>
-        <ConnectToBloxberg />
-      </AppContentWithSideBar>;
-  else if (props.isNoUserFound)
-    AppContent =
-      <AppContentWithSideBar>
-        <Register {...props} />
-      </AppContentWithSideBar>;
-  else // Normal flow
-    AppContent =
-      <AppContentWithSideBar>
-        <Routes {...props} refreshReviews={props.refreshReviews} />
-      </AppContentWithSideBar>;
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      {
-        AppContent
-      }
+      <Router>
+        <Switch>
+          <Route path='/Login'>
+            {props.isLoggedInWithFm || props.isLoggedInWithMetamask // Don't render login if loggedIn
+              ? <Redirect to='/' />
+              : <AppContentWithoutSideBar>
+                <LoginPage
+                  loginWithFortmatic={props.loginWithFortmatic}
+                  logoutFromFortmatic={props.logoutFromFortmatic}
+                  loginWithMetamask={props.loginWithMetamask}
+                />
+              </AppContentWithoutSideBar>
+            }
+          </Route>
+
+          <Route path='/Register'>
+            {props.isNoUserFound // Don't render register if registered
+              ? (<AppContentWithSideBar>
+                <Register {...props} />
+              </AppContentWithSideBar>)
+              : <Redirect to='/' />
+            }
+          </Route>
+
+          <AppContentWithSideBar>
+            <Routes
+              isNoUserFound={props.isNoUserFound}
+              isLoggedInWithFm={props.isLoggedInWithFm}
+              isLoggedInWithMetamask={props.isLoggedInWithMetamask}
+              refreshReviews={props.refreshReviews}
+              isConnectedToBloxberg={props.isConnectedToBloxberg}
+              {...props} />
+          </AppContentWithSideBar>;
+        </Switch>
+      </Router>
     </ThemeProvider>
   );
 }
+

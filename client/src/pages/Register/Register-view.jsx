@@ -54,9 +54,21 @@ export default function App() {
     setAccount(address);
   });
 
+  const signInToOrcid = () => {
+    const CLIENT_ID = process.env.REACT_APP_ORCID_CLIENT_ID;
+    const redirect_uri = window.location.origin;
+    const scope = '/authenticate';
+    const url = `https://sandbox.orcid.org/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&scope=${scope}&redirect_uri=${redirect_uri}`;
+    alert(url);
+    window.open(url);
+  };
+
   return (
-    <CardWrapper title='Account Settings'>
+    <CardWrapper title='Register'>
       <Wrapper>
+        <Button onClick={signInToOrcid}>
+          Orcid
+        </Button>
         <FormWrapper>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormField

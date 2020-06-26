@@ -69,7 +69,6 @@ export default class OverviewContainer extends React.Component {
           maxCount = modeMap[el];
         }
       }
-      console.log(maxEl);
       return maxEl;
     }
 

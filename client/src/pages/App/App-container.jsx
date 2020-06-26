@@ -1,5 +1,5 @@
 import Context from 'components/Context';
-import { setContract } from 'connection/reviewConnection';
+import { getCurrentAccount, setContract } from 'connection/reviewConnection';
 import Fortmatic from 'fortmatic';
 import React from 'react';
 import { get } from 'utils/endpoint';
@@ -26,7 +26,6 @@ export default class App extends React.Component {
       isNoUserFound: false,
       reviewsOfUser: [],
       user: {},
-      web3: {},
       fortmaticMetadata: null // make falsy
       // instance: {} // @truffle/contract instance of the ReviewStorage.
     };
@@ -51,18 +50,16 @@ export default class App extends React.Component {
             this.setState({ isLoading: false });
           }
         });
-      this.setState({ web3: web3 });
     }
-    // let token = localStorage.getItem('didToken');
-    // console.log(`Token: ${token}`);
-    // console.log('Is iser logged in? ' + await fmPhantom.user.isLoggedIn());
+
+    // Check if there is user session already with Fortmatic.
     else if (await fmPhantom.user.isLoggedIn()) {
       console.log('Logged in with Fortmatic!');
       const web3 = new Web3(fmPhantom.getProvider());
       window.web3 = web3;
       setContract(); // Set the contract instance. Is this the right way?
       this.setState({
-        web3: web3, isLoading: true,
+        isLoading: true,
         isLoggedInWithFm: true, isConnectedToBloxberg: true
       });
       fmPhantom.user.getMetadata().then(metadata => {
@@ -92,16 +89,16 @@ export default class App extends React.Component {
         const web3 = new Web3(window.ethereum);
         const netId = await web3.eth.net.getId();
         this.checkConnectedNetwork(parseInt(netId));
-        // Set accounts below even if connected to false network. 
-        this.setState({ web3: web3, isLoggedInWithMetamask: true });
+        this.setState({ isLoggedInWithMetamask: true });
         this.init(accountAddress);
 
         // Event listener for when the account is changed.
         // Fetch new user when address changes.
-        window.ethereum.on('accountsChanged', () => {
+        window.ethereum.on('accountsChanged', async () => {
+          let newAccount = await getCurrentAccount();
           console.log('Metamask account changed');
           this.setState({ isLoading: true });
-          this.init(accountAddress);
+          this.init(newAccount);
         });
 
         // Event listener for when the network is changed. Metamask will stop doing this automatically soon. https://github.com/MetaMask/metamask-extension/issues/8077
@@ -127,6 +124,9 @@ export default class App extends React.Component {
    * Logs the user in using Fortmatic.
    */
   loginWithFortmatic = async (data) => {
+    setContract();
+    const web3 = new Web3(fmPhantom.getProvider());
+    window.web3 = web3;
     const email = data.email;
     const user = await fmPhantom.loginWithMagicLink({ email });
     let metadata = await user.getMetadata();
@@ -177,7 +177,7 @@ export default class App extends React.Component {
    */
   init = (address) => {
     // Get the user object from database.
-    this.getUserObjAndSetState(address)
+    this.getUserObjAndSetUserState(address)
       .catch(err => { // User not found, register.
         console.error(err);
         this.setState({ isLoading: false, isNoUserFound: true });
@@ -207,7 +207,7 @@ export default class App extends React.Component {
     return get(`/authors/${address}`);
   }
 
-  getUserObjAndSetState = (address) => {
+  getUserObjAndSetUserState = (address) => {
     return this.getUserObj(address)
       // Get the user object from database.
       .then(user => {
@@ -222,7 +222,7 @@ export default class App extends React.Component {
   refreshUser = () => {
     if (!this.state.user._id)
       return console.error('User object is empty!');
-    this.getUserObjAndSetState(this.state.user._id);
+    this.getUserObjAndSetUserState(this.state.user._id);
   }
 
   // Checks if the network id is of bloxberg's. Sets the state var isConnectedToBloxberg accordingly. 8995 => bloxberg id, 5777 => ganache id
@@ -236,7 +236,7 @@ export default class App extends React.Component {
   render() {
     console.log('Rendering...');
     return (
-      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, web3: this.state.web3, refreshUser: this.refreshUser, fortmaticMetadata: this.state.fortmaticMetadata }}>
+      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, refreshUser: this.refreshUser, fortmaticMetadata: this.state.fortmaticMetadata }}>
         <AppView
           addReviewsToState={this.addReviewsToState}
           deleteReviewFromState={this.deleteReviewFromState}
