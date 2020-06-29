@@ -59,7 +59,6 @@ export default class App extends React.Component {
       window.web3 = web3;
       setContract(); // Set the contract instance. Is this the right way?
       this.setState({
-        isLoading: true,
         isLoggedInWithFm: true, isConnectedToBloxberg: true
       });
       fmPhantom.user.getMetadata().then(metadata => {
@@ -124,9 +123,10 @@ export default class App extends React.Component {
    * Logs the user in using Fortmatic.
    */
   loginWithFortmatic = async (data) => {
-    setContract();
     const web3 = new Web3(fmPhantom.getProvider());
     window.web3 = web3;
+    console.log(window.web3);
+    setContract();
     const email = data.email;
     const user = await fmPhantom.loginWithMagicLink({ email });
     let metadata = await user.getMetadata();
@@ -177,6 +177,7 @@ export default class App extends React.Component {
    */
   init = (address) => {
     // Get the user object from database.
+    this.setState({ isLoading: true });
     this.getUserObjAndSetUserState(address)
       .catch(err => { // User not found, register.
         console.error(err);
