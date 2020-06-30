@@ -13,9 +13,9 @@ const Wrapper = styled.div`
   background-color: white;
   border: 1px solid ${props => props.theme.border};
   border-radius: 5px;
-  width: 100%;
   flex-direction: column;
   display: flex;
+  flex: 1;
   `;
 
 const TitleWrapper = styled.div`

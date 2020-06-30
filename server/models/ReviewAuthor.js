@@ -8,6 +8,8 @@ const ReviewAuthorSchema = new mongoose.Schema({
   email: String,
   profilePicture: Buffer,
   reviews: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+  orcid: String,
+  orcidAccessToken: String,
   blockchainReviews: [{ type: Schema.Types.ObjectId, ref: 'BlockchainReview' }]
 }, { timestamps: true });
 

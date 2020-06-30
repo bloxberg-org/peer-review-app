@@ -52,7 +52,6 @@ export const addReview = (data) => {
     return connection.addReview(chainData) // Write to blockchain.
       .then((tx) => { // Then to db.
         return post(`/reviews/${address}`, dbData)
-          .then(dbResponse => dbResponse.json())
           .then((dbJson) => {
             let response = {
               tx: tx,

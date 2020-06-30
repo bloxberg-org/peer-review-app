@@ -1,23 +1,20 @@
 const URL = (process.env.REACT_APP_SERVER_ADDRESS || 'http://localhost:3000') + '/api';
 
-export const post = (endpoint, body) => {
+export const post = (endpoint, body, headers = { 'Content-Type': 'application/json' }) => {
   console.log('IN POST');
   return fetch(URL + endpoint, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: headers,
     body: JSON.stringify(body)
   })
-    .then(handleErrors);
+    .then(handleErrors)
+    .then(res => res.json());
 };
 
-export const get = (endpoint) => {
+export const get = (endpoint, headers = { 'Content-Type': 'application/json' }) => {
   return fetch(URL + endpoint, {
     method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: headers,
   })
     .then(handleErrors)
     .then(res => res.json());
