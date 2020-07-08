@@ -1,4 +1,4 @@
-const URL = (process.env.REACT_APP_SERVER_ADDRESS || 'http://localhost:3000') + '/api';
+const URL = (process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : window.location.origin) + '/api';
 
 export const post = (endpoint, body, headers = { 'Content-Type': 'application/json' }) => {
   console.log('IN POST');

@@ -38,8 +38,6 @@ services:
     working_dir: /home/node/app
     depends_on:
       - server
-    env_file: 
-      - .env
     expose:
       - "80"
     ports:

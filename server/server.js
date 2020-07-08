@@ -21,11 +21,11 @@ mongo.connectToServer();
 app.use(morgan('combined', { stream: winston.stream }));
 
 // ======== CORS Policy =======
-const whitelist = ['http://127.0.0.1:3001', 'http://localhost:3001', 'http://127.0.0.1', 'http://localhost'];
+const whitelist = ['http://127.0.0.1:3001', 'http://localhost:3001', 'http://127.0.0.1', 'http://localhost', 'http://client']; // client as Docker service name instead of localhost.
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 // Allow if origin found in whitelist
-      || (process.env.NODE_ENV === 'development' && !origin)) { // or a REST tool (postman) is being used in development environment.
+      || !origin) { // or a REST tool (postman) is being used or same origin.
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS ' + origin));

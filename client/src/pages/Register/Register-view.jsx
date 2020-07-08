@@ -66,7 +66,7 @@ const OrcidButton = styled(({ onClick, className }) => {
   }
 `;
 
-export default function App() {
+export default function Register() {
   const [account, setAccount] = useState(0);
   const [orcid, setOrcid] = useState();
   const [accessToken, setAccessToken] = useState();
@@ -78,8 +78,11 @@ export default function App() {
     }
   });
   const history = useHistory();
+  const ORCID_URL = process.env.NODE_ENV === 'development' ? 'https://sandbox.orcid.org' : 'https://orcid.org';
   console.log(fortmaticMetadata);
-
+  console.log('Env vars');
+  console.log(process.env);
+  console.log('The environment variable REACT_APP_ORCID_SANDBOX_CLIENT_ID: ', process.env.REACT_APP_ORCID_SANDBOX_CLIENT_ID);
   // Autofill user address
   useEffect(() => {
     getCurrentAccount().then((address) => {
@@ -98,7 +101,6 @@ export default function App() {
     addAuthor(author)
       .then((response) => {
         console.log(response);
-        setAccount(author._id);
         history.push('/', author._id);
         window.location.reload();
       })
@@ -111,20 +113,27 @@ export default function App() {
    * Opens up a popup to orcid login. Polls the popup until successful login and redirect to redirect_uri. 
    * @returns {Promise} resolving to a 6 letter authentication code
    */
-  const signInToOrcid = () => {
+  const getOrcidAuthCode = () => {
     return new Promise((resolve, reject) => {
-      const CLIENT_ID = process.env.REACT_APP_ORCID_CLIENT_ID;
+      const CLIENT_ID = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_ORCID_SANDBOX_CLIENT_ID : process.env.REACT_APP_ORCID_CLIENT_ID;
+      console.log('Env vars');
+      console.log(process.env);
+      console.log('The environment variable REACT_APP_ORCID_SANDBOX_CLIENT_ID: ', process.env.REACT_APP_ORCID_SANDBOX_CLIENT_ID);
       const redirect_uri = window.location.origin + '/orcid'; // Set redirect. It is going to be closed immediately anyway.
       // const scope = '/read-limited'; // Requires Member API
       const scope = '/authenticate';
-      const url = `https://sandbox.orcid.org/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&scope=${scope}&redirect_uri=${redirect_uri}`;
+      const url = `${ORCID_URL}/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&scope=${scope}&redirect_uri=${redirect_uri}`;
 
       // from https://stackoverflow.com/questions/37425721/3-legged-oauth-with-react-and-redux
       const popup = window.open(url, 'orcidLogin', 'height=600,width=450');
       if (popup) popup.focus();
-
       // Poll every 0.5 sec. Will throw cross-origin errors in orcid.org. Resolves or rejects when back to same domain.
       const pollTimer = window.setInterval(() => {
+        // Reject if window closed without loggign in
+        if (popup.location.href === undefined) {
+          window.clearInterval(pollTimer);
+          reject('Could not login');
+        }
         if (!!popup && popup.location.href.indexOf(redirect_uri) !== -1) {
           window.clearInterval(pollTimer);
           const code = new URLSearchParams(popup.location.search).get('code');
@@ -137,11 +146,20 @@ export default function App() {
     });
   };
 
+  /**
+   * Function to sign-in to Orcid and fill the user fields.
+   * Called after clicking "Import Orcid Info" button
+   * First gets an Auth code through the user login
+   * Upon receiving the Auth code, request an Access Token through the server (no direct request possible because of CORS).
+   * Once got the Access Token and ORCiD ID, keep it in state and request user email and name.
+   * Finally fill the form with retrieved user info.
+   */
   const orcidFill = () => {
     setIsLoading(true);
-    signInToOrcid()
+    getOrcidAuthCode()
       .catch(err => {
         console.error('Couldnt get the auth code \n', err);
+        setIsLoading(false);
         return Promise.reject(); // Break the chain.
       })
       .then(code => {

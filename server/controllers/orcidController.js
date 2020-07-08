@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const logger = require('winston');
 
-const ORCiD_URL = 'https://sandbox.orcid.org';
+const ORCiD_URL = process.env.NODE_ENV === 'development' ? 'https://sandbox.orcid.org' : 'https://orcid.org';
 
 // POST /authors/oauth/token
 exports.requestAccessToken = (req, res) => {
@@ -9,8 +9,8 @@ exports.requestAccessToken = (req, res) => {
   logger.info('Received ORCiD acces token req with code: ', code);
 
   let URL = ORCiD_URL + '/oauth/token';
-  let CLIENT_ID = process.env.ORCID_CLIENT_ID;
-  let CLIENT_SECRET = process.env.ORCID_CLIENT_SECRET;
+  let CLIENT_ID = process.env.NODE_ENV === 'development' ? process.env.ORCID_SANDBOX_CLIENT_ID : process.env.ORCID_CLIENT_ID;
+  let CLIENT_SECRET = process.env.NODE_ENV === 'development' ? process.env.ORCID_SANDBOX_CLIENT_SECRET : process.env.ORCID_CLIENT_SECRET;
   let data =
     'client_id=' + CLIENT_ID +
     '&client_secret=' + CLIENT_SECRET +

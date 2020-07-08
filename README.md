@@ -43,6 +43,8 @@ First make a copy of the `.env-template` file and name it `.env`.
 
 To import reviews from Publons you need to have an auth token. Login and find the token [here](https://publons.com/api/v2/). Enter the found token `6452ac....4f2de` in the given format `Token 6452ac....4f2de` as the environment variable. 
 
+To import ORCiD ID and email, enter ORCiD client ID and secrets as environment variables. For development you will need sandbox credentials. The sandbox credentials can be found [here](https://sandbox.orcid.org/developer-tools) after registering an application. Assign SANDBOX variables to these at `.env` and at `client/.env` for `create-react-app` to reach. If you need a production version register your app to ORCiD and use ORCiD's production server with credentials [here](https://orcid.org/developer-tools). Assign variables in `.env`.
+
 Enter the 12 word MNEMONIC (seed phrase) for the accounts to be used and funded by ganache. You can use the MNEMONIC created by Metamask when creating a wallet or as described [here](https://metamask.zendesk.com/hc/en-us/articles/360015290032-How-to-Reveal-Your-Seed-Phrase).
 
 # Run Development
