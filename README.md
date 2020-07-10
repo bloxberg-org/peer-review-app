@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://keeper.mpdl.mpg.de/seafhttp/files/c29b8182-2147-4773-a143-dbbb7127ed6e/PV%20logo_black_cropped.png"" alt="PeerView Logo" width="250px"/>
+</p>
+
 # Bloxberg Peer Review
 An Ethereum dApp for aggregating peer review data.
 
