@@ -71,15 +71,15 @@ export default function Register() {
   const [orcid, setOrcid] = useState();
   const [accessToken, setAccessToken] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { fortmaticMetadata } = useContext(Context);
+  const { magicMetadata } = useContext(Context);
   const { register, handleSubmit, errors, reset } = useForm({
     defaultValues: {
-      email: fortmaticMetadata ? fortmaticMetadata.email : null
+      email: magicMetadata ? magicMetadata.email : null
     }
   });
   const history = useHistory();
   const ORCID_URL = process.env.NODE_ENV === 'development' ? 'https://sandbox.orcid.org' : 'https://orcid.org';
-  console.log(fortmaticMetadata);
+  console.log(magicMetadata);
   console.log('Env vars');
   console.log(process.env);
   console.log('The environment variable REACT_APP_ORCID_SANDBOX_CLIENT_ID: ', process.env.REACT_APP_ORCID_SANDBOX_CLIENT_ID);
@@ -221,7 +221,7 @@ export default function Register() {
               name="email"
               title="Email"
               errors={errors.email}
-              disabled={fortmaticMetadata}
+              disabled={magicMetadata}
               register={register({ required: true, pattern: /^\S+@\S+$/i })} />
             <FormField
               type="text"

@@ -4,12 +4,12 @@ import metamaskBanner from 'assets/metamask-full.svg';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
-import LoginWithFortmatic from './LoginWithFortmatic';
+import LoginWithMagic from './LoginWithMagic';
 
 
 LoginPage.propTypes = {
-  loginWithFortmatic: PropTypes.func.isRequired,
-  logoutFromFortmatic: PropTypes.func.isRequired,
+  loginWithMagic: PropTypes.func.isRequired,
+  logoutFromMagic: PropTypes.func.isRequired,
   loginWithMetamask: PropTypes.func.isRequired,
 };
 
@@ -142,9 +142,9 @@ export default function LoginPage(props) {
               Manage, organize, verify, and share your Peer Reviews
             </SubTitle>
           </TitleWrapper>
-          <LoginWithFortmatic
-            handleLogin={props.loginWithFortmatic}
-            handleLogout={props.logoutFromFortmatic}
+          <LoginWithMagic
+            handleLogin={props.loginWithMagic}
+            handleLogout={props.logoutFromMagic}
           />
           {/* <RegisterText>Don't have an account? <SignUpText>Sign Up!</SignUpText></RegisterText> */}
           <BloxbergLogoWrapper>

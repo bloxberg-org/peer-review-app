@@ -5,7 +5,7 @@ import React from 'react';
 import useForm from 'react-hook-form';
 import styled from 'styled-components';
 
-LoginWithFortmaticView.propTypes = {
+LoginWithMagicView.propTypes = {
   handleLogin: PropTypes.func.isRequired,
   handleLogout: PropTypes.func.isRequired,
 };
@@ -36,7 +36,7 @@ const ButtonWrapper = styled.div`
   flex: 0.4;
 `;
 
-export default function LoginWithFortmaticView(props) {
+export default function LoginWithMagicView(props) {
   const { register, handleSubmit, errors } = useForm();
 
   return (

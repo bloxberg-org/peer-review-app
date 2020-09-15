@@ -21,12 +21,12 @@ export default class App extends React.Component {
     this.state = {
       isLoading: true,
       isConnectedToBloxberg: false,
-      isLoggedInWithFm: false,
+      isLoggedInWithMagic: false,
       isLoggedInWithMetamask: false,
       isNoUserFound: false,
       reviewsOfUser: [],
       user: {},
-      fortmaticMetadata: null // make falsy
+      magicMetadata: null // make falsy
       // instance: {} // @truffle/contract instance of the ReviewStorage.
     };
   }
@@ -52,17 +52,17 @@ export default class App extends React.Component {
         });
     }
 
-    // Check if there is user session already with Fortmatic.
+    // Check if there is user session already with Magic.
     else if (await magic.user.isLoggedIn()) {
-      console.log('Logged in with Fortmatic!');
+      console.log('Logged in with Magic!');
       const web3 = new Web3(magic.rpcProvider);
       window.web3 = web3;
       setContract(); // Set the contract instance. Is this the right way?
       this.setState({
-        isLoggedInWithFm: true, isConnectedToBloxberg: true
+        isLoggedInWithMagic: true, isConnectedToBloxberg: true
       });
       magic.user.getMetadata().then(metadata => {
-        this.setState({ fortmaticMetadata: metadata });
+        this.setState({ magicMetadata: metadata });
         console.log('User metadata: ', metadata);
         let addr = metadata.publicAddress;
         this.init(addr);
@@ -71,7 +71,7 @@ export default class App extends React.Component {
 
     else {
       this.setState({ isLoading: false });
-      // Login with fortmatic or Metamask
+      // Login with magic or Metamask
     }
 
     // Load the contract instance
@@ -120,9 +120,9 @@ export default class App extends React.Component {
   }
 
   /** 
-   * Logs the user in using Fortmatic.
+   * Logs the user in using Magic.
    */
-  loginWithFortmatic = async (data) => {
+  loginWithMagic = async (data) => {
     const web3 = new Web3(magic.rpcProvider);
     window.web3 = web3;
     console.log(window.web3);
@@ -130,20 +130,20 @@ export default class App extends React.Component {
     const email = data.email;
     await magic.auth.loginWithMagicLink({ email });
     let metadata = await magic.user.getMetadata();
-    this.setState({ fortmaticMetadata: metadata, isLoggedInWithFm: true, isConnectedToBloxberg: true });
-    console.log('Fortmatic metadata:', metadata);
+    this.setState({ magicMetadata: metadata, isLoggedInWithMagic: true, isConnectedToBloxberg: true });
+    console.log('Magic metadata:', metadata);
     this.init(metadata.publicAddress);
   };
 
   /**
-   * Logs user out from fortmatic
+   * Logs user out from magic
    */
-  logoutFromFortmatic = () => {
+  logoutFromMagic = () => {
     console.log('Logging out');
     magic.user.logout().then(() => {
       console.log('Logged out');
       // localStorage.removeItem('didToken');
-      this.setState({ isLoggedInWithFm: false });
+      this.setState({ isLoggedInWithMagic: false });
     });
   }
 
@@ -237,12 +237,12 @@ export default class App extends React.Component {
   render() {
     console.log('Rendering...');
     return (
-      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, refreshUser: this.refreshUser, fortmaticMetadata: this.state.fortmaticMetadata }}>
+      <Context.Provider value={{ user: this.state.user, reviews: this.state.reviewsOfUser, refreshUser: this.refreshUser, magicMetadata: this.state.magicMetadata }}>
         <AppView
           addReviewsToState={this.addReviewsToState}
           deleteReviewFromState={this.deleteReviewFromState}
-          loginWithFortmatic={this.loginWithFortmatic}
-          logoutFromFortmatic={this.logoutFromFortmatic}
+          loginWithMagic={this.loginWithMagic}
+          logoutFromMagic={this.logoutFromMagic}
           refreshReviews={this.fetchBlockchainReviewsAndSetReviewsOfUser}
           loginWithMetamask={this.loginWithMetamask}
           {...this.state} />

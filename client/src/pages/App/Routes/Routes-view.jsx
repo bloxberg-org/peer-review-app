@@ -13,43 +13,43 @@ import PrivateRoute from './PrivateRoute';
 RoutesView.propTypes = {
   refreshReviews: PropTypes.func.isRequired,
   isLoggedInWithMetamask: PropTypes.bool.isRequired,
-  isLoggedInWithFm: PropTypes.bool.isRequired,
+  isLoggedInWithMagic: PropTypes.bool.isRequired,
   isNoUserFound: PropTypes.bool.isRequired,
   isConnectedToBloxberg: PropTypes.bool.isRequired
 };
 
-export default function RoutesView({ isLoggedInWithFm, isLoggedInWithMetamask, isNoUserFound, isConnectedToBloxberg, ...props }) {
+export default function RoutesView({ isLoggedInWithMagic, isLoggedInWithMetamask, isNoUserFound, isConnectedToBloxberg, ...props }) {
 
   // Don't repeat props isLoggedInWithWallet, isNoUserFound, and isConnectedToBloxberg
-  // Logged in to wallet if logged in to Fortmatic or Metamask.
+  // Logged in to wallet if logged in to Magic or Metamask.
   const PrivateRouteWithAuth = (props) => {
-    return <PrivateRoute isLoggedInWithWallet={isLoggedInWithFm || isLoggedInWithMetamask} isNoUserFound={isNoUserFound} isConnectedToBloxberg={isConnectedToBloxberg} {...props} />;
+    return <PrivateRoute isLoggedInWithWallet={isLoggedInWithMagic || isLoggedInWithMetamask} isNoUserFound={isNoUserFound} isConnectedToBloxberg={isConnectedToBloxberg} {...props} />;
   };
 
-  const TopBarWithFm = (props) => {
-    return <TopBar isLoggedInWithFm={isLoggedInWithFm} {...props} />;
+  const TopBarWithMagic = (props) => {
+    return <TopBar isLoggedInWithMagic={isLoggedInWithMagic} {...props} />;
   };
 
   return (
     <Switch>
       <PrivateRouteWithAuth path="/Overview">
-        <TopBarWithFm title='Overview' {...props} />
+        <TopBarWithMagic title='Overview' {...props} />
         <Overview {...props} />
       </PrivateRouteWithAuth>
       <PrivateRouteWithAuth path="/Reviews/AddReview">
-        <TopBarWithFm title='Reviews' {...props} />
+        <TopBarWithMagic title='Reviews' {...props} />
         <AddReview {...props} refreshReviews={props.refreshReviews} />
       </PrivateRouteWithAuth>
       <PrivateRouteWithAuth path="/Reviews/MyReviews">
-        <TopBarWithFm title='Reviews' {...props} />
+        <TopBarWithMagic title='Reviews' {...props} />
         <AllReviews {...props} />
       </PrivateRouteWithAuth>
       <PrivateRouteWithAuth path="/Reviews/VouchReview">
-        <TopBarWithFm title='Reviews' {...props} />
+        <TopBarWithMagic title='Reviews' {...props} />
         <VouchReview {...props} />
       </PrivateRouteWithAuth>
       <PrivateRouteWithAuth path="/Reviews/:id">
-        <TopBarWithFm title='Review' {...props} />
+        <TopBarWithMagic title='Review' {...props} />
         <SingleReview {...props} />
       </PrivateRouteWithAuth>
       <PrivateRouteWithAuth path="/Reviews/">
@@ -57,7 +57,7 @@ export default function RoutesView({ isLoggedInWithFm, isLoggedInWithMetamask, i
         <Redirect to='/Reviews/AddReview' />
       </PrivateRouteWithAuth>
       <PrivateRouteWithAuth path="/Settings">
-        <TopBarWithFm title='Settings' {...props} />
+        <TopBarWithMagic title='Settings' {...props} />
         <Settings {...props} />
       </PrivateRouteWithAuth>
       <PrivateRouteWithAuth path="/">

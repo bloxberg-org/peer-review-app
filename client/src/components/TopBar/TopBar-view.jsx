@@ -10,8 +10,8 @@ TopBarView.propTypes = {
   title: Proptypes.string,
   user: Proptypes.object,
   isLoading: Proptypes.bool,
-  logoutFromFortmatic: Proptypes.func.isRequired,
-  isLoggedInWithFm: Proptypes.bool.isRequired
+  logoutFromMagic: Proptypes.func.isRequired,
+  isLoggedInWithMagic: Proptypes.bool.isRequired
 };
 
 const Title = styled.h1`
@@ -55,8 +55,8 @@ export default function TopBarView(props) {
         {/* <StyledSearchBar placeholder='Try: "Max Planck"' /> */}
         <UserIcon user={props.user} onClick={() => history.push('/Overview')} />
         {
-          props.isLoggedInWithFm
-            ? <FAIconButton tooltip="Logout" onClick={props.logoutFromFortmatic} icon={faSignOutAlt} />
+          props.isLoggedInWithMagic
+            ? <FAIconButton tooltip="Logout" onClick={props.logoutFromMagic} icon={faSignOutAlt} />
             : null
         }
       </TopBarRightWrapper>

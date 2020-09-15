@@ -14,10 +14,10 @@ AppView.propTypes = {
   isConnectedToBloxberg: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isNoUserFound: PropTypes.bool.isRequired,
-  isLoggedInWithFm: PropTypes.bool.isRequired,
+  isLoggedInWithMagic: PropTypes.bool.isRequired,
   isLoggedInWithMetamask: PropTypes.bool.isRequired,
-  loginWithFortmatic: PropTypes.func.isRequired,
-  logoutFromFortmatic: PropTypes.func.isRequired,
+  loginWithMagic: PropTypes.func.isRequired,
+  logoutFromMagic: PropTypes.func.isRequired,
   loginWithMetamask: PropTypes.func.isRequired,
   refreshReviews: PropTypes.func.isRequired
 };
@@ -84,12 +84,12 @@ export default function AppView(props) {
       <Router>
         <Switch>
           <Route path='/Login'>
-            {props.isLoggedInWithFm || props.isLoggedInWithMetamask // Don't render login if loggedIn
+            {props.isLoggedInWithMagic || props.isLoggedInWithMetamask // Don't render login if loggedIn
               ? <Redirect to='/' />
               : <AppContentWithoutSideBar>
                 <LoginPage
-                  loginWithFortmatic={props.loginWithFortmatic}
-                  logoutFromFortmatic={props.logoutFromFortmatic}
+                  loginWithMagic={props.loginWithMagic}
+                  logoutFromMagic={props.logoutFromMagic}
                   loginWithMetamask={props.loginWithMetamask}
                 />
               </AppContentWithoutSideBar>
@@ -108,7 +108,7 @@ export default function AppView(props) {
           <AppContentWithSideBar>
             <Routes
               isNoUserFound={props.isNoUserFound}
-              isLoggedInWithFm={props.isLoggedInWithFm}
+              isLoggedInWithMagic={props.isLoggedInWithMagic}
               isLoggedInWithMetamask={props.isLoggedInWithMetamask}
               refreshReviews={props.refreshReviews}
               isConnectedToBloxberg={props.isConnectedToBloxberg}
