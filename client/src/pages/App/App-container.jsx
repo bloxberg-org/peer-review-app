@@ -1,6 +1,6 @@
 import Context from 'components/Context';
 import { getCurrentAccount, setContract } from 'connection/reviewConnection';
-import Fortmatic from 'fortmatic';
+import { Magic } from 'magic-sdk';
 import React from 'react';
 import { get } from 'utils/endpoint';
 import { getAllBlockchainReviews } from 'utils/review';
@@ -12,8 +12,8 @@ const customNodeOptions = {
   chainId: 8995 // chainId of your own node
 };
 
-// const fmPhantom = new Fortmatic.Phantom('pk_live_F9432691E398BB8E', customNodeOptions); // Live.
-const fmPhantom = new Fortmatic.Phantom('pk_test_11959EA492A48695', customNodeOptions);
+// const magic = new Magic('pk_live_F9112C8C0CC44C87', { network: customNodeOptions });
+const magic = new Magic('pk_test_73CB4D23D1653E8D', { network: customNodeOptions });
 
 export default class App extends React.Component {
   constructor(props) {
@@ -53,15 +53,15 @@ export default class App extends React.Component {
     }
 
     // Check if there is user session already with Fortmatic.
-    else if (await fmPhantom.user.isLoggedIn()) {
+    else if (await magic.user.isLoggedIn()) {
       console.log('Logged in with Fortmatic!');
-      const web3 = new Web3(fmPhantom.getProvider());
+      const web3 = new Web3(magic.rpcProvider);
       window.web3 = web3;
       setContract(); // Set the contract instance. Is this the right way?
       this.setState({
         isLoggedInWithFm: true, isConnectedToBloxberg: true
       });
-      fmPhantom.user.getMetadata().then(metadata => {
+      magic.user.getMetadata().then(metadata => {
         this.setState({ fortmaticMetadata: metadata });
         console.log('User metadata: ', metadata);
         let addr = metadata.publicAddress;
@@ -123,13 +123,13 @@ export default class App extends React.Component {
    * Logs the user in using Fortmatic.
    */
   loginWithFortmatic = async (data) => {
-    const web3 = new Web3(fmPhantom.getProvider());
+    const web3 = new Web3(magic.rpcProvider);
     window.web3 = web3;
     console.log(window.web3);
     setContract();
     const email = data.email;
-    const user = await fmPhantom.loginWithMagicLink({ email });
-    let metadata = await user.getMetadata();
+    await magic.auth.loginWithMagicLink({ email });
+    let metadata = await magic.user.getMetadata();
     this.setState({ fortmaticMetadata: metadata, isLoggedInWithFm: true, isConnectedToBloxberg: true });
     console.log('Fortmatic metadata:', metadata);
     this.init(metadata.publicAddress);
@@ -140,7 +140,7 @@ export default class App extends React.Component {
    */
   logoutFromFortmatic = () => {
     console.log('Logging out');
-    fmPhantom.user.logout().then(() => {
+    magic.user.logout().then(() => {
       console.log('Logged out');
       // localStorage.removeItem('didToken');
       this.setState({ isLoggedInWithFm: false });
