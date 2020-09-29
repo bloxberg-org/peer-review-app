@@ -117,7 +117,7 @@ npx oz create --network bloxberg
 ```
 Choose ReviewStorage. Note the address of the contract that is output. 
 
-Then fund as described above. With the contract deployed in bloxberg, you can now also disable Metamask and use Fortmatic as your wallet. 
+Then fund as described above. With the contract deployed in bloxberg, you can now also disable Metamask and use Magic as your wallet. 
 
 *TODO*:
 - Add GSN Contract deployment
@@ -156,7 +156,7 @@ If you reset the development blockchain by clearing the ganache folder make sure
 
 If you get `Error: connection not open at WebsocketProvider.send (/home/node/app/node_modules/web3-providers-ws/src/index.js:282:18)` this is because the indexer is running before ganache and can't connect to the ganache network. Make indexer run after network is set up. Should not be a problem in production as bloxberg will be running all the time. 
 
-Fortmatic wallet uses 3rd party cookies for authentication. Blocking of 3rd party cookies will disrupt the login process.
+Magic wallet uses 3rd party cookies for authentication. Blocking of 3rd party cookies will disrupt the login process.
 
 On the frontend the error: Objects are not valid as react child can occur when declaring styled components. Don't forget the template literals at the declaration. See [here](https://stackoverflow.com/a/61497342/6528944)
 

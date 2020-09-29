@@ -1,11 +1,11 @@
 {
   "contracts": {
     "ReviewStorage": {
-      "address": "0xB01d189798dbcbAb735fD2314bAcdAAFBF4160Ba",
-      "constructorCode": "6080604052613e3e806100136000396000f3fe",
-      "bodyBytecodeHash": "9b19325408e8e2a83bde74d76aea847a32d3c2d11c3b69d972a424d84e72d3f1",
-      "localBytecodeHash": "8e52ffe46da06c6c5d8047efb12b0a4cdf84f9243cbe41d833d5577711daafdc",
-      "deployedBytecodeHash": "8e52ffe46da06c6c5d8047efb12b0a4cdf84f9243cbe41d833d5577711daafdc",
+      "address": "0xd6cEa7e88c4B2d54c5Db3a7A10f71a9EC99a195F",
+      "constructorCode": "60806040526140bb806100136000396000f3fe",
+      "bodyBytecodeHash": "5766894e210fa15cb191d23cf3abfdb7233ec77c51401e1cffd0fbc530ae5d6d",
+      "localBytecodeHash": "5e7c80369158b814f60d15ec32042d47ebdbf3a89ca76ded253e0b395741af57",
+      "deployedBytecodeHash": "5e7c80369158b814f60d15ec32042d47ebdbf3a89ca76ded253e0b395741af57",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -38,79 +38,79 @@
               "label": "id",
               "astId": 89,
               "type": "t_string",
-              "src": "644:9:1"
+              "src": "587:9:1"
             },
             {
               "label": "index",
               "astId": 91,
               "type": "t_uint32",
-              "src": "663:12:1"
+              "src": "606:12:1"
             },
             {
               "label": "author",
               "astId": 93,
               "type": "t_address",
-              "src": "755:14:1"
+              "src": "698:14:1"
             },
             {
               "label": "journalId",
               "astId": 95,
               "type": "t_string",
-              "src": "779:16:1"
+              "src": "722:16:1"
             },
             {
               "label": "publisher",
               "astId": 97,
               "type": "t_string",
-              "src": "813:16:1"
+              "src": "756:16:1"
             },
             {
               "label": "manuscriptId",
               "astId": 99,
               "type": "t_string",
-              "src": "857:19:1"
+              "src": "800:19:1"
             },
             {
               "label": "manuscriptHash",
               "astId": 101,
               "type": "t_string",
-              "src": "894:21:1"
+              "src": "837:21:1"
             },
             {
               "label": "timestamp",
               "astId": 103,
               "type": "t_uint32",
-              "src": "925:16:1"
+              "src": "868:16:1"
             },
             {
               "label": "recommendation",
               "astId": 105,
               "type": "t_enum<ReviewStorage.Recommendation>",
-              "src": "1000:29:1"
+              "src": "943:29:1"
             },
             {
               "label": "url",
               "astId": 107,
               "type": "t_string",
-              "src": "1039:10:1"
+              "src": "982:10:1"
             },
             {
               "label": "verified",
               "astId": 109,
               "type": "t_bool",
-              "src": "1059:13:1"
+              "src": "1002:13:1"
             },
             {
               "label": "vouchers",
               "astId": 112,
               "type": "t_array:dyn<t_address>",
-              "src": "1082:18:1"
+              "src": "1025:18:1"
             },
             {
               "label": "vouchersMap",
               "astId": 116,
               "type": "t_mapping<t_bool>",
-              "src": "1110:36:1"
+              "src": "1053:36:1"
             }
           ]
         },
@@ -173,7 +173,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 1672,
+          "astId": 1712,
           "type": "t_bool",
           "src": "757:24:6"
         },
@@ -181,7 +181,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 1674,
+          "astId": 1714,
           "type": "t_bool",
           "src": "876:25:6"
         },
@@ -189,7 +189,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 1736,
+          "astId": 1776,
           "type": "t_array:50<t_uint256>",
           "src": "1982:29:6"
         },
@@ -197,7 +197,7 @@
           "contract": "GSNRecipient",
           "path": "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol",
           "label": "_relayHub",
-          "astId": 1044,
+          "astId": 1084,
           "type": "t_address",
           "src": "1133:25:3"
         },
@@ -207,7 +207,7 @@
           "label": "publonsAddress",
           "astId": 82,
           "type": "t_address",
-          "src": "537:22:1"
+          "src": "480:22:1"
         },
         {
           "contract": "ReviewStorage",
@@ -215,7 +215,7 @@
           "label": "reviewsMap",
           "astId": 121,
           "type": "t_mapping<t_struct<ReviewStorage.Review>>",
-          "src": "1243:36:1"
+          "src": "1186:36:1"
         },
         {
           "contract": "ReviewStorage",
@@ -223,7 +223,7 @@
           "label": "userReviewsIdsMap",
           "astId": 126,
           "type": "t_mapping<t_array:dyn<t_string>>",
-          "src": "1345:46:1"
+          "src": "1288:46:1"
         }
       ],
       "warnings": {
@@ -231,7 +231,18 @@
         "hasSelfDestruct": false,
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
-        "uninitializedBaseContracts": []
+        "uninitializedBaseContracts": [],
+        "storageUncheckedVars": [
+          {
+            "contract": "ReviewStorage",
+            "path": "contracts/ReviewStorage.sol",
+            "label": "reviewsMap",
+            "astId": 121,
+            "type": "t_mapping<t_struct<ReviewStorage.Review>>",
+            "src": "1186:36:1"
+          }
+        ],
+        "storageDiff": []
       }
     }
   },
@@ -242,6 +253,13 @@
         "address": "0x12e82b31BeAE4E12c99766FBbbC1D6C856CF5CFB",
         "version": "0.0.1",
         "implementation": "0xB01d189798dbcbAb735fD2314bAcdAAFBF4160Ba",
+        "admin": "0x5c3dA509d9C44b4719daFd286cB017f01b6a8e02",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x5F6102F90fA010E401FA490d0dbACFb7fAFdDfa4",
+        "version": "0.0.1",
+        "implementation": "0xd6cEa7e88c4B2d54c5Db3a7A10f71a9EC99a195F",
         "admin": "0x5c3dA509d9C44b4719daFd286cB017f01b6a8e02",
         "kind": "Upgradeable"
       }
