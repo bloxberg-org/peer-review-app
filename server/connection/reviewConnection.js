@@ -32,7 +32,7 @@ exports.getReviewCount = async (authorAddr) => {
 exports.addReview = async (authorAddr, review) => {
   let [instance, accounts] = await init();
   return instance.addReview(authorAddr, review.journalId, review.manuscriptId,
-    review.manuscriptHash, review.timestamp, review.recommendation,
+    review.manuscriptHash, review.reviewHash, review.timestamp, review.recommendation,
     { from: accounts[0] });
 };
 

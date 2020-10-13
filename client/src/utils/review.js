@@ -34,6 +34,7 @@ export const addReview = (data) => {
     publisher: data.publisher,
     manuscriptId: data.manuscriptId,
     manuscriptHash: data.manuscriptHash,
+    reviewHash: data.reviewHash,
     timestamp: data.timestamp,
     recommendation: data.recommendation,
     url: data.url
@@ -97,11 +98,12 @@ export const getAllBlockchainReviews = async () => {
         publisher: review[3],
         manuscriptId: review[4],
         manuscripthash: review[5],
-        timestamp: review[6].toNumber(), // Handle BigNumber
-        recommendation: review[7].toNumber(),
-        url: review[8],
-        verified: review[9],
-        vouchers: review[10]
+        reviewHash: review[6],
+        timestamp: review[7].toNumber(), // Handle BigNumber
+        recommendation: review[8].toNumber(),
+        url: review[9],
+        verified: review[10],
+        vouchers: review[11]
       };
     });
   })).catch((e) => {
@@ -112,6 +114,7 @@ export const getAllBlockchainReviews = async () => {
 
 export const getOneBlockchainReview = (id) => {
   return connection.getReview(id).then(review => {
+    console.log(review);
     return {
       id: review[0],
       author: review[1],
@@ -119,11 +122,12 @@ export const getOneBlockchainReview = (id) => {
       publisher: review[3],
       manuscriptId: review[4],
       manuscripthash: review[5],
-      timestamp: review[6].toNumber(), // Handle BigNumber
-      recommendation: review[7].toNumber(),
-      url: review[8],
-      verified: review[9],
-      vouchers: review[10]
+      reviewHash: review[6],
+      timestamp: review[7].toNumber(), // Handle BigNumber
+      recommendation: review[8].toNumber(),
+      url: review[9],
+      verified: review[10],
+      vouchers: review[11]
     };
   }).catch((e) => {
     console.log(e);

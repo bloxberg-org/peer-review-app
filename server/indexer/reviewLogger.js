@@ -28,11 +28,12 @@ exports.logAddedReview = (event, instance) => {
         publisher: review[3],
         manuscriptId: review[4],
         manuscripthash: review[5],
-        timestamp: review[6],
-        recommendation: review[7],
-        url: review[8],
-        verified: review[9],
-        vouchers: review[10],
+        reviewHash: review[6],
+        timestamp: review[7],
+        recommendation: review[8],
+        url: review[9],
+        verified: review[10],
+        vouchers: review[11],
         blockNumber: event.blockNumber,
         transactionIndex: event.transactionIndex
       };

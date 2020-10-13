@@ -125,6 +125,7 @@ export default class PublonsContainer extends React.Component {
         publisher: review.publisher ? review.publisher.name : '',
         manuscriptId: '',
         manuscriptHash: '',
+        reviewHash: '',
         timestamp: moment(review.date_reviewed).unix(),
         recommendation: '',
         url: review.ids.academic.url,

@@ -26,6 +26,7 @@ SingleReviewView.propTypes = {
     publisher: PropTypes.string,
     manuscriptId: PropTypes.string,
     manuscriptHash: PropTypes.string,
+    reviewHash: PropTypes.string,
     timestamp: PropTypes.number,
     recommendation: PropTypes.oneOf([0, 1, 2, 3]),
     url: PropTypes.string,
@@ -143,6 +144,7 @@ export default function SingleReviewView(props) {
             <ReviewField title='Publisher'>{props.blockchainReview.publisher}</ReviewField>
             <ReviewField title='Manuscript ID'>{props.blockchainReview.manuscriptId}</ReviewField>
             <ReviewField title='Manuscript Hash'>{props.blockchainReview.manuscriptHash}</ReviewField>
+            <ReviewField title='Review Hash'>{props.blockchainReview.reviewHash}</ReviewField>
             <TimeStampRecommendationWrapper>
               <ReviewField title='Year'>{moment.unix(props.blockchainReview.timestamp).format('YYYY')}</ReviewField>
               <ReviewField title='Recommendation'>{props.blockchainReview.recommendation}</ReviewField>

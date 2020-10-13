@@ -7,6 +7,7 @@ const BlockchainReviewSchema = new mongoose.Schema({
   publisher: String,
   manuscriptId: String,
   manuscriptHash: String,
+  reviewHash: String,
   timestamp: Number,
   recommendation: String,
   url: String,

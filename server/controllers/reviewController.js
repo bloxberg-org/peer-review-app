@@ -148,7 +148,7 @@ exports.getReviewXML = (req, res) => {
       // Parse XML to JSON
       let jsonText = xml2json(data, { compact: true, spaces: 2 }); // convert to json
       let jsonDoc = JSON.parse(jsonText);
-      // If the specific review tied to this article is requested, send the review information.
+      // If the specific review (=index) tied to this article is requested, send the review information.
       // Else, first send the list of reviews of this article to ask user which review to return 
       if (index) {
         downloadAndHashPdf(`${pdfURL}${doi}`).then((hash) => {

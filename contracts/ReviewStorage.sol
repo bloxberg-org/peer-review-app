@@ -8,7 +8,6 @@ pragma experimental ABIEncoderV2;
 
 import "@openzeppelin/contracts-ethereum-package/contracts/GSN/GSNRecipient.sol";
 
-
 contract ReviewStorage is GSNRecipient {
     event ReviewAdded(address indexed from, string id);
     event ReviewDeleted(address indexed from, string id);
@@ -23,6 +22,7 @@ contract ReviewStorage is GSNRecipient {
         string publisher; // Publisher Name
         string manuscriptId; // DOI?
         string manuscriptHash;
+        string reviewHash; // Hash of the review file (e.g. PDF)
         uint32 timestamp; // Unix time (32 bits), when review is published
         Recommendation recommendation;
         string url;
@@ -35,6 +35,7 @@ contract ReviewStorage is GSNRecipient {
     // Mapping from user address to an array of review Ids.
     mapping(address => string[]) userReviewsIdsMap;
 
+    // Initialize for GSN.
     function initialize() public initializer {
         GSNRecipient.initialize();
         publonsAddress = 0x14B3a00C89BDdB6C0577E518FCA87eC19b1b2311;
@@ -71,6 +72,7 @@ contract ReviewStorage is GSNRecipient {
         string memory publisher,
         string memory manuscriptId,
         string memory manuscriptHash,
+        string memory reviewHash,
         uint32 timestamp,
         Recommendation recommendation,
         string memory url
@@ -86,6 +88,7 @@ contract ReviewStorage is GSNRecipient {
             publisher: publisher,
             manuscriptId: manuscriptId,
             manuscriptHash: manuscriptHash,
+            reviewHash: reviewHash,
             timestamp: timestamp,
             recommendation: recommendation,
             url: url,
@@ -103,6 +106,7 @@ contract ReviewStorage is GSNRecipient {
         string[] memory publishers,
         string[] memory manuscriptIds,
         string[] memory manuscriptHashes,
+        string[] memory reviewHashes,
         uint32[] memory timestamps,
         Recommendation[] memory recommendations,
         string[] memory urls
@@ -112,7 +116,8 @@ contract ReviewStorage is GSNRecipient {
                 journalIds.length == publishers.length &&
                 publishers.length == manuscriptIds.length &&
                 manuscriptIds.length == manuscriptHashes.length &&
-                manuscriptHashes.length == timestamps.length &&
+                manuscriptHashes.length == reviewHashes.length &&
+                reviewHashes.length == timestamps.length &&
                 timestamps.length == recommendations.length &&
                 recommendations.length == urls.length,
             "Parameter lengths dont match"
@@ -130,6 +135,7 @@ contract ReviewStorage is GSNRecipient {
             review.publisher = publishers[i];
             review.manuscriptId = manuscriptIds[i];
             review.manuscriptHash = manuscriptHashes[i];
+            review.reviewHash = reviewHashes[i];
             review.timestamp = timestamps[i];
             review.recommendation = recommendations[i];
             review.url = urls[i];
@@ -147,6 +153,7 @@ contract ReviewStorage is GSNRecipient {
         string[] memory publishers,
         string[] memory manuscriptIds,
         string[] memory manuscriptHashes,
+        string[] memory reviewHashes,
         uint32[] memory timestamps,
         Recommendation[] memory recommendations,
         string[] memory urls,
@@ -157,25 +164,26 @@ contract ReviewStorage is GSNRecipient {
                 journalIds.length == publishers.length &&
                 publishers.length == manuscriptIds.length &&
                 manuscriptIds.length == manuscriptHashes.length &&
-                manuscriptHashes.length == timestamps.length &&
+                manuscriptHashes.length == reviewHashes.length &&
+                reviewHashes.length == timestamps.length &&
                 timestamps.length == recommendations.length &&
                 recommendations.length == urls.length &&
                 urls.length == verifieds.length,
             "Parameter lengths dont match"
         );
         uint24 length = uint24(journalIds.length);
-        address author = _msgSender();
-        uint32 index = uint32(userReviewsIdsMap[author].length);
+        uint32 index = uint32(userReviewsIdsMap[_msgSender()].length);
 
         for (uint32 i = 0; i < length; i++) {
             Review storage review = reviewsMap[ids[i]];
             review.id = ids[i];
             review.index = index + i;
-            review.author = author;
+            review.author = _msgSender();
             review.journalId = journalIds[i];
             review.publisher = publishers[i];
             review.manuscriptId = manuscriptIds[i];
             review.manuscriptHash = manuscriptHashes[i];
+            review.reviewHash = reviewHashes[i];
             review.timestamp = timestamps[i];
             review.recommendation = recommendations[i];
             review.url = urls[i];
@@ -186,8 +194,8 @@ contract ReviewStorage is GSNRecipient {
                 review.verified = false;
                 review.vouchers = new address[](0); // Init empty array
             }
-            userReviewsIdsMap[author].push(ids[i]);
-            emit ReviewAdded(author, ids[i]);
+            userReviewsIdsMap[_msgSender()].push(ids[i]);
+            emit ReviewAdded(_msgSender(), ids[i]);
         }
     }
 
@@ -212,6 +220,7 @@ contract ReviewStorage is GSNRecipient {
             string memory,
             string memory,
             string memory,
+            string memory,
             uint32,
             Recommendation,
             string memory,
@@ -227,6 +236,7 @@ contract ReviewStorage is GSNRecipient {
             review.publisher,
             review.manuscriptId,
             review.manuscriptHash,
+            review.reviewHash,
             review.timestamp,
             review.recommendation,
             review.url,

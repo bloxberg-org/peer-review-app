@@ -37,13 +37,13 @@ export const getOwnReviewCount = async () => {
 export const addReview = async (review) => {
   let [instance, accounts] = await init();
   return instance.addReview(review.id, review.journalId, review.publisher, review.manuscriptId,
-    review.manuscriptHash, review.timestamp, review.recommendation, review.url,
+    review.manuscriptHash, review.reviewHash, review.timestamp, review.recommendation, review.url,
     { from: accounts[0] });
 };
 
 export const addMultipleReviewsFromPublons = async (reviewFieldsObj) => {
   let [instance, accounts] = await init();
-  return instance.addMultipleReviewsAndVerifyByPublons(reviewFieldsObj.id, reviewFieldsObj.journalId, reviewFieldsObj.publisher, reviewFieldsObj.manuscriptId, reviewFieldsObj.manuscriptHash, reviewFieldsObj.timestamp, reviewFieldsObj.recommendation, reviewFieldsObj.url, reviewFieldsObj.verified,
+  return instance.addMultipleReviewsAndVerifyByPublons(reviewFieldsObj.id, reviewFieldsObj.journalId, reviewFieldsObj.publisher, reviewFieldsObj.manuscriptId, reviewFieldsObj.manuscriptHash, reviewFieldsObj.reviewHash, reviewFieldsObj.timestamp, reviewFieldsObj.recommendation, reviewFieldsObj.url, reviewFieldsObj.verified,
     { from: accounts[0] });
 };
 

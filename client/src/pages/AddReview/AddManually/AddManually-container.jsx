@@ -19,6 +19,7 @@ class AddManuallyContainer extends React.Component {
         'journalId': '',
         'manuscriptId': '',
         'manuscriptHash': '',
+        'reviewHash': '',
         'timestamp': new Date(),
         'recommendation': ''
       },
