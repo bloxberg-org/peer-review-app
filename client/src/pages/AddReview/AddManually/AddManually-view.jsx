@@ -17,6 +17,7 @@ AddManuallyView.propTypes = {
   review: PropTypes.object.isRequired,
   onDateChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  handleFileChange: PropTypes.func.isRequired,
   isAddingReview: PropTypes.bool.isRequired,
 };
 
@@ -164,12 +165,18 @@ export default function AddManuallyView(props) {
         placeholder='Hash of the manuscript file'
         errors={errors.manuscriptHash}
         register={register({ required: true })} />
+      <input type='file' onChange={(e) => {
+        props.handleFileChange(e)
+          .then(hash => setValue('reviewHash', hash));
+      }} />
       <FormField
         name='reviewHash'
         title='Review Hash'
         placeholder='Hash of the review file'
         errors={errors.reviewHash}
-        register={register({ required: true })} />
+        register={register({ required: true })}
+        disabled
+      />
       <FormField
         name='articleDOI'
         title='Article DOI'

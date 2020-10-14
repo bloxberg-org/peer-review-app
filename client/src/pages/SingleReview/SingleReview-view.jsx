@@ -1,3 +1,5 @@
+import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import chain from 'assets/chain-tick.png';
 import Button from 'components/Button/Button-view';
 import CardWrapper from 'components/CardWrapper';
@@ -31,7 +33,9 @@ SingleReviewView.propTypes = {
     recommendation: PropTypes.oneOf([0, 1, 2, 3]),
     url: PropTypes.string,
     vouchers: PropTypes.array
-  })
+  }),
+  handleFileChange: PropTypes.func.isRequired,
+  hash: PropTypes.string
 };
 
 const FlexDiv = styled.div`
@@ -99,8 +103,6 @@ const ReviewField = styled(props => {
 `;
 
 export default function SingleReviewView(props) {
-  console.log(props);
-
   // Don't show vouch button for own reviews.
   const VouchButton =
     props.isOwnReview
@@ -120,6 +122,14 @@ export default function SingleReviewView(props) {
         Delete
       </Button>
       : null;
+
+  let hashCheck;
+  if (props.hash && props.hash === props.blockchainReview.reviewHash) {
+    hashCheck = <span style={{ color: 'green' }}><FontAwesomeIcon icon={faCheck} /> Reviews match!</span>;
+  }
+  if (props.hash && props.hash !== props.blockchainReview.reviewHash) {
+    hashCheck = <span style={{ color: 'red' }}><FontAwesomeIcon icon={faTimes} /> Reviews don&apos;t match!</span>;
+  }
 
   return (
     <FlexDiv>
@@ -144,12 +154,18 @@ export default function SingleReviewView(props) {
             <ReviewField title='Publisher'>{props.blockchainReview.publisher}</ReviewField>
             <ReviewField title='Manuscript ID'>{props.blockchainReview.manuscriptId}</ReviewField>
             <ReviewField title='Manuscript Hash'>{props.blockchainReview.manuscriptHash}</ReviewField>
-            <ReviewField title='Review Hash'>{props.blockchainReview.reviewHash}</ReviewField>
             <TimeStampRecommendationWrapper>
               <ReviewField title='Year'>{moment.unix(props.blockchainReview.timestamp).format('YYYY')}</ReviewField>
               <ReviewField title='Recommendation'>{props.blockchainReview.recommendation}</ReviewField>
             </TimeStampRecommendationWrapper>
             <ReviewField title='URL'>{props.blockchainReview.url}</ReviewField>
+            <ReviewField title='Review Hash'>
+              {props.blockchainReview.reviewHash}
+              {hashCheck}
+            </ReviewField>
+            <ReviewField title='Check review hash'>
+              <input type='file' onChange={props.handleFileChange} />
+            </ReviewField>
             <FlexDiv style={{ flexDirection: 'row' }}>
               <ReviewField title='Vouchers' style={{ flex: 0.5 }}>
                 {

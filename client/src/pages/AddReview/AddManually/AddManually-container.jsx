@@ -56,9 +56,22 @@ class AddManuallyContainer extends React.Component {
       .catch(err => console.log(err));
   }
 
+  handleFileChange = (e) => {
+    const file = e.target.files[0];
+    return file.arrayBuffer()
+      .then(data => {
+        return crypto.subtle.digest('SHA-256', data);
+      })
+      .then(hashArrayBuffer => {
+        // convert arrayBuffer to uint8 to a Javascript Array. Change each byte to hex form and join as strings.
+        const hashStr = Array.from(new Uint8Array(hashArrayBuffer)).map(b => b.toString(16)).join('');
+        return hashStr;
+      });
+  }
+
   render() {
     return (
-      <AddManuallyView review={this.state.review} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isAddingReview={this.state.isAddingReview} {...this.state} {...this.props} />
+      <AddManuallyView review={this.state.review} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isAddingReview={this.state.isAddingReview} handleFileChange={this.handleFileChange} {...this.state} {...this.props} />
     );
   }
 }
