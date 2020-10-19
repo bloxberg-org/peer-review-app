@@ -121,7 +121,13 @@ exports.getReview = (req, res) => {
   }).catch(err => res.status(404).send(err));
 };
 
-// GET /reviews/xml/f1000research/?doi=10.12688/f1000research.19542.1
+// GET /reviews/xml/f1000research/?doi=10.12688/f1000research.19542.1?index=0
+/**
+ * @function to get the reviews associated with an F1000R article.
+ * If the index query parameter is empty returns a list of reviews associated to the manuscript with the doi.
+ * If an index is provided, returns the specific review with index, formatted for the application use.
+ * 
+ */
 exports.getReviewXML = (req, res) => {
   logger.info('IN getReviewXML');
   let source = req.params.source; // f1000research, orchid etc.
@@ -134,15 +140,14 @@ exports.getReviewXML = (req, res) => {
     res.status(400).send('Bad Request');
 
   if (source === 'f1000research') {
-    xmlURL = 'https://f1000research.com/extapi/article/xml?doi=';
-    pdfURL = 'https://f1000research.com/extapi/article/pdf?doi=';
+    xmlURL = 'https://f1000research.com/extapi/article/xml';
+    pdfURL = 'https://f1000research.com/extapi/article/pdf';
   } else {
     res.status(400).send('Unsupported Source');
   }
 
-  getXML(`${xmlURL}${doi}`)
+  getXML(`${xmlURL}?doi=${doi}`)
     .then(async (data) => {
-      logger.info('Entered here!!!');
       if (!data)
         res.status(404).send('XML is empty');
       // Parse XML to JSON
@@ -151,7 +156,7 @@ exports.getReviewXML = (req, res) => {
       // If the specific review (=index) tied to this article is requested, send the review information.
       // Else, first send the list of reviews of this article to ask user which review to return 
       if (index) {
-        downloadAndHashPdf(`${pdfURL}${doi}`).then((hash) => {
+        downloadAndHashPdf(`${pdfURL}?doi=${doi}`).then((hash) => {
           let response = extractReviewFromJsonDoc(jsonDoc, index);
           response.manuscriptHash = hash;
           res.status(200).json(response);
