@@ -1,4 +1,4 @@
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faFileImport, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import chain from 'assets/chain-tick.png';
 import Button from 'components/Button/Button-view';
@@ -35,7 +35,8 @@ SingleReviewView.propTypes = {
     vouchers: PropTypes.array
   }),
   handleFileChange: PropTypes.func.isRequired,
-  hash: PropTypes.string
+  hash: PropTypes.string,
+  fileName: PropTypes.string
 };
 
 const FlexDiv = styled.div`
@@ -102,6 +103,32 @@ const ReviewField = styled(props => {
   overflow: auto;
 `;
 
+
+const FileInput = styled((props) => {
+  return (
+    <div className={props.className}>
+      <label id='file-label' htmlFor="file-input" className="custom-file-upload">
+        <FontAwesomeIcon icon={faFileImport} /> {props.fileName ? props.fileName : 'Upload review file'}
+      </label>
+      <input id='file-input' type='file' onChange={props.handleFileChange} />
+    </div>
+  );
+})`
+  padding-top: 8px;
+  & input {
+      display: none;
+  }
+  & .custom-file-upload {
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 10pt
+  }
+`;
+
+
+
 export default function SingleReviewView(props) {
   // Don't show vouch button for own reviews.
   const VouchButton =
@@ -164,7 +191,11 @@ export default function SingleReviewView(props) {
               {hashCheck}
             </ReviewField>
             <ReviewField title='Check review hash'>
-              <input type='file' onChange={props.handleFileChange} />
+              {props.hash}
+              <FileInput
+                fileName={props.fileName}
+                handleFileChange={props.handleFileChange}
+              />
             </ReviewField>
             <FlexDiv style={{ flexDirection: 'row' }}>
               <ReviewField title='Vouchers' style={{ flex: 0.5 }}>

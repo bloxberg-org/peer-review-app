@@ -24,6 +24,7 @@ class AddManuallyContainer extends React.Component {
         'recommendation': ''
       },
       isAddingReview: false,
+      fileName: null
     };
   }
 
@@ -58,6 +59,7 @@ class AddManuallyContainer extends React.Component {
 
   handleFileChange = (e) => {
     const file = e.target.files[0];
+
     return file.arrayBuffer()
       .then(data => {
         return crypto.subtle.digest('SHA-256', data);
@@ -65,13 +67,21 @@ class AddManuallyContainer extends React.Component {
       .then(hashArrayBuffer => {
         // convert arrayBuffer to uint8 to a Javascript Array. Change each byte to hex form and join as strings.
         const hashStr = Array.from(new Uint8Array(hashArrayBuffer)).map(b => b.toString(16)).join('');
+        this.setState({ fileName: file.name }); // Set file name to be displayed.
         return hashStr;
       });
   }
 
   render() {
     return (
-      <AddManuallyView review={this.state.review} onDateChange={this.handleDateChange} onSubmit={this.handleSubmit} isAddingReview={this.state.isAddingReview} handleFileChange={this.handleFileChange} {...this.state} {...this.props} />
+      <AddManuallyView
+        review={this.state.review}
+        onDateChange={this.handleDateChange}
+        onSubmit={this.handleSubmit}
+        isAddingReview={this.state.isAddingReview}
+        handleFileChange={this.handleFileChange}
+        setFileName={this.setFileName}
+        {...this.state} {...this.props} />
     );
   }
 }

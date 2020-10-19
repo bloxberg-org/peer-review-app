@@ -1,3 +1,5 @@
+import { faFileImport } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Button';
 import FormField from 'components/FormField';
 import ErrorText from 'components/FormField/ErrorText';
@@ -19,6 +21,7 @@ AddManuallyView.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   handleFileChange: PropTypes.func.isRequired,
   isAddingReview: PropTypes.bool.isRequired,
+  fileName: PropTypes.string,
 };
 
 //===================================================
@@ -115,6 +118,33 @@ const ContentField = styled((props) => {
   padding: 16px 0px;
 `;
 
+const FileInput = styled((props) => {
+  return (
+    <div className={props.className}>
+      <label id='file-label' htmlFor="file-input" className="custom-file-upload">
+        <FontAwesomeIcon icon={faFileImport} /> {props.fileName ? props.fileName : 'Upload review file'}
+      </label>
+      <input id='file-input' type='file' onChange={(e) => {
+        props.handleFileChange(e)
+          .then(hash => props.setValue('reviewHash', hash));
+      }} />
+    </div>
+  );
+})`
+  text-align: center;
+  padding-top: 24px;
+  & input {
+      display: none;
+  }
+  & .custom-file-upload {
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 10pt
+  }
+`;
+
 export default function AddManuallyView(props) {
   const { register, handleSubmit, setValue, errors } = useForm();
 
@@ -165,18 +195,25 @@ export default function AddManuallyView(props) {
         placeholder='Hash of the manuscript file'
         errors={errors.manuscriptHash}
         register={register({ required: true })} />
-      <input type='file' onChange={(e) => {
-        props.handleFileChange(e)
-          .then(hash => setValue('reviewHash', hash));
-      }} />
-      <FormField
-        name='reviewHash'
-        title='Review Hash'
-        placeholder='Hash of the review file'
-        errors={errors.reviewHash}
-        register={register({ required: true })}
-        disabled
-      />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ flex: 0.7 }}>
+          <FormField
+            name='reviewHash'
+            title='Review Hash'
+            placeholder='Hash of the review file'
+            errors={errors.reviewHash}
+            register={register({ required: true })}
+            disabled
+          />
+        </div>
+        <div style={{ flex: 0.3 }}>
+          <FileInput
+            setValue={setValue}
+            handleFileChange={props.handleFileChange}
+            fileName={props.fileName}
+          />
+        </div>
+      </div>
       <FormField
         name='articleDOI'
         title='Article DOI'

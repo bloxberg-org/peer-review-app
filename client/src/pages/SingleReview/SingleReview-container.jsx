@@ -25,7 +25,8 @@ class SingleReviewContainer extends React.Component {
       blockchainReview: {},
       isVouchedByUser: false,
       isOwnReview: false, // Is the review owned by the current user?
-      hash: null
+      hash: null,
+      fileName: null
     };
   }
 
@@ -121,8 +122,7 @@ class SingleReviewContainer extends React.Component {
       .then(hashArrayBuffer => {
         // convert arrayBuffer to uint8 to a Javascript Array. Change each byte to hex form and join as strings.
         const hashStr = Array.from(new Uint8Array(hashArrayBuffer)).map(b => b.toString(16)).join('');
-        console.log(hashStr)
-        this.setState({ hash: hashStr });
+        this.setState({ hash: hashStr, fileName: file.name });
       });
   }
 
@@ -139,6 +139,7 @@ class SingleReviewContainer extends React.Component {
         isOwnReview={this.state.isOwnReview}
         handleFileChange={this.handleFileChange}
         hash={this.state.hash}
+        fileName={this.state.fileName}
       />
     );
   }
