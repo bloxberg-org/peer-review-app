@@ -24,8 +24,6 @@ logs/
 ganache/
 
 # Configs with keys
-secret.sh
-ssh.sh
 .env
 
 #deployment of static files

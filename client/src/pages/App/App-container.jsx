@@ -84,8 +84,9 @@ export default class App extends React.Component {
         this.setState({ isLoading: true });
         const accounts = await window.ethereum.enable();
         console.log(`The account address is ${accounts[0]}`);
-        const accountAddress = await window.web3.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
         const web3 = new Web3(window.ethereum);
+        window.web3 = web3;
+        const accountAddress = await web3.utils.toChecksumAddress(accounts[0]); // ethereum.enable returns lower case addresses. Adresses saved checksumed in DB.
         const netId = await web3.eth.net.getId();
         this.checkConnectedNetwork(parseInt(netId));
         this.setState({ isLoggedInWithMetamask: true });
@@ -125,7 +126,6 @@ export default class App extends React.Component {
   loginWithMagic = async (data) => {
     const web3 = new Web3(magic.rpcProvider);
     window.web3 = web3;
-    console.log(window.web3);
     setContract();
     const email = data.email;
     await magic.auth.loginWithMagicLink({ email });

@@ -162,7 +162,7 @@ export default function AddReviewFormView(props) {
         title='Review Hash'
         placeholder='Hash of the review file'
         errors={errors.reviewHash}
-        register={register({ required: true })} />
+        register={register({ required: false })} />
       <FormField
         name='articleDOI'
         title='Article DOI'

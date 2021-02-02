@@ -1,16 +1,15 @@
 version: '3'
+volumes:
+  mongoVolume:
 services:
   mongo:
     image: mongo:4
     container_name: mongo-dev
     volumes:
-      - /data/db
+      - mongoVolume:/data/db
     ports:
-      - "27017:27017"
-    environment: 
-      - NODE_ENV=development
-    stdin_open: true
-    tty: true
+      # map to host port to access using mongo cli.
+      - "27017:27017" 
   server:
     image: node:12
     container_name: server-dev
@@ -31,8 +30,6 @@ services:
       - .env
     ports:
       - "3000:3000"
-    stdin_open: true
-    tty: true
     command: bash -c "npm run devserver"
   client:
     image: node:12
@@ -44,12 +41,8 @@ services:
       - server
     environment:
       - PORT=3001
-    expose:
-      - "3001"
     ports:
       - "3001:3001"
-    stdin_open: true
-    tty: true
     # Use npx concurrently to avoid create-react-app from clearing the console.
     command: bash -c "npx concurrently npm:start"
   ganache:
@@ -57,14 +50,10 @@ services:
     container_name: ganache-dev
     volumes: 
       - ./ganache:/home/ganache
-    expose: 
-      - "8545"
     env_file: 
       - .env
     ports:
       - "8545:8545"
-    stdin_open: true
-    tty: true
     command: --mnemonic "${MNEMONIC}" --db /home/ganache/ --networkId 5777 --quiet
   relay:
     image: node:12
@@ -74,13 +63,6 @@ services:
       - ganache
     environment: 
       - NODE_ENV=development
-      - DOCKER=yes
-    expose: 
-      - "8090"
-    env_file: 
-      - .env
     ports:
       - "8090:8090"
-    stdin_open: true
-    tty: true
     command: bash -c "npm install @openzeppelin/gsn-helpers && npx oz-gsn run-relayer --quiet --ethereumNodeURL http://ganache:8545"

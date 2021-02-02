@@ -54,7 +54,11 @@ class F1000RContainer extends React.Component {
         // redirect to review page after adding
         history.push(`/Reviews/${id}`);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        alert('An error occured adding the review');
+        console.error(err);
+        this.setState({ isAddingReview: false });
+      });
   }
 
   render() {

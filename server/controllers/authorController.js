@@ -26,28 +26,7 @@ exports.getAuthor = async (req, res) => {
   // ).catch(err => logger.info(err));
 };
 
-// GET /authors/
-exports.getAllAuthorNames = (_, res) => {
-  Author.find({}).select({ _id: 1, firstName: 1, lastName: 1 })
-    .then(authors => {
-      logger.info(`Returning ${authors.length} authors`);
-      let authorsMap = {}; // All authors as an object with address as keys and {fistName, lastName} as values.
-      for (const author of authors) {
-        authorsMap[author._id] = {
-          firstName: author.firstName,
-          lastName: author.lastName
-        };
-      }
-      if (authors) // check no authors case.
-        res.status(200).json(authorsMap); // Return the map.
-      else
-        res.status(404).send('No authors found');
-    }).catch(err => {
-      res.status(500).send(err);
-    });
-};
-
-// POST /authors/
+// POST /authors/:address
 exports.addAuthor = (req, res) => {
   logger.info('IN ADD Author');
   logger.info(JSON.stringify(req.body));
@@ -70,7 +49,7 @@ exports.addAuthor = (req, res) => {
     .catch(err => logger.error(err));
 };
 
-// PUT /authors/
+// PUT /authors/:address
 exports.updateAuthor = (req, res) => {
   logger.info('In PUT Author');
   logger.info('Request body: ');
@@ -85,5 +64,26 @@ exports.updateAuthor = (req, res) => {
     .catch(err => {
       res.status(404).send(err);
       logger.error(err);
+    });
+};
+
+// GET /authors/
+exports.getAllAuthorNames = (_, res) => {
+  Author.find({}).select({ _id: 1, firstName: 1, lastName: 1 })
+    .then(authors => {
+      logger.info(`Returning ${authors.length} authors`);
+      let authorsMap = {}; // All authors as an object with address as keys and {fistName, lastName} as values.
+      for (const author of authors) {
+        authorsMap[author._id] = {
+          firstName: author.firstName,
+          lastName: author.lastName
+        };
+      }
+      if (authors) // check no authors case.
+        res.status(200).json(authorsMap); // Return the map.
+      else
+        res.status(404).send('No authors found');
+    }).catch(err => {
+      res.status(500).send(err);
     });
 };

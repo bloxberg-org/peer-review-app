@@ -21,7 +21,7 @@ mongo.connectToServer();
 app.use(morgan('combined', { stream: winston.stream }));
 
 // ======== CORS Policy =======
-const whitelist = ['http://127.0.0.1:3001', 'http://localhost:3001', 'http://127.0.0.1', 'http://localhost', 'http://client']; // client as Docker service name instead of localhost.
+const whitelist = ['http://127.0.0.1:3001', 'http://localhost:3001', 'http://127.0.0.1', 'http://localhost', 'http://client', 'http://peerview.bloxberg.org/', 'https://peerview.bloxberg.org/']; // client as Docker service name instead of localhost.
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 // Allow if origin found in whitelist

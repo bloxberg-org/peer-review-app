@@ -8,12 +8,6 @@ const getWeb3 = () => {
     const web3 = new Web3(window.ethereum);
     return web3;
   }
-  // Legacy dapp browsers...
-  else if (window.web3) {
-    // Use Mist/MetaMask's provider.
-    const web3 = window.web3;
-    return web3;
-  }
   // Fallback to localhost; use dev console port by default...
   else {
     throw new Error('No web3 found');

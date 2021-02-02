@@ -66,7 +66,10 @@ export const addReview = (data) => {
             return response;
           });
       })
-      .catch((err) => console.log('Error adding to the blockchain\n' + JSON.stringify(err)));
+      .catch(err => {
+        console.log(JSON.stringify(err));
+        throw err;
+      });
   });
 };
 
@@ -77,7 +80,8 @@ export const getAllBlockchainReviews = async () => {
     if (reviewIds.length === 0) // return empty array if there are no reviews.
       return [];
   } catch (e) {
-    console.log('Error getting review ids. Is the contract deployed?\n', e);
+    console.error('Error getting review ids. Is the contract deployed?\n');
+    throw e;
   }
 
   console.log('Review ids are');
