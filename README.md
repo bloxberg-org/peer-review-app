@@ -95,7 +95,7 @@ Block Explorer URL: https://blockexplorer.bloxberg.org
 
 ## Deploy Contracts
 
-Our contract makes use of Gas Station Networks to enable gasless transactions so we need to initialize the contract and fund at the RelayHub.
+Our contract makes use of Gas Station Networks to enable gasless transactions so we need to initialize the contract and fund at the RelayHub. ( Note that [OpenZeppelin's GSN](https://docs.openzeppelin.com/contracts/3.x/gsn) has become [OpenGSN](https://opengsn.org/) )
 
 ### Deploy to Ganache
 
@@ -107,7 +107,7 @@ npx oz create --network develop
 
 Choose ReviewStorage. Note the address of the contract that is output.
 
-Then, the new contract must be funded in order to use meta-transactions. This is done by calling `depositFor()` on the RelayHub [contract](https://blockexplorer.bloxberg.org/address/0xd216153c06e857cd7f72665e0af1d7d82172f494/contracts). You can use [this](https://gsn.openzeppelin.com/recipients) tool to send the transaction. Choose the localhost:8545 network in Metamask. Enter the address of your deployed contract and send the amount you want via Metamask. A value around 1ETH/bergs should work. Alternatively, compile the [GSNRecipient contract](https://github.com/OpenZeppelin/openzeppelin-contracts-ethereum-package/blob/master/contracts/GSN/GSNRecipient.sol) in [Remix](http://remix.ethereum.org/) and send a transaction with value you want to fund while calling `depositFor(<your-contract-address>)`.
+Then, the new contract must be funded in order to use meta-transactions. This is done by calling `depositFor()` on the RelayHub [contract](https://blockexplorer.bloxberg.org/address/0xd216153c06e857cd7f72665e0af1d7d82172f494/contracts). You can use ~~[this](https://gsn.openzeppelin.com/recipients) tool to send the transaction~~ (gsn.openzeppelin.com is no longer available. To fund the recipient, you can run the [site code](https://github.com/OpenZeppelin/gsn-site) in `pages/recipients` locally, use a [helper script](https://github.com/OpenZeppelin/openzeppelin-gsn-helpers) or send a transaction manually). Choose the localhost:8545 network in Metamask. Enter the address of your deployed contract and send the amount you want via Metamask. A value around 1ETH/bergs should work. Alternatively, compile the [GSNRecipient contract](https://github.com/OpenZeppelin/openzeppelin-contracts-ethereum-package/blob/master/contracts/GSN/GSNRecipient.sol) in [Remix](http://remix.ethereum.org/) and send a transaction with value you want to fund while calling `depositFor(<your-contract-address>)`.
 
 Now you can go to [http://localhost:3001] and use the application.
 
